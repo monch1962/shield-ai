@@ -125,36 +125,57 @@ body { font-family: 'Inter', sans-serif; }
 <section data-background="#0a0f1e">
   <h2>Reference Architecture -- SHIELD-AI&trade; Control Stack</h2>
   <p>This is the anchor for every pillar. Each numbered area maps to a SHIELD-AI&trade; pillar.</p>
-  <pre><code>+----------------------------------------------------------------------+
-| 6  GRM-01/02 (Governance Body + Risk Register)             GRM-06 |
-|                  Board Dashboard + Reg Mapping                        |
-+----------------------------------------------------------------------+
-                                    |
-+---------+    +-----------------------------------------+    +---------+
-|  User   |    |        Agent Runtime Environment          |    | Tools   |
-| Identity|--->|  +----------+  +----------------------+  |--->| & APIs  |
-| 1 IAM-01|    |  | 1 Model  |  | 2 IAM-02/OPA         |  |    | 4 TP-01 |
-+---------+    |  | MS-01/05 |  | Agent Authorization   |  |    | TP-02/03|
-               |  +----------+  | Tool Allow-list       |  |    +----+----+
-               |                | Human Approval Gates  |  |         |
-               |  +----------+  +----------------------+  |    +----V----+
-               |  | 3 Memory |  +----------------------+  |    | 4 Tool  |
-               |  | DS-03/04 |  | 4 TP-04 Tool Output  |  |--->| Gateway |
-               |  +----------+  | Validation + Schema   |  |    |TP-03/04|
-               +----------------+----------------------+  |    +---------+
-                                    |                      |
-                              +-----V-----------------+    |
-                              | 5 MIR-01/02/03 Agent  |    |
-                              | Telemetry + SIEM       |    |
-                              +------------------------+    |
-                                    |
-                              +-----V-----------------+    +---------+
-                              | 6 GRM-05/06 Compliance|    | CI/CD   |
-                              | Dashboard + Reg Map    |    | 4 TP-05|
-                              +------------------------+    +---------+
-  1 Model Security    3 Data Security      5 Monitoring &amp; IR
-  2 Identity &amp; Access  4 Tool &amp; Pipeline     6 Governance &amp; Risk
-  MIR-05 -> SOCI/APRA/NDB &middot; MS-03 -> ML SBOM &middot; TP-06 -> Dep. Scanning</code></pre>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 520" width="100%" style="max-width:100%;height:auto;">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .t { font-size: 16px; font-weight: bold; fill: #e2e8f0; }
+    .l { font-size: 12px; fill: #e2e8f0; }
+    .s { font-size: 10px; fill: #8896a6; }
+    .g { fill: #d4a017; }
+    .w { fill: #ffffff; }
+    .c { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #8896a6; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
+    </marker>
+  </defs>
+  <line x1="330" y1="60" x2="330" y2="80" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="200" y="455" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="477.5" text-anchor="middle" class="l" font-weight="bold">P6  GOVERNANCE &amp; RISK (GRM)</text>
+  <text x="330" y="492.5" text-anchor="middle" class="s">APRA CPS 234 | PSPF | Privacy Act | NIST AI RMF</text>
+  <text x="330" y="469" text-anchor="middle" class="c">GRM-01 -> GRM-06</text>
+  <line x1="330" y1="455" x2="330" y2="445" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="200" y="382" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="404.5" text-anchor="middle" class="l" font-weight="bold">P5  MONITORING &amp; INCIDENT RESPONSE</text>
+  <text x="330" y="419.5" text-anchor="middle" class="s">SOCI Act | APRA CPS 234 | Privacy NDB</text>
+  <text x="330" y="396" text-anchor="middle" class="c">MIR-01 -> MIR-06</text>
+  <line x1="330" y1="382" x2="330" y2="372" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="200" y="309" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="331.5" text-anchor="middle" class="l" font-weight="bold">P4  TOOL &amp; PIPELINE SECURITY</text>
+  <text x="330" y="346.5" text-anchor="middle" class="s">ISM | E8 | SOCI Act</text>
+  <text x="330" y="323" text-anchor="middle" class="c">TP-01 -> TP-06</text>
+  <line x1="310" y1="309" x2="230" y2="356" stroke="#3b82f6" stroke-width="1.5"/><line x1="350" y1="309" x2="430" y2="356" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="200" y="236" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="258.5" text-anchor="middle" class="l" font-weight="bold">P3b DATA SECURITY</text>
+  <text x="330" y="273.5" text-anchor="middle" class="s">Privacy Act | PSPF</text>
+  <text x="330" y="250" text-anchor="middle" class="c">DS-01 -> DS-06</text>
+  <line x1="330" y1="236" x2="330" y2="226" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="200" y="163" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="185.5" text-anchor="middle" class="l" font-weight="bold">P2b IDENTITY &amp; ACCESS</text>
+  <text x="330" y="200.5" text-anchor="middle" class="s">ISM | E8 | PSPF</text>
+  <text x="330" y="177" text-anchor="middle" class="c">IAM-01 -> IAM-06</text>
+  <line x1="330" y1="163" x2="330" y2="153" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="200" y="90" width="260" height="55" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="330" y="112.5" text-anchor="middle" class="l" font-weight="bold">P1  MODEL SECURITY</text>
+  <text x="330" y="127.5" text-anchor="middle" class="s">ISM | OWASP | NIST</text>
+  <text x="330" y="104" text-anchor="middle" class="c">MS-01 -> MS-06</text>
+  <line x1="330" y1="520" x2="330" y2="500" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="330" y="512" text-anchor="middle" class="s" font-style="italic">Foundation (P1) >> Governance (P6) -- each pillar depends on those below it</text>
+  <text x="200" y="379" text-anchor="middle" class="s" fill="#e2e8f0" font-weight="bold">Data</text>
+  <text x="460" y="379" text-anchor="middle" class="s" fill="#e2e8f0" font-weight="bold">IAM</text>
+  <text x="330" y="394" text-anchor="middle" class="s">(parallel pillars)</text>
+</svg>
 </section>
 
 <section data-background="#0a0f1e">
@@ -172,6 +193,7 @@ body { font-family: 'Inter', sans-serif; }
       <div class="card red"><h4>&#127963; Governance Layer</h4><p>Shadow AI, uncontrolled agent proliferation, missing audit trails across agent chains</p></div>
     </div>
   </div>
+  <div style="text-align:center;margin-top:0.3em;font-size:0.65em;color:var(--text-muted);">Risk compounds upward: Model compromise enables Tool abuse, which enables Data exfiltration</div>
 </section>
 
 <section data-background="#0a0f1e">
@@ -389,6 +411,53 @@ body { font-family: 'Inter', sans-serif; }
     <div><span class="level-dot filled"></span> L1->L2: 3-4 months</div>
     <div><span class="level-dot filled"></span><span class="level-dot filled"></span> L1->L3: 8-12 months</div>
     <div><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span> L3->L4: 12+ months</div>
+  </div>
+  <div style="text-align:center;margin-top:0.3em;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="100%" style="max-width:100%;height:auto;">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .l { font-size: 12px; fill: #e2e8f0; }
+    .s { font-size: 10px; fill: #8896a6; }
+    .w { fill: #ffffff; }
+    .c { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #8896a6; }
+  </style>
+  <rect x="30" y="247.5" width="40" height="72.5" rx="3" fill="#d4a017" opacity="0.15"/>
+  <text x="50.0" y="287.75" text-anchor="middle" class="s" fill="#d4a017" font-weight="bold">L4</text>
+  <rect x="30" y="175.0" width="50" height="72.5" rx="3" fill="#1a3a6b" opacity="0.15"/>
+  <text x="55.0" y="215.25" text-anchor="middle" class="s" fill="#e2e8f0" font-weight="bold">L3</text>
+  <rect x="30" y="102.5" width="60" height="72.5" rx="3" fill="#4a7a9c" opacity="0.15"/>
+  <text x="60.0" y="142.75" text-anchor="middle" class="s" fill="#e2e8f0" font-weight="bold">L2</text>
+  <rect x="30" y="30.0" width="70" height="72.5" rx="3" fill="#8a9ab0" opacity="0.15"/>
+  <text x="65.0" y="70.25" text-anchor="middle" class="s" fill="#e2e8f0" font-weight="bold">L1</text>
+  <text x="120" y="287.75" text-anchor="middle" class="c">FOUNDATIONAL</text>
+  <text x="130" y="215.25" text-anchor="middle" class="c">MANAGED</text>
+  <text x="140" y="142.75" text-anchor="middle" class="c">PROACTIVE</text>
+  <text x="150" y="70.25" text-anchor="middle" class="c">ADAPTIVE</text>
+  <rect x="180" y="72.5" width="400" height="60" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="380.0" y="97.5" text-anchor="middle" class="l" font-weight="bold">L4  OPTIMISED</text>
+  <text x="380.0" y="112.5" text-anchor="middle" class="s">Continuous improvement | Automated red-teaming | AI-specific SIEM | Real-time dashboard</text>
+  <rect x="180" y="72.5" width="6" height="60" rx="3" fill="#d4a017"/>
+  <rect x="180" y="145.0" width="400" height="60" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="380.0" y="170.0" text-anchor="middle" class="l" font-weight="bold">L3  DEFINED</text>
+  <text x="380.0" y="185.0" text-anchor="middle" class="s">Automated controls | Regulatory mapping complete | Anomaly detection | Board reporting</text>
+  <rect x="180" y="145.0" width="6" height="60" rx="3" fill="#1a3a6b"/>
+  <rect x="180" y="217.5" width="400" height="60" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="380.0" y="242.5" text-anchor="middle" class="l" font-weight="bold">L2  MANAGED</text>
+  <text x="380.0" y="257.5" text-anchor="middle" class="s">Documented controls | Per-agent service accounts | Basic monitoring | Vendor assessments</text>
+  <rect x="180" y="217.5" width="6" height="60" rx="3" fill="#4a7a9c"/>
+  <rect x="180" y="290.0" width="400" height="60" rx="6" fill="#131b2e" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="380.0" y="315.0" text-anchor="middle" class="l" font-weight="bold">L1  INITIAL</text>
+  <text x="380.0" y="330.0" text-anchor="middle" class="s">Ad-hoc controls | No formal governance | Shared credentials | Basic logging</text>
+  <rect x="180" y="290.0" width="6" height="60" rx="3" fill="#8a9ab0"/>
+  <text x="50" y="380" class="s" font-weight="bold">Typical progression:</text>
+  <rect x="220" y="375" width="60" height="12" rx="2" fill="#dce6f0" stroke="#3b82f6" stroke-width="1"/>
+  <text x="250.0" y="384" text-anchor="middle" class="s">3-4 mo</text>
+  <rect x="284" y="375" width="90" height="12" rx="2" fill="#dce6f0" stroke="#3b82f6" stroke-width="1"/>
+  <text x="329.0" y="384" text-anchor="middle" class="s">8-12 mo</text>
+  <rect x="378" y="375" width="90" height="12" rx="2" fill="#dce6f0" stroke="#3b82f6" stroke-width="1"/>
+  <text x="423.0" y="384" text-anchor="middle" class="s">12+ mo</text>
+  <text x="492" y="384" class="s" font-style="italic">Weakest pillar determines overall maturity</text>
+</svg>
   </div>
 </section>
 
