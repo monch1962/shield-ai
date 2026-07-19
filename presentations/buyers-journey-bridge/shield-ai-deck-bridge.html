@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIELD-AI — Buyer's Journey Bridge</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+:root { --navy: #0a1e3d; --au-blue: #1a3a6b; --au-gold: #d4a017; --accent: #2e86c1; --light-bg: #f0f4f8; --text: #1a1a2e; --muted: #5a6a8a; }
+body { font-family: 'Inter', sans-serif; }
+.reveal { font-family: 'Inter', sans-serif; color: var(--text); }
+.reveal h2 { font-size: 1.6em; color: var(--au-blue); font-weight: 700; border-bottom: 2px solid var(--au-gold); padding-bottom: 6px; }
+.reveal p, .reveal li { font-size: 0.9em; line-height: 1.6; }
+.card { background: white; border-radius: 8px; padding: 12px 16px; margin: 0.5em 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--au-blue); }
+.card.gold { border-left-color: var(--au-gold); }
+.card.green { border-left-color: #22c55e; }
+.two-col { display: flex; gap: 25px; }
+.two-col > div { flex: 1; }
+.highlight-box { background: white; border-left: 4px solid var(--au-gold); padding: 10px 15px; margin: 0.5em 0; }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide" data-background="#e8eef6" style="text-align:center;">
+  <div style="width:60px;height:3px;background:var(--au-gold);margin:0.5em auto;"></div>
+  <h1 style="font-size:2.8em;color:var(--navy);font-weight:800;">SHIELD-AI</h1>
+  <p class="subtitle" style="font-size:1.1em;color:var(--au-blue);font-weight:600;">Buyer's Journey Bridge</p>
+  <p style="font-size:0.85em;color:var(--muted);margin-top:1.5em;">How the two SHIELD-AI slide decks work together</p>
+</section>
+
+<section data-background="#e8eef6">
+  <h2>The Two-Deck Strategy</h2>
+  <div class="two-col">
+    <div class="card" style="border-left-color:var(--au-gold);">
+      <h3 style="margin:0 0 5px 0;color:var(--navy);">&#128202; Deck 1: Business Decision Makers</h3>
+      <p><strong>Audience:</strong> CISO, CRO, COO, CIO, GC, Board</p>
+      <p><strong>Goal:</strong> Secure budget and executive sponsorship</p>
+      <p><strong>Tone:</strong> Urgency, regulatory risk, ROI, competitive necessity</p>
+      <p><strong>Key slides:</strong> Why Now (gut punch), 2x2 quadrant positioning, business case table, service tiers with pricing</p>
+      <p><strong>Duration:</strong> 20 minutes + Q&A</p>
+    </div>
+    <div class="card" style="border-left-color:var(--accent);">
+      <h3 style="margin:0 0 5px 0;color:var(--navy);">&#128187; Deck 2: Technical SME Deep Dive</h3>
+      <p><strong>Audience:</strong> AI engineers, security architects, AI leads, platform engineers, compliance specialists</p>
+      <p><strong>Goal:</strong> Drive technical implementation decisions</p>
+      <p><strong>Tone:</strong> Depth, architecture, decision trees, implementable controls</p>
+      <p><strong>Key slides:</strong> Reference architecture (slide 3), alternatives comparison, per-pillar decision trees, deployment topology guidance</p>
+      <p><strong>Duration:</strong> 45-60 minutes (can be split across sessions)</p>
+    </div>
+  </div>
+</section>
+
+<section data-background="#e8eef6">
+  <h2>The Buyer's Journey</h2>
+  <div style="display:flex;gap:20px;margin-top:0.8em;">
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:12px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="background:var(--navy);color:white;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;">1</div>
+      <h4 style="margin:0;font-size:0.85em;">Awareness</h4>
+      <p style="font-size:0.7em;color:var(--muted);">Trigger event: incident, regulator inquiry, peer breach</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:12px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="background:var(--au-blue);color:white;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;">2</div>
+      <h4 style="margin:0;font-size:0.85em;">Executive Buy-In</h4>
+      <p style="font-size:0.7em;color:var(--muted);">Deck 1 presented to CISO/Board — budget approved</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:12px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="background:var(--au-blue);color:white;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;">3</div>
+      <h4 style="margin:0;font-size:0.85em;">First Engagement</h4>
+      <p style="font-size:0.7em;color:var(--muted);">SHIELD-AI Lite — 2-3 week assessment, low commitment</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:12px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="background:var(--au-blue);color:white;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;">4</div>
+      <h4 style="margin:0;font-size:0.85em;">Technical Kickoff</h4>
+      <p style="font-size:0.7em;color:var(--muted);">Deck 2 with SME team — architecture, controls, implementation</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:12px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="background:var(--au-gold);color:var(--navy);border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;">5</div>
+      <h4 style="margin:0;font-size:0.85em;">Delivery &amp; Assurance</h4>
+      <p style="font-size:0.7em;color:var(--muted);">Standard/Enterprise engagement — 12-16 weeks to L3</p>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:0.8em;font-size:0.85em;">
+    <strong>&#128161; Key insight:</strong> The gap between Step 2 (budget) and Step 4 (technical kickoff) is where SHIELD-AI Lite lives. It converts executive intent into technical reality without requiring a full commitment.
+  </div>
+</section>
+
+<section data-background="#e8eef6">
+  <h2>Suggested Engagement Flow</h2>
+  <div style="display:flex;gap:12px;margin-top:0.5em;">
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h4 style="margin:0;color:var(--au-blue);">Week 1</h4>
+      <p style="font-size:0.75em;margin:4px 0 0;"><strong>Executive meeting</strong><br>Deck 1 to CISO + decision-makers<br>30 minutes → decision to proceed</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h4 style="margin:0;color:var(--au-blue);">Weeks 2-4</h4>
+      <p style="font-size:0.75em;margin:4px 0 0;"><strong>Lite engagement</strong><br>Assessment + report + board briefing<br>$25-45K investment</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h4 style="margin:0;color:var(--au-blue);">Week 5</h4>
+      <p style="font-size:0.75em;margin:4px 0 0;"><strong>Technical kickoff</strong><br>Deck 2 to SMEs<br>Architecture + control planning</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h4 style="margin:0;color:var(--au-gold);">Weeks 6-20</h4>
+      <p style="font-size:0.75em;margin:4px 0 0;"><strong>Standard delivery</strong><br>Implementation to L3 maturity<br>$120-250K investment</p>
+    </div>
+    <div style="flex:1;text-align:center;background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h4 style="margin:0;color:var(--au-gold);">Ongoing</h4>
+      <p style="font-size:0.75em;margin:4px 0 0;"><strong>Assurance</strong><br>Quarterly reviews + continuous monitoring<br>$50-800K/yr</p>
+    </div>
+  </div>
+</section>
+
+<section data-background="#e8eef6">
+  <h2>How to Present Each Deck</h2>
+  <div class="two-col">
+    <div class="card">
+      <h4 style="margin:0 0 4px 0;">&#128202; Presenting Deck 1 (Business)</h4>
+      <ul style="font-size:0.75em;">
+        <li>Start with the "Why Now" story — the gut punch, not the framework</li>
+        <li>Use the 2x2 quadrant to show positioning in 5 seconds</li>
+        <li>Let the business case table speak for itself — stop and let them read</li>
+        <li>Mention blind peer references: "major bank", "government agency"</li>
+        <li>Leave the board briefing slide as a leave-behind (don't present it)</li>
+        <li><strong>After the meeting:</strong> Hand them Deck 2 and say "here's how your team will evaluate this."</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin:0 0 4px 0;">&#128187; Presenting Deck 2 (Technical)</h4>
+      <ul style="font-size:0.75em;">
+        <li>Start at the reference architecture (slide 3) — this is the anchor</li>
+        <li>Skip slides that aren't relevant to the audience (e.g., skip MCP if they don't use it)</li>
+        <li>Use the alternatives comparison slide to handle "we already use NIST+OWASP" objection</li>
+        <li>For each pillar, present the decision tree first, then the controls</li>
+        <li>If audience is time-pressed: pillars 1-2-5 (MS, IAM, MIR) cover the highest-impact controls</li>
+        <li>End with the "Try It Today" slide to drive action</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background="#e8eef6">
+  <h2>Objection Handling Cheat Sheet</h2>
+  <table>
+    <tr><th>Objection</th><th>Who Says It</th><th>Response</th><th>Which Deck</th></tr>
+    <tr><td>"We already have ISM compliance"</td><td>CISO</td><td>ISM has no AI-specific controls. SHIELD-AI maps every control to ISM IDs — you're compliant, but not covered.</td><td>Both</td></tr>
+    <tr><td>"We use NIST AI RMF + OWASP"</td><td>Security Architect</td><td>Three separate frameworks vs one integrated one. SHIELD-AI gives AU regulatory mapping and maturity progression neither provides.</td><td>Deck 2, Slide 7</td></tr>
+    <tr><td>"Too expensive"</td><td>CFO / COO</td><td>$25K Lite. If Lite finds nothing, you spent $25K to confirm your posture. If it finds issues, $25K was the cheapest insurance you'll buy.</td><td>Deck 1, Slides 8-9</td></tr>
+    <tr><td>"We'll build it ourselves"</td><td>Engineering Lead</td><td>12-18 months and $600K-$1.2M to build what we deliver in 4-16 weeks at $120-250K. Plus: expertise you can't hire.</td><td>Deck 2, Slide 22</td></tr>
+    <tr><td>"AI security isn't a priority yet"</td><td>CRO / Board</td><td>Your competitors are deploying agentic AI now. The question is not "if" you have an AI incident — it's "when" and "how prepared are you?"</td><td>Deck 1, Slides 1-3</td></tr>
+    <tr><td>"We need to see it first"</td><td>Technical Lead</td><td>Reference implementation at shield-ai/reference (GitHub). Assessment toolkit: one command to inventory your estate. Try before you buy.</td><td>Deck 2, Slide 25</td></tr>
+  </table>
+</section>
+
+<section data-background="#e8eef6" style="text-align:center;">
+  <div style="width:60px;height:3px;background:var(--au-gold);margin:0.5em auto;"></div>
+  <h2 style="border:none;text-align:center;">Ready to present</h2>
+  <p style="font-size:1em;margin-top:0.8em;">SHIELD-AI v1.1 — July 2026</p>
+  <p style="color:var(--muted);">Security Architecture Practice</p>
+  <p style="font-size:0.85em;color:var(--muted);margin-top:0.5em;">Contact: practice-lead@consultancy.example.com</p>
+</section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+<script>Reveal.initialize({hash:true,controls:true,progress:true,slideNumber:true});</script>
+</body>
+</html>

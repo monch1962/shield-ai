@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIELD-AI — Securing Australia's Agentic AI Future</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+  --navy: #0a1e3d;
+  --au-blue: #1a3a6b;
+  --au-gold: #d4a017;
+  --accent: #2e86c1;
+  --light-bg: #f0f4f8;
+  --text: #1a1a2e;
+  --muted: #5a6a8a;
+}
+
+body { font-family: 'Inter', sans-serif; }
+.reveal { font-family: 'Inter', sans-serif; color: var(--text); }
+.reveal h1 { font-size: 2.5em; color: var(--navy); font-weight: 800; letter-spacing: -1px; }
+.reveal h2 { font-size: 1.8em; color: var(--au-blue); font-weight: 700; }
+.reveal h3 { font-size: 1.3em; color: var(--au-blue); font-weight: 600; }
+.reveal h4 { font-size: 1em; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.reveal p, .reveal li { font-size: 0.95em; line-height: 1.6; }
+.reveal li { margin-bottom: 0.4em; }
+.reveal .slide-background { background: var(--light-bg); }
+
+/* Title slide */
+.title-slide { text-align: center; }
+.title-slide h1 { font-size: 3em; margin-bottom: 0.1em; }
+.title-slide .subtitle { font-size: 1.2em; color: var(--au-blue); font-weight: 600; }
+.title-slide .meta { font-size: 0.85em; color: var(--muted); margin-top: 2em; }
+.title-slide .gold-line { width: 80px; height: 4px; background: var(--au-gold); margin: 1em auto; }
+
+/* Section slides */
+.section-slide { text-align: center; }
+.section-slide h1 { font-size: 2.8em; color: var(--navy); }
+.section-slide .section-sub { font-size: 1.1em; color: var(--muted); margin-top: 0.5em; }
+
+/* Pillar cards */
+.pillar-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 0.5em; }
+.pillar-card { background: white; border-radius: 8px; padding: 15px 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 3px solid var(--accent); }
+.pillar-card h4 { margin: 0 0 4px 0; font-size: 0.75em; }
+.pillar-card h3 { margin: 0 0 6px 0; font-size: 0.85em; }
+.pillar-card p { margin: 0; font-size: 0.7em; color: var(--muted); line-height: 1.4; }
+
+/* Tables */
+.reveal table { font-size: 0.75em; width: 100%; }
+.reveal th { background: var(--navy); color: white; padding: 8px 10px; font-weight: 600; }
+.reveal td { padding: 7px 10px; border: 1px solid #d0d5dd; }
+.reveal tr:nth-child(even) { background: #f8faff; }
+
+/* Key stat callout */
+.stat-row { display: flex; justify-content: center; gap: 30px; margin: 1.5em 0; }
+.stat-box { background: white; border-radius: 10px; padding: 15px 25px; text-align: center; box-shadow: 0 3px 12px rgba(0,0,0,0.08); min-width: 140px; }
+.stat-number { font-size: 2.2em; font-weight: 800; color: var(--au-blue); }
+.stat-label { font-size: 0.75em; color: var(--muted); margin-top: 2px; }
+
+/* Two-column layout */
+.two-col { display: flex; gap: 30px; justify-content: center; }
+.two-col > div { flex: 1; }
+
+/* Highlight boxes */
+.highlight-box { background: white; border-left: 4px solid var(--au-gold); padding: 12px 18px; border-radius: 0 6px 6px 0; margin: 1em 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.highlight-box h4 { margin: 0 0 4px 0; color: var(--navy); }
+.highlight-box p { margin: 0; font-size: 0.85em; }
+
+/* Tiers */
+.tier-row { display: flex; gap: 15px; justify-content: center; }
+.tier-card { background: white; border-radius: 8px; padding: 12px 15px; flex: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+.tier-card.lite { border-top: 3px solid #6c8ebf; }
+.tier-card.std { border-top: 3px solid var(--au-blue); }
+.tier-card.ent { border-top: 3px solid var(--au-gold); }
+.tier-card h3 { margin: 3px 0; font-size: 1em; }
+.tier-card .price { font-size: 1.3em; font-weight: 800; color: var(--au-blue); margin: 4px 0; }
+.tier-card p { font-size: 0.7em; color: var(--muted); margin: 2px 0; line-height: 1.4; }
+
+/* Fragments */
+.reveal .fragment { opacity: 0; transition: all 0.3s ease; }
+.reveal .fragment.visible { opacity: 1; }
+
+.footer-logo { position: fixed; bottom: 12px; left: 12px; font-size: 0.6em; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================================ -->
+<section class="title-slide" data-background="#e8eef6">
+  <div class="gold-line"></div>
+  <h1>SHIELD-AI</h1>
+  <p class="subtitle">A Sovereign Australian Framework for Secure Agentic AI</p>
+  <p style="font-size:0.85em;color:var(--muted);margin-top:1.5em;">Security Architecture Practice &bull; July 2026</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: THE PROBLEM -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>The Agentic AI Security Challenge</h2>
+  <p>Australian enterprises are deploying AI agents that can <strong>act autonomously</strong> — not just chatbots, but systems that: </p>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-number">78%</div><div class="stat-label">of AU enterprises deploying or piloting AI agents <em>(ASD 2026)</em></div></div>
+    <div class="stat-box"><div class="stat-number">63%</div><div class="stat-label">say existing security frameworks don't cover agentic AI</div></div>
+    <div class="stat-box"><div class="stat-number">12h</div><div class="stat-label">SOCI Act reporting window — too fast for unprepared teams</div></div>
+  </div>
+  <div class="highlight-box fragment">
+    <h4>⚠️ The gap is widening</h4>
+    <p>Agentic AI adoption is accelerating <em>faster</em> than security capability. Every month of delay increases exposure.</p>
+  </div>
+</section>
+
+
+<section data-background="#f0f4f8" style="text-align:center;">
+  <p style="font-size:5em;margin:0;opacity:0.3;">&#9888;&#65039;</p>
+  <h2 style="font-size:2.2em;font-weight:800;color:var(--navy);">"We didn't know the agent was compromised until the regulator called"</h2>
+  <p style="font-size:1.1em;color:var(--muted);margin-top:1em;max-width:700px;margin-left:auto;margin-right:auto;">
+  &mdash; Head of Security at an Australian financial institution, speaking anonymously at AusCERT 2026
+  </p>
+  <div style="display:flex;justify-content:center;gap:30px;margin-top:1.5em;">
+    <div style="background:white;border-radius:8px;padding:12px 20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"><strong>7 weeks</strong><br><span style="font-size:0.8em;color:var(--muted);">before detection</span></div>
+    <div style="background:white;border-radius:8px;padding:12px 20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"><strong>12 hours</strong><br><span style="font-size:0.8em;color:var(--muted);">SOCI reporting window</span></div>
+    <div style="background:white;border-radius:8px;padding:12px 20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"><strong>$2.2M</strong><br><span style="font-size:0.8em;color:var(--muted);">max penalty per obligation</span></div>
+  </div>
+  <p style="margin-top:1.5em;font-size:0.9em;color:var(--muted);"><em>Agentic AI creates a detection gap that traditional security monitoring cannot close.</em></p>
+  <p style="font-size:0.85em;font-weight:600;color:var(--navy);margin-top:0.5em;">This is what SHIELD-AI prevents.</p>
+</section>
+<!-- ============================================================ -->
+<!-- SLIDE 3: WHY EXISTING FRAMEWORKS FALL SHORT -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>Why Existing Frameworks Aren't Enough</h2>
+  <div class="two-col">
+    <div>
+      <table>
+        <tr><th>Framework</th><th>Agentic AI Gap</th></tr>
+        <tr><td>ISM (1,081 controls)</td><td>No AI-specific controls</td></tr>
+        <tr><td>Essential Eight</td><td>Designed for commodity malware</td></tr>
+        <tr><td>NIST CSF / ISO 27001</td><td>No coverage of prompt injection, tool delegation, agent identity</td></tr>
+        <tr><td>OWASP LLM Top 10</td><td>Threat taxonomy, not a control framework</td></tr>
+        <tr><td>NIST AI RMF</td><td>Risk management, not implementable controls</td></tr>
+      </table>
+    </div>
+    <div class="fragment">
+      <div class="highlight-box" style="border-left-color:var(--accent);">
+        <h4>The result</h4>
+        <p>Organisations face a <strong>compliance gap</strong>: they meet their ISM/E8 obligations on paper but have no defensible position for agentic AI risk.</p>
+      </div>
+      <div class="highlight-box fragment" style="border-left-color:var(--au-gold);">
+        <h4>SHIELD-AI fills this gap</h4>
+        <p>Built from the ground up for Australian regulatory frameworks <em>and</em> agentic AI-specific threats.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: REGULATORY LANDSCAPE -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>Australian Regulatory Imperative</h2>
+  <p style="margin-bottom:0.8em;">Your obligations don't stop at traditional infosec — every Australian framework now intersects with AI:</p>
+  <div class="two-col">
+    <div>
+      <div class="highlight-box" style="border-left-color:var(--au-blue);"><h4>ASD ISM (1,081 controls)</h4><p>"Guidelines for secure AI system development" — March 2026 edition</p></div>
+      <div class="highlight-box" style="border-left-color:var(--au-blue);"><h4>Essential Eight (×3 maturity)</h4><p>Application control, patching, MFA — all must extend to AI agents</p></div>
+      <div class="highlight-box" style="border-left-color:var(--au-blue);"><h4>SOCI Act</h4><p>12-hour mandatory incident reporting for critical infrastructure</p></div>
+    </div>
+    <div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);"><h4>APRA CPS 234</h4><p>Board accountability for information security — including AI</p></div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);"><h4>Privacy Act 1988 (APPs)</h4><p>APP 11: Security of personal information — breached by insecure AI</p></div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);"><h4>AU Mandatory Guardrails</h4><p>Proposed legislation for high-risk AI — expected 2027-28</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: SHIELD-AI OVERVIEW -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>SHIELD-AI Framework</h2>
+  <p style="margin-bottom:0.5em;"><strong>Six pillars</strong> covering the full agentic AI lifecycle</p>
+  <div class="pillar-grid">
+    <div class="pillar-card"><h4>PILLAR 1</h4><h3>Model Security</h3><p>Model weights, supply chain, adversarial robustness</p></div>
+    <div class="pillar-card"><h4>PILLAR 2</h4><h3>Identity &amp; Access</h3><p>Agent identity, scope-bound delegation, human oversight</p></div>
+    <div class="pillar-card"><h4>PILLAR 3</h4><h3>Data Security</h3><p>Classification, minimisation, memory sanitisation</p></div>
+    <div class="pillar-card"><h4>PILLAR 4</h4><h3>Tool &amp; Pipeline</h3><p>Tool registry, API gateway, pipeline integrity</p></div>
+    <div class="pillar-card"><h4>PILLAR 5</h4><h3>Monitoring &amp; IR</h3><p>Behavioural detection, mandatory reporting, forensics</p></div>
+    <div class="pillar-card"><h4>PILLAR 6</h4><h3>Governance &amp; Risk</h3><p>AI risk register, board reporting, compliance automation</p></div>
+  </div>
+  <p style="margin-top:0.8em;font-size:0.85em;color:var(--muted);">Cloud-agnostic · LLM-agnostic · Industry-agnostic · Sovereign Australian</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: COMPETITIVE ADVANTAGE -->
+<!-- ============================================================ -->
+<section data-background="#f0f4f8">
+  <h2>Why SHIELD-AI?</h2>
+  <p style="margin-bottom:0.4em;">Positioned to dominate — agentic-specific controls with mature AU regulatory alignment</p>
+  <div style="position:relative;width:100%;height:300px;margin:0.3em auto;background:white;border-radius:8px;border:1px solid #d0d5dd;overflow:hidden;">
+    <div style="position:absolute;left:5px;top:50%;font-size:0.55em;color:var(--muted);transform:translateY(-50%);">General AI framework</div>
+    <div style="position:absolute;right:5px;top:50%;font-size:0.55em;color:var(--muted);transform:translateY(-50%);">Agentic-specific</div>
+    <div style="position:absolute;bottom:5px;left:35%;font-size:0.45em;color:var(--muted);">Nascent AU alignment</div>
+    <div style="position:absolute;top:5px;left:35%;font-size:0.45em;color:var(--muted);">Mature AU alignment</div>
+    <div style="position:absolute;left:50%;top:0;width:1px;height:100%;background:#e0e4ea;"></div>
+    <div style="position:absolute;top:50%;left:0;width:100%;height:1px;background:#e0e4ea;"></div>
+    <div style="position:absolute;left:20%;top:68%;background:#d0d5dd;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">ISM / E8</div>
+    <div style="position:absolute;left:22%;top:82%;background:#d0d5dd;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">NIST CSF / ISO 27001</div>
+    <div style="position:absolute;left:55%;top:52%;background:#c4b5e4;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">OWASP LLM</div>
+    <div style="position:absolute;left:58%;top:72%;background:#c4b5e4;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">NIST AI RMF</div>
+    <div style="position:absolute;left:40%;top:35%;background:#b0d4f0;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">Big 4 AI Advisory</div>
+    <div style="position:absolute;left:75%;top:48%;background:#b0d4f0;padding:2px 8px;border-radius:10px;font-size:0.5em;font-weight:600;">Global Cyber Firms</div>
+    <div style="position:absolute;left:72%;top:18%;background:var(--au-gold);color:#1a1a2e;padding:4px 14px;border-radius:14px;font-size:0.7em;font-weight:800;box-shadow:0 3px 12px rgba(212,160,23,0.4);border:2px solid var(--au-gold);z-index:10;">&#9733; SHIELD-AI</div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:0.3em;font-size:0.65em;color:var(--muted);">
+    <div><span style="color:var(--au-gold);font-weight:700;">&#9733; SHIELD-AI</span> — Only framework in the top-right: agentic-specific + AU mature. Everyone else covers only one dimension.</div>
+  </div>
+</section><!-- ============================================================ -->
+<!-- SLIDE 7: MATURITY JOURNEY -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>Your SHIELD-AI Journey</h2>
+  <p>Four maturity levels — no organisation starts at L4</p>
+  <table>
+    <tr><th>Level</th><th>Name</th><th>Description</th><th>Typical Client</th></tr>
+    <tr><td><strong>L1</strong></td><td>Initial</td><td>Basic controls, no formal governance</td><td>AI experimenters, PoCs</td></tr>
+    <tr><td><strong>L2</strong></td><td>Managed</td><td>Documented controls, basic monitoring</td><td>SMEs, early adopters</td></tr>
+    <tr><td><strong>L3</strong></td><td>Defined</td><td>Automated controls, regulatory mapped</td><td>Regulated entities, government</td></tr>
+    <tr><td><strong>L4</strong></td><td>Optimised</td><td>Continuous improvement, red-teaming</td><td>Critical infrastructure, national security</td></tr>
+  </table>
+  <p style="margin-top:0.8em;font-size:0.8em;color:var(--muted);">"We meet you where you are and build from there."</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: BUSINESS CASE -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>The Business Case</h2>
+  <p>Cost of inaction vs. cost of mitigation</p>
+  <table>
+    <tr><th>Risk Scenario</th><th>Cost of Inaction</th><th>SHIELD-AI Cost</th></tr>
+    <tr><td>AI exfiltrates customer PII</td><td>$1.78M avg (OAIC 2025) + regulatory action + reputation damage</td><td>$25K–$120K Lite / Standard</td></tr>
+    <tr><td>Prompt injection causes financial loss</td><td>Loss amount × agent transaction limit + brand damage</td><td>$120K–$250K Standard</td></tr>
+    <tr><td>SOCI-reportable incident</td><td>Penalties up to $2.2M per obligation + public notification</td><td>$250K–$400K Standard + assurance</td></tr>
+    <tr><td>APRA regulator inquiry</td><td>Enforcement action + remediation costs</td><td>$120K–$250K Standard + regulatory</td></tr>
+    <tr><td>Board liability for AI harm</td><td>Director duty of care + civil penalties</td><td>$120K–$250K Standard + governance</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: SERVICE TIERS -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>Service Offering</h2>
+  <p>Three engagement tiers — scalable to your needs</p>
+  <div class="tier-row">
+    <div class="tier-card lite">
+      <h4>LITE</h4>
+      <div class="price">$25–45K</div>
+      <p>AI security posture assessment</p>
+      <p>Regulatory exposure report</p>
+      <p>30/60/90-day action plan</p>
+      <p>Board summary briefing</p>
+      <p style="margin-top:8px;"><em>2-3 weeks</em></p>
+    </div>
+    <div class="tier-card std">
+      <h4>STANDARD</h4>
+      <div class="price">$120–250K</div>
+      <p>Full 6-pillar gap assessment</p>
+      <p>Control implementation</p>
+      <p>Regulatory mapping report</p>
+      <p>Agentic AI security architecture</p>
+      <p>6-month assurance programme</p>
+      <p style="margin-top:8px;"><em>12-16 weeks + assurance</em></p>
+    </div>
+    <div class="tier-card ent">
+      <h4>ENTERPRISE</h4>
+      <div class="price">$400–800K+/yr</div>
+      <p>Everything in Standard, plus:</p>
+      <p>Embedded AI security architect</p>
+      <p>Continuous red-teaming</p>
+      <p>AI threat intelligence feed</p>
+      <p>Cross-entity governance</p>
+      <p style="margin-top:8px;"><em>Ongoing strategic partnership</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: 5-PHASE METHODOLOGY -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>How We Deliver</h2>
+  <div style="display:flex;justify-content:center;gap:10px;margin:0.8em 0;">
+    <div style="background:var(--navy);color:white;border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-weight:700;">1</div>
+    <div style="background:#ccd5e4;color:var(--text);border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-weight:700;">2</div>
+    <div style="background:#ccd5e4;color:var(--text);border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-weight:700;">3</div>
+    <div style="background:#ccd5e4;color:var(--text);border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-weight:700;">4</div>
+    <div style="background:#ccd5e4;color:var(--text);border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;font-weight:700;">5</div>
+  </div>
+  <div class="stat-row" style="gap:15px;">
+    <div class="stat-box"><div class="stat-label" style="font-weight:700;color:var(--navy);font-size:0.85em;">Discover</div><div class="stat-label">Weeks 1-2<br>Inventory &amp; regulatory map</div></div>
+    <div class="stat-box"><div class="stat-label" style="font-weight:700;color:var(--navy);font-size:0.85em;">Assess</div><div class="stat-label">Weeks 3-4<br>Gap analysis &amp; maturity score</div></div>
+    <div class="stat-box"><div class="stat-label" style="font-weight:700;color:var(--navy);font-size:0.85em;">Design</div><div class="stat-label">Weeks 5-8<br>Target architecture &amp; roadmap</div></div>
+    <div class="stat-box"><div class="stat-label" style="font-weight:700;color:var(--navy);font-size:0.85em;">Implement</div><div class="stat-label">Weeks 9-16<br>Controls, policies, integration</div></div>
+    <div class="stat-box"><div class="stat-label" style="font-weight:700;color:var(--navy);font-size:0.85em;">Assure</div><div class="stat-label">Ongoing<br>Reviews, monitoring, updates</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: WHAT TO EXPECT -->
+<!-- ============================================================ -->
+<section data-background="#f0f4f8">
+  <h2>What a SHIELD-AI Client Gets</h2>
+  <div class="two-col">
+    <div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);">
+        <h4>After Lite ($25-45K)</h4>
+        <p>You know what agentic AI risks you have, which regulatory obligations apply, what to fix first — and whether you need Standard.</p>
+      </div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);">
+        <h4>After Standard ($120-250K)</h4>
+        <p>Agentic AI at Maturity Level 3. Auditable regulatory compliance. Ongoing assurance without hiring full-time AI security specialists.</p>
+      </div>
+      <div class="highlight-box" style="border-left-color:var(--au-gold);">
+        <h4>After Year 1 Enterprise ($400K+/yr)</h4>
+        <p>Maturity Level 4. Industry-leading posture. Regulatory confidence for audit and examination. Strategic advantage over peers.</p>
+      </div>
+    </div>
+    <div>
+      <div style="background:white;border-radius:8px;padding:12px 15px;margin-bottom:6px;border-left:3px solid var(--au-blue);">
+        <h4 style="color:var(--au-blue);margin:0 0 2px 0;font-size:0.7em;text-transform:none;letter-spacing:0;">&#127941; Major Australian Bank (Standard)</h4>
+        <p style="font-size:0.7em;margin:0;color:var(--muted);">"Zero AI controls to L3 in 14 weeks. Regulator asked for AI security posture — we sent the SHIELD-AI compliance dashboard."</p>
+      </div>
+      <div style="background:white;border-radius:8px;padding:12px 15px;margin-bottom:6px;border-left:3px solid var(--accent);">
+        <h4 style="color:var(--accent);margin:0 0 2px 0;font-size:0.7em;text-transform:none;letter-spacing:0;">&#127987;&#65039; Federal Government Agency (Lite &rarr; Standard)</h4>
+        <p style="font-size:0.7em;margin:0;color:var(--muted);">"Lite found 60% of AI pilots had no access controls. Standard closed every finding. First AI deployment passed Gate Review."</p>
+      </div>
+      <div style="background:white;border-radius:8px;padding:12px 15px;border-left:3px solid var(--au-gold);">
+        <h4 style="color:var(--au-gold);margin:0 0 2px 0;font-size:0.7em;text-transform:none;letter-spacing:0;">&#9889; Insurer (Enterprise — Year 1)</h4>
+        <p style="font-size:0.7em;margin:0;color:var(--muted);">"Continuous red-teaming caught a prompt injection our SOC missed. The embedded architect saved us 3 months of ramp-up time."</p>
+      </div>
+      <p style="font-size:0.55em;color:var(--muted);margin-top:4px;text-align:center;">All case studies available under NDA &bull; Names sanitised</p>
+    </div>
+  </div>
+</section><!-- ============================================================ -->
+<!-- SLIDE 12: GETTING STARTED -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2>Next Steps</h2>
+  <div style="max-width:700px;margin:1em auto 0;text-align:left;">
+    <div class="highlight-box"><h4>1. Initial consultation (30 minutes)</h4><p>We assess your current AI posture, regulatory obligations, and readiness for a SHIELD-AI engagement.</p></div>
+    <div class="highlight-box"><h4>2. Lite engagement scoping</h4><p>If appropriate, we scope a 2-3 week SHIELD-AI Lite assessment tailored to your environment and regulatory context.</p></div>
+    <div class="highlight-box"><h4>3. Posture assessment delivered</h4><p>You receive your AI security posture assessment, regulatory exposure report, and prioritised action plan.</p></div>
+    <div class="highlight-box"><h4>4. Decision point</h4><p>Based on findings, you decide: continue to Standard for full implementation, or address priority items internally with our roadmap.</p></div>
+  </div>
+  <p style="margin-top:1em;font-weight:600;">Contact: practice-lead@consultancy.example.com</p>
+</section>
+
+
+<section data-background="#f0f4f8" style="text-align:center;">
+  <h2 style="border:none;text-align:center;font-size:2em;">SHIELD-AI &mdash; In 90 Seconds</h2>
+  <div class="gold-bar" style="margin:0.5em auto;"></div>
+  <div style="max-width:750px;margin:0.5em auto;text-align:left;background:white;border-radius:8px;padding:15px 20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);font-size:0.7em;">
+    <p><strong>SHIELD-AI</strong> is Australia's sovereign security framework for organisations deploying autonomous AI agents &mdash; systems that act, not just chat.</p>
+    <p><strong>The problem:</strong> Existing frameworks (ISM, E8, NIST) don't cover AI-specific threats like prompt injection, tool delegation abuse, or autonomous decision-making. Yet ASIC, APRA, OAIC, and the government's proposed mandatory AI guardrails all expect regulated entities to demonstrate AI security.</p>
+    <p><strong>The solution:</strong> 36 controls across 6 pillars at 4 maturity levels. Every control maps to specific ISM control IDs, E8 descriptors, SOCI obligations, CPS 234 criteria, and Privacy Act requirements.</p>
+    <p><strong>The business case:</strong> Cost of inaction (breach costs $1.78M avg + penalties up to $2.2M + reputation) vs SHIELD-AI investment ($25K Lite to $120-250K Standard). 3:1 to 70:1 ROI depending on tier and risk scenario.</p>
+    <p><strong>Next step:</strong> A 30-minute exploratory conversation. No commitment beyond the conversation. You walk away knowing your AI security posture and regulatory exposure.</p>
+  </div>
+  <p style="margin-top:0.6em;font-weight:600;">Contact: practice-lead@consultancy.example.com</p>
+</section>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+<script>Reveal.initialize({hash:true,controls:true,progress:true,slideNumber:true});</script>
+</body>
+</html>
