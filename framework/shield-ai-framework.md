@@ -55,39 +55,39 @@ No existing framework addresses the unique combination of **AI-specific threats 
   ┌─────────────────────────────────────────────────────────────────┐
   │                                                                 │
   │  ┌─────────────────────────────────────────────────────────┐   │
-  │  │ 🏛️ GOVERNANCE LAYER                                     │   │
-  │  │  Shadow AI · Uncontrolled proliferation · Missing audit │   │
+  │  │ [GOV] GOVERNANCE LAYER                                   │   │
+  │  │  Shadow AI · Uncontrolled proliferation · Missing audit  │   │
   │  │  trails · Inability to reconstruct incidents             │   │
   │  └─────────────────────────────────────────────────────────┘   │
-  │                              ▼                                  │
+  │                              V                                  │
   │  ┌─────────────────────────────────────────────────────────┐   │
-  │  │ 📡 PIPELINE LAYER                                       │   │
-  │  │  CI/CD compromise · Model substitution · Dependency     │   │
+  │  │ [PPL] PIPELINE LAYER                                     │   │
+  │  │  CI/CD compromise · Model substitution · Dependency      │   │
   │  │  chain poisoning · Registry tampering                   │   │
   │  └─────────────────────────────────────────────────────────┘   │
-  │                              ▼                                  │
+  │                              V                                  │
   │  ┌─────────────────────────────────────────────────────────┐   │
-  │  │ 🔐 IDENTITY LAYER                                       │   │
-  │  │  Credential delegation abuse · Session hijacking ·      │   │
-  │  │  Privilege escalation via agent-to-agent delegation     │   │
+  │  │ [ID] IDENTITY LAYER                                      │   │
+  │  │  Credential delegation abuse · Session hijacking ·       │   │
+  │  │  Privilege escalation via agent-to-agent delegation      │   │
   │  └──────────────────────┬──────────────────────────────────┘   │
   │                         │                                       │
-  │  ┌──────────────────────▼──────────────────────────────────┐   │
-  │  │ 💾 DATA LAYER                                           │   │
-  │  │  Cross-session aggregation · RAG poisoning · Training   │   │
-  │  │  data extraction · PII leakage in tool calls            │   │
+  │  ┌──────────────────────V──────────────────────────────────┐   │
+  │  │ [DAT] DATA LAYER                                         │   │
+  │  │  Cross-session aggregation · RAG poisoning · Training    │   │
+  │  │  data extraction · PII leakage in tool calls             │   │
   │  └──────────────────────┬──────────────────────────────────┘   │
   │                         │                                       │
-  │  ┌──────────────────────▼──────────────────────────────────┐   │
-  │  │ 🔧 TOOL LAYER                                           │   │
-  │  │  Tool output injection · Malicious tool registration ·  │   │
+  │  ┌──────────────────────V──────────────────────────────────┐   │
+  │  │ [TUL] TOOL LAYER                                         │   │
+  │  │  Tool output injection · Malicious tool registration ·   │   │
   │  │  API abuse · Tool chain poisoning                       │   │
   │  └──────────────────────┬──────────────────────────────────┘   │
   │                         │                                       │
-  │  ┌──────────────────────▼──────────────────────────────────┐   │
-  │  │ 🧠 MODEL LAYER                                          │   │
-  │  │  Prompt injection · Jailbreaking · Model inversion ·    │   │
-  │  │  Data extraction · Adversarial inputs · Backdoor triggers│  │
+  │  ┌──────────────────────V──────────────────────────────────┐   │
+  │  │ [MDL] MODEL LAYER                                        │   │
+  │  │  Prompt injection · Jailbreaking · Model inversion ·     │   │
+  │  │  Data extraction · Adversarial inputs · Backdoor triggers │  │
   │  └─────────────────────────────────────────────────────────┘   │
   │                                                                 │
   │  Each layer compounds risk: a Model compromise enables Tool     │
@@ -170,29 +170,29 @@ The framework is built on six principles:
 │                    SHIELD-AI™ FRAMEWORK ARCHITECTURE                 │
 │                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐   │
-│  │ ⑥ GOVERNANCE & RISK (GRM)                                   │   │
+│  │ 6 GOVERNANCE & RISK (GRM)                                   │   │
 │  │  GRM-01 → GRM-06:  Governance body · Risk register ·        │   │
 │  │  Ethical use · Third-party risk · Regulatory mapping ·      │   │
 │  │  Board reporting                                            │   │
 │  │  APRA CPS 234 · PSPF · Privacy Act · NIST AI RMF            │   │
 │  └───────────────────────────┬─────────────────────────────────┘   │
 │                              │                                       │
-│  ┌───────────────────────────▼─────────────────────────────────┐   │
-│  │ ⑤ MONITORING & INCIDENT RESPONSE (MIR)                     │   │
+│  ┌───────────────────────────V─────────────────────────────────┐   │
+│  │ 5 MONITORING & INCIDENT RESPONSE (MIR)                     │   │
 │  │  MIR-01 → MIR-06:  Activity logging · Anomaly detection ·  │   │
 │  │  Prompt audit · IR playbooks · Reporting · Forensics        │   │
 │  │  SOCI Act · APRA CPS 234 · Privacy NDB                     │   │
 │  └───────────────────────────┬─────────────────────────────────┘   │
 │                              │                                       │
-│  ┌───────────────────────────▼─────────────────────────────────┐   │
-│  │ ④ TOOL & PIPELINE SECURITY (TP)                             │   │
+│  ┌───────────────────────────V─────────────────────────────────┐   │
+│  │ 4 TOOL & PIPELINE SECURITY (TP)                             │   │
 │  │  TP-01 → TP-06:  Tool registry · Access control ·           │   │
 │  │  API gateway · Output validation · Pipeline integrity ·     │   │
 │  │  Dependency scanning · ISM · E8 · SOCI                      │   │
 │  └──────────┬──────────────────────────────────┬───────────────┘   │
 │             │                                  │                     │
-│  ┌──────────▼──────────┐          ┌────────────▼─────────────┐    │
-│  │③ DATA SECURITY (DS) │          │② IDENTITY & ACCESS (IAM) │    │
+│  ┌──────────V──────────┐          ┌────────────V─────────────┐    │
+│  │3 DATA SECURITY (DS) │          │2 IDENTITY & ACCESS (IAM) │    │
 │  │ DS-01 → DS-06:      │          │ IAM-01 → IAM-06:         │    │
 │  │ Classification ·    │          │ Agent identity · Scope    │    │
 │  │ Inference protection │          │ delegation · Oversight    │    │
@@ -203,14 +203,14 @@ The framework is built on six principles:
 │  │ Privacy Act · PSPF   │          │                          │    │
 │  └──────────┬──────────┘          └────────────┬─────────────┘    │
 │             │                                  │                     │
-│  ┌──────────▼──────────────────────────────────▼─────────────┐   │
-│  │① MODEL SECURITY (MS)                                      │   │
+│  ┌──────────V──────────────────────────────────V─────────────┐   │
+│  │1 MODEL SECURITY (MS)                                      │   │
 │  │  MS-01 → MS-06:  Weight protection · Training integrity · │   │
 │  │  Supply chain · Adversarial robustness · Behaviour        │   │
 │  │  validation · Inventory · ISM · OWASP · NIST              │   │
 │  └───────────────────────────────────────────────────────────┘   │
 │                                                                     │
-│  ◄── Pillar 1 (foundation) → Pillar 6 (governance)                │
+│  <── Pillar 1 (foundation) → Pillar 6 (governance)                │
 │      Each pillar depends on all pillars below it                    │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -358,19 +358,19 @@ SHIELD-AI defines four maturity levels, consistent with ISM's implementation app
   │  │      Automated red-teaming                                │
   │  │      AI-specific SIEM                                     │
   │  │      Real-time compliance dashboard                       │
-  │  ▼                                                          │
+  │  V                                                          │
   │  L3 ─── DEFINED                                              │
   │  │      Automated controls                                   │
   │  │      Regulatory mapping complete                          │
   │  │      Anomaly detection + IR playbooks                     │
   │  │      Board reporting cadence                              │
-  │  ▼                                                          │
+  │  V                                                          │
   │  L2 ─── MANAGED                                              │
   │  │      Documented controls                                  │
   │  │      Per-agent service accounts                           │
   │  │      Basic monitoring                                     │
   │  │      Vendor assessments                                   │
-  │  ▼                                                          │
+  │  V                                                          │
   │  L1 ─── INITIAL                                              │
   │         Ad-hoc controls                                      │
   │         No formal governance                                 │
@@ -520,14 +520,14 @@ SHIELD-AI engagements follow a five-phase methodology:
 
   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
   │          │   │          │   │          │   │          │   │          │
-  │  ①       │   │  ②       │   │  ③       │   │  ④       │   │  ⑤       │
-  │ DISCOVER │──▶│  ASSESS  │──▶│  DESIGN  │──▶│IMPLEMENT │──▶│  ASSURE  │
+  │  1       │   │  2       │   │  3       │   │  4       │   │  5       │
+  │ DISCOVER │──>│  ASSESS  │──>│  DESIGN  │──>│IMPLEMENT │──>│  ASSURE  │
   │          │   │          │   │          │   │          │   │          │
   │ Weeks    │   │ Weeks    │   │ Weeks    │   │ Weeks    │   │ Ongoing  │
   │ 1-2      │   │ 3-4      │   │ 5-8      │   │ 9-16     │   │          │
   └────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘   └──────────┘
        │              │              │              │             │
-       ▼              ▼              ▼              ▼             ▼
+       V              V              V              V             V
   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
   │ Inventory│   │ Gap      │   │ Target   │   │ Deployed │   │ Quarterly│
   │ + Regs   │   │ Analysis │   │Architec- │   │Controls  │   │ Reviews  │
@@ -587,10 +587,10 @@ An organisation adopting SHIELD-AI follows a progressive implementation journey:
                     │      SHIELD-AI Maturity Journey           │
                     └──────────────────────────────────────────┘
                                     
-Level 1 ──────► Level 2 ──────► Level 3 ──────► Level 4
+Level 1 ──────> Level 2 ──────> Level 3 ──────> Level 4
 (Initial)      (Managed)       (Defined)        (Optimised)
     │               │               │               │
-    ▼               ▼               ▼               ▼
+    V               V               V               V
  Inventories    Documented      Automated      Continuous
  Basic auth     Controls        Controls       Improvement
  No governance  Risk register   Monitoring     Threat Intel

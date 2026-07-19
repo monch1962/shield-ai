@@ -10,6 +10,7 @@ th { background: #1a3a5c; color: white; padding: 6px 8px; text-align: left; }
 td { border: 1px solid #ccc; padding: 5px 8px; }
 tr:nth-child(even) { background: #f5f8fb; }
 code { font-family: 'DejaVu Sans Mono', monospace; font-size: 9pt; background: #f0f0f0; padding: 1px 3px; }
+pre { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.5pt; line-height: 1.15; background: #f8f9fb; padding: 8px 10px; border: 1px solid #e0e4ea; border-radius: 4px; overflow-x: auto; white-space: pre; }
 blockquote { border-left: 3px solid #1a3a5c; margin-left: 0; padding-left: 1em; color: #444; }
 hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }
 @media print { a { color: #1a3a5c; text-decoration: none; } }
