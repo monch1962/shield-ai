@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+  <defs>
+    <style>
+      .txt { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; }
+      .sub { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; }
+    </style>
+  </defs>
+
+  <!-- Icon: Shield-Point -->
+  <g transform="translate(4, 0)">
+    <!-- Shield outline -->
+    <path d="M 46,3 Q 3,-3 3,28 L 3,52 L 46,94 L 89,52 L 89,28 Q 89,-3 46,3 Z"
+          fill="none" stroke="#0a1e3d" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Left half fill (navy) -->
+    <path d="M 46,3 Q 3,-3 3,28 L 3,52 L 46,94 Z"
+          fill="#0a1e3d" stroke="none"/>
+
+    <!-- Right side: three angled bracket lines forming the right leg of 'A' -->
+    <!-- Top bracket (shortest) -->
+    <line x1="52" y1="30" x2="72" y2="38" stroke="#0a1e3d" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Middle bracket (longest) -->
+    <line x1="52" y1="44" x2="78" y2="54" stroke="#0a1e3d" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Crossbar bracket (horizontal - forms the A crossbar) -->
+    <line x1="46" y1="58" x2="66" y2="58" stroke="#0a1e3d" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Bottom bracket (mid) -->
+    <line x1="52" y1="68" x2="62" y2="73" stroke="#0a1e3d" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Gold node dot at top junction -->
+    <circle cx="46" cy="16" r="3.5" fill="#d4a017"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="110" y="42" class="txt" font-size="26" fill="#0a1e3d" letter-spacing="3">SHIELD</text>
+  <text x="110" y="76" class="sub" font-size="18" fill="#5a6a8a" letter-spacing="6">AI SECURITY</text>
+  <line x1="108" y1="50" x2="108" y2="68" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+</svg>
