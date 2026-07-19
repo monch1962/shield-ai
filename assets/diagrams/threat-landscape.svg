@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 480" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 12px; fill: #1a1a2e; }
+    .sm { font-size: 10px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .white { fill: #ffffff; }
+    .cap { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+  </style>
+  <rect x="90.0" y="410" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="430.0" text-anchor="middle" class="label" font-weight="bold">GOVERNANCE</text>
+    <text x="290.0" y="445.0" text-anchor="middle" class="sm">[GOV]  Shadow AI | Missing audit trails | Incident reconstruction</text><line x1="290.0" y1="410" x2="290.0" y2="398" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="90.0" y="348" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="368.0" text-anchor="middle" class="label" font-weight="bold">PIPELINE</text>
+    <text x="290.0" y="383.0" text-anchor="middle" class="sm">[PPL]  CI/CD compromise | Model substitution | Chain poisoning</text><line x1="290.0" y1="348" x2="290.0" y2="336" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="90.0" y="286" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="306.0" text-anchor="middle" class="label" font-weight="bold">IDENTITY</text>
+    <text x="290.0" y="321.0" text-anchor="middle" class="sm">[ID]   Credential abuse | Session hijack | Escalation</text><line x1="290.0" y1="286" x2="290.0" y2="274" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="90.0" y="224" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="244.0" text-anchor="middle" class="label" font-weight="bold">DATA</text>
+    <text x="290.0" y="259.0" text-anchor="middle" class="sm">[DAT]  Cross-session aggregation | RAG poisoning | PII leak</text><line x1="290.0" y1="224" x2="290.0" y2="212" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="90.0" y="162" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="182.0" text-anchor="middle" class="label" font-weight="bold">TOOLS</text>
+    <text x="290.0" y="197.0" text-anchor="middle" class="sm">[TUL]  Tool output injection | Malicious registration | API abuse</text><line x1="290.0" y1="162" x2="290.0" y2="150" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="90.0" y="100" width="400" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="120.0" text-anchor="middle" class="label" font-weight="bold">MODEL</text>
+    <text x="290.0" y="135.0" text-anchor="middle" class="sm">[MDL]  Prompt injection | Jailbreaking | Model inversion</text><text x="290.0" y="472" text-anchor="middle" class="sm" font-style="italic">Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration</text>
+</svg>

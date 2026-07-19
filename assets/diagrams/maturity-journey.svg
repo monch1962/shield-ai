@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 12px; fill: #1a1a2e; }
+    .sm { font-size: 10px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .white { fill: #ffffff; }
+    .cap { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+  </style>
+  <rect x="30" y="247.5" width="40" height="72.5" rx="3" fill="#d4a017" opacity="0.15"/>
+        <text x="50.0" y="287.75" text-anchor="middle" class="sm" fill="#d4a017" font-weight="bold">L4</text><rect x="30" y="175.0" width="50" height="72.5" rx="3" fill="#1a3a6b" opacity="0.15"/>
+        <text x="55.0" y="215.25" text-anchor="middle" class="sm" fill="#1a3a6b" font-weight="bold">L3</text><rect x="30" y="102.5" width="60" height="72.5" rx="3" fill="#4a7a9c" opacity="0.15"/>
+        <text x="60.0" y="142.75" text-anchor="middle" class="sm" fill="#4a7a9c" font-weight="bold">L2</text><rect x="30" y="30.0" width="70" height="72.5" rx="3" fill="#8a9ab0" opacity="0.15"/>
+        <text x="65.0" y="70.25" text-anchor="middle" class="sm" fill="#8a9ab0" font-weight="bold">L1</text><text x="120" y="287.75" text-anchor="middle" class="cap">FOUNDATIONAL</text>
+        <line x1="78" y1="293.75" x2="98" y2="293.75" stroke="#5a6a8a" stroke-width="1"/><text x="130" y="215.25" text-anchor="middle" class="cap">MANAGED</text>
+        <line x1="88" y1="221.25" x2="108" y2="221.25" stroke="#5a6a8a" stroke-width="1"/><text x="140" y="142.75" text-anchor="middle" class="cap">PROACTIVE</text>
+        <line x1="98" y1="148.75" x2="118" y2="148.75" stroke="#5a6a8a" stroke-width="1"/><text x="150" y="70.25" text-anchor="middle" class="cap">ADAPTIVE</text>
+        <line x1="108" y1="76.25" x2="128" y2="76.25" stroke="#5a6a8a" stroke-width="1"/><rect x="180" y="72.5" width="400" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="380.0" y="97.5" text-anchor="middle" class="label" font-weight="bold">L4  OPTIMISED</text>
+    <text x="380.0" y="112.5" text-anchor="middle" class="sm">Continuous improvement | Automated red-teaming | AI-specific SIEM | Real-time dashboard</text><rect x="180" y="72.5" width="6" height="60" rx="3" fill="#d4a017"/><rect x="180" y="145.0" width="400" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="380.0" y="170.0" text-anchor="middle" class="label" font-weight="bold">L3  DEFINED</text>
+    <text x="380.0" y="185.0" text-anchor="middle" class="sm">Automated controls | Regulatory mapping complete | Anomaly detection | Board reporting</text><rect x="180" y="145.0" width="6" height="60" rx="3" fill="#1a3a6b"/><rect x="180" y="217.5" width="400" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="380.0" y="242.5" text-anchor="middle" class="label" font-weight="bold">L2  MANAGED</text>
+    <text x="380.0" y="257.5" text-anchor="middle" class="sm">Documented controls | Per-agent service accounts | Basic monitoring | Vendor assessments</text><rect x="180" y="217.5" width="6" height="60" rx="3" fill="#4a7a9c"/><rect x="180" y="290.0" width="400" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="380.0" y="315.0" text-anchor="middle" class="label" font-weight="bold">L1  INITIAL</text>
+    <text x="380.0" y="330.0" text-anchor="middle" class="sm">Ad-hoc controls | No formal governance | Shared credentials | Basic logging</text><rect x="180" y="290.0" width="6" height="60" rx="3" fill="#8a9ab0"/><text x="50" y="380" class="sm" font-weight="bold">Typical progression:</text><rect x="220" y="375" width="60" height="12" rx="2" fill="#dce6f0" stroke="#1a3a6b" stroke-width="1"/>
+        <text x="250.0" y="384" text-anchor="middle" class="sm">3-4 months</text><rect x="284" y="375" width="90" height="12" rx="2" fill="#dce6f0" stroke="#1a3a6b" stroke-width="1"/>
+        <text x="329.0" y="384" text-anchor="middle" class="sm">8-12 months</text><rect x="378" y="375" width="90" height="12" rx="2" fill="#dce6f0" stroke="#1a3a6b" stroke-width="1"/>
+        <text x="423.0" y="384" text-anchor="middle" class="sm">12+ months</text><text x="492" y="384" class="sm" font-style="italic">Weakest pillar determines overall maturity</text>
+</svg>

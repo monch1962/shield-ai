@@ -50,51 +50,9 @@ The OWASP Top 10 for LLM Applications (2025) identified prompt injection, insecu
 
 No existing framework addresses the unique combination of **AI-specific threats + Australian regulatory compliance + implementable technical controls + maturity progression**. SHIELD-AI fills precisely this gap.
 
-```
-              AGENTIC AI ATTACK SURFACE -- 6 LAYERS
-  +-----------------------------------------------------------------+
-  |                                                                 |
-  |  +---------------------------------------------------------+   |
-  |  | [GOV] GOVERNANCE LAYER                                   |   |
-  |  |  Shadow AI * Uncontrolled proliferation * Missing audit  |   |
-  |  |  trails * Inability to reconstruct incidents             |   |
-  |  +---------------------------------------------------------+   |
-  |                              V                                  |
-  |  +---------------------------------------------------------+   |
-  |  | [PPL] PIPELINE LAYER                                     |   |
-  |  |  CI/CD compromise * Model substitution * Dependency      |   |
-  |  |  chain poisoning * Registry tampering                   |   |
-  |  +---------------------------------------------------------+   |
-  |                              V                                  |
-  |  +---------------------------------------------------------+   |
-  |  | [ID] IDENTITY LAYER                                      |   |
-  |  |  Credential delegation abuse * Session hijacking *       |   |
-  |  |  Privilege escalation via agent-to-agent delegation      |   |
-  |  +----------------------+----------------------------------+   |
-  |                         |                                       |
-  |  +----------------------V----------------------------------+   |
-  |  | [DAT] DATA LAYER                                         |   |
-  |  |  Cross-session aggregation * RAG poisoning * Training    |   |
-  |  |  data extraction * PII leakage in tool calls             |   |
-  |  +----------------------+----------------------------------+   |
-  |                         |                                       |
-  |  +----------------------V----------------------------------+   |
-  |  | [TUL] TOOL LAYER                                         |   |
-  |  |  Tool output injection * Malicious tool registration *   |   |
-  |  |  API abuse * Tool chain poisoning                       |   |
-  |  +----------------------+----------------------------------+   |
-  |                         |                                       |
-  |  +----------------------V----------------------------------+   |
-  |  | [MDL] MODEL LAYER                                        |   |
-  |  |  Prompt injection * Jailbreaking * Model inversion *     |   |
-  |  |  Data extraction * Adversarial inputs * Backdoor triggers |  |
-  |  +---------------------------------------------------------+   |
-  |                                                                 |
-  |  Each layer compounds risk: a Model compromise enables Tool     |
-  |  abuse, which enables Data exfiltration, which evades Identity  |
-  |  controls if not monitored via Pipeline and Governance.         |
-  +-----------------------------------------------------------------+
-```
+![Agentic AI attack surface: 6 layers from Model through Tool, Data, Identity, Pipeline to Governance.](assets/diagrams/threat-landscape.svg)
+*Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration, which evades Identity controls if not monitored via Pipeline and Governance.*
+
 
 ## 1.3 The Australian Regulatory Landscape
 
@@ -165,55 +123,9 @@ The framework is built on six principles:
 
 6. **Evolvable architecture.** The AI security landscape changes monthly. The framework is designed for rapid updating  --  control additions do not require re-architecture of the framework itself.
 
-```
-+---------------------------------------------------------------------+
-|                    SHIELD-AI FRAMEWORK ARCHITECTURE                 |
-|                                                                     |
-|  +-------------------------------------------------------------+   |
-|  | 6 GOVERNANCE & RISK (GRM)                                   |   |
-|  |  GRM-01 -> GRM-06:  Governance body * Risk register *        |   |
-|  |  Ethical use * Third-party risk * Regulatory mapping *      |   |
-|  |  Board reporting                                            |   |
-|  |  APRA CPS 234 * PSPF * Privacy Act * NIST AI RMF            |   |
-|  +---------------------------+---------------------------------+   |
-|                              |                                       |
-|  +---------------------------V---------------------------------+   |
-|  | 5 MONITORING & INCIDENT RESPONSE (MIR)                     |   |
-|  |  MIR-01 -> MIR-06:  Activity logging * Anomaly detection *  |   |
-|  |  Prompt audit * IR playbooks * Reporting * Forensics        |   |
-|  |  SOCI Act * APRA CPS 234 * Privacy NDB                     |   |
-|  +---------------------------+---------------------------------+   |
-|                              |                                       |
-|  +---------------------------V---------------------------------+   |
-|  | 4 TOOL & PIPELINE SECURITY (TP)                             |   |
-|  |  TP-01 -> TP-06:  Tool registry * Access control *           |   |
-|  |  API gateway * Output validation * Pipeline integrity *     |   |
-|  |  Dependency scanning * ISM * E8 * SOCI                      |   |
-|  +----------+----------------------------------+---------------+   |
-|             |                                  |                     |
-|  +----------V----------+          +------------V-------------+    |
-|  |3 DATA SECURITY (DS) |          |2 IDENTITY & ACCESS (IAM) |    |
-|  | DS-01 -> DS-06:      |          | IAM-01 -> IAM-06:         |    |
-|  | Classification *    |          | Agent identity * Scope    |    |
-|  | Inference protection |          | delegation * Oversight    |    |
-|  | Memory sanitisation  |          | Credential isolation *   |    |
-|  | Minimisation *       |          | JIT access * Session     |    |
-|  | Training governance *|          | boundaries               |    |
-|  | Output validation    |          | ISM * E8 * PSPF          |    |
-|  | Privacy Act * PSPF   |          |                          |    |
-|  +----------+----------+          +------------+-------------+    |
-|             |                                  |                     |
-|  +----------V----------------------------------V-------------+   |
-|  |1 MODEL SECURITY (MS)                                      |   |
-|  |  MS-01 -> MS-06:  Weight protection * Training integrity * |   |
-|  |  Supply chain * Adversarial robustness * Behaviour        |   |
-|  |  validation * Inventory * ISM * OWASP * NIST              |   |
-|  +-----------------------------------------------------------+   |
-|                                                                     |
-|  <-- Pillar 1 (foundation) -> Pillar 6 (governance)                |
-|      Each pillar depends on all pillars below it                    |
-+---------------------------------------------------------------------+
-```
+![SHIELD-AI framework architecture: 6 pillars arranged bottom-to-top from Model Security through Identity, Data, Tools, Monitoring to Governance.](assets/diagrams/framework-architecture.svg)
+*Pillar 1 (Model Security) is the foundation. Pillar 6 (Governance and Risk) provides oversight. Each pillar depends on all pillars below it.*
+
 
 ## 2.2 The Six Pillars
 
@@ -349,42 +261,8 @@ SHIELD-AI defines four maturity levels, consistent with ISM's implementation app
 | MIR (Monitoring) | Basic logging | Structured audit logs | Anomaly detection, IR playbooks | AI-specific SIEM integration |
 | GRM (Governance) | No formal governance | AI risk register established | Board reporting, regulatory mapping | Automated compliance attestation |
 
-```
-                     MATURITY JOURNEY
-  +-------------------------------------------------------------+
-  |                                                             |
-  |  L4 --- OPTIMISED                                           |
-  |  |      Continuous improvement                               |
-  |  |      Automated red-teaming                                |
-  |  |      AI-specific SIEM                                     |
-  |  |      Real-time compliance dashboard                       |
-  |  V                                                          |
-  |  L3 --- DEFINED                                              |
-  |  |      Automated controls                                   |
-  |  |      Regulatory mapping complete                          |
-  |  |      Anomaly detection + IR playbooks                     |
-  |  |      Board reporting cadence                              |
-  |  V                                                          |
-  |  L2 --- MANAGED                                              |
-  |  |      Documented controls                                  |
-  |  |      Per-agent service accounts                           |
-  |  |      Basic monitoring                                     |
-  |  |      Vendor assessments                                   |
-  |  V                                                          |
-  |  L1 --- INITIAL                                              |
-  |         Ad-hoc controls                                      |
-  |         No formal governance                                 |
-  |         Shared credentials                                   |
-  |         Basic logging                                        |
-  |                                                             |
-  |  +--------------+--------------+--------------+              |
-  |  | 3-4 months   | 8-12 months  | 12+ months   |              |
-  |  | L1 -> L2      | L1 -> L3      | L3 -> L4      |              |
-  |  +--------------+--------------+--------------+              |
-  |                                                             |
-  |  Key principle: weakest pillar determines overall maturity   |
-  +-------------------------------------------------------------+
-```
+![SHIELD-AI maturity model: L1 Initial through L2 Managed, L3 Defined to L4 Optimised with time estimates.](assets/diagrams/maturity-journey.svg)
+
 
 ## 2.4 Regulatory Mapping
 
@@ -515,30 +393,8 @@ SHIELD-AI engagements follow a five-phase methodology:
 - Annual re-assessment and maturity progression
 - **Output:** Continuous assurance + maturity progression reports
 
-```
-                  DELIVERY METHODOLOGY -- 5 PHASES
+![SHIELD-AI delivery methodology: 5-phase flow from Discover through Assess, Design, Implement to Assure.](assets/diagrams/delivery-flow.svg)
 
-  +----------+   +----------+   +----------+   +----------+   +----------+
-  |          |   |          |   |          |   |          |   |          |
-  |  1       |   |  2       |   |  3       |   |  4       |   |  5       |
-  | DISCOVER |-->|  ASSESS  |-->|  DESIGN  |-->|IMPLEMENT |-->|  ASSURE  |
-  |          |   |          |   |          |   |          |   |          |
-  | Weeks    |   | Weeks    |   | Weeks    |   | Weeks    |   | Ongoing  |
-  | 1-2      |   | 3-4      |   | 5-8      |   | 9-16     |   |          |
-  +----+-----+   +----+-----+   +----+-----+   +----+-----+   +----------+
-       |              |              |              |             |
-       V              V              V              V             V
-  +----------+   +----------+   +----------+   +----------+   +----------+
-  | Inventory|   | Gap      |   | Target   |   | Deployed |   | Quarterly|
-  | + Regs   |   | Analysis |   |Architec- |   |Controls  |   | Reviews  |
-  | Map      |   | + Scores |   |ture +    |   | + Trained|   | + Updates|
-  |          |   |          |   | Roadmap  |   | Teams    |   |          |
-  +----------+   +----------+   +----------+   +----------+   +----------+
-
-  Light-touch assessment (Lite):  Phases 1-2 only, 2-3 weeks
-  Full implementation (Standard):  Phases 1-4,     12-16 weeks
-  Ongoing assurance (Enterprise):  Phase 5,         ongoing (annual cycles)
-```
 
 | Tier | Phases | Duration | Investment |
 |------|--------|----------|------------|
@@ -582,19 +438,8 @@ SHIELD-AI engagements follow a five-phase methodology:
 
 An organisation adopting SHIELD-AI follows a progressive implementation journey:
 
-```
-                    +------------------------------------------+
-                    |      SHIELD-AI Maturity Journey           |
-                    +------------------------------------------+
-                                    
-Level 1 ------> Level 2 ------> Level 3 ------> Level 4
-(Initial)      (Managed)       (Defined)        (Optimised)
-    |               |               |               |
-    V               V               V               V
- Inventories    Documented      Automated      Continuous
- Basic auth     Controls        Controls       Improvement
- No governance  Risk register   Monitoring     Threat Intel
-```
+![SHIELD-AI maturity journey: L1 Initial to L4 Optimised.](assets/diagrams/maturity-journey.svg)
+
 
 ### Typical timeline by tier:
 
