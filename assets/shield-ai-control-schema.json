@@ -1,0 +1,1486 @@
+{
+  "meta": {
+    "framework": "SHIELD-AI",
+    "version": "1.1",
+    "date": "2026-07",
+    "description": "Sovereign Australian Framework for Secure Agentic AI Deployment",
+    "pillar_count": 6,
+    "control_count": 36
+  },
+  "pillars": {
+    "MS": {
+      "id": "MS",
+      "name": "Model Security",
+      "order": 1,
+      "control_count": 6,
+      "control_ids": [
+        "MS-01",
+        "MS-02",
+        "MS-03",
+        "MS-04",
+        "MS-05",
+        "MS-06"
+      ]
+    },
+    "IAM": {
+      "id": "IAM",
+      "name": "Identity and Access",
+      "order": 2,
+      "control_count": 6,
+      "control_ids": [
+        "IAM-01",
+        "IAM-02",
+        "IAM-03",
+        "IAM-04",
+        "IAM-05",
+        "IAM-06"
+      ]
+    },
+    "DS": {
+      "id": "DS",
+      "name": "Data Security",
+      "order": 3,
+      "control_count": 6,
+      "control_ids": [
+        "DS-01",
+        "DS-02",
+        "DS-03",
+        "DS-04",
+        "DS-05",
+        "DS-06"
+      ]
+    },
+    "TP": {
+      "id": "TP",
+      "name": "Tool and Pipeline Security",
+      "order": 4,
+      "control_count": 6,
+      "control_ids": [
+        "TP-01",
+        "TP-02",
+        "TP-03",
+        "TP-04",
+        "TP-05",
+        "TP-06"
+      ]
+    },
+    "MIR": {
+      "id": "MIR",
+      "name": "Monitoring, Logging, and Incident Response",
+      "order": 5,
+      "control_count": 6,
+      "control_ids": [
+        "MIR-01",
+        "MIR-02",
+        "MIR-03",
+        "MIR-04",
+        "MIR-05",
+        "MIR-06"
+      ]
+    },
+    "GRM": {
+      "id": "GRM",
+      "name": "Governance and Risk Management",
+      "order": 6,
+      "control_count": 6,
+      "control_ids": [
+        "GRM-01",
+        "GRM-02",
+        "GRM-03",
+        "GRM-04",
+        "GRM-05",
+        "GRM-06"
+      ]
+    }
+  },
+  "controls": {
+    "DS-01": {
+      "id": "DS-01",
+      "title": "Data Classification and Labelling",
+      "pillar": "DS",
+      "description": "Data classification ensures that every piece of data that enters an agentic AI system is classified according to its sensitivity and handling requirements. Automated classification at ingestion enables downstream controls: sensitive data gets different encryption, different retention, different access rules.",
+      "objective": "Classify all data entering the AI system at ingestion using an automated pipeline that feeds into downstream encryption, retention, and access controls.",
+      "maturity": {
+        "L1": "No data classification. All data treated equally.",
+        "L2": "Manual classification of data inputs. Labels applied at ingestion.",
+        "L3": "Automated classification pipeline. Labels feed downstream security controls.",
+        "L4": "Real-time re-classification based on detected content. Continuous accuracy monitoring."
+      },
+      "assessment_questions": [
+        "Is there an automated data classification pipeline for data entering the AI system?",
+        "What classification scheme is used (PSPF, ISM, GovERP, proprietary)?",
+        "Is data classified before it reaches the model context, or after?",
+        "Is classification applied to data in prompts, tool responses, training data, and memory?",
+        "Can classification labels be overridden? Who can override them?"
+      ],
+      "artifacts": [
+        "Data classification policy document",
+        "Automated classification pipeline configuration and test results",
+        "Classification scheme mapping",
+        "Data classification audit logs",
+        "Integration between classification and downstream controls"
+      ],
+      "regulatory_mappings": {
+        "PSPF": "Information Security \u2014 classified information",
+        "ISM": "Guidelines for Data Transfers \u2014 classification",
+        "Privacy Act 1988": "APP 5 \u2014 Collection, APP 6 \u2014 Use and Disclosure"
+      },
+      "tags": [
+        "PSPF",
+        "ISM",
+        "PRIVACY"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "DS-02": {
+      "id": "DS-02",
+      "title": "Inference Data Protection",
+      "pillar": "DS",
+      "description": "Inference data protection ensures that data transmitted between the user, the agent, the model, and the tool endpoints is encrypted end-to-end and that inference endpoints are secured against eavesdropping or data extraction.",
+      "objective": "Encrypt all data in transit between user, agent, model, and tools with TLS 1.3 minimum, and secure inference endpoints within the organisation's trust boundary for sensitive workloads.",
+      "maturity": {
+        "L1": "Basic TLS (1.2+). No private endpoints for inference.",
+        "L2": "TLS 1.3 for all endpoints. Basic logging with manual redaction.",
+        "L3": "End-to-end encryption. Private inference endpoints for sensitive data. Automated prompt/response redaction.",
+        "L4": "Client-side encryption keys for cloud inference. Full audit trail of all inference data exposure."
+      },
+      "assessment_questions": [
+        "Are all inference endpoints TLS 1.3 (or equivalent) encrypted?",
+        "Is data encrypted in transit between every hop: user \u2192 agent \u2192 model \u2192 tool \u2192 response?",
+        "Are inference logs encrypted? Who can access them?",
+        "Are prompts and responses logged with sensitive data redacted before storage?",
+        "Is inference performed within the organisation's trust boundary for sensitive workloads?"
+      ],
+      "artifacts": [
+        "Network architecture diagram showing inference data flows",
+        "TLS configuration for all inference endpoints",
+        "Inference logging configuration (redaction, encryption, retention)",
+        "Cloud provider contract / data processing agreement",
+        "VPC / private endpoint configuration"
+      ],
+      "regulatory_mappings": {
+        "Privacy Act 1988": "APP 11 \u2014 Security of Personal Information",
+        "ISM": "Guidelines for Cryptography",
+        "PSPF": "Information Security"
+      },
+      "tags": [
+        "PRIVACY",
+        "ISM",
+        "PSPF"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "DS-03": {
+      "id": "DS-03",
+      "title": "Memory Sanitisation",
+      "pillar": "DS",
+      "description": "Memory sanitisation ensures that agents do not persist sensitive, classified, or personal information beyond the current session, and that any persistent memory store is properly scoped, encrypted, and subject to retention policies. Persistent agent memory is one of the highest-risk capabilities because it creates a cross-session data aggregation point.",
+      "objective": "Prevent persistence of sensitive data across sessions through automated purging, encryption, per-agent scoping, and cross-session aggregation detection.",
+      "maturity": {
+        "L1": "Session-bound only. No persistent memory.",
+        "L2": "Persistent memory with basic retention policy. Manual purging.",
+        "L3": "Automated memory purging. Per-agent memory scoping. Encryption at rest. Access logging.",
+        "L4": "Real-time memory access monitoring. Cross-session aggregation detection. Automated DSAR response."
+      },
+      "assessment_questions": [
+        "Does the agent have persistent memory? What data is stored in it?",
+        "Is there a data retention policy for agent memory? Is automated purging implemented?",
+        "Is sensitive data stored in memory? If so, is it encrypted?",
+        "Is memory scoped per-agent, or shared across agents?",
+        "Are memory access events logged (read, write, delete)?",
+        "Is memory wiped between non-correlated sessions?"
+      ],
+      "artifacts": [
+        "Agent memory architecture",
+        "Memory retention policy",
+        "Automated purging configuration and logs",
+        "Memory encryption configuration",
+        "Memory access audit logs",
+        "Data subject access request (DSAR) process for agent memory"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure)",
+        "Privacy Act 1988": "APP 11 \u2014 data security, Notifiable Data Breaches",
+        "ISM": "Guidelines for Media \u2014 data sanitisation"
+      },
+      "tags": [
+        "OWASP",
+        "PRIVACY",
+        "ISM"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "DS-04": {
+      "id": "DS-04",
+      "title": "Data Minimisation",
+      "pillar": "DS",
+      "description": "Data minimisation ensures that only the minimum data required for the agent to perform its task is exposed to the model, retrieved from data stores, or stored in memory. This is the AI equivalent of least privilege for data.",
+      "objective": "Filter data at the retrieval layer (field-level, not document-level) and enforce attribute-based access control at query time to ensure agents receive only the minimum data required.",
+      "maturity": {
+        "L1": "Full documents passed to model context. No data filtering at retrieval.",
+        "L2": "Basic excerpt extraction. Tool response limits configured.",
+        "L3": "Field-level filtering. ABAC at retrieval. Tool response minimisation enforced.",
+        "L4": "Dynamic minimisation based on task context and sensitivity. Continuous monitoring of effectiveness."
+      },
+      "assessment_questions": [
+        "Does the RAG pipeline filter data at the field level before passing to the model context?",
+        "Are full documents ever passed to the model, or only relevant excerpts?",
+        "Is there an attribute-based access control (ABAC) layer at retrieval time?",
+        "Are tool responses filtered to return only the data fields the agent needs?",
+        "Can an agent request bulk data export, or is minimisation enforced on every request?"
+      ],
+      "artifacts": [
+        "RAG pipeline architecture (focusing on data filtering)",
+        "Retrieval access control configuration (ABAC)",
+        "Tool response filtering configuration",
+        "Data volume monitoring (bytes per query before/after minimisation)",
+        "Bulk data access request policy"
+      ],
+      "regulatory_mappings": {
+        "Privacy Act 1988": "APP 3 \u2014 Collection of solicited personal information, APP 11",
+        "NIST AI RMF": "IDENTIFY (ID.DA)",
+        "EU AI Act": "Art. 10(2) \u2014 Data Governance"
+      },
+      "tags": [
+        "PRIVACY",
+        "NIST",
+        "EU"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "DS-05": {
+      "id": "DS-05",
+      "title": "Training Data Governance",
+      "pillar": "DS",
+      "description": "Training data governance ensures that data used to train or fine-tune AI models is properly sourced, consented, and retained in compliance with legal and regulatory requirements.",
+      "objective": "Track training data lineage from source to model, verify consent for personal data, enforce retention limits, and provide machine unlearning capability.",
+      "maturity": {
+        "L1": "No training data governance. Data collected without tracking or consent verification.",
+        "L2": "Basic data lineage for critical models. Manual consent verification.",
+        "L3": "Automated lineage tracking. Consent verification pipeline. Retention enforcement.",
+        "L4": "Machine unlearning capability. Continuous training data audit. Third-party governance automatically assessed."
+      },
+      "assessment_questions": [
+        "Is training data lineage tracked from source through preprocessing to training?",
+        "Is consent verified for personal data used in training?",
+        "Are there retention limits on training datasets? Are they enforced?",
+        "Is there a process for removing specific data points from trained models (machine unlearning)?",
+        "Are training datasets scanned for sensitive data before use?"
+      ],
+      "artifacts": [
+        "Data lineage tracking system configuration",
+        "Consent management records for training data",
+        "Training data retention policy and enforcement configuration",
+        "Machine unlearning capability (or documented alternative)",
+        "Training data scanning results (for sensitive data)"
+      ],
+      "regulatory_mappings": {
+        "Privacy Act 1988": "APP 3 \u2014 Collection, APP 5 \u2014 Notification, APP 6 \u2014 Use/Disclosure",
+        "EU AI Act": "Art. 10 \u2014 Data Governance",
+        "NIST AI RMF": "IDENTIFY (ID.DA)"
+      },
+      "tags": [
+        "PRIVACY",
+        "EU",
+        "NIST"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "DS-06": {
+      "id": "DS-06",
+      "title": "Output Validation",
+      "pillar": "DS",
+      "description": "Output validation ensures that model outputs do not leak training data, PII, sensitive business context, or system prompts. This includes scanning for memorised training examples, PII pattern matching, and detection of system prompt fragments in outputs.",
+      "objective": "Scan all model outputs for data leakage (PII, training data, system prompts, credentials) at the inference proxy layer before delivery to users or systems.",
+      "maturity": {
+        "L1": "No output validation for data leakage.",
+        "L2": "Basic PII scanning on model outputs. Manual review of flagged outputs.",
+        "L3": "Automated output scanning for PII, sensitive data, system prompts, memorised training data. Scanning at application layer.",
+        "L4": "Real-time output scanning with automated blocking. Training data memorisation testing in CI/CD."
+      },
+      "assessment_questions": [
+        "Are model outputs automatically scanned for data leakage?",
+        "What patterns are checked (PII, credit card numbers, API keys, system prompt fragments)?",
+        "Is there a mechanism for scanning outputs from tool calls, not just model responses?",
+        "Are outputs validated before being displayed to users or written to data stores?",
+        "Are model outputs tested for memorisation of training data?"
+      ],
+      "artifacts": [
+        "Output scanning configuration and rules",
+        "Data leakage detection alerts and incident records",
+        "Tool output scanning configuration",
+        "Output validation architecture (inference proxy layer placement)",
+        "Memorisation test results for production models"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
+        "Privacy Act 1988": "APP 11 \u2014 data security",
+        "NIST AI RMF": "MEASURE (ME.AD)"
+      },
+      "tags": [
+        "OWASP",
+        "PRIVACY",
+        "NIST"
+      ],
+      "pillar_name": "Data Security"
+    },
+    "GRM-01": {
+      "id": "GRM-01",
+      "title": "AI Governance Body",
+      "pillar": "GRM",
+      "description": "The AI governance body is a chartered committee with the authority to approve agentic AI deployments, define acceptable use boundaries, and oversee the organisation's AI security posture. Membership must include CISO, CRO, General Counsel, data owner, and AI lead.",
+      "objective": "Establish and charter an AI governance body with cross-functional membership (CISO, CRO, GC, data owner, AI lead) and defined decision authority over agentic AI deployments.",
+      "maturity": {
+        "L1": "No AI governance body. AI decisions made by individual teams.",
+        "L2": "Informal AI governance group meets ad-hoc. No formal charter.",
+        "L3": "Chartered AI governance body with defined terms of reference. Regular meetings. Documented decisions.",
+        "L4": "AI governance body with delegated authority. Independent audit of decisions. Cross-entity governance."
+      },
+      "assessment_questions": [
+        "Is there a chartered AI governance body with defined terms of reference?",
+        "Who sits on the committee (CISO, CRO, GC, data owner, AI lead)?",
+        "What decisions require committee approval?",
+        "How often does the committee meet?",
+        "Are committee decisions documented and tracked?"
+      ],
+      "artifacts": [
+        "AI governance body charter and terms of reference",
+        "Committee meeting minutes and decision records",
+        "Committee membership list and review schedule",
+        "Escalation procedure documentation",
+        "Decision implementation tracking"
+      ],
+      "regulatory_mappings": {
+        "APRA CPS 234": "s.2 \u2014 Board accountability",
+        "PSPF": "Security Governance \u2014 Policy 1",
+        "Privacy Act 1988": "APP 1 \u2014 accountability"
+      },
+      "tags": [
+        "CPS234",
+        "PSPF",
+        "PRIVACY"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "GRM-02": {
+      "id": "GRM-02",
+      "title": "AI Risk Register",
+      "pillar": "GRM",
+      "description": "The AI risk register is a distinct register that captures AI-specific risks using a dedicated threat taxonomy covering model-level, tool-level, data-level, identity-level, and pipeline-level risks. Each risk is assessed, owned, and tracked to resolution.",
+      "objective": "Maintain a dedicated AI risk register using a threat taxonomy that covers model, tool, data, identity, and pipeline risks, with defined owners, assessment methodology, and review cadence.",
+      "maturity": {
+        "L1": "No AI risk register. AI risks captured informally or not at all.",
+        "L2": "Basic AI risk register with manual entries. Siloed from enterprise risk register.",
+        "L3": "AI-specific risk taxonomy in enterprise risk register. Regular review cycle. Formal risk acceptance.",
+        "L4": "Continuous AI risk assessment. Automated risk scoring from control monitoring. Integrated with ERM."
+      },
+      "assessment_questions": [
+        "Is there a dedicated AI risk register or AI-specific section in the enterprise risk register?",
+        "Does the AI risk taxonomy cover model, tool, data, identity, and pipeline risks?",
+        "Are risks assessed using a defined methodology (likelihood \u00d7 impact)?",
+        "Are risk owners assigned to each AI risk?",
+        "Is there a process for accepting AI risks with documented rationale and expiry?"
+      ],
+      "artifacts": [
+        "AI risk register entries",
+        "AI risk taxonomy documentation",
+        "Risk assessment methodology",
+        "Risk owner assignments",
+        "Risk review schedule and records",
+        "Risk acceptance records with rationale and expiry"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "GOVERN (GV.RM)",
+        "SOCI Act": "CIRMP \u2014 risk management",
+        "APRA CPS 234": "s.3(a) \u2014 risk assessment"
+      },
+      "tags": [
+        "NIST",
+        "SOCI",
+        "CPS234"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "GRM-03": {
+      "id": "GRM-03",
+      "title": "Ethical Use Policy",
+      "pillar": "GRM",
+      "description": "The ethical use policy defines what agents are allowed and not allowed to do, what level of autonomy they may have based on risk tier, and what transparency obligations apply. It sets boundaries that technical controls then enforce.",
+      "objective": "Document and enforce an ethical use policy that classifies agents by risk tier, defines autonomy boundaries per tier, and specifies transparency obligations.",
+      "maturity": {
+        "L1": "No ethical use policy. Agents deployed without defined boundaries.",
+        "L2": "Draft policy document. Basic risk classification. Manual compliance monitoring.",
+        "L3": "Approved policy with risk-tiered autonomy. Automated compliance monitoring. Regular policy review.",
+        "L4": "Continuous compliance verification. Automated enforcement at tool gateway. Policy improvement from experience."
+      },
+      "assessment_questions": [
+        "Is there an approved ethical use policy for agentic AI?",
+        "Does the policy define acceptable use boundaries (what agents can and cannot do)?",
+        "Are agents classified into risk tiers with corresponding autonomy levels?",
+        "Does the policy specify transparency obligations (disclosure that an interaction involves an AI)?",
+        "Are policy violations investigated and remediated?"
+      ],
+      "artifacts": [
+        "AI ethical use policy document",
+        "Agent risk classification methodology and classifications",
+        "Policy compliance monitoring configuration",
+        "Policy violation records and remediation",
+        "Policy review schedule and update history"
+      ],
+      "regulatory_mappings": {
+        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "NIST AI RMF": "GOVERN (GV.OC)",
+        "Privacy Act 1988": "APP 1 \u2014 accountability"
+      },
+      "tags": [
+        "EU",
+        "NIST",
+        "PRIVACY"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "GRM-04": {
+      "id": "GRM-04",
+      "title": "Third-Party AI Risk Management",
+      "pillar": "GRM",
+      "description": "Third-party AI risk management ensures that external model providers, tool providers, and AI infrastructure vendors are assessed against security requirements, contractually bound to maintain controls, and subject to right-to-audit provisions.",
+      "objective": "Assess and monitor third-party AI providers for security controls, with contractual security requirements and right-to-audit provisions in all AI-related procurement.",
+      "maturity": {
+        "L1": "No third-party AI risk assessment. Providers used without evaluation.",
+        "L2": "Basic vendor assessments for model providers. Contractual requirements in some contracts.",
+        "L3": "Comprehensive vendor assessment programme for all AI providers. Right-to-audit. Ongoing monitoring.",
+        "L4": "Continuous vendor security monitoring. Automated vendor risk scoring. Vendor decommissioning playbooks exercised."
+      },
+      "assessment_questions": [
+        "Are model providers subject to a vendor security assessment?",
+        "Are tool providers subject to a vendor security assessment?",
+        "Does the assessment cover data protection, incident response, and shared responsibility?",
+        "Are contractual controls in place (security requirements in contracts)?",
+        "Is there a right-to-audit clause in contracts with AI providers?"
+      ],
+      "artifacts": [
+        "Third-party AI vendor risk assessments",
+        "Contractual security requirements (SOWs, MSAs)",
+        "Right-to-audit clauses",
+        "Vendor monitoring records (incidents, changes)",
+        "Shared responsibility model documentation"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
+        "NIST AI RMF": "IDENTIFY (ID.SC)",
+        "ISM": "Guidelines for Procurement and Outsourcing",
+        "EU AI Act": "Art. 28 \u2014 Third Parties"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "ISM",
+        "EU"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "GRM-05": {
+      "id": "GRM-05",
+      "title": "Regulatory Mapping and Compliance Reporting",
+      "pillar": "GRM",
+      "description": "Regulatory mapping ensures that every SHIELD-AI control is mapped to the regulatory frameworks the organisation must comply with, and that compliance status is reported on a regular cadence. This transforms compliance from a point-in-time audit exercise to a continuous process.",
+      "objective": "Maintain an automated mapping of SHIELD-AI controls to applicable regulatory frameworks with continuous compliance monitoring and regular reporting.",
+      "maturity": {
+        "L1": "No regulatory mapping. Compliance assessed informally.",
+        "L2": "Manual mapping to primary regulatory frameworks. Periodic compliance reports.",
+        "L3": "Automated regulatory mapping. Continuous compliance monitoring. Quarterly reporting.",
+        "L4": "Real-time compliance dashboard. Automated impact assessment of regulatory changes. Continuous audit readiness."
+      },
+      "assessment_questions": [
+        "Is there a documented mapping of SHIELD-AI controls to applicable regulatory frameworks?",
+        "Is the mapping maintained when frameworks are updated?",
+        "Are compliance reports generated automatically or manually?",
+        "Are compliance findings tracked to remediation?",
+        "Is there an automated compliance dashboard available to stakeholders?"
+      ],
+      "artifacts": [
+        "Regulatory mapping matrix",
+        "Framework version tracking (which ISM edition, which E8 baseline)",
+        "Compliance report templates and recent reports",
+        "Finding tracking and remediation records",
+        "Compliance dashboard configuration",
+        "Regulatory change monitoring configuration"
+      ],
+      "regulatory_mappings": {
+        "APRA CPS 234": "s.2 \u2014 Board reporting",
+        "NIST AI RMF": "GOVERN (GV.OV)",
+        "ISM": "Guidelines for Cyber Security Documentation"
+      },
+      "tags": [
+        "CPS234",
+        "NIST",
+        "ISM"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "GRM-06": {
+      "id": "GRM-06",
+      "title": "Board and Executive Reporting",
+      "pillar": "GRM",
+      "description": "Board and executive reporting provides a standardised dashboard giving the Board and executive team visibility into the organisation's AI security posture \u2014 maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances \u2014 designed for non-technical audiences.",
+      "objective": "Provide a standardised executive dashboard showing pillar maturity scores, open findings, regulatory compliance status, and risk acceptances, refreshed automatically.",
+      "maturity": {
+        "L1": "No AI security reporting to executives.",
+        "L2": "Manual AI security report prepared for executive meetings. Ad-hoc content.",
+        "L3": "Automated compliance dashboard. Per-pillar maturity scores. Regular Board reporting.",
+        "L4": "Real-time executive dashboard. Predictive risk scoring. Automated Board reporting with trend analysis."
+      },
+      "assessment_questions": [
+        "Is there a standardised AI security dashboard for executives?",
+        "Does the dashboard show maturity scores per pillar?",
+        "Are open findings tracked with severity, owner, and status?",
+        "Is regulatory compliance status visible (which frameworks are we compliant with?)",
+        "Is the dashboard refreshed automatically or manually?"
+      ],
+      "artifacts": [
+        "Executive dashboard configuration",
+        "Recent dashboard snapshots or reports",
+        "Finding tracking records",
+        "Risk acceptance register",
+        "Board reporting schedule and recent reports"
+      ],
+      "regulatory_mappings": {
+        "APRA CPS 234": "s.2 \u2014 Board accountability and reporting",
+        "NIST AI RMF": "GOVERN (GV.OV)"
+      },
+      "tags": [
+        "CPS234",
+        "NIST"
+      ],
+      "pillar_name": "Governance and Risk Management"
+    },
+    "IAM-01": {
+      "id": "IAM-01",
+      "title": "Agent Identity Management",
+      "pillar": "IAM",
+      "description": "Every agent must have a unique, auditable digital identity that is distinct from any human user's identity. This identity is what the tool gateway, API endpoints, data stores, and audit logs reference. When agents share human credentials, there is no way to attribute actions to a specific agent.",
+      "objective": "Ensure every agent has a unique, lifecycle-managed digital identity distinct from human user identities, integrated with the organisation's identity provider.",
+      "maturity": {
+        "L1": "Agents use shared human credentials or no credentials. No agent identity exists.",
+        "L2": "Per-agent service accounts created. Manual lifecycle management.",
+        "L3": "Automated agent identity lifecycle. Integrated with IDP. Agent identities flagged in monitoring.",
+        "L4": "SPIFFE/SPIRE workload identity for every agent. Automated credential rotation. Cross-platform identity federation."
+      },
+      "assessment_questions": [
+        "Do agents use service accounts / workload identities, or do they inherit human credentials?",
+        "Is each agent's identity unique, or do multiple agents share the same identity?",
+        "Is the agent identity lifecycle managed (creation, rotation, revocation)?",
+        "Are agent identities integrated with the organisation's existing identity provider (Azure AD, Okta, etc.)?",
+        "Can agent-to-agent calls be attributed to a specific source agent identity?",
+        "Is there an audit trail showing which human initiated each agent session?"
+      ],
+      "artifacts": [
+        "Agent identity provisioning process documentation",
+        "Identity provider configuration (service accounts, workload identities)",
+        "Agent identity lifecycle policy",
+        "Identity governance tool configuration",
+        "Audit logs showing agent identity attribution",
+        "Session initiation audit records (human \u2192 agent correlation)"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management \u2014 identification and authentication",
+        "Essential Eight": "Restrict Administrative Privileges",
+        "NIST AI RMF": "IDENTIFY (ID.AM)"
+      },
+      "tags": [
+        "ISM",
+        "E8",
+        "NIST"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-02": {
+      "id": "IAM-02",
+      "title": "Scope-Bound Delegation",
+      "pillar": "IAM",
+      "description": "Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function \u2014 and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges.",
+      "objective": "Limit each agent's permissions to the minimum set of tools, data, and actions required for its function, enforced by a policy-as-code engine at invocation time.",
+      "maturity": {
+        "L1": "Agents have the same permissions as the initiating human. No scope boundaries.",
+        "L2": "Agent permissions manually scoped to a subset of human permissions. Static tool allow-lists.",
+        "L3": "Policy-as-code engine enforces per-agent scope at invocation time. Bounded delegation in multi-agent architectures.",
+        "L4": "Dynamic scope adjustment based on context and risk. Continuous verification of scope compliance."
+      },
+      "assessment_questions": [
+        "Are agent permissions explicitly scoped per-agent, or do agents inherit the human's full permission set?",
+        "Is there a policy enforcement point (OPA, custom authz) that evaluates every agent action against its permitted scope?",
+        "Can an agent access tools or data that its initiating human cannot?",
+        "Can an agent escalate its own privileges or modify its permission scope?",
+        "In multi-agent architectures, does agent-to-agent delegation respect the original scope?",
+        "Are tool permissions evaluated at invocation time, not just at session start?"
+      ],
+      "artifacts": [
+        "Agent permission scope definitions (per-agent tool and data access)",
+        "Policy-as-code files (OPA/Rego) defining agent authorisation rules",
+        "Tool gateway configuration (allow-lists, schema validation)",
+        "Agent authorisation audit logs (allowed vs denied actions)",
+        "Multi-agent delegation chain documentation"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "GOVERN (GV.AC)",
+        "Essential Eight": "Restrict Administrative Privileges, User Application Hardening",
+        "SOCI Act": "CIRMP s.4(b)"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "E8",
+        "SOCI"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-03": {
+      "id": "IAM-03",
+      "title": "Human Oversight Controls",
+      "pillar": "IAM",
+      "description": "Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review \u2014 a customer support agent reading account details is low-risk; the same agent writing to the account requires approval.",
+      "objective": "Implement risk-tiered human approval gates for agent actions, with documented break-glass procedures for urgent situations.",
+      "maturity": {
+        "L1": "No human oversight. Agent acts autonomously on all actions.",
+        "L2": "High-risk actions flagged for human review. Manual approval process.",
+        "L3": "Risk-based approval tiers. Automated approval gates. Time-limited approvals. Break-glass procedures documented.",
+        "L4": "Context-aware approval requirements. Multi-party approval for critical actions. Oversight mechanism independently audited."
+      },
+      "assessment_questions": [
+        "Are agent actions classified into risk tiers? Which actions require human approval?",
+        "Is there a human-in-the-loop mechanism for high-risk actions?",
+        "What is the approval process (time limit, escalation, delegation)?",
+        "Is there a break-glass procedure for urgent actions when the approver is unavailable?",
+        "Are approvals logged with context (what action, why approved, by whom)?"
+      ],
+      "artifacts": [
+        "Agent risk classification policy",
+        "Human-in-the-loop workflow configuration",
+        "Approval gate logs (approved, denied, expired)",
+        "Break-glass procedure documentation",
+        "Approval audit trail"
+      ],
+      "regulatory_mappings": {
+        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "NIST AI RMF": "MANAGE (MG.DE)",
+        "APRA CPS 234": "s.2 \u2014 Board accountability for controls"
+      },
+      "tags": [
+        "EU",
+        "NIST",
+        "CPS234"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-04": {
+      "id": "IAM-04",
+      "title": "Credential Isolation",
+      "pillar": "IAM",
+      "description": "Credential isolation ensures that agent credentials are stored, managed, and rotated separately from human credentials, and that a compromise of one does not compromise the other.",
+      "objective": "Store, manage, and rotate agent credentials separately from human credentials with hardware-backed protection for critical agents and automated rotation on compromise signals.",
+      "maturity": {
+        "L1": "Agent and human credentials stored together. No rotation. No isolation.",
+        "L2": "Agent credentials in separate secret store. Manual rotation on schedule.",
+        "L3": "Automated credential rotation. Automatic rotation on compromise. Hardware-backed for critical agents.",
+        "L4": "Just-in-time credential issuance. Continuous credential verification. Credential-less authentication (SPIFFE)."
+      },
+      "assessment_questions": [
+        "Are agent credentials stored in a separate secret store from human credentials?",
+        "Is access to agent credentials subject to a separate approval process?",
+        "Are agent credentials automatically rotated? On what schedule?",
+        "Is credential rotation automatically triggered on a compromise signal?",
+        "Are credentials hardware-backed (HSM, TPM) for critical agents?"
+      ],
+      "artifacts": [
+        "Secret management configuration (HashiCorp Vault, AWS Secrets Manager, Azure Key Vault)",
+        "Credential access policies (who can read agent credentials)",
+        "Credential rotation policy and automation configuration",
+        "Credential access audit logs",
+        "HSM/TPM configuration (if applicable)"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management \u2014 credential management",
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "Essential Eight": "Multi-factor Authentication \u2014 extended to service accounts"
+      },
+      "tags": [
+        "ISM",
+        "NIST",
+        "E8"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-05": {
+      "id": "IAM-05",
+      "title": "Just-in-Time (JIT) Access",
+      "pillar": "IAM",
+      "description": "JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence \u2014 an attacker who compromises a tool gateway cannot replay stale credentials.",
+      "objective": "Issue session-bound, ephemeral credentials for agents with automatic expiration and the ability to revoke mid-session on suspicious behaviour detection.",
+      "maturity": {
+        "L1": "Persistent credentials. No expiration. Credentials valid indefinitely.",
+        "L2": "Session-bound credentials with fixed expiration (e.g., 1 hour). Manual renewal.",
+        "L3": "JIT credentials scoped per-session. Automatic expiration. Revocation available.",
+        "L4": "Dynamic scoping \u2014 credentials scoped to specific tools/data per agent task. Continuous authorisation checking."
+      },
+      "assessment_questions": [
+        "Are agent credentials session-bound and automatically expired?",
+        "What is the default credential lifetime? Can it be extended, and by whom?",
+        "Is there a mechanism for emergency credential extension (e.g., long-running tasks)?",
+        "Are JIT credentials scoped to the specific tools and data the agent needs for this session?",
+        "Can credentials be revoked mid-session if suspicious behaviour is detected?"
+      ],
+      "artifacts": [
+        "JIT credential configuration (lifespan, scope, renewal policy)",
+        "Session management documentation",
+        "Credential issuance audit logs",
+        "Emergency / break-glass credential procedure",
+        "Revocation mechanism configuration and test results"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "Essential Eight": "Restrict Administrative Privileges",
+        "ISM": "Guidelines for System Management \u2014 privileged access management"
+      },
+      "tags": [
+        "NIST",
+        "E8",
+        "ISM"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-06": {
+      "id": "IAM-06",
+      "title": "Cross-Session Boundary Enforcement",
+      "pillar": "IAM",
+      "description": "Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session \u2014 even if both sessions are for the same human user. Each session is an independent security context.",
+      "objective": "Ensure each agent session is an independent security context with no credential or data sharing across sessions.",
+      "maturity": {
+        "L1": "Agents share credentials across sessions. No session isolation.",
+        "L2": "Session-specific credentials. No shared authentication between sessions.",
+        "L3": "Independent session contexts enforced. Memory scoped per-session. Cross-session access blocked.",
+        "L4": "Continuous session boundary verification. Automated incident response on boundary violation."
+      },
+      "assessment_questions": [
+        "Are agent credentials scoped to a single session, or can they be reused across sessions?",
+        "Can an agent in Session A access data retrieved in Session B (through shared memory or tools)?",
+        "Is there a mechanism for agent-to-agent authentication that prevents credential sharing across sessions?",
+        "Are session IDs independent and non-predictable?",
+        "If the agent maintains persistent memory, is it scoped per-session?"
+      ],
+      "artifacts": [
+        "Session management architecture",
+        "Session credential isolation policy",
+        "Cross-session access audit logs (should be empty if properly enforced)",
+        "Agent memory scoping configuration",
+        "Session ID generation and validation configuration"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure \u2014 memory scoping)",
+        "NIST AI RMF": "PROTECT (PR.AC)"
+      },
+      "tags": [
+        "OWASP",
+        "NIST"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "MIR-01": {
+      "id": "MIR-01",
+      "title": "Agent Activity Logging",
+      "pillar": "MIR",
+      "description": "Agent activity logging captures every action an agent takes in a structured, auditable format with agent identity, session ID, timestamp, action type, target, result, and a correlation ID tying events to the initiating human session.",
+      "objective": "Log all agent actions in structured format with immutable storage, SIEM integration, and distributed tracing support for multi-agent architectures.",
+      "maturity": {
+        "L1": "Basic agent logs (start, stop). Limited structure. Stored locally.",
+        "L2": "Structured audit logs for all agent actions. Centralised storage. 30-day retention.",
+        "L3": "Immutable logs. Correlation IDs across multi-agent chains. SIEM integration. Log integrity verification.",
+        "L4": "Real-time log streaming. Automated log anomaly detection. Extended retention for forensic readiness."
+      },
+      "assessment_questions": [
+        "Are all agent actions logged (every tool call, data access, decision, error)?",
+        "Is each log entry structured with agent ID, session ID, timestamp, action type, target, result?",
+        "Is there a correlation ID that ties agent actions to the initiating human session?",
+        "Are logs stored in an immutable append-only store?",
+        "Are agent logs integrated with existing SIEM / logging infrastructure?"
+      ],
+      "artifacts": [
+        "Log schema definition (agent event structure)",
+        "Agent telemetry pipeline configuration",
+        "Log storage configuration (immutability, retention)",
+        "Log integrity verification mechanism",
+        "SIEM integration configuration",
+        "Log coverage report (are all agents logging?)"
+      ],
+      "regulatory_mappings": {
+        "SOCI Act": "s.30B(5)(a) \u2014 record-keeping",
+        "APRA CPS 234": "s.3(c) \u2014 information security capability",
+        "ISM": "Guidelines for System Monitoring"
+      },
+      "tags": [
+        "SOCI",
+        "CPS234",
+        "ISM"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MIR-02": {
+      "id": "MIR-02",
+      "title": "Behavioural Anomaly Detection",
+      "pillar": "MIR",
+      "description": "Behavioural anomaly detection establishes per-agent and per-agent-class behaviour baselines and alerts when an agent deviates. Unlike traditional anomaly detection (known attack signatures), agent behavioural detection learns what 'normal' looks like for each agent.",
+      "objective": "Establish per-agent and per-agent-class behaviour baselines for tool usage, data access, memory access, and decision patterns, with automated alerting on deviation.",
+      "maturity": {
+        "L1": "No anomaly detection. Signature-based monitoring only (if any).",
+        "L2": "Basic per-agent baselines. Manual alert review.",
+        "L3": "Per-agent and per-class baselines. Automated alerting. Integration with SOC. Regular tuning.",
+        "L4": "Continuous baseline learning. Cross-agent anomaly correlation. Predictive anomaly detection."
+      },
+      "assessment_questions": [
+        "Are per-agent behaviour baselines established for each agent?",
+        "Are per-agent-class baselines established (what is normal for this type of agent)?",
+        "What deviation thresholds trigger alerts? Are they tuned per agent?",
+        "Are memory access patterns monitored (agent reading records it should not access)?",
+        "Are tool invocation patterns monitored (unusual tool, frequency, chain)?"
+      ],
+      "artifacts": [
+        "Behavioural baseline definitions",
+        "Anomaly detection rule configuration",
+        "Recent anomaly alerts and their disposition",
+        "Baseline tuning / calibration records",
+        "Memory access monitoring configuration"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "DETECT (DE.CM)",
+        "ISM": "Guidelines for System Monitoring"
+      },
+      "tags": [
+        "NIST",
+        "ISM"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MIR-03": {
+      "id": "MIR-03",
+      "title": "Prompt Audit Log",
+      "pillar": "MIR",
+      "description": "The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. This is the AI-equivalent of database query logging \u2014 it enables investigators to reconstruct what the agent was asked and what it did.",
+      "objective": "Log prompt/response pairs with automated sensitive data redaction, tiered retention, and SIEM integration for forensic analysis.",
+      "maturity": {
+        "L1": "No prompt logging.",
+        "L2": "Basic prompt/response logging. Manual review. Short retention.",
+        "L3": "Automated redaction. Tiered retention (full \u2192 redacted). SIEM integration.",
+        "L4": "Real-time prompt scanning for security events. Automated incident triggering from prompt analysis."
+      },
+      "assessment_questions": [
+        "Are prompt/response pairs logged with agent identity and session ID?",
+        "Is sensitive data automatically redacted before long-term storage?",
+        "Is there a mechanism to recover redacted data for incident investigation?",
+        "How long are full (unredacted) prompts retained? Redacted prompts?",
+        "Are prompt logs included in the data retention and disposal schedule?"
+      ],
+      "artifacts": [
+        "Prompt logging configuration (redaction rules, retention periods)",
+        "Prompt log storage architecture",
+        "Redaction recovery mechanism (for legitimate IR use)",
+        "Prompt log retention policy",
+        "Prompt log review process documentation"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM01 (Prompt Injection \u2014 detection)",
+        "NIST AI RMF": "DETECT (DE.AE)",
+        "EU AI Act": "Art. 12 \u2014 Transparency"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "EU"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MIR-04": {
+      "id": "MIR-04",
+      "title": "Incident Response Playbooks",
+      "pillar": "MIR",
+      "description": "Incident response playbooks define AI-specific procedures for detecting, containing, and recovering from security incidents involving agentic AI. These address scenarios general IR does not cover: prompt injection containment, model rollback, tool revocation, and code-generation attack containment.",
+      "objective": "Develop and maintain AI-specific IR playbooks covering prompt injection, model compromise, tool abuse, and code-generation attacks, tested through regular tabletop exercises.",
+      "maturity": {
+        "L1": "No AI-specific IR playbooks. General IR procedures applied ad-hoc.",
+        "L2": "Basic AI-specific playbooks documented. Manual response.",
+        "L3": "Comprehensive playbooks for all AI incident types. SOAR integration. Regular tabletop exercises.",
+        "L4": "Automated playbook execution for known incident types. Continuous playbook improvement from threat intelligence."
+      },
+      "assessment_questions": [
+        "Are there AI-specific IR playbooks, or does the organisation rely on general IR procedures?",
+        "What incident scenarios are covered (prompt injection, data exfiltration, model compromise, tool abuse, code-generation attack)?",
+        "Are playbooks tested (tabletop exercises, simulations)?",
+        "Are playbooks integrated with SOAR for automated response?",
+        "Is there a process for post-incident review and playbook improvement?"
+      ],
+      "artifacts": [
+        "AI-specific IR playbook documents",
+        "Tabletop exercise records and findings",
+        "SOAR playbook configuration",
+        "Post-incident review records",
+        "Playbook update history"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "RESPOND (RS.RP)",
+        "SOCI Act": "CIRMP \u2014 incident response",
+        "APRA CPS 234": "s.3(c) \u2014 incident response capability"
+      },
+      "tags": [
+        "NIST",
+        "SOCI",
+        "CPS234"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MIR-05": {
+      "id": "MIR-05",
+      "title": "Mandatory Reporting Integration",
+      "pillar": "MIR",
+      "description": "Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines \u2014 SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting.",
+      "objective": "Integrate incident detection with automated regulatory reporting triggers for SOCI Act, APRA CPS 234, and Notifiable Data Breaches, with pre-populated report templates.",
+      "maturity": {
+        "L1": "No automated reporting. Incidents reported manually (if at all).",
+        "L2": "Manual incident reports using templates. Deadlines tracked in spreadsheets.",
+        "L3": "Automated incident detection triggers pre-populated reports. Escalation workflows active.",
+        "L4": "Fully automated reporting lifecycle. Continuous compliance monitoring with regulator dashboards."
+      },
+      "assessment_questions": [
+        "Are SOCI Act/APRA/NDB reporting triggers integrated with agent monitoring?",
+        "Are incident report templates pre-populated with agent data?",
+        "Is there an escalation workflow that notifies the designated reporting officer?",
+        "Is the reporting integration tested (not just documented)?",
+        "Are reporting deadlines tracked and alerted to compliance teams?"
+      ],
+      "artifacts": [
+        "Reporting trigger configuration (which events trigger which reports)",
+        "Incident report templates",
+        "Escalation workflow documentation and test results",
+        "Reporting deadline tracking configuration",
+        "Historical incident report repository"
+      ],
+      "regulatory_mappings": {
+        "SOCI Act": "s.30B \u2014 mandatory incident reporting (12h critical, 72h other)",
+        "APRA CPS 234": "s.3(c) \u2014 72-hour notification",
+        "Privacy Act 1988": "Notifiable Data Breaches scheme"
+      },
+      "tags": [
+        "SOCI",
+        "CPS234",
+        "PRIVACY"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MIR-06": {
+      "id": "MIR-06",
+      "title": "Forensic Readiness",
+      "pillar": "MIR",
+      "description": "Forensic readiness ensures that the organisation can reconstruct a full agent session \u2014 every prompt, tool call, data access, decision, and response \u2014 for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees.",
+      "objective": "Maintain immutable, verifiable logs with full session reconstruction capability for all agents, including support for multi-agent chain reconstruction.",
+      "maturity": {
+        "L1": "Logs stored in standard database. Can be modified. Retention ad-hoc.",
+        "L2": "Logs in append-only storage. Basic retention policy.",
+        "L3": "Immutable logs with integrity verification. Full session reconstruction capability. Multi-agent chain reconstruction.",
+        "L4": "Real-time forensic readiness verification. Automated forensic data extraction. Continuous integrity monitoring."
+      },
+      "assessment_questions": [
+        "Are logs written to immutable, append-only storage?",
+        "Is log integrity verifiable (cannot be modified or deleted without detection)?",
+        "Can a full agent session be reconstructed (every action in sequence)?",
+        "For multi-agent chains, can the full chain be reconstructed?",
+        "Are logs retained for the regulatory-required period (at minimum)?"
+      ],
+      "artifacts": [
+        "Log storage architecture (immutability, append-only)",
+        "Log integrity verification mechanism",
+        "Session reconstruction capability demonstration",
+        "Log retention policy (meeting regulatory minimums)",
+        "Forensic data extraction procedure"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "RECOVER (RC.RP)",
+        "ISM": "Guidelines for Cyber Security Incidents \u2014 forensic readiness",
+        "SOCI Act": "CIRMP \u2014 record-keeping"
+      },
+      "tags": [
+        "NIST",
+        "ISM",
+        "SOCI"
+      ],
+      "pillar_name": "Monitoring, Logging, and Incident Response"
+    },
+    "MS-01": {
+      "id": "MS-01",
+      "title": "Model Weight Protection",
+      "pillar": "MS",
+      "description": "Model weights represent the trained intelligence of an AI system \u2014 often the single most valuable intellectual property an organisation has deployed. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.",
+      "objective": "Ensure model weights are protected against exfiltration, cloning, and inversion attacks through encryption, access control, and integrity verification.",
+      "maturity": {
+        "L1": "Weights stored on shared storage with default encryption. No key rotation.",
+        "L2": "Weights encrypted at rest with cloud-managed KMS. Separate key per model. Basic access controls.",
+        "L3": "HSM-backed key management. Automated key rotation. Access approval workflow. Full audit trail.",
+        "L4": "Continuous attestation of weight integrity. Automated incident response on unauthorised access. Edge attestation."
+      },
+      "assessment_questions": [
+        "Are model weights encrypted at rest? Which encryption standard and key management system?",
+        "Are model weights encrypted during transit between training infrastructure, storage, and inference endpoints?",
+        "Is a hardware security module (HSM) or cloud KMS used for weight encryption keys?",
+        "Can model weights be downloaded by any engineer with cloud console access, or is there an approval workflow?",
+        "For edge deployments: is there a remote attestation mechanism that verifies weight integrity at boot?",
+        "Are weight encryption keys rotated on a schedule? What triggers a rotation?",
+        "Is there an inventory of all locations where model weights are stored?"
+      ],
+      "artifacts": [
+        "Key management policy (who has access to weight encryption keys)",
+        "Cloud KMS configuration (key hierarchy, rotation schedule, access logs)",
+        "Model weight storage configuration (bucket policies, encryption settings, ACLs)",
+        "HSM configuration and audit logs (if hardware-backed)",
+        "Remote attestation logs (for edge deployments)",
+        "Data classification policy (are weights classified as sensitive/critical?)",
+        "Incident response playbook for weight exfiltration"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Cryptography, System Management \u2014 access control",
+        "PSPF": "Information Security"
+      },
+      "tags": [
+        "ISM",
+        "PSPF"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-02": {
+      "id": "MS-02",
+      "title": "Training Data Integrity",
+      "pillar": "MS",
+      "description": "Training data integrity ensures that data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning \u2014 an attacker inserting crafted samples into the training dataset \u2014 can cause a model to behave normally until a specific trigger condition is met.",
+      "objective": "Ensure training and fine-tuning datasets are verified for integrity, provenance, and freedom from poisoning or corruption before use.",
+      "maturity": {
+        "L1": "Training data collected ad-hoc. No provenance tracking. No validation.",
+        "L2": "Dataset versioning implemented. Basic format validation at ingestion. Access controls on training data.",
+        "L3": "Automated data validation pipeline (format, anomaly detection, PII scanning). Full lineage tracking. Third-party data assessments.",
+        "L4": "Continuous monitoring for data drift and statistical anomalies. Automated retraining triggered by integrity findings."
+      },
+      "assessment_questions": [
+        "Is there a documented data provenance pipeline for all training datasets?",
+        "How is training data validated before ingestion (format checks, anomaly detection, statistical profiling)?",
+        "Is there a data sanitisation step that removes PII, sensitive content, and potential poison samples?",
+        "Are dataset versions tracked with hashes or signatures to detect tampering?",
+        "Who has write access to training data repositories? Is there an approval workflow?",
+        "Are third-party datasets subject to the same integrity checks as internally generated data?"
+      ],
+      "artifacts": [
+        "Data pipeline architecture documentation",
+        "Dataset versioning records (DVC, HuggingFace datasets, MLflow)",
+        "Data validation test results (Great Expectations, TFX, custom)",
+        "Training data access control lists",
+        "Data provenance / lineage tracking system configuration",
+        "Data ingestion audit logs"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Software Development \u2014 data validation",
+        "OWASP LLM Top 10 v2": "LLM04 (Data Poisoning)",
+        "NIST AI RMF": "IDENTIFY (ID.DA)"
+      },
+      "tags": [
+        "ISM",
+        "OWASP",
+        "NIST"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-03": {
+      "id": "MS-03",
+      "title": "Supply Chain Security",
+      "pillar": "MS",
+      "description": "AI supply chain security covers the provenance and integrity of model weights, ML libraries, training infrastructure, and deployment tooling at every stage. Pre-trained models from public repositories (HuggingFace, PyTorch Hub) and ML libraries are frequent targets for supply chain attacks.",
+      "objective": "Verify the provenance and integrity of model weights, ML libraries, training infrastructure, and deployment tooling throughout the AI supply chain.",
+      "maturity": {
+        "L1": "Models downloaded from public repos with no integrity verification. No ML SBOM.",
+        "L2": "ML SBOM exists for critical models. Model publisher verified. Basic dependency scanning.",
+        "L3": "Signed checkpoints at every stage. Vendor assessments for all model publishers. Automated dependency scanning.",
+        "L4": "Continuous supply chain monitoring. Automated rollback on integrity violation. Published ML SBOM for regulator review."
+      },
+      "assessment_questions": [
+        "Is there an ML software bill of materials (ML SBOM) for each model? What does it include?",
+        "Are model weights verified against publisher signatures or hashes before deployment?",
+        "Are all ML libraries and dependencies sourced from trusted registries with integrity verification?",
+        "Is there a vulnerability scanning process for ML-specific dependencies?",
+        "Are model publishers subject to a vendor security assessment?",
+        "Are model checkpoints cryptographically signed at each stage?"
+      ],
+      "artifacts": [
+        "ML SBOM(s) for each production model",
+        "Model provenance documentation",
+        "Third-party model/vendor security assessments",
+        "PyTorch / TensorFlow / dependency registry configuration",
+        "Vulnerability scanning reports for ML dependencies",
+        "Model checkpoint signing configuration"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Procurement and Outsourcing, System Management \u2014 supply chain",
+        "SOCI Act": "CIRMP \u2014 supply chain obligations",
+        "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
+        "NIST AI RMF": "IDENTIFY (ID.SC)"
+      },
+      "tags": [
+        "ISM",
+        "SOCI",
+        "OWASP",
+        "NIST"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-04": {
+      "id": "MS-04",
+      "title": "Adversarial Robustness",
+      "pillar": "MS",
+      "description": "Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection \u2014 crafting input that causes the model to ignore its system prompt and follow attacker instructions.",
+      "objective": "Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs through automated testing, red-teaming, and proxy-layer guardrails.",
+      "maturity": {
+        "L1": "No adversarial testing. Models deployed based on functional tests only.",
+        "L2": "Basic prompt injection test suite run manually before major deployments.",
+        "L3": "Automated adversarial test suite in CI/CD. Quarterly red-teaming. Output guardrails at proxy layer.",
+        "L4": "Continuous automated red-teaming. Real-time adversarial input detection and blocking. Coverage against MITRE ATLAS."
+      },
+      "assessment_questions": [
+        "Is there a standardised prompt injection test suite? How often is it run?",
+        "Are jailbreak evaluation techniques applied (DAN, token smuggling, role-playing, hypothetical framing)?",
+        "Are new model versions required to pass adversarial tests before deployment (CI/CD gate)?",
+        "Is red-teaming conducted with AI-specific focus?",
+        "Are output guardrails deployed at the inference proxy layer (not in-model)?",
+        "Is there a process for capturing and learning from adversarial inputs encountered in production?"
+      ],
+      "artifacts": [
+        "Prompt injection test suite and results",
+        "Jailbreak evaluation reports",
+        "CI/CD pipeline configuration showing adversarial test gates",
+        "Red-teaming engagement scope reports",
+        "Output guardrail configuration (inference proxy layer)",
+        "Production adversarial input monitoring logs"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM01 (Prompt Injection), LLM05 (Jailbreak)",
+        "NIST AI RMF": "MEASURE (ME.AD)",
+        "EU AI Act": "Art. 15 \u2014 Accuracy",
+        "MITRE ATLAS": "AML.T0051, AML.T0059"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "EU",
+        "MITRE"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-05": {
+      "id": "MS-05",
+      "title": "Model Behaviour Validation",
+      "pillar": "MS",
+      "description": "Behaviour validation ensures that model outputs conform to expected bounds \u2014 the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model outputs regardless of input quality.",
+      "objective": "Validate that model outputs conform to expected safety, content, and scope boundaries through proxy-layer guardrails and per-agent behaviour configuration.",
+      "maturity": {
+        "L1": "No output validation. Model responses served as-is.",
+        "L2": "Basic output guardrails (PII filtering, toxicity detection). Manual review of flagged outputs.",
+        "L3": "Proxy-layer guardrails for all output categories. Automated blocking. Per-agent guardrail configuration.",
+        "L4": "Continuous guardrail improvement based on production telemetry. Behavioural bounds dynamically adjusted."
+      },
+      "assessment_questions": [
+        "Are output guardrails implemented at the inference proxy layer or within the model?",
+        "What content categories are filtered (PII, toxic content, code, financial advice, medical guidance)?",
+        "Are there topic scoping mechanisms that prevent the agent from operating outside its designated domain?",
+        "Is output validation performed on every model response before it reaches the user or triggers a tool call?",
+        "Are guardrails configurable per-agent?",
+        "Are guardrail bypass attempts logged and reviewed?"
+      ],
+      "artifacts": [
+        "Output guardrail configuration files",
+        "Content filtering policy document",
+        "Agent scope definition documents (per-agent operational domain)",
+        "Guardrail test results (benign and adversarial)",
+        "Guardrail bypass / violation incident logs",
+        "Production guardrail monitoring dashboard"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
+        "NIST AI RMF": "MANAGE (MG.DE)",
+        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "ISO 42001": "Clause 8.6"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "EU"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-06": {
+      "id": "MS-06",
+      "title": "Model Inventory and Lineage Tracking",
+      "pillar": "MS",
+      "description": "Model inventory and lineage tracking ensures that every model in the organisation is known, versioned, and traceable from training through deployment to retirement. Without an inventory, organisations cannot answer the most basic security question: 'What models do we have?'",
+      "objective": "Maintain a complete, versioned inventory of all models with traceable lineage from training through deployment to retirement.",
+      "maturity": {
+        "L1": "No central model inventory. Models tracked in spreadsheets or not at all.",
+        "L2": "Central model registry with manual entries for critical models. Basic metadata captured.",
+        "L3": "Automated model discovery. Full metadata captured for all models. Promotion workflow enforced.",
+        "L4": "Continuous inventory scanning. Automated decommissioning of dormant models. Real-time lineage tracking."
+      },
+      "assessment_questions": [
+        "Is there a central model registry or inventory? Does it cover all models?",
+        "What metadata is captured per model (version, training data, deployment location, owner, status)?",
+        "Are models automatically discovered, or is the inventory manually maintained?",
+        "Is there an approval workflow for model promotion?",
+        "Are retired models properly decommissioned?",
+        "Can the organisation produce a model inventory report for regulator review within 24 hours?"
+      ],
+      "artifacts": [
+        "Model registry configuration (MLflow, SageMaker, custom)",
+        "Model metadata completeness (coverage, fields populated)",
+        "Model promotion workflow documentation",
+        "Model retirement / decommissioning records",
+        "Model access control lists",
+        "Shadow AI detection mechanisms"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "GOVERN (GV.OD)",
+        "EU AI Act": "Art. 11 \u2014 Registration",
+        "ISO 42001": "Clause 7.4"
+      },
+      "tags": [
+        "NIST",
+        "EU"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "TP-01": {
+      "id": "TP-01",
+      "title": "Tool Inventory and Registry",
+      "pillar": "TP",
+      "description": "Every tool that an agent can invoke \u2014 APIs, databases, file systems, code executors \u2014 must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, access-controlled, or included in incident response.",
+      "objective": "Maintain a central registry of all tools accessible to agents, with security review, versioning, and integration with the authorisation system.",
+      "maturity": {
+        "L1": "No tool registry. Tools documented informally or not at all.",
+        "L2": "Basic tool registry for critical tools. Manual registration.",
+        "L3": "Central tool registry with full metadata. Automated security review. Integration with authorisation.",
+        "L4": "Continuous registry scanning for unregistered tools. Automated deregistration of deprecated tools."
+      },
+      "assessment_questions": [
+        "Is there a central tool registry listing all tools available to agents?",
+        "Does the registry include metadata (tool owner, version, security review date, data sensitivity)?",
+        "Are tools security-reviewed before being added to the registry?",
+        "Is there a process for deregistering deprecated or vulnerable tools?",
+        "Are agent-to-agent APIs registered as tools in the registry?"
+      ],
+      "artifacts": [
+        "Tool registry system (custom, Backstage, service catalog)",
+        "Tool metadata completeness",
+        "Tool security review records",
+        "Tool registration/deregistration workflow",
+        "Agent-to-agent API tool registrations"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Gateways",
+        "NIST AI RMF": "IDENTIFY (ID.AM)",
+        "SOCI Act": "CIRMP s.4(c)"
+      },
+      "tags": [
+        "ISM",
+        "NIST",
+        "SOCI"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-02": {
+      "id": "TP-02",
+      "title": "Tool Access Control",
+      "pillar": "TP",
+      "description": "Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent \u2014 not the human \u2014 before accepting commands.",
+      "objective": "Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and version-controlled, auditable access policies.",
+      "maturity": {
+        "L1": "Agents can invoke any registered tool. No per-agent access control.",
+        "L2": "Per-agent tool allow-lists. Manual assignment.",
+        "L3": "Tool-level least privilege enforced at invocation time. Agent identity authenticated by tool.",
+        "L4": "Dynamic tool access assignment based on task and risk. Automated revocation on suspicious activity."
+      },
+      "assessment_questions": [
+        "Is there a per-agent tool allow-list, or do agents have access to all registered tools?",
+        "Do tools authenticate the agent identity, or do they trust the identity passed by the agent?",
+        "Can an agent invoke a tool that its initiating human cannot access?",
+        "Is tool access evaluated at invocation time (not just at configuration time)?",
+        "Are tool access policies versioned and auditable?"
+      ],
+      "artifacts": [
+        "Per-agent tool allow-list configuration",
+        "Tool authentication configuration",
+        "Tool authorisation policy files",
+        "Tool access audit logs (allowed and denied invocations)",
+        "Tool access revocation process and test results"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "Essential Eight": "Application Control \u2014 extended to tools"
+      },
+      "tags": [
+        "OWASP",
+        "NIST",
+        "E8"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-03": {
+      "id": "TP-03",
+      "title": "API Gateway Security",
+      "pillar": "TP",
+      "description": "API gateway security protects every agent-facing API endpoint with rate limiting, payload validation, schema enforcement, and audit logging. The agent-to-tool API surface is often larger and more dynamic than traditional human-facing APIs.",
+      "objective": "Deploy a gateway between agents and tools that enforces rate limiting, schema validation, audit logging, and MCP protocol awareness where applicable.",
+      "maturity": {
+        "L1": "No gateway. Agents call tools directly.",
+        "L2": "Basic reverse proxy between agents and tools. Rate limiting configured.",
+        "L3": "Gateway with schema validation, rate limiting, and audit logging. MCP-aware. Fail-closed tested.",
+        "L4": "Intelligent gateway with dynamic rate limiting, anomaly-based blocking, and auto-discovery."
+      },
+      "assessment_questions": [
+        "Is there a gateway / proxy between agents and external tools?",
+        "Does the gateway enforce rate limiting per agent? Per tool?",
+        "Is payload validation performed against a known-good schema?",
+        "Are all tool invocations logged with agent identity, tool, input summary, and timestamp?",
+        "Does the gateway support MCP protocol if MCP-compliant tools are used?",
+        "Does the gateway fail closed if the audit destination is unreachable?"
+      ],
+      "artifacts": [
+        "API gateway configuration (rate limits, schemas, logging)",
+        "Gateway audit logs",
+        "Gateway fail-closed test results",
+        "MCP gateway configuration (if applicable)",
+        "Tool endpoint registration / discovery configuration"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Gateways, Guidelines for Networking",
+        "Essential Eight": "Application Control"
+      },
+      "tags": [
+        "ISM",
+        "E8"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-04": {
+      "id": "TP-04",
+      "title": "Tool Output Validation",
+      "pillar": "TP",
+      "description": "Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks \u2014 a compromised tool returning crafted data that causes the agent to behave outside intended parameters.",
+      "objective": "Validate all tool outputs against known-good schemas before passing to agent context, with content-type verification, size limits, and sandboxed execution for code-generation tools.",
+      "maturity": {
+        "L1": "No tool output validation. Raw tool responses passed to agent context.",
+        "L2": "Basic schema validation on tool outputs. Manual review of violations.",
+        "L3": "Automated schema validation, content-type checking, and sanitisation. Size limits enforced.",
+        "L4": "Sandbox execution for code-generation tools. Automated blocking of invalid outputs."
+      },
+      "assessment_questions": [
+        "Are tool outputs validated against a known-good schema before entering agent context?",
+        "Is content-type validation performed (expecting JSON, receiving script)?",
+        "Are tool outputs sanitised before feeding to the model?",
+        "Is there a maximum size limit on tool outputs?",
+        "Are code-generation tool outputs sandbox-executed before affecting production?"
+      ],
+      "artifacts": [
+        "Tool output validation schemas and rules",
+        "Tool output sanitisation configuration",
+        "Content-type validation configuration",
+        "Tool output size limits",
+        "Code sandbox configuration and test results",
+        "Tool output validation failure logs"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
+        "NIST AI RMF": "MEASURE (ME.AD)"
+      },
+      "tags": [
+        "OWASP",
+        "NIST"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-05": {
+      "id": "TP-05",
+      "title": "Pipeline Integrity",
+      "pillar": "TP",
+      "description": "Pipeline integrity ensures that the CI/CD pipelines that build, test, and deploy agent updates are cryptographically signed, attested, and gated by security validation. An attacker who compromises the pipeline can deploy a backdoored agent to every production environment.",
+      "objective": "Sign and attest all CI/CD pipeline runs, enforce security gates before deployment, and store deployment artifacts in an immutable, integrity-verified registry.",
+      "maturity": {
+        "L1": "Pipeline exists but no signing, attestation, or security gates.",
+        "L2": "Pipeline signed. Basic security tests in pipeline. Access controlled.",
+        "L3": "SLSA Level 2+ attestation. Automated SHIELD-AI control tests as gates. Immutable artifact registry.",
+        "L4": "SLSA Level 3+ attestation. Continuous pipeline security scanning. Automated rollback on integrity failures."
+      },
+      "assessment_questions": [
+        "Are CI/CD pipeline runs signed and attested (SLSA / in-toto)?",
+        "Is there a security gate in the pipeline that requires passing SHIELD-AI control tests before deployment?",
+        "Are pipeline configurations version-controlled and reviewed?",
+        "Is access to the pipeline restricted and logged?",
+        "Are third-party pipeline plugins and extensions security-reviewed?"
+      ],
+      "artifacts": [
+        "CI/CD pipeline configuration files",
+        "Pipeline signing / attestation configuration",
+        "Security gate configuration (which tests must pass)",
+        "Pipeline access control lists and audit logs",
+        "Third-party plugin security reviews"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Software Development \u2014 CI/CD",
+        "NIST AI RMF": "PROTECT (PR.CI)",
+        "Essential Eight": "Application Control \u2014 restricted execution"
+      },
+      "tags": [
+        "ISM",
+        "NIST",
+        "E8"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-06": {
+      "id": "TP-06",
+      "title": "Dependency Scanning",
+      "pillar": "TP",
+      "description": "Dependency scanning ensures that all libraries, models, and tools used by the agent are continuously scanned for known vulnerabilities, with automated blocking for critical-severity findings. ML libraries and model registries are frequent attack targets.",
+      "objective": "Continuously scan all ML libraries, model dependencies, tool SDKs, and container images for vulnerabilities with automated blocking of critical-severity findings.",
+      "maturity": {
+        "L1": "No dependency scanning. Dependencies updated ad-hoc.",
+        "L2": "Basic scanning at build time. Manual review of critical findings.",
+        "L3": "Continuous scanning. Automated blocking for critical findings. Automated patch deployment.",
+        "L4": "AI-specific dependency scanning (ML libraries, model registries). Predictive vulnerability assessment."
+      },
+      "assessment_questions": [
+        "Are ML libraries (PyTorch, TensorFlow, transformers) scanned for vulnerabilities?",
+        "Are model weights and configurations scanned?",
+        "Are tool SDKs and plugins scanned?",
+        "Is there automated blocking for critical-severity findings, or just alerts?",
+        "Are base container images scanned for the agent runtime?"
+      ],
+      "artifacts": [
+        "Dependency scanning tool configuration",
+        "Vulnerability scan reports (ML and non-ML dependencies)",
+        "Automated blocking configuration",
+        "Dependency update policy and automation",
+        "Container image scanning configuration"
+      ],
+      "regulatory_mappings": {
+        "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
+        "ISM": "Guidelines for System Management \u2014 vulnerability management",
+        "Essential Eight": "Patch Applications, Patch Operating Systems"
+      },
+      "tags": [
+        "OWASP",
+        "ISM",
+        "E8"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    }
+  }
+}
