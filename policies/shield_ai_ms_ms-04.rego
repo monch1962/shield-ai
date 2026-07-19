@@ -1,6 +1,6 @@
 package shield_ai.ms.adversarial_robustness
 
-# SHIELD-AI MS-04: Adversarial Robustness
+# SHIELD-AI™ MS-04: Adversarial Robustness
 # Pillar: MS — Model Security
 #
 # Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs through automated testing, red-teaming, and proxy-layer guardrails.

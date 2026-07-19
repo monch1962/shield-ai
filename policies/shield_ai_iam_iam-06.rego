@@ -1,6 +1,6 @@
 package shield_ai.iam.cross_session_boundary_enforce
 
-# SHIELD-AI IAM-06: Cross-Session Boundary Enforcement
+# SHIELD-AI™ IAM-06: Cross-Session Boundary Enforcement
 # Pillar: IAM — Identity and Access
 #
 # Ensure each agent session is an independent security context with no credential or data sharing across sessions.

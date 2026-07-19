@@ -1,6 +1,6 @@
 package shield_ai.mir.forensic_readiness
 
-# SHIELD-AI MIR-06: Forensic Readiness
+# SHIELD-AI™ MIR-06: Forensic Readiness
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Maintain immutable, verifiable logs with full session reconstruction capability for all agents, including support for multi-agent chain reconstruction.

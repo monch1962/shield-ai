@@ -1,6 +1,6 @@
 package shield_ai.ds.training_data_governance
 
-# SHIELD-AI DS-05: Training Data Governance
+# SHIELD-AI™ DS-05: Training Data Governance
 # Pillar: DS — Data Security
 #
 # Track training data lineage from source to model, verify consent for personal data, enforce retention limits, and provide machine unlearning capability.

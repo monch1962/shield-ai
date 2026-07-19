@@ -1,6 +1,6 @@
 package shield_ai.mir.incident_response_playbooks
 
-# SHIELD-AI MIR-04: Incident Response Playbooks
+# SHIELD-AI™ MIR-04: Incident Response Playbooks
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Develop and maintain AI-specific IR playbooks covering prompt injection, model compromise, tool abuse, and code-generation attacks, tested through regular tabletop exercises.

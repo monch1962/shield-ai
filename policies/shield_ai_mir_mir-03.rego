@@ -1,6 +1,6 @@
 package shield_ai.mir.prompt_audit_log
 
-# SHIELD-AI MIR-03: Prompt Audit Log
+# SHIELD-AI™ MIR-03: Prompt Audit Log
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Log prompt/response pairs with automated sensitive data redaction, tiered retention, and SIEM integration for forensic analysis.

@@ -1,6 +1,6 @@
 package shield_ai.tp.tool_output_validation
 
-# SHIELD-AI TP-04: Tool Output Validation
+# SHIELD-AI™ TP-04: Tool Output Validation
 # Pillar: TP — Tool and Pipeline Security
 #
 # Validate all tool outputs against known-good schemas before passing to agent context, with content-type verification, size limits, and sandboxed execution for code-generation tools.

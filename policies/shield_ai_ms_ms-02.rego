@@ -1,6 +1,6 @@
 package shield_ai.ms.training_data_integrity
 
-# SHIELD-AI MS-02: Training Data Integrity
+# SHIELD-AI™ MS-02: Training Data Integrity
 # Pillar: MS — Model Security
 #
 # Ensure training and fine-tuning datasets are verified for integrity, provenance, and freedom from poisoning or corruption before use.

@@ -1,6 +1,6 @@
 package shield_ai.grm.board_and_executive_reporting
 
-# SHIELD-AI GRM-06: Board and Executive Reporting
+# SHIELD-AI™ GRM-06: Board and Executive Reporting
 # Pillar: GRM — Governance and Risk Management
 #
 # Provide a standardised executive dashboard showing pillar maturity scores, open findings, regulatory compliance status, and risk acceptances, refreshed automatically.

@@ -1,6 +1,6 @@
 package shield_ai.mir.agent_activity_logging
 
-# SHIELD-AI MIR-01: Agent Activity Logging
+# SHIELD-AI™ MIR-01: Agent Activity Logging
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Log all agent actions in structured format with immutable storage, SIEM integration, and distributed tracing support for multi-agent architectures.

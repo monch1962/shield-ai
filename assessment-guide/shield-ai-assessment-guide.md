@@ -1,5 +1,5 @@
 ---
-title: "SHIELD-AI Assessment Guide — Consultant's Field Manual"
+title: "SHIELD-AI™ Assessment Guide — Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
 date: "July 2026"

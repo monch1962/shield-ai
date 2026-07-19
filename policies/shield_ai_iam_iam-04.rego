@@ -1,6 +1,6 @@
 package shield_ai.iam.credential_isolation
 
-# SHIELD-AI IAM-04: Credential Isolation
+# SHIELD-AI™ IAM-04: Credential Isolation
 # Pillar: IAM — Identity and Access
 #
 # Store, manage, and rotate agent credentials separately from human credentials with hardware-backed protection for critical agents and automated rotation on compromise signals.

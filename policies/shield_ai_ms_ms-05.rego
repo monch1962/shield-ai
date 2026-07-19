@@ -1,6 +1,6 @@
 package shield_ai.ms.model_behaviour_validation
 
-# SHIELD-AI MS-05: Model Behaviour Validation
+# SHIELD-AI™ MS-05: Model Behaviour Validation
 # Pillar: MS — Model Security
 #
 # Validate that model outputs conform to expected safety, content, and scope boundaries through proxy-layer guardrails and per-agent behaviour configuration.

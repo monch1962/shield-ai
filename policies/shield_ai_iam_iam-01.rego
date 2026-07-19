@@ -1,6 +1,6 @@
 package shield_ai.iam.agent_identity_management
 
-# SHIELD-AI IAM-01: Agent Identity Management
+# SHIELD-AI™ IAM-01: Agent Identity Management
 # Pillar: IAM — Identity and Access
 #
 # Ensure every agent has a unique, lifecycle-managed digital identity distinct from human user identities, integrated with the organisation's identity provider.

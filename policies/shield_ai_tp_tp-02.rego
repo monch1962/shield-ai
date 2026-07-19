@@ -1,6 +1,6 @@
 package shield_ai.tp.tool_access_control
 
-# SHIELD-AI TP-02: Tool Access Control
+# SHIELD-AI™ TP-02: Tool Access Control
 # Pillar: TP — Tool and Pipeline Security
 #
 # Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and version-controlled, auditable access policies.

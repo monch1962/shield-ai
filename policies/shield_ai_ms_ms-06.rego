@@ -1,6 +1,6 @@
 package shield_ai.ms.model_inventory_and_lineage_tr
 
-# SHIELD-AI MS-06: Model Inventory and Lineage Tracking
+# SHIELD-AI™ MS-06: Model Inventory and Lineage Tracking
 # Pillar: MS — Model Security
 #
 # Maintain a complete, versioned inventory of all models with traceable lineage from training through deployment to retirement.

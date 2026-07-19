@@ -1,6 +1,6 @@
 package shield_ai.ds.memory_sanitisation
 
-# SHIELD-AI DS-03: Memory Sanitisation
+# SHIELD-AI™ DS-03: Memory Sanitisation
 # Pillar: DS — Data Security
 #
 # Prevent persistence of sensitive data across sessions through automated purging, encryption, per-agent scoping, and cross-session aggregation detection.

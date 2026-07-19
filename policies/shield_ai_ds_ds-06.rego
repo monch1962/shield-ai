@@ -1,6 +1,6 @@
 package shield_ai.ds.output_validation
 
-# SHIELD-AI DS-06: Output Validation
+# SHIELD-AI™ DS-06: Output Validation
 # Pillar: DS — Data Security
 #
 # Scan all model outputs for data leakage (PII, training data, system prompts, credentials) at the inference proxy layer before delivery to users or systems.

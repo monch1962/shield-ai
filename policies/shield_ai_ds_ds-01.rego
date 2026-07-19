@@ -1,6 +1,6 @@
 package shield_ai.ds.data_classification_and_labell
 
-# SHIELD-AI DS-01: Data Classification and Labelling
+# SHIELD-AI™ DS-01: Data Classification and Labelling
 # Pillar: DS — Data Security
 #
 # Classify all data entering the AI system at ingestion using an automated pipeline that feeds into downstream encryption, retention, and access controls.

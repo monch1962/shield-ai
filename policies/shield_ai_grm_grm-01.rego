@@ -1,6 +1,6 @@
 package shield_ai.grm.ai_governance_body
 
-# SHIELD-AI GRM-01: AI Governance Body
+# SHIELD-AI™ GRM-01: AI Governance Body
 # Pillar: GRM — Governance and Risk Management
 #
 # Establish and charter an AI governance body with cross-functional membership (CISO, CRO, GC, data owner, AI lead) and defined decision authority over agentic AI deployments.

@@ -1,6 +1,6 @@
 package shield_ai.iam.just_in_time_jit_access
 
-# SHIELD-AI IAM-05: Just-in-Time (JIT) Access
+# SHIELD-AI™ IAM-05: Just-in-Time (JIT) Access
 # Pillar: IAM — Identity and Access
 #
 # Issue session-bound, ephemeral credentials for agents with automatic expiration and the ability to revoke mid-session on suspicious behaviour detection.

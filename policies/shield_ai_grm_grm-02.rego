@@ -1,6 +1,6 @@
 package shield_ai.grm.ai_risk_register
 
-# SHIELD-AI GRM-02: AI Risk Register
+# SHIELD-AI™ GRM-02: AI Risk Register
 # Pillar: GRM — Governance and Risk Management
 #
 # Maintain a dedicated AI risk register using a threat taxonomy that covers model, tool, data, identity, and pipeline risks, with defined owners, assessment methodology, and review cadence.

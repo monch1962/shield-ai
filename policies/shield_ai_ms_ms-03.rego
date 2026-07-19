@@ -1,6 +1,6 @@
 package shield_ai.ms.supply_chain_security
 
-# SHIELD-AI MS-03: Supply Chain Security
+# SHIELD-AI™ MS-03: Supply Chain Security
 # Pillar: MS — Model Security
 #
 # Verify the provenance and integrity of model weights, ML libraries, training infrastructure, and deployment tooling throughout the AI supply chain.

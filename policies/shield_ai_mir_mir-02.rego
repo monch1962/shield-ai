@@ -1,6 +1,6 @@
 package shield_ai.mir.behavioural_anomaly_detection
 
-# SHIELD-AI MIR-02: Behavioural Anomaly Detection
+# SHIELD-AI™ MIR-02: Behavioural Anomaly Detection
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Establish per-agent and per-agent-class behaviour baselines for tool usage, data access, memory access, and decision patterns, with automated alerting on deviation.

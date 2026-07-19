@@ -1,6 +1,6 @@
 package shield_ai.iam.human_oversight_controls
 
-# SHIELD-AI IAM-03: Human Oversight Controls
+# SHIELD-AI™ IAM-03: Human Oversight Controls
 # Pillar: IAM — Identity and Access
 #
 # Implement risk-tiered human approval gates for agent actions, with documented break-glass procedures for urgent situations.

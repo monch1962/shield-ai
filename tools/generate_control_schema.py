@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SHIELD-AI Control Schema Generator
+SHIELD-AI™ Control Schema Generator
 ===================================
 Generates machine-readable control definitions from canonical Python data structures.
 
@@ -1299,7 +1299,7 @@ def generate_rego_stubs(output_dir=None):
 
         rego_code = f"""package {package_name}
 
-# SHIELD-AI {cid}: {ctrl['title']}
+# SHIELD-AI™ {cid}: {ctrl['title']}
 # Pillar: {ctrl['pillar']} — {PILLARS[ctrl['pillar']]}
 #
 # {ctrl['objective']}

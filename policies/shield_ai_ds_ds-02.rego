@@ -1,6 +1,6 @@
 package shield_ai.ds.inference_data_protection
 
-# SHIELD-AI DS-02: Inference Data Protection
+# SHIELD-AI™ DS-02: Inference Data Protection
 # Pillar: DS — Data Security
 #
 # Encrypt all data in transit between user, agent, model, and tools with TLS 1.3 minimum, and secure inference endpoints within the organisation's trust boundary for sensitive workloads.

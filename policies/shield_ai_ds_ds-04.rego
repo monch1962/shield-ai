@@ -1,6 +1,6 @@
 package shield_ai.ds.data_minimisation
 
-# SHIELD-AI DS-04: Data Minimisation
+# SHIELD-AI™ DS-04: Data Minimisation
 # Pillar: DS — Data Security
 #
 # Filter data at the retrieval layer (field-level, not document-level) and enforce attribute-based access control at query time to ensure agents receive only the minimum data required.

@@ -1,4 +1,4 @@
-# SHIELD-AI
+# SHIELD-AI™
 
 **S**ecurity and **H**olistic **I**ntegrity for **E**nterprise-**L**evel **D**eployment of **A**rtificial **I**ntelligence
 

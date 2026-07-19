@@ -1,6 +1,6 @@
 package shield_ai.ms.model_weight_protection
 
-# SHIELD-AI MS-01: Model Weight Protection
+# SHIELD-AI™ MS-01: Model Weight Protection
 # Pillar: MS — Model Security
 #
 # Ensure model weights are protected against exfiltration, cloning, and inversion attacks through encryption, access control, and integrity verification.

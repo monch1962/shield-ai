@@ -1,6 +1,6 @@
 package shield_ai.mir.mandatory_reporting_integratio
 
-# SHIELD-AI MIR-05: Mandatory Reporting Integration
+# SHIELD-AI™ MIR-05: Mandatory Reporting Integration
 # Pillar: MIR — Monitoring, Logging, and Incident Response
 #
 # Integrate incident detection with automated regulatory reporting triggers for SOCI Act, APRA CPS 234, and Notifiable Data Breaches, with pre-populated report templates.

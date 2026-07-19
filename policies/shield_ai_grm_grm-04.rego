@@ -1,6 +1,6 @@
 package shield_ai.grm.third_party_ai_risk_management
 
-# SHIELD-AI GRM-04: Third-Party AI Risk Management
+# SHIELD-AI™ GRM-04: Third-Party AI Risk Management
 # Pillar: GRM — Governance and Risk Management
 #
 # Assess and monitor third-party AI providers for security controls, with contractual security requirements and right-to-audit provisions in all AI-related procurement.

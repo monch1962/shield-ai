@@ -1,6 +1,6 @@
 package shield_ai.tp.dependency_scanning
 
-# SHIELD-AI TP-06: Dependency Scanning
+# SHIELD-AI™ TP-06: Dependency Scanning
 # Pillar: TP — Tool and Pipeline Security
 #
 # Continuously scan all ML libraries, model dependencies, tool SDKs, and container images for vulnerabilities with automated blocking of critical-severity findings.

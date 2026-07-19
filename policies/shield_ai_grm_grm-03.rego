@@ -1,6 +1,6 @@
 package shield_ai.grm.ethical_use_policy
 
-# SHIELD-AI GRM-03: Ethical Use Policy
+# SHIELD-AI™ GRM-03: Ethical Use Policy
 # Pillar: GRM — Governance and Risk Management
 #
 # Document and enforce an ethical use policy that classifies agents by risk tier, defines autonomy boundaries per tier, and specifies transparency obligations.
