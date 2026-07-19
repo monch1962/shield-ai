@@ -1,7 +1,7 @@
 package shield_ai.grm.ai_governance_body
 
-# SHIELD-AI™ GRM-01: AI Governance Body
-# Pillar: GRM — Governance and Risk Management
+# SHIELD-AI(TM) GRM-01: AI Governance Body
+# Pillar: GRM -- Governance and Risk Management
 #
 # Establish and charter an AI governance body with cross-functional membership (CISO, CRO, GC, data owner, AI lead) and defined decision authority over agentic AI deployments.
 #
@@ -12,9 +12,9 @@ package shield_ai.grm.ai_governance_body
 #   L4: AI governance body with delegated authority. Independent audit of decisions. Cross-entity governance.
 #
 # Regulatory mappings:
-#   APRA CPS 234: s.2 — Board accountability
-#   PSPF: Security Governance — Policy 1
-#   Privacy Act 1988: APP 1 — accountability
+#   APRA CPS 234: s.2 -- Board accountability
+#   PSPF: Security Governance -- Policy 1
+#   Privacy Act 1988: APP 1 -- accountability
 
 # Default deny
 default deny = false

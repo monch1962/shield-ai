@@ -1,7 +1,7 @@
 package shield_ai.tp.tool_inventory_and_registry
 
-# SHIELD-AI™ TP-01: Tool Inventory and Registry
-# Pillar: TP — Tool and Pipeline Security
+# SHIELD-AI(TM) TP-01: Tool Inventory and Registry
+# Pillar: TP -- Tool and Pipeline Security
 #
 # Maintain a central registry of all tools accessible to agents, with security review, versioning, and integration with the authorisation system.
 #

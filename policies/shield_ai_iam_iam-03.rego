@@ -1,7 +1,7 @@
 package shield_ai.iam.human_oversight_controls
 
-# SHIELD-AI™ IAM-03: Human Oversight Controls
-# Pillar: IAM — Identity and Access
+# SHIELD-AI(TM) IAM-03: Human Oversight Controls
+# Pillar: IAM -- Identity and Access
 #
 # Implement risk-tiered human approval gates for agent actions, with documented break-glass procedures for urgent situations.
 #
@@ -12,9 +12,9 @@ package shield_ai.iam.human_oversight_controls
 #   L4: Context-aware approval requirements. Multi-party approval for critical actions. Oversight mechanism independently audited.
 #
 # Regulatory mappings:
-#   EU AI Act: Art. 14 — Human Oversight
+#   EU AI Act: Art. 14 -- Human Oversight
 #   NIST AI RMF: MANAGE (MG.DE)
-#   APRA CPS 234: s.2 — Board accountability for controls
+#   APRA CPS 234: s.2 -- Board accountability for controls
 
 # Default deny
 default deny = false

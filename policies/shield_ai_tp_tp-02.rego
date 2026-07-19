@@ -1,7 +1,7 @@
 package shield_ai.tp.tool_access_control
 
-# SHIELD-AI™ TP-02: Tool Access Control
-# Pillar: TP — Tool and Pipeline Security
+# SHIELD-AI(TM) TP-02: Tool Access Control
+# Pillar: TP -- Tool and Pipeline Security
 #
 # Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and version-controlled, auditable access policies.
 #
@@ -14,7 +14,7 @@ package shield_ai.tp.tool_access_control
 # Regulatory mappings:
 #   OWASP LLM Top 10 v2: LLM08 (Excessive Agency)
 #   NIST AI RMF: PROTECT (PR.AC)
-#   Essential Eight: Application Control — extended to tools
+#   Essential Eight: Application Control -- extended to tools
 
 # Default deny
 default deny = false

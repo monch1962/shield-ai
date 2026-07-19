@@ -1,5 +1,5 @@
 ---
-title: "SHIELD-AI™: A Sovereign Australian Framework for Secure Agentic AI Deployment"
+title: "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 subtitle: "Framework Definition and Business Offering"
 author: "Security Architecture Practice"
 date: "July 2026"
@@ -147,7 +147,7 @@ SHIELD-AI provides a single unified framework that maps controls to all of these
 
 ---
 
-# Part 2: The SHIELD-AI™ Framework
+# Part 2: The SHIELD-AI(TM) Framework
 
 ## 2.1 Core Principles
 
@@ -415,7 +415,7 @@ SHIELD-AI is delivered as a **professional services and managed assurance offeri
 
 The offering is structured as three tiers:
 
-### SHIELD-AI™ Lite  --  Quick Start ($25,000-$45,000)
+### SHIELD-AI(TM) Lite  --  Quick Start ($25,000-$45,000)
 
 **Best for:** Organisations experimenting with AI, running 1-3 pilots, needing to understand their exposure.
 
@@ -433,7 +433,7 @@ The offering is structured as three tiers:
 - What they need to fix first
 - Whether they need SHIELD-AI Standard
 
-### SHIELD-AI™ Standard  --  Enterprise Programme ($120,000-$250,000)
+### SHIELD-AI(TM) Standard  --  Enterprise Programme ($120,000-$250,000)
 
 **Best for:** Regulated entities, government agencies, and large enterprises deploying agentic AI in production.
 
@@ -453,7 +453,7 @@ The offering is structured as three tiers:
 - Auditable regulatory compliance
 - Ongoing assurance without hiring full-time AI security specialists
 
-### SHIELD-AI™ Enterprise  --  Strategic Partnership ($400,000-$800,000+ per annum)
+### SHIELD-AI(TM) Enterprise  --  Strategic Partnership ($400,000-$800,000+ per annum)
 
 **Best for:** Critical infrastructure operators, top-tier banks, national security agencies, multi-entity government deployments.
 
@@ -548,7 +548,7 @@ SHIELD-AI engagements follow a five-phase methodology:
 
 ## 3.3 Competitive Advantage
 
-### Why a client chooses SHIELD-AI™ over alternatives:
+### Why a client chooses SHIELD-AI(TM) over alternatives:
 
 | Competitor Type | Their Offer | SHIELD-AI Advantage |
 |-----------------|-------------|---------------------|

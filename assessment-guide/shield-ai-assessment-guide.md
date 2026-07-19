@@ -1,5 +1,5 @@
 ---
-title: "SHIELD-AI™ Assessment Guide — Consultant's Field Manual"
+title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
 date: "July 2026"
@@ -9,19 +9,19 @@ date: "July 2026"
 
 ## How to Use This Document
 
-This is the **SHIELD-AI Assessment Guide** — a field manual for consultants evaluating an organisation's agentic AI security posture. It is structured for use during client engagements:
+This is the **SHIELD-AI Assessment Guide** -- a field manual for consultants evaluating an organisation's agentic AI security posture. It is structured for use during client engagements:
 
-- **Section 1-6** — Pillar-by-pillar control breakdown. Use during the Assess phase (Weeks 3-4) to score each control and gather evidence.
-- **Section 7** — Assessment methodology. How to run the engagement, who to interview, what to inspect.
-- **Section 8** — Maturity progression paths. Per-pillar guidance for moving from L1 to L4, aligned with regulatory obligations.
-- **Section 9** — Regulatory cross-reference. Quick lookup of which controls satisfy which obligations.
+- **Section 1-6** -- Pillar-by-pillar control breakdown. Use during the Assess phase (Weeks 3-4) to score each control and gather evidence.
+- **Section 7** -- Assessment methodology. How to run the engagement, who to interview, what to inspect.
+- **Section 8** -- Maturity progression paths. Per-pillar guidance for moving from L1 to L4, aligned with regulatory obligations.
+- **Section 9** -- Regulatory cross-reference. Quick lookup of which controls satisfy which obligations.
 
 Each control entry includes:
-- **Explanation** — what the control does and why it matters
-- **Key Assessment Questions** — questions to ask the client team
-- **Artifacts to Examine** — specific documents, configurations, and logs to request
-- **L1-L4 Indicators** — what compliance looks like at each maturity level
-- **Regulatory Mapping** — which AU/international frameworks this control satisfies
+- **Explanation** -- what the control does and why it matters
+- **Key Assessment Questions** -- questions to ask the client team
+- **Artifacts to Examine** -- specific documents, configurations, and logs to request
+- **L1-L4 Indicators** -- what compliance looks like at each maturity level
+- **Regulatory Mapping** -- which AU/international frameworks this control satisfies
 
 ---
 
@@ -29,9 +29,9 @@ Each control entry includes:
 
 ## Pillar Overview
 
-Model Security addresses the security of the AI model itself — its weights, its training pipeline, its inference behaviour, its supply chain, and its ongoing operational integrity. Unlike traditional software, ML models can be compromised during training (data poisoning, backdoor insertion), during distribution (supply chain substitution), or at inference time (prompt injection, jailbreaking, adversarial inputs). Each attack vector requires distinct controls.
+Model Security addresses the security of the AI model itself -- its weights, its training pipeline, its inference behaviour, its supply chain, and its ongoing operational integrity. Unlike traditional software, ML models can be compromised during training (data poisoning, backdoor insertion), during distribution (supply chain substitution), or at inference time (prompt injection, jailbreaking, adversarial inputs). Each attack vector requires distinct controls.
 
-**Why this matters to the client:** A compromised model undermines every decision the agent makes. A backdoored model in a financial services agent could approve fraudulent transactions for months. Unlike a software vulnerability (which can be patched), a poisoned model may require complete retraining — a process that can take weeks or months and cost millions.
+**Why this matters to the client:** A compromised model undermines every decision the agent makes. A backdoored model in a financial services agent could approve fraudulent transactions for months. Unlike a software vulnerability (which can be patched), a poisoned model may require complete retraining -- a process that can take weeks or months and cost millions.
 
 **Primary stakeholders to interview:** ML Engineering Lead, AI Platform Lead, Model Governance Officer, Data Science Manager.
 
@@ -40,7 +40,7 @@ Model Security addresses the security of the AI model itself — its weights, it
 ### MS-01: Model Weight Protection
 
 **Explanation**
-Model weights represent the trained intelligence of an AI system — often the single most valuable intellectual property an organisation has deployed. If weights are exfiltrated, an attacker can clone the model, extract training data through model inversion attacks, or analyse weights for embedded vulnerabilities. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.
+Model weights represent the trained intelligence of an AI system -- often the single most valuable intellectual property an organisation has deployed. If weights are exfiltrated, an attacker can clone the model, extract training data through model inversion attacks, or analyse weights for embedded vulnerabilities. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.
 
 **Key Assessment Questions**
 1. Are model weights encrypted at rest? Which encryption standard and key management system?
@@ -69,14 +69,14 @@ Model weights represent the trained intelligence of an AI system — often the s
 | L3 | HSM-backed key management. Automated key rotation. Access approval workflow. Full audit trail. |
 | L4 | Continuous attestation of weight integrity. Automated incident response on unauthorised access. Edge attestation. |
 
-**Regulatory Mapping:** ISM (Guidelines for Cryptography), ISM (Guidelines for System Management — access control), PSPF (Information Security).
+**Regulatory Mapping:** ISM (Guidelines for Cryptography), ISM (Guidelines for System Management -- access control), PSPF (Information Security).
 
 ---
 
 ### MS-02: Training Data Integrity
 
 **Explanation**
-Training data integrity ensures that the data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning — an attacker inserting crafted samples into the training dataset — can cause a model to behave normally until a specific trigger condition is met, at which point it produces attacker-desired output. This is one of the most difficult attacks to detect because the model appears to function correctly in standard testing.
+Training data integrity ensures that the data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning -- an attacker inserting crafted samples into the training dataset -- can cause a model to behave normally until a specific trigger condition is met, at which point it produces attacker-desired output. This is one of the most difficult attacks to detect because the model appears to function correctly in standard testing.
 
 **Key Assessment Questions**
 1. Is there a documented data provenance pipeline for all training datasets?
@@ -85,7 +85,7 @@ Training data integrity ensures that the data used to train or fine-tune a model
 4. Are dataset versions tracked with hashes or signatures to detect tampering?
 5. Who has write access to training data repositories? Is there an approval workflow?
 6. Are third-party datasets subject to the same integrity checks as internally generated data?
-7. Are data lineage records maintained — can you trace any training sample back to its source?
+7. Are data lineage records maintained -- can you trace any training sample back to its source?
 8. Do fine-tuning pipelines include integrity checks on the base model before fine-tuning begins?
 
 **Artifacts to Examine**
@@ -107,7 +107,7 @@ Training data integrity ensures that the data used to train or fine-tune a model
 | L3 | Automated data validation pipeline (format, anomaly detection, PII scanning). Full lineage tracking. Third-party data assessments. |
 | L4 | Continuous monitoring for data drift and statistical anomalies. Automated retraining triggered by integrity findings. |
 
-**Regulatory Mapping:** ISM (Guidelines for Software Development — data validation), NIST AI RMF (IDENTIFY — ID.DA), OWASP LLM04 (Data Poisoning).
+**Regulatory Mapping:** ISM (Guidelines for Software Development -- data validation), NIST AI RMF (IDENTIFY -- ID.DA), OWASP LLM04 (Data Poisoning).
 
 ---
 
@@ -123,7 +123,7 @@ AI supply chain security covers the provenance and integrity of model weights, M
 4. Is there a vulnerability scanning process for ML-specific dependencies?
 5. Are model publishers subject to a vendor security assessment?
 6. Is there a process for verifying the provenance of pre-trained models (training data source, training infrastructure, publisher identity)?
-7. Are model checkpoints cryptographically signed at each stage (training → validation → deployment)?
+7. Are model checkpoints cryptographically signed at each stage (training -> validation -> deployment)?
 8. Is the ML supply chain documented in a format that can be shared with regulators?
 
 **Artifacts to Examine**
@@ -145,14 +145,14 @@ AI supply chain security covers the provenance and integrity of model weights, M
 | L3 | Signed checkpoints at every stage. Vendor assessments for all model publishers. Automated dependency scanning. |
 | L4 | Continuous supply chain monitoring. Automated rollback on integrity violation. Published ML SBOM for regulator review. |
 
-**Regulatory Mapping:** ISM (Guidelines for Procurement and Outsourcing), ISM (Guidelines for System Management — supply chain), SOCI Act (CIRMP — supply chain obligations), OWASP LLM10 (Supply Chain).
+**Regulatory Mapping:** ISM (Guidelines for Procurement and Outsourcing), ISM (Guidelines for System Management -- supply chain), SOCI Act (CIRMP -- supply chain obligations), OWASP LLM10 (Supply Chain).
 
 ---
 
 ### MS-04: Adversarial Robustness
 
 **Explanation**
-Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection — crafting input that causes the model to ignore its system prompt and follow attacker instructions. Other attacks include jailbreaking (bypassing safety filters), adversarial examples (subtle input perturbations that cause misclassification), and multi-turn attacks (building rapport over multiple exchanges before injecting malicious intent).
+Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection -- crafting input that causes the model to ignore its system prompt and follow attacker instructions. Other attacks include jailbreaking (bypassing safety filters), adversarial examples (subtle input perturbations that cause misclassification), and multi-turn attacks (building rapport over multiple exchanges before injecting malicious intent).
 
 **Key Assessment Questions**
 1. Is there a standardised prompt injection test suite? How often is it run against production models?
@@ -183,14 +183,14 @@ Adversarial robustness ensures that the model resists malicious inputs designed 
 | L3 | Automated adversarial test suite in CI/CD. Quarterly red-teaming. Output guardrails at proxy layer. |
 | L4 | Continuous automated red-teaming. Real-time adversarial input detection and blocking. Coverage against MITRE ATLAS techniques. |
 
-**Regulatory Mapping:** OWASP LLM01 (Prompt Injection), OWASP LLM05 (Jailbreak), NIST AI RMF (MEASURE — ME.AD), EU AI Act (Art. 15 — Accuracy).
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection), OWASP LLM05 (Jailbreak), NIST AI RMF (MEASURE -- ME.AD), EU AI Act (Art. 15 -- Accuracy).
 
 ---
 
 ### MS-05: Model Behaviour Validation
 
 **Explanation**
-Behaviour validation ensures that model outputs conform to expected bounds — the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model *outputs* regardless of input quality. Controls include output guardrails, content filtering, topic scoping, and behavioural bounds enforcement (preventing the model from exceeding its permitted operational domain).
+Behaviour validation ensures that model outputs conform to expected bounds -- the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model *outputs* regardless of input quality. Controls include output guardrails, content filtering, topic scoping, and behavioural bounds enforcement (preventing the model from exceeding its permitted operational domain).
 
 **Key Assessment Questions**
 1. Are output guardrails implemented at the inference proxy layer or within the model?
@@ -221,7 +221,7 @@ Behaviour validation ensures that model outputs conform to expected bounds — t
 | L3 | Proxy-layer guardrails for all output categories. Automated blocking. Per-agent guardrail configuration. |
 | L4 | Continuous guardrail improvement based on production telemetry. Behavioural bounds dynamically adjusted. Guardrail bypass detection with automated response. |
 
-**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), NIST AI RMF (MANAGE — MG.DE), EU AI Act (Art. 14 — Human Oversight), ISO 42001 (Clause 8.6).
+**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), NIST AI RMF (MANAGE -- MG.DE), EU AI Act (Art. 14 -- Human Oversight), ISO 42001 (Clause 8.6).
 
 ---
 
@@ -234,7 +234,7 @@ Model inventory and lineage tracking ensures that every model in the organisatio
 1. Is there a central model registry or inventory? Does it cover all models (production, staging, experimental)?
 2. What metadata is captured per model (version, training data, deployment location, owner, status)?
 3. Are models automatically discovered, or is the inventory manually maintained?
-4. Is there an approval workflow for model promotion (experimental → staging → production)?
+4. Is there an approval workflow for model promotion (experimental -> staging -> production)?
 5. Are retired models properly decommissioned (weights archived, access revoked, inference endpoints removed)?
 6. Is model lineage traceable through training, fine-tuning, evaluation, and deployment?
 7. Can the organisation produce a model inventory report for regulator review within 24 hours?
@@ -258,7 +258,7 @@ Model inventory and lineage tracking ensures that every model in the organisatio
 | L3 | Automated model discovery. Full metadata captured for all models. Promotion workflow enforced. |
 | L4 | Continuous inventory scanning. Automated decommissioning of dormant models. Real-time lineage tracking. Model inventory integrated with security monitoring. |
 
-**Regulatory Mapping:** NIST AI RMF (GOVERN — GV.OD), EU AI Act (Art. 11 — Registration), ISO 42001 (Clause 7.4).
+**Regulatory Mapping:** NIST AI RMF (GOVERN -- GV.OD), EU AI Act (Art. 11 -- Registration), ISO 42001 (Clause 7.4).
 
 ---
 
@@ -266,7 +266,7 @@ Model inventory and lineage tracking ensures that every model in the organisatio
 
 ## Pillar Overview
 
-Identity and Access is the single highest-impact pillar for agentic AI security. It controls what the agent *can do*, what it can *access*, and whose *authority* it acts under. In traditional security, the human user is the identity boundary — the user authenticates, and their permissions define what actions are possible. In agentic AI, the agent acts on behalf of the user but may have different permission requirements: the agent needs *some* of the user's access, but rarely all of it. The most common and dangerous agentic AI security failure is **excessive agency** — giving the agent the same access rights as the human, which a prompt injection can weaponise to perform any action the human can.
+Identity and Access is the single highest-impact pillar for agentic AI security. It controls what the agent *can do*, what it can *access*, and whose *authority* it acts under. In traditional security, the human user is the identity boundary -- the user authenticates, and their permissions define what actions are possible. In agentic AI, the agent acts on behalf of the user but may have different permission requirements: the agent needs *some* of the user's access, but rarely all of it. The most common and dangerous agentic AI security failure is **excessive agency** -- giving the agent the same access rights as the human, which a prompt injection can weaponise to perform any action the human can.
 
 **Why this matters to the client:** If an agent has the same database access as a senior engineer, a prompt injection can exfiltrate the entire customer database. If an agent has the same payment approval rights as a finance manager, a prompt injection can authorise fraudulent transfers. IAM-02 (Scope-bound delegation) is the control that prevents this.
 
@@ -291,11 +291,11 @@ Every agent must have a unique, auditable digital identity that is distinct from
 **Artifacts to Examine**
 - Agent identity provisioning process documentation
 - Identity provider configuration (service accounts, workload identities)
-- Agent identity lifecycle policy (creation → rotation → revocation)
+- Agent identity lifecycle policy (creation -> rotation -> revocation)
 - Identity governance tool configuration
 - Audit logs showing agent identity attribution
 - Agent-to-agent authentication configuration
-- Session initiation audit records (human → agent correlation)
+- Session initiation audit records (human -> agent correlation)
 
 **Maturity Indicators**
 
@@ -306,14 +306,14 @@ Every agent must have a unique, auditable digital identity that is distinct from
 | L3 | Automated agent identity lifecycle. Integrated with IDP. Agent identities flagged in monitoring. |
 | L4 | SPIFFE/SPIRE workload identity for every agent. Automated credential rotation. Cross-platform identity federation. |
 
-**Regulatory Mapping:** ISM (Guidelines for System Management — identification and authentication), Essential Eight (Restrict Administrative Privileges), NIST AI RMF (IDENTIFY — ID.AM).
+**Regulatory Mapping:** ISM (Guidelines for System Management -- identification and authentication), Essential Eight (Restrict Administrative Privileges), NIST AI RMF (IDENTIFY -- ID.AM).
 
 ---
 
 ### IAM-02: Scope-Bound Delegation
 
 **Explanation**
-Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function — and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges. This is the control that prevents the "agent-as-the-user" problem where a prompt injection gives the attacker full access to the user's entire permission set.
+Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function -- and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges. This is the control that prevents the "agent-as-the-user" problem where a prompt injection gives the attacker full access to the user's entire permission set.
 
 **Key Assessment Questions**
 1. Are agent permissions explicitly scoped per-agent, or do agents inherit the human's full permission set?
@@ -341,14 +341,14 @@ Scope-bound delegation ensures that an agent's permissions are limited to the mi
 | L3 | Policy-as-code engine enforces per-agent scope at invocation time. Bounded delegation in multi-agent architectures. |
 | L4 | Dynamic scope adjustment based on context and risk. Continuous verification of scope compliance. Automated scope violation response. |
 
-**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (GOVERN — GV.AC), Essential Eight (Restrict Administrative Privileges, User Application Hardening).
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (GOVERN -- GV.AC), Essential Eight (Restrict Administrative Privileges, User Application Hardening).
 
 ---
 
 ### IAM-03: Human Oversight Controls
 
 **Explanation**
-Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review — a customer support agent reading account details is low-risk; the same agent writing to the account or submitting a refund requires approval. The control defines risk tiers, approval mechanisms, and break-glass procedures for urgent situations.
+Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review -- a customer support agent reading account details is low-risk; the same agent writing to the account or submitting a refund requires approval. The control defines risk tiers, approval mechanisms, and break-glass procedures for urgent situations.
 
 **Key Assessment Questions**
 1. Are agent actions classified into risk tiers? Which actions require human approval?
@@ -376,7 +376,7 @@ Human oversight ensures that high-risk agent actions require explicit human appr
 | L3 | Risk-based approval tiers. Automated approval gates. Time-limited approvals. Break-glass procedures documented. |
 | L4 | Context-aware approval requirements (risk level + action type + data sensitivity). Multi-party approval for critical actions. Oversight mechanism independently audited. |
 
-**Regulatory Mapping:** EU AI Act (Art. 14 — Human Oversight), NIST AI RMF (MANAGE — MG.DE), APRA CPS 234 (s.2 — Board accountability for controls).
+**Regulatory Mapping:** EU AI Act (Art. 14 -- Human Oversight), NIST AI RMF (MANAGE -- MG.DE), APRA CPS 234 (s.2 -- Board accountability for controls).
 
 ---
 
@@ -411,14 +411,14 @@ Credential isolation ensures that agent credentials are stored, managed, and rot
 | L3 | Automated credential rotation. Automatic rotation on compromise. Hardware-backed for critical agents. |
 | L4 | Just-in-time credential issuance. Continuous credential verification. Credential-less authentication (SPIFFE). |
 
-**Regulatory Mapping:** ISM (Guidelines for System Management — credential management), NIST AI RMF (PROTECT — PR.AC), Essential Eight (Multi-factor Authentication — extended to service accounts).
+**Regulatory Mapping:** ISM (Guidelines for System Management -- credential management), NIST AI RMF (PROTECT -- PR.AC), Essential Eight (Multi-factor Authentication -- extended to service accounts).
 
 ---
 
 ### IAM-05: Just-in-Time (JIT) Access
 
 **Explanation**
-JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence — an attacker who compromises a tool gateway cannot replay stale credentials, and an agent whose session ends cannot continue to act. JIT access is the operationalisation of least privilege: the agent has the permissions it needs for this task, for this session, and no longer.
+JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence -- an attacker who compromises a tool gateway cannot replay stale credentials, and an agent whose session ends cannot continue to act. JIT access is the operationalisation of least privilege: the agent has the permissions it needs for this task, for this session, and no longer.
 
 **Key Assessment Questions**
 1. Are agent credentials session-bound and automatically expired?
@@ -443,16 +443,16 @@ JIT access ensures that agents receive temporary, ephemeral credentials that exp
 | L1 | Persistent credentials. No expiration. Credentials valid indefinitely. |
 | L2 | Session-bound credentials with fixed expiration (e.g., 1 hour). Manual renewal. |
 | L3 | JIT credentials scoped per-session. Automatic expiration. Revocation available. |
-| L4 | Dynamic scoping — credentials scoped to specific tools/data per agent task. Continuous authorisation checking during session. |
+| L4 | Dynamic scoping -- credentials scoped to specific tools/data per agent task. Continuous authorisation checking during session. |
 
-**Regulatory Mapping:** NIST AI RMF (PROTECT — PR.AC), Essential Eight (Restrict Administrative Privileges), ISM (Guidelines for System Management — privileged access management).
+**Regulatory Mapping:** NIST AI RMF (PROTECT -- PR.AC), Essential Eight (Restrict Administrative Privileges), ISM (Guidelines for System Management -- privileged access management).
 
 ---
 
 ### IAM-06: Cross-Session Boundary Enforcement
 
 **Explanation**
-Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session — even if both sessions are for the same human user. Each session is an independent security context. This prevents session-hopping attacks where an attacker compromises one session and uses it to access another session's data or permissions.
+Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session -- even if both sessions are for the same human user. Each session is an independent security context. This prevents session-hopping attacks where an attacker compromises one session and uses it to access another session's data or permissions.
 
 **Key Assessment Questions**
 1. Are agent credentials scoped to a single session, or can they be reused across sessions?
@@ -479,7 +479,7 @@ Cross-session boundary enforcement ensures that an agent acting in one session c
 | L3 | Independent session contexts enforced. Memory scoped per-session. Cross-session access blocked. |
 | L4 | Continuous session boundary verification. Automated incident response on boundary violation. |
 
-**Regulatory Mapping:** OWASP LLM06 (Sensitive Information Disclosure — memory scoping), NIST AI RMF (PROTECT — PR.AC).
+**Regulatory Mapping:** OWASP LLM06 (Sensitive Information Disclosure -- memory scoping), NIST AI RMF (PROTECT -- PR.AC).
 
 ---
 
@@ -487,7 +487,7 @@ Cross-session boundary enforcement ensures that an agent acting in one session c
 
 ## Pillar Overview
 
-Data Security protects data at every stage of the agentic AI lifecycle: ingestion (what data is fed to the model), processing (how data flows through the agent pipeline), storage (where data is persisted), inference (data exposed during model evaluation), and memory (data retained across sessions). Agentic AI multiplies data risk because the agent aggregates data from multiple sources during a session — cross-referencing customer records, financial transactions, internal communications — creating composite views that may themselves be protected datasets.
+Data Security protects data at every stage of the agentic AI lifecycle: ingestion (what data is fed to the model), processing (how data flows through the agent pipeline), storage (where data is persisted), inference (data exposed during model evaluation), and memory (data retained across sessions). Agentic AI multiplies data risk because the agent aggregates data from multiple sources during a session -- cross-referencing customer records, financial transactions, internal communications -- creating composite views that may themselves be protected datasets.
 
 **Why this matters to the client:** Every Australian organisation handling personal information must comply with APP 11 (Security of Personal Information). An agent that aggregates and persists customer data from CRM, billing, and support systems creates a consolidated dataset that the Privacy Act regulates. A memory leak from one agent session that exposes another session's data is a notifiable data breach.
 
@@ -498,7 +498,7 @@ Data Security protects data at every stage of the agentic AI lifecycle: ingestio
 ### DS-01: Data Classification and Labelling
 
 **Explanation**
-Data classification ensures that every piece of data that enters an agentic AI system — whether through prompts, tool calls, training data, or memory — is classified according to its sensitivity and handling requirements. Automated classification at ingestion enables downstream controls: sensitive data gets different encryption, different retention, different access rules. Without classification, all data is treated equally, which means sensitive data is under-protected and non-sensitive data is over-restricted.
+Data classification ensures that every piece of data that enters an agentic AI system -- whether through prompts, tool calls, training data, or memory -- is classified according to its sensitivity and handling requirements. Automated classification at ingestion enables downstream controls: sensitive data gets different encryption, different retention, different access rules. Without classification, all data is treated equally, which means sensitive data is under-protected and non-sensitive data is over-restricted.
 
 **Key Assessment Questions**
 1. Is there an automated data classification pipeline for data entering the AI system?
@@ -526,18 +526,18 @@ Data classification ensures that every piece of data that enters an agentic AI s
 | L3 | Automated classification pipeline. Labels feed downstream security controls. |
 | L4 | Real-time re-classification based on detected content. Continuous accuracy monitoring of classification. |
 
-**Regulatory Mapping:** PSPF (Information Security — classified information), ISM (Guidelines for Data Transfers — classification), Privacy Act (APP 5 — Collection, APP 6 — Use and Disclosure).
+**Regulatory Mapping:** PSPF (Information Security -- classified information), ISM (Guidelines for Data Transfers -- classification), Privacy Act (APP 5 -- Collection, APP 6 -- Use and Disclosure).
 
 ---
 
 ### DS-02: Inference Data Protection
 
 **Explanation**
-Inference data protection ensures that data transmitted between the user, the agent, the model, and the tool endpoints is encrypted end-to-end and that inference endpoints themselves are secured against eavesdropping or data extraction. This covers the prompt (user input), the model's intermediate computation, and the response — any of which may contain sensitive data.
+Inference data protection ensures that data transmitted between the user, the agent, the model, and the tool endpoints is encrypted end-to-end and that inference endpoints themselves are secured against eavesdropping or data extraction. This covers the prompt (user input), the model's intermediate computation, and the response -- any of which may contain sensitive data.
 
 **Key Assessment Questions**
 1. Are all inference endpoints TLS 1.3 (or equivalent) encrypted?
-2. Is data encrypted in transit between every hop: user → agent → model → tool → response?
+2. Is data encrypted in transit between every hop: user -> agent -> model -> tool -> response?
 3. Are inference logs encrypted? Who can access them?
 4. Are prompts and responses logged with sensitive data redacted before storage?
 5. For cloud-hosted models (OpenAI, Anthropic, AWS Bedrock), does the contract encrypt data in transit and at rest?
@@ -560,7 +560,7 @@ Inference data protection ensures that data transmitted between the user, the ag
 | L3 | End-to-end encryption. Private inference endpoints for sensitive data. Automated prompt/response redaction in logs. |
 | L4 | Client-side encryption keys for cloud inference. Full audit trail of all inference data exposure. |
 
-**Regulatory Mapping:** Privacy Act (APP 11 — Security of Personal Information), ISM (Guidelines for Cryptography), PSPF (Information Security).
+**Regulatory Mapping:** Privacy Act (APP 11 -- Security of Personal Information), ISM (Guidelines for Cryptography), PSPF (Information Security).
 
 ---
 
@@ -597,7 +597,7 @@ Memory sanitisation ensures that agents do not persist sensitive, classified, or
 | L3 | Automated memory purging. Per-agent memory scoping. Encryption at rest. Access logging. |
 | L4 | Real-time memory access monitoring. Cross-session aggregation detection. Automated DSAR response. Continuous memory audit. |
 
-**Regulatory Mapping:** OWASP LLM06 (Sensitive Information Disclosure), Privacy Act (APP 11 — data security, Notifiable Data Breaches), ISM (Guidelines for Media — data sanitisation).
+**Regulatory Mapping:** OWASP LLM06 (Sensitive Information Disclosure), Privacy Act (APP 11 -- data security, Notifiable Data Breaches), ISM (Guidelines for Media -- data sanitisation).
 
 ---
 
@@ -632,7 +632,7 @@ Data minimisation ensures that only the minimum data required for the agent to p
 | L3 | Field-level filtering. ABAC at retrieval. Tool response minimisation enforced. |
 | L4 | Dynamic minimisation based on task context and sensitivity. Continuous monitoring of data minimisation effectiveness. |
 
-**Regulatory Mapping:** Privacy Act (APP 3 — Collection of solicited personal information, APP 11), NIST AI RMF (IDENTIFY — ID.DA), EU AI Act (Art. 10(2) — Data Governance).
+**Regulatory Mapping:** Privacy Act (APP 3 -- Collection of solicited personal information, APP 11), NIST AI RMF (IDENTIFY -- ID.DA), EU AI Act (Art. 10(2) -- Data Governance).
 
 ---
 
@@ -668,7 +668,7 @@ Training data governance ensures that data used to train or fine-tune AI models 
 | L3 | Automated lineage tracking. Consent verification pipeline. Retention enforcement. |
 | L4 | Machine unlearning capability. Continuous training data audit. Third-party governance automatically assessed. |
 
-**Regulatory Mapping:** Privacy Act (APP 3 — Collection, APP 5 — Notification, APP 6 — Use/Disclosure), EU AI Act (Art. 10 — Data Governance), NIST AI RMF (IDENTIFY — ID.DA).
+**Regulatory Mapping:** Privacy Act (APP 3 -- Collection, APP 5 -- Notification, APP 6 -- Use/Disclosure), EU AI Act (Art. 10 -- Data Governance), NIST AI RMF (IDENTIFY -- ID.DA).
 
 ---
 
@@ -704,7 +704,7 @@ Output validation ensures that model outputs do not leak training data, PII, sen
 | L3 | Automated output scanning for PII, sensitive data, system prompts, memorised training data. Scanning at application layer. |
 | L4 | Real-time output scanning with automated blocking. Training data memorisation testing in CI/CD. Continuous improvement of scanning patterns. |
 
-**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), Privacy Act (APP 11 — data security), NIST AI RMF (MEASURE — ME.AD).
+**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), Privacy Act (APP 11 -- data security), NIST AI RMF (MEASURE -- ME.AD).
 
 ---
 
@@ -712,7 +712,7 @@ Output validation ensures that model outputs do not leak training data, PII, sen
 
 ## Pillar Overview
 
-Tool and Pipeline Security secures the tools, APIs, plugins, and execution pipelines that the agent invokes. In agentic AI, the agent's power comes from its tools — and its risk comes from the same source. Every tool is a potential attack surface. A compromised tool can return crafted output that poisons the agent's context (tool output injection). An unregistered tool invoked by a compromised agent can exfiltrate data to an attacker-controlled endpoint. A CI/CD pipeline that deploys agent updates without integrity checks can introduce backdoored agent code.
+Tool and Pipeline Security secures the tools, APIs, plugins, and execution pipelines that the agent invokes. In agentic AI, the agent's power comes from its tools -- and its risk comes from the same source. Every tool is a potential attack surface. A compromised tool can return crafted output that poisons the agent's context (tool output injection). An unregistered tool invoked by a compromised agent can exfiltrate data to an attacker-controlled endpoint. A CI/CD pipeline that deploys agent updates without integrity checks can introduce backdoored agent code.
 
 **Why this matters to the client:** The difference between a chatbot (talks) and an agent (acts) is tool access. Each tool is a liability. A database query tool in a compromised agent is a data breach. A code execution tool in a compromised agent is a supply chain attack. The SolarWinds supply chain compromise cost impacted organisations an estimated $12B+; an agentic supply chain compromise through an unsecured tool pipeline would have similar magnitude.
 
@@ -723,7 +723,7 @@ Tool and Pipeline Security secures the tools, APIs, plugins, and execution pipel
 ### TP-01: Tool Inventory and Registry
 
 **Explanation**
-Every tool that an agent can invoke — APIs, databases, file systems, code executors, email senders, chatbot integrations — must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, cannot be access-controlled, and cannot be included in the incident response plan. The tool registry is the source of truth for what agents can do.
+Every tool that an agent can invoke -- APIs, databases, file systems, code executors, email senders, chatbot integrations -- must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, cannot be access-controlled, and cannot be included in the incident response plan. The tool registry is the source of truth for what agents can do.
 
 **Key Assessment Questions**
 1. Is there a central tool registry listing all tools available to agents?
@@ -750,14 +750,14 @@ Every tool that an agent can invoke — APIs, databases, file systems, code exec
 | L3 | Central tool registry with full metadata. Automated security review. Integration with authorisation. |
 | L4 | Continuous registry scanning for unregistered tools. Automated deregistration of deprecated tools. |
 
-**Regulatory Mapping:** ISM (Guidelines for Gateways), NIST AI RMF (IDENTIFY — ID.AM).
+**Regulatory Mapping:** ISM (Guidelines for Gateways), NIST AI RMF (IDENTIFY -- ID.AM).
 
 ---
 
 ### TP-02: Tool Access Control
 
 **Explanation**
-Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent — not the human — before accepting commands. This is tool-level least privilege: the customer support agent can call the CRM read API but not the CRM write API; the financial analyst agent can query the database but not execute shell commands.
+Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent -- not the human -- before accepting commands. This is tool-level least privilege: the customer support agent can call the CRM read API but not the CRM write API; the financial analyst agent can query the database but not execute shell commands.
 
 **Key Assessment Questions**
 1. Is there a per-agent tool allow-list, or do agents have access to all registered tools?
@@ -783,14 +783,14 @@ Tool access control ensures that each agent can only invoke the specific tools i
 | L3 | Tool-level least privilege enforced at invocation time. Agent identity authenticated by tool. |
 | L4 | Dynamic tool access assignment based on task and risk. Automated revocation on suspicious activity. |
 
-**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT — PR.AC), Essential Eight (Application Control — extended to tools).
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT -- PR.AC), Essential Eight (Application Control -- extended to tools).
 
 ---
 
 ### TP-03: API Gateway Security
 
 **Explanation**
-API gateway security protects every agent-facing API endpoint with rate limiting, payload validation, schema enforcement, and audit logging. The agent-to-tool API surface is often larger and more dynamic than traditional human-facing APIs — agents discover new tools, call tools with programmatic frequency, and can chain multiple tool calls in a single task. The API gateway must handle this at machine speed.
+API gateway security protects every agent-facing API endpoint with rate limiting, payload validation, schema enforcement, and audit logging. The agent-to-tool API surface is often larger and more dynamic than traditional human-facing APIs -- agents discover new tools, call tools with programmatic frequency, and can chain multiple tool calls in a single task. The API gateway must handle this at machine speed.
 
 **Key Assessment Questions**
 1. Is there a gateway / proxy between agents and external tools?
@@ -825,7 +825,7 @@ API gateway security protects every agent-facing API endpoint with rate limiting
 ### TP-04: Tool Output Validation
 
 **Explanation**
-Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks — a compromised or malicious tool returning crafted data that causes the agent to behave outside intended parameters. For example, a database query tool returning a row containing hidden SQL commands that the agent then executes as a new query.
+Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks -- a compromised or malicious tool returning crafted data that causes the agent to behave outside intended parameters. For example, a database query tool returning a row containing hidden SQL commands that the agent then executes as a new query.
 
 **Key Assessment Questions**
 1. Are tool outputs validated against a known-good schema before entering agent context?
@@ -852,7 +852,7 @@ Tool output validation ensures that data returned by tools is structurally valid
 | L3 | Automated schema validation, content-type checking, and sanitisation. Size limits enforced. |
 | L4 | Sandbox execution for code-generation tools. Automated blocking of invalid outputs. Continuous validation rule improvement. |
 
-**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), NIST AI RMF (MEASURE — ME.AD).
+**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), NIST AI RMF (MEASURE -- ME.AD).
 
 ---
 
@@ -886,14 +886,14 @@ Pipeline integrity ensures that the CI/CD pipelines that build, test, and deploy
 | L3 | SLSA Level 2+ attestation. Automated SHIELD-AI control tests as gates. Immutable artifact registry. |
 | L4 | SLSA Level 3+ attestation. Continuous pipeline security scanning. Automated rollback on integrity failures. |
 
-**Regulatory Mapping:** ISM (Guidelines for Software Development — CI/CD), NIST AI RMF (PROTECT — PR.CI), Essential Eight (Application Control — restricted execution).
+**Regulatory Mapping:** ISM (Guidelines for Software Development -- CI/CD), NIST AI RMF (PROTECT -- PR.CI), Essential Eight (Application Control -- restricted execution).
 
 ---
 
 ### TP-06: Dependency Scanning
 
 **Explanation**
-Dependency scanning ensures that all libraries, models, and tools used by the agent are continuously scanned for known vulnerabilities, with automated blocking for critical-severity findings. The AI supply chain is particularly vulnerable to dependency-level attacks because ML libraries and model registries are frequent targets — a compromised package on PyPI or a backdoored model on HuggingFace can affect every organisation that depends on it.
+Dependency scanning ensures that all libraries, models, and tools used by the agent are continuously scanned for known vulnerabilities, with automated blocking for critical-severity findings. The AI supply chain is particularly vulnerable to dependency-level attacks because ML libraries and model registries are frequent targets -- a compromised package on PyPI or a backdoored model on HuggingFace can affect every organisation that depends on it.
 
 **Key Assessment Questions**
 1. Are ML libraries (PyTorch, TensorFlow, transformers) scanned for vulnerabilities?
@@ -921,7 +921,7 @@ Dependency scanning ensures that all libraries, models, and tools used by the ag
 | L3 | Continuous scanning. Automated blocking for critical findings. Automated patch deployment. |
 | L4 | AI-specific dependency scanning (ML libraries, model registries). Predictive vulnerability assessment. |
 
-**Regulatory Mapping:** OWASP LLM10 (Supply Chain), ISM (Guidelines for System Management — vulnerability management), Essential Eight (Patch Applications, Patch Operating Systems).
+**Regulatory Mapping:** OWASP LLM10 (Supply Chain), ISM (Guidelines for System Management -- vulnerability management), Essential Eight (Patch Applications, Patch Operating Systems).
 
 ---
 
@@ -931,7 +931,7 @@ Dependency scanning ensures that all libraries, models, and tools used by the ag
 
 Monitoring, Logging, and Incident Response detects and responds to security incidents involving agentic AI systems. Traditional monitoring was designed for static applications and known attack signatures. Agentic AI monitoring must detect behavioural anomalies (not just signature matches), track agent actions across tool call chains, and support AI-specific incident response procedures (prompt injection containment, model rollback, tool access revocation, session invalidation). Speed matters: an agentic AI compromise can execute its entire attack chain in seconds.
 
-**Why this matters to the client:** An agentic AI compromise can execute its entire attack chain — from initial prompt injection to data exfiltration — faster than a human can detect. Without AI-specific monitoring, you will not know an agent has been compromised until the data is already exfiltrated. The SOCI Act requires critical infrastructure entities to report incidents within 12 hours. Without monitoring controls, you cannot meet that obligation.
+**Why this matters to the client:** An agentic AI compromise can execute its entire attack chain -- from initial prompt injection to data exfiltration -- faster than a human can detect. Without AI-specific monitoring, you will not know an agent has been compromised until the data is already exfiltrated. The SOCI Act requires critical infrastructure entities to report incidents within 12 hours. Without monitoring controls, you cannot meet that obligation.
 
 **Primary stakeholders to interview:** SOC Lead, SIEM Engineer, Incident Response Lead, Threat Intelligence Lead, Compliance Reporting Lead.
 
@@ -940,7 +940,7 @@ Monitoring, Logging, and Incident Response detects and responds to security inci
 ### MIR-01: Agent Activity Logging
 
 **Explanation**
-Agent activity logging captures every action an agent takes — every tool invocation, data access, decision, and error — in a structured, auditable format. Each log entry includes agent identity, session ID, timestamp, action type, action target, action result, and a correlation ID that ties the event to the human-initiating session. This is the foundation for anomaly detection, incident investigation, and regulatory reporting.
+Agent activity logging captures every action an agent takes -- every tool invocation, data access, decision, and error -- in a structured, auditable format. Each log entry includes agent identity, session ID, timestamp, action type, action target, action result, and a correlation ID that ties the event to the human-initiating session. This is the foundation for anomaly detection, incident investigation, and regulatory reporting.
 
 **Key Assessment Questions**
 1. Are all agent actions logged (every tool call, data access, decision, error)?
@@ -971,14 +971,14 @@ Agent activity logging captures every action an agent takes — every tool invoc
 | L3 | Immutable logs. Correlation IDs across multi-agent chains. SIEM integration. Log integrity verification. |
 | L4 | Real-time log streaming. Automated log anomaly detection. Extended retention for forensic readiness. |
 
-**Regulatory Mapping:** SOCI Act (s.30B(5)(a) — record-keeping), APRA CPS 234 (s.3(c) — information security capability), ISM (Guidelines for System Monitoring).
+**Regulatory Mapping:** SOCI Act (s.30B(5)(a) -- record-keeping), APRA CPS 234 (s.3(c) -- information security capability), ISM (Guidelines for System Monitoring).
 
 ---
 
 ### MIR-02: Behavioural Anomaly Detection
 
 **Explanation**
-Behavioural anomaly detection establishes per-agent and per-agent-class behaviour baselines and alerts when an agent deviates. Unlike traditional anomaly detection (which looks for known attack signatures), agent behavioural detection learns what "normal" looks like for each agent — which tools it calls, how frequently, what data it accesses, and what decisions it makes — and flags deviations. This catches attacks that signature-based detection misses.
+Behavioural anomaly detection establishes per-agent and per-agent-class behaviour baselines and alerts when an agent deviates. Unlike traditional anomaly detection (which looks for known attack signatures), agent behavioural detection learns what "normal" looks like for each agent -- which tools it calls, how frequently, what data it accesses, and what decisions it makes -- and flags deviations. This catches attacks that signature-based detection misses.
 
 **Key Assessment Questions**
 1. Are per-agent behaviour baselines established (what is normal for this specific agent)?
@@ -1007,14 +1007,14 @@ Behavioural anomaly detection establishes per-agent and per-agent-class behaviou
 | L3 | Per-agent and per-class baselines. Automated alerting. Integration with SOC. Regular tuning. |
 | L4 | Continuous baseline learning. Cross-agent anomaly correlation. Predictive anomaly detection. |
 
-**Regulatory Mapping:** NIST AI RMF (DETECT — DE.CM), ISM (Guidelines for System Monitoring).
+**Regulatory Mapping:** NIST AI RMF (DETECT -- DE.CM), ISM (Guidelines for System Monitoring).
 
 ---
 
 ### MIR-03: Prompt Audit Log
 
 **Explanation**
-The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. Full prompts and responses are logged temporarily for incident investigation, with sensitive fields (PII, credentials, internal URLs) automatically redacted in long-term storage. This is the AI-equivalent of database query logging — it enables investigators to reconstruct what the agent was asked and what it did.
+The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. Full prompts and responses are logged temporarily for incident investigation, with sensitive fields (PII, credentials, internal URLs) automatically redacted in long-term storage. This is the AI-equivalent of database query logging -- it enables investigators to reconstruct what the agent was asked and what it did.
 
 **Key Assessment Questions**
 1. Are prompt/response pairs logged with agent identity and session ID?
@@ -1039,10 +1039,10 @@ The prompt audit log captures sanitised prompt/response pairs for forensic analy
 |-------|-----------|
 | L1 | No prompt logging. |
 | L2 | Basic prompt/response logging. Manual review. Short retention. |
-| L3 | Automated redaction. Tiered retention (full → redacted). SIEM integration. |
+| L3 | Automated redaction. Tiered retention (full -> redacted). SIEM integration. |
 | L4 | Real-time prompt scanning for security events. Automated incident triggering from prompt analysis. |
 
-**Regulatory Mapping:** OWASP LLM01 (Prompt Injection — detection), NIST AI RMF (DETECT — DE.AE), EU AI Act (Art. 12 — Transparency).
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection -- detection), NIST AI RMF (DETECT -- DE.AE), EU AI Act (Art. 12 -- Transparency).
 
 ---
 
@@ -1076,14 +1076,14 @@ Incident response playbooks define AI-specific procedures for detecting, contain
 | L3 | Comprehensive playbooks for all AI incident types. SOAR integration. Regular tabletop exercises. |
 | L4 | Automated playbook execution for known incident types. Continuous playbook improvement from threat intelligence. AI-specific IR team training. |
 
-**Regulatory Mapping:** NIST AI RMF (RESPOND — RS.RP), SOCI Act (CIRMP — incident response), APRA CPS 234 (s.3(c) — incident response capability).
+**Regulatory Mapping:** NIST AI RMF (RESPOND -- RS.RP), SOCI Act (CIRMP -- incident response), APRA CPS 234 (s.3(c) -- incident response capability).
 
 ---
 
 ### MIR-05: Mandatory Reporting Integration
 
 **Explanation**
-Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines — SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting. The control provides automated triggers that detect reportable incidents, pre-populated incident report templates, and escalation workflows to the relevant regulatory body.
+Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines -- SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting. The control provides automated triggers that detect reportable incidents, pre-populated incident report templates, and escalation workflows to the relevant regulatory body.
 
 **Key Assessment Questions**
 1. Are SOCI Act/APRA/NDB reporting triggers integrated with agent monitoring?
@@ -1110,14 +1110,14 @@ Mandatory reporting integration ensures that the organisation can meet regulator
 | L3 | Automated incident detection triggers pre-populated reports. Escalation workflows active. |
 | L4 | Fully automated reporting lifecycle. Continuous compliance monitoring with regulator dashboards. |
 
-**Regulatory Mapping:** SOCI Act (s.30B — mandatory incident reporting — 12h critical, 72h other), APRA CPS 234 (s.3(c) — 72-hour notification), Privacy Act (Notifiable Data Breaches scheme).
+**Regulatory Mapping:** SOCI Act (s.30B -- mandatory incident reporting -- 12h critical, 72h other), APRA CPS 234 (s.3(c) -- 72-hour notification), Privacy Act (Notifiable Data Breaches scheme).
 
 ---
 
 ### MIR-06: Forensic Readiness
 
 **Explanation**
-Forensic readiness ensures that the organisation can reconstruct a full agent session — every prompt, tool call, data access, decision, and response — for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees. Session reconstruction enables investigators to determine precisely what happened, what data was accessed, and what actions were taken during a security incident.
+Forensic readiness ensures that the organisation can reconstruct a full agent session -- every prompt, tool call, data access, decision, and response -- for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees. Session reconstruction enables investigators to determine precisely what happened, what data was accessed, and what actions were taken during a security incident.
 
 **Key Assessment Questions**
 1. Are logs written to immutable, append-only storage?
@@ -1145,7 +1145,7 @@ Forensic readiness ensures that the organisation can reconstruct a full agent se
 | L3 | Immutable logs with integrity verification. Full session reconstruction capability. Multi-agent chain reconstruction. |
 | L4 | Real-time forensic readiness verification. Automated forensic data extraction. Continuous integrity monitoring. |
 
-**Regulatory Mapping:** NIST AI RMF (RECOVER — RC.RP), ISM (Guidelines for Cyber Security Incidents — forensic readiness), SOCI Act (CIRMP — record-keeping).
+**Regulatory Mapping:** NIST AI RMF (RECOVER -- RC.RP), ISM (Guidelines for Cyber Security Incidents -- forensic readiness), SOCI Act (CIRMP -- record-keeping).
 
 ---
 
@@ -1153,7 +1153,7 @@ Forensic readiness ensures that the organisation can reconstruct a full agent se
 
 ## Pillar Overview
 
-Governance and Risk Management establishes the organisational structures, policies, and risk processes for safe agentic AI. This is the pillar that makes all other pillars sustainable — without governance, technical controls erode over time as people leave, systems change, and threats evolve. It covers the AI governance body (who decides), the AI risk register (what we are worried about), ethical use policy (what agents are allowed to do), third-party risk management (who we trust), regulatory mapping (what we must comply with), and board reporting (how we demonstrate accountability).
+Governance and Risk Management establishes the organisational structures, policies, and risk processes for safe agentic AI. This is the pillar that makes all other pillars sustainable -- without governance, technical controls erode over time as people leave, systems change, and threats evolve. It covers the AI governance body (who decides), the AI risk register (what we are worried about), ethical use policy (what agents are allowed to do), third-party risk management (who we trust), regulatory mapping (what we must comply with), and board reporting (how we demonstrate accountability).
 
 **Why this matters to the client:** APRA CPS 234 explicitly makes the Board responsible for information security. In an age of agentic AI, this means the Board is responsible for AI security. Without a governance structure that documents who decides, who approves, and who is accountable, Board members cannot discharge their duty of care.
 
@@ -1164,7 +1164,7 @@ Governance and Risk Management establishes the organisational structures, polici
 ### GRM-01: AI Governance Body
 
 **Explanation**
-The AI governance body is a chartered committee with the authority to approve agentic AI deployments, define acceptable use boundaries, and oversee the organisation's AI security posture. The committee must include the CISO, CRO, General Counsel, data owner, and AI lead — reflecting that AI security is not just a technology issue but a risk, legal, data, and operational issue.
+The AI governance body is a chartered committee with the authority to approve agentic AI deployments, define acceptable use boundaries, and oversee the organisation's AI security posture. The committee must include the CISO, CRO, General Counsel, data owner, and AI lead -- reflecting that AI security is not just a technology issue but a risk, legal, data, and operational issue.
 
 **Key Assessment Questions**
 1. Is there a chartered AI governance body with defined terms of reference?
@@ -1191,7 +1191,7 @@ The AI governance body is a chartered committee with the authority to approve ag
 | L3 | Chartered AI governance body with defined terms of reference. Regular meetings. Documented decisions. |
 | L4 | AI governance body with delegated authority. Independent audit of decisions. Cross-entity governance for multi-unit organisations. |
 
-**Regulatory Mapping:** APRA CPS 234 (s.2 — Board accountability), PSPF (Security Governance — Policy 1), Privacy Act (APP 1 — accountability).
+**Regulatory Mapping:** APRA CPS 234 (s.2 -- Board accountability), PSPF (Security Governance -- Policy 1), Privacy Act (APP 1 -- accountability).
 
 ---
 
@@ -1203,7 +1203,7 @@ The AI risk register is a distinct register (or distinct section of the enterpri
 **Key Assessment Questions**
 1. Is there a dedicated AI risk register or AI-specific section in the enterprise risk register?
 2. Does the AI risk taxonomy cover model, tool, data, identity, and pipeline risks?
-3. Are risks assessed using a defined methodology (likelihood × impact)?
+3. Are risks assessed using a defined methodology (likelihood x impact)?
 4. Are risk owners assigned to each AI risk?
 5. Are risks reviewed and updated on a regular cadence?
 6. Is there a process for accepting AI risks with documented rationale and expiry?
@@ -1226,14 +1226,14 @@ The AI risk register is a distinct register (or distinct section of the enterpri
 | L3 | AI-specific risk taxonomy in enterprise risk register. Regular review cycle. Formal risk acceptance. |
 | L4 | Continuous AI risk assessment. Automated risk scoring from control monitoring. Integrated with enterprise risk management. |
 
-**Regulatory Mapping:** NIST AI RMF (GOVERN — GV.RM), SOCI Act (CIRMP — risk management), APRA CPS 234 (s.3(a) — risk assessment).
+**Regulatory Mapping:** NIST AI RMF (GOVERN -- GV.RM), SOCI Act (CIRMP -- risk management), APRA CPS 234 (s.3(a) -- risk assessment).
 
 ---
 
 ### GRM-03: Ethical Use Policy
 
 **Explanation**
-The ethical use policy defines what agents are allowed and not allowed to do, what level of autonomy they may have based on risk tier, and what transparency obligations apply. This is the "terms of use" for agentic AI within the organisation — it sets boundaries that the technical controls then enforce.
+The ethical use policy defines what agents are allowed and not allowed to do, what level of autonomy they may have based on risk tier, and what transparency obligations apply. This is the "terms of use" for agentic AI within the organisation -- it sets boundaries that the technical controls then enforce.
 
 **Key Assessment Questions**
 1. Is there an approved ethical use policy for agentic AI?
@@ -1260,14 +1260,14 @@ The ethical use policy defines what agents are allowed and not allowed to do, wh
 | L3 | Approved policy with risk-tiered autonomy. Automated compliance monitoring. Regular policy review. |
 | L4 | Continuous policy compliance verification. Automated enforcement at tool gateway. Policy improvement from operational experience. |
 
-**Regulatory Mapping:** EU AI Act (Art. 14 — Human Oversight), NIST AI RMF (GOVERN — GV.OC), Privacy Act (APP 1 — accountability).
+**Regulatory Mapping:** EU AI Act (Art. 14 -- Human Oversight), NIST AI RMF (GOVERN -- GV.OC), Privacy Act (APP 1 -- accountability).
 
 ---
 
 ### GRM-04: Third-Party AI Risk Management
 
 **Explanation**
-Third-party AI risk management ensures that external model providers, tool providers, and AI infrastructure vendors are assessed against security requirements, contractually bound to maintain security controls, and subject to right-to-audit provisions. As organisations adopt managed agent platforms (AaaS) and third-party models, the shared responsibility model becomes critical — the client remains responsible for agent behaviour and regulatory compliance even when infrastructure is outsourced.
+Third-party AI risk management ensures that external model providers, tool providers, and AI infrastructure vendors are assessed against security requirements, contractually bound to maintain security controls, and subject to right-to-audit provisions. As organisations adopt managed agent platforms (AaaS) and third-party models, the shared responsibility model becomes critical -- the client remains responsible for agent behaviour and regulatory compliance even when infrastructure is outsourced.
 
 **Key Assessment Questions**
 1. Are model providers (OpenAI, Anthropic, AWS, GCP) subject to a vendor security assessment?
@@ -1295,7 +1295,7 @@ Third-party AI risk management ensures that external model providers, tool provi
 | L3 | Comprehensive vendor assessment programme for all AI providers. Right-to-audit in contracts. Ongoing vendor monitoring. |
 | L4 | Continuous vendor security monitoring. Automated vendor risk scoring. Vendor decommissioning playbooks exercised. |
 
-**Regulatory Mapping:** OWASP LLM10 (Supply Chain), NIST AI RMF (IDENTIFY — ID.SC), ISM (Guidelines for Procurement and Outsourcing), EU AI Act (Art. 28 — Third Parties).
+**Regulatory Mapping:** OWASP LLM10 (Supply Chain), NIST AI RMF (IDENTIFY -- ID.SC), ISM (Guidelines for Procurement and Outsourcing), EU AI Act (Art. 28 -- Third Parties).
 
 ---
 
@@ -1330,14 +1330,14 @@ Regulatory mapping ensures that every SHIELD-AI control is mapped to the regulat
 | L3 | Automated regulatory mapping. Continuous compliance monitoring. Quarterly reporting to governance body. |
 | L4 | Real-time compliance dashboard. Automated impact assessment of regulatory changes. Continuous audit readiness. |
 
-**Regulatory Mapping:** APRA CPS 234 (s.2 — Board reporting), NIST AI RMF (GOVERN — GV.OV), ISM (Guidelines for Cyber Security Documentation).
+**Regulatory Mapping:** APRA CPS 234 (s.2 -- Board reporting), NIST AI RMF (GOVERN -- GV.OV), ISM (Guidelines for Cyber Security Documentation).
 
 ---
 
 ### GRM-06: Board and Executive Reporting
 
 **Explanation**
-Board and executive reporting provides a standardised dashboard and report that gives the Board and executive team visibility into the organisation's AI security posture — maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances. The dashboard is designed for a non-technical audience: it answers three questions: "How are we doing? Where are we exposed? What are we doing about it?"
+Board and executive reporting provides a standardised dashboard and report that gives the Board and executive team visibility into the organisation's AI security posture -- maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances. The dashboard is designed for a non-technical audience: it answers three questions: "How are we doing? Where are we exposed? What are we doing about it?"
 
 **Key Assessment Questions**
 1. Is there a standardised AI security dashboard for executives?
@@ -1365,7 +1365,7 @@ Board and executive reporting provides a standardised dashboard and report that 
 | L3 | Automated compliance dashboard. Per-pillar maturity scores. Regular Board reporting. |
 | L4 | Real-time executive dashboard. Predictive risk scoring. Automated Board reporting with trend analysis. |
 
-**Regulatory Mapping:** APRA CPS 234 (s.2 — Board accountability and reporting), NIST AI RMF (GOVERN — GV.OV).
+**Regulatory Mapping:** APRA CPS 234 (s.2 -- Board accountability and reporting), NIST AI RMF (GOVERN -- GV.OV).
 
 ---
 
@@ -1379,40 +1379,40 @@ A SHIELD-AI assessment engagement follows a structured methodology designed to p
 
 Before arriving on site:
 
-1. **Document request** — send the client the full artifact list from this guide, requesting as many as possible before the assessment begins.
-2. **Stakeholder mapping** — identify the primary stakeholders per pillar (listed in each pillar overview above).
-3. **Regulatory scoping** — determine which regulatory frameworks apply to this client based on their industry, entity type, and size.
-4. **Maturity target scoping** — agree on the target maturity level (L2-L4) for the assessment. Not every client targets L4 on every pillar.
+1. **Document request** -- send the client the full artifact list from this guide, requesting as many as possible before the assessment begins.
+2. **Stakeholder mapping** -- identify the primary stakeholders per pillar (listed in each pillar overview above).
+3. **Regulatory scoping** -- determine which regulatory frameworks apply to this client based on their industry, entity type, and size.
+4. **Maturity target scoping** -- agree on the target maturity level (L2-L4) for the assessment. Not every client targets L4 on every pillar.
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
 For each of the 36 controls:
 
-1. **Interview** — meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
-2. **Evidence collection** — request the Artifacts to Examine. Score each artifact on a 1-5 scale:
+1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
+2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
    - 1 = Does not exist / Not implemented
    - 2 = Exists but incomplete / Manual
    - 3 = Exists and implemented / Partially automated
    - 4 = Implemented and enforced / Automated
    - 5 = Continuously verified / Optimised
-3. **Cross-validate** — where possible, verify claims from interviews with artifact inspection. Do not rely on self-assessment alone.
-4. **Score each control** — map the evidence score to the L1-L4 scale from this guide.
+3. **Cross-validate** -- where possible, verify claims from interviews with artifact inspection. Do not rely on self-assessment alone.
+4. **Score each control** -- map the evidence score to the L1-L4 scale from this guide.
 
 ### Phase 3: Maturity Scoring (Week 3)
 
-1. **Pillar maturity** — the maturity level for each pillar is the lowest control score within that pillar. A chain is only as strong as its weakest link.
-2. **Overall maturity** — the overall SHIELD-AI maturity level is the lowest pillar score (weakest pillar determines overall maturity).
-3. **Regulatory gap analysis** — for each applicable regulatory framework, identify controls whose maturity scores are below the required level.
+1. **Pillar maturity** -- the maturity level for each pillar is the lowest control score within that pillar. A chain is only as strong as its weakest link.
+2. **Overall maturity** -- the overall SHIELD-AI maturity level is the lowest pillar score (weakest pillar determines overall maturity).
+3. **Regulatory gap analysis** -- for each applicable regulatory framework, identify controls whose maturity scores are below the required level.
 
 ### Phase 4: Reporting and Roadmap (Week 3-4)
 
-1. **Maturity dashboard** — present pillar scores and overall maturity in a visual format suitable for both technical and executive audiences.
-2. **Gap analysis** — for each control below target maturity, document the gap and the remediation effort required.
-3. **Roadmap** — sequence remediation by:
+1. **Maturity dashboard** -- present pillar scores and overall maturity in a visual format suitable for both technical and executive audiences.
+2. **Gap analysis** -- for each control below target maturity, document the gap and the remediation effort required.
+3. **Roadmap** -- sequence remediation by:
    - **Critical path** (controls that must be at L2 before L3 controls are attempted)
    - **Regulatory deadlines** (controls that address imminent regulatory obligations)
    - **Risk reduction** (controls that address the highest-risk findings first)
-4. **Target-state estimate** — estimate effort and timeline to reach target maturity for each pillar.
+4. **Target-state estimate** -- estimate effort and timeline to reach target maturity for each pillar.
 
 ## Scoring Guide
 
@@ -1421,7 +1421,7 @@ For each of the 36 controls:
 | 1 | Non-existent | Control not implemented. No awareness. | "We haven't thought about that." | No artifacts available. |
 | 2 | Ad-hoc | Control exists but is manual, inconsistent, or undocumented. | "We do that sometimes manually." | Artifact exists but is incomplete, outdated, or contradicts claim. |
 | 3 | Defined | Control is documented and consistently implemented. Partially automated. | "Here's our policy and how we implement it." | Artifact matches interview claim. Up to date. |
-| 4 | Managed | Control is fully automated and enforced. Metrics tracked. | "It's automated — here's the dashboard." | Artifact shows automated enforcement and monitoring. |
+| 4 | Managed | Control is fully automated and enforced. Metrics tracked. | "It's automated -- here's the dashboard." | Artifact shows automated enforcement and monitoring. |
 | 5 | Optimised | Control is continuously improved based on data. | "We test and improve it quarterly based on findings." | Artifact shows improvement over time. |
 
 ---
@@ -1431,7 +1431,7 @@ For each of the 36 controls:
 ## Principles for Progression
 
 1. **Weakest pillar first.** Overall maturity is determined by the lowest-scoring pillar. Raising a strong pillar from L3 to L4 is wasted effort if another pillar is at L1.
-2. **L2 before L3.** The path from L1→L2 is about documentation, awareness, and basic implementation. The path from L2→L3 is about automation, enforcement, and integration. Do not skip L2.
+2. **L2 before L3.** The path from L1->L2 is about documentation, awareness, and basic implementation. The path from L2->L3 is about automation, enforcement, and integration. Do not skip L2.
 3. **Regulatory baseline.** The minimum acceptable maturity level is determined by regulatory obligations, not theoretical best practice.
 4. **Risk-prioritise.** Within a pillar, address controls that address the highest-risk threats first.
 
@@ -1441,49 +1441,49 @@ For each of the 36 controls:
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Create model inventory (MS-06). Implement weight encryption (MS-01). Basic prompt injection testing (MS-04). | 4-6 weeks | None |
-| L2→L3 | Deploy model registry with signing (MS-03, MS-06). Automated adversarial test suite in CI/CD (MS-04). Output guardrails at proxy layer (MS-05). | 6-10 weeks | MS-06 at L2 |
-| L3→L4 | Continuous red-teaming (MS-04). Automated data poison detection (MS-02). Continuous attestation for edge weights (MS-01). | 12+ weeks (ongoing) | MS-01-06 at L3 |
+| L1->L2 | Create model inventory (MS-06). Implement weight encryption (MS-01). Basic prompt injection testing (MS-04). | 4-6 weeks | None |
+| L2->L3 | Deploy model registry with signing (MS-03, MS-06). Automated adversarial test suite in CI/CD (MS-04). Output guardrails at proxy layer (MS-05). | 6-10 weeks | MS-06 at L2 |
+| L3->L4 | Continuous red-teaming (MS-04). Automated data poison detection (MS-02). Continuous attestation for edge weights (MS-01). | 12+ weeks (ongoing) | MS-01-06 at L3 |
 
 ### IAM: Identity and Access
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Create service accounts per agent (IAM-01). Implement basic agent permission scoping (IAM-02). | 4-8 weeks | None |
-| L2→L3 | Deploy OPA/Rego policy engine for agent authz (IAM-02). Implement JIT credential issuance (IAM-05). Automated credential rotation (IAM-04). | 8-12 weeks | IAM-01 at L2 |
-| L3→L4 | SPIFFE/SPIRE workload identity (IAM-01). Bounded delegation for multi-agent (IAM-02). Context-aware human oversight (IAM-03). | 12+ weeks | IAM-01-05 at L3 |
+| L1->L2 | Create service accounts per agent (IAM-01). Implement basic agent permission scoping (IAM-02). | 4-8 weeks | None |
+| L2->L3 | Deploy OPA/Rego policy engine for agent authz (IAM-02). Implement JIT credential issuance (IAM-05). Automated credential rotation (IAM-04). | 8-12 weeks | IAM-01 at L2 |
+| L3->L4 | SPIFFE/SPIRE workload identity (IAM-01). Bounded delegation for multi-agent (IAM-02). Context-aware human oversight (IAM-03). | 12+ weeks | IAM-01-05 at L3 |
 
 ### DS: Data Security
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Implement data classification at ingestion (DS-01). Basic output scanning (DS-06). | 4-6 weeks | None |
-| L2→L3 | Deploy RAG security layer with ABAC at retrieval (DS-04). Memory sanitisation with automated purging (DS-03). Training data lineage (DS-05). | 8-12 weeks | DS-01 at L2 |
-| L3→L4 | Real-time data leak detection (DS-06). Machine unlearning capability (DS-05). Cross-session memory aggregation detection (DS-03). | 12+ weeks | DS-01-05 at L3 |
+| L1->L2 | Implement data classification at ingestion (DS-01). Basic output scanning (DS-06). | 4-6 weeks | None |
+| L2->L3 | Deploy RAG security layer with ABAC at retrieval (DS-04). Memory sanitisation with automated purging (DS-03). Training data lineage (DS-05). | 8-12 weeks | DS-01 at L2 |
+| L3->L4 | Real-time data leak detection (DS-06). Machine unlearning capability (DS-05). Cross-session memory aggregation detection (DS-03). | 12+ weeks | DS-01-05 at L3 |
 
 ### TP: Tool and Pipeline
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Create tool inventory (TP-01). Basic API gateway with rate limiting (TP-03). | 6-8 weeks | IAM-01 at L1 |
-| L2→L3 | Per-agent tool allow-lists with OPA (TP-02). Schema validation and audit at gateway (TP-03). Pipeline signing (TP-05). | 8-12 weeks | TP-01 at L2 |
-| L3→L4 | MCP-aware gateway (TP-03). Sandboxed code execution validation (TP-04). Automated dependency scanning with auto-block (TP-06). | 12+ weeks | TP-01-05 at L3 |
+| L1->L2 | Create tool inventory (TP-01). Basic API gateway with rate limiting (TP-03). | 6-8 weeks | IAM-01 at L1 |
+| L2->L3 | Per-agent tool allow-lists with OPA (TP-02). Schema validation and audit at gateway (TP-03). Pipeline signing (TP-05). | 8-12 weeks | TP-01 at L2 |
+| L3->L4 | MCP-aware gateway (TP-03). Sandboxed code execution validation (TP-04). Automated dependency scanning with auto-block (TP-06). | 12+ weeks | TP-01-05 at L3 |
 
 ### MIR: Monitoring and IR
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Implement structured agent logging (MIR-01). Basic anomaly detection rules (MIR-02). | 6-10 weeks | None |
-| L2→L3 | Immutable log storage (MIR-06). SIEM integration (MIR-01). AI-specific IR playbooks (MIR-04). Automated SOCI/APRA reporting triggers (MIR-05). | 8-14 weeks | MIR-01 at L2 |
-| L3→L4 | Distributed tracing for multi-agent (MIR-01). Cross-agent anomaly correlation (MIR-02). Automated forensic data extraction (MIR-06). | 12+ weeks | MIR-01-05 at L3 |
+| L1->L2 | Implement structured agent logging (MIR-01). Basic anomaly detection rules (MIR-02). | 6-10 weeks | None |
+| L2->L3 | Immutable log storage (MIR-06). SIEM integration (MIR-01). AI-specific IR playbooks (MIR-04). Automated SOCI/APRA reporting triggers (MIR-05). | 8-14 weeks | MIR-01 at L2 |
+| L3->L4 | Distributed tracing for multi-agent (MIR-01). Cross-agent anomaly correlation (MIR-02). Automated forensic data extraction (MIR-06). | 12+ weeks | MIR-01-05 at L3 |
 
 ### GRM: Governance and Risk
 
 | Level | Key Activities | Typical Duration | Prerequisites |
 |-------|---------------|------------------|---------------|
-| L1→L2 | Form AI governance body (GRM-01). Create AI risk register (GRM-02). Draft ethical use policy (GRM-03). | 6-10 weeks | Executive sponsorship |
-| L2→L3 | Chartered governance body with regular meetings (GRM-01). Automated compliance mapping (GRM-05). Board reporting dashboard (GRM-06). Vendor assessments for AI providers (GRM-04). | 8-12 weeks | GRM-01-03 at L2 |
-| L3→L4 | Continuous compliance monitoring (GRM-05). Real-time executive dashboard (GRM-06). Cross-entity governance (GRM-01). | 12+ weeks | GRM-01-05 at L3 |
+| L1->L2 | Form AI governance body (GRM-01). Create AI risk register (GRM-02). Draft ethical use policy (GRM-03). | 6-10 weeks | Executive sponsorship |
+| L2->L3 | Chartered governance body with regular meetings (GRM-01). Automated compliance mapping (GRM-05). Board reporting dashboard (GRM-06). Vendor assessments for AI providers (GRM-04). | 8-12 weeks | GRM-01-03 at L2 |
+| L3->L4 | Continuous compliance monitoring (GRM-05). Real-time executive dashboard (GRM-06). Cross-entity governance (GRM-01). | 12+ weeks | GRM-01-05 at L3 |
 
 ## Overall Maturity Timeline
 
@@ -1498,7 +1498,7 @@ For each of the 36 controls:
 
 # Section 9: Regulatory Cross-Reference
 
-## Quick-Reference: Control → Framework Mapping
+## Quick-Reference: Control -> Framework Mapping
 
 | Control | ISM | E8 | SOCI Act | CPS 234 | PSPF | Privacy Act |
 |---------|-----|----|----------|---------|------|-------------|
@@ -1539,7 +1539,7 @@ For each of the 36 controls:
 | GRM-05 | Documentation | - | CIRMP | s.2 | Gov | - |
 | GRM-06 | - | - | - | s.2 | Gov | - |
 
-## Quick-Reference: Framework → Control Mapping
+## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
@@ -1550,7 +1550,7 @@ For each of the 36 controls:
 | PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
 | Privacy Act 1988 | DS-01, DS-02, DS-03, DS-04, DS-05, DS-06, MIR-01, MIR-05, GRM-01, GRM-03 |
 | OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), DS-03 (LLM06), IAM-02 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), GRM-04 (LLM10) |
-| NIST AI RMF | All controls — mapped to GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER, MANAGE |
+| NIST AI RMF | All controls -- mapped to GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER, MANAGE |
 | EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), DS-04 (Art. 10), DS-05 (Art. 10), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
 
 ---
@@ -1561,42 +1561,42 @@ Use this quick-reference during the assessment to ensure all 36 controls have be
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
-| 1 | MS-01: Weight protection | ☐ | | | | |
-| 2 | MS-02: Training data integrity | ☐ | | | | |
-| 3 | MS-03: Supply chain security | ☐ | | | | |
-| 4 | MS-04: Adversarial robustness | ☐ | | | | |
-| 5 | MS-05: Behaviour validation | ☐ | | | | |
-| 6 | MS-06: Model inventory | ☐ | | | | |
-| 7 | IAM-01: Agent identity | ☐ | | | | |
-| 8 | IAM-02: Scope-bound delegation | ☐ | | | | |
-| 9 | IAM-03: Human oversight | ☐ | | | | |
-| 10 | IAM-04: Credential isolation | ☐ | | | | |
-| 11 | IAM-05: JIT access | ☐ | | | | |
-| 12 | IAM-06: Cross-session boundary | ☐ | | | | |
-| 13 | DS-01: Data classification | ☐ | | | | |
-| 14 | DS-02: Inference protection | ☐ | | | | |
-| 15 | DS-03: Memory sanitisation | ☐ | | | | |
-| 16 | DS-04: Data minimisation | ☐ | | | | |
-| 17 | DS-05: Training data governance | ☐ | | | | |
-| 18 | DS-06: Output validation | ☐ | | | | |
-| 19 | TP-01: Tool inventory | ☐ | | | | |
-| 20 | TP-02: Tool access control | ☐ | | | | |
-| 21 | TP-03: API gateway security | ☐ | | | | |
-| 22 | TP-04: Tool output validation | ☐ | | | | |
-| 23 | TP-05: Pipeline integrity | ☐ | | | | |
-| 24 | TP-06: Dependency scanning | ☐ | | | | |
-| 25 | MIR-01: Agent activity logging | ☐ | | | | |
-| 26 | MIR-02: Anomaly detection | ☐ | | | | |
-| 27 | MIR-03: Prompt audit log | ☐ | | | | |
-| 28 | MIR-04: IR playbooks | ☐ | | | | |
-| 29 | MIR-05: Reporting integration | ☐ | | | | |
-| 30 | MIR-06: Forensic readiness | ☐ | | | | |
-| 31 | GRM-01: AI governance body | ☐ | | | | |
-| 32 | GRM-02: AI risk register | ☐ | | | | |
-| 33 | GRM-03: Ethical use policy | ☐ | | | | |
-| 34 | GRM-04: Third-party AI risk | ☐ | | | | |
-| 35 | GRM-05: Regulatory mapping | ☐ | | | | |
-| 36 | GRM-06: Board reporting | ☐ | | | | |
+| 1 | MS-01: Weight protection | ? | | | | |
+| 2 | MS-02: Training data integrity | ? | | | | |
+| 3 | MS-03: Supply chain security | ? | | | | |
+| 4 | MS-04: Adversarial robustness | ? | | | | |
+| 5 | MS-05: Behaviour validation | ? | | | | |
+| 6 | MS-06: Model inventory | ? | | | | |
+| 7 | IAM-01: Agent identity | ? | | | | |
+| 8 | IAM-02: Scope-bound delegation | ? | | | | |
+| 9 | IAM-03: Human oversight | ? | | | | |
+| 10 | IAM-04: Credential isolation | ? | | | | |
+| 11 | IAM-05: JIT access | ? | | | | |
+| 12 | IAM-06: Cross-session boundary | ? | | | | |
+| 13 | DS-01: Data classification | ? | | | | |
+| 14 | DS-02: Inference protection | ? | | | | |
+| 15 | DS-03: Memory sanitisation | ? | | | | |
+| 16 | DS-04: Data minimisation | ? | | | | |
+| 17 | DS-05: Training data governance | ? | | | | |
+| 18 | DS-06: Output validation | ? | | | | |
+| 19 | TP-01: Tool inventory | ? | | | | |
+| 20 | TP-02: Tool access control | ? | | | | |
+| 21 | TP-03: API gateway security | ? | | | | |
+| 22 | TP-04: Tool output validation | ? | | | | |
+| 23 | TP-05: Pipeline integrity | ? | | | | |
+| 24 | TP-06: Dependency scanning | ? | | | | |
+| 25 | MIR-01: Agent activity logging | ? | | | | |
+| 26 | MIR-02: Anomaly detection | ? | | | | |
+| 27 | MIR-03: Prompt audit log | ? | | | | |
+| 28 | MIR-04: IR playbooks | ? | | | | |
+| 29 | MIR-05: Reporting integration | ? | | | | |
+| 30 | MIR-06: Forensic readiness | ? | | | | |
+| 31 | GRM-01: AI governance body | ? | | | | |
+| 32 | GRM-02: AI risk register | ? | | | | |
+| 33 | GRM-03: Ethical use policy | ? | | | | |
+| 34 | GRM-04: Third-party AI risk | ? | | | | |
+| 35 | GRM-05: Regulatory mapping | ? | | | | |
+| 36 | GRM-06: Board reporting | ? | | | | |
 
 **Pillar Maturity Summary**
 
@@ -1612,6 +1612,6 @@ Use this quick-reference during the assessment to ensure all 36 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.0 — July 2026*
+*SHIELD-AI Assessment Guide v1.0 -- July 2026*
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

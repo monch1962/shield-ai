@@ -1,7 +1,7 @@
 package shield_ai.mir.agent_activity_logging
 
-# SHIELD-AI™ MIR-01: Agent Activity Logging
-# Pillar: MIR — Monitoring, Logging, and Incident Response
+# SHIELD-AI(TM) MIR-01: Agent Activity Logging
+# Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
 # Log all agent actions in structured format with immutable storage, SIEM integration, and distributed tracing support for multi-agent architectures.
 #
@@ -12,8 +12,8 @@ package shield_ai.mir.agent_activity_logging
 #   L4: Real-time log streaming. Automated log anomaly detection. Extended retention for forensic readiness.
 #
 # Regulatory mappings:
-#   SOCI Act: s.30B(5)(a) — record-keeping
-#   APRA CPS 234: s.3(c) — information security capability
+#   SOCI Act: s.30B(5)(a) -- record-keeping
+#   APRA CPS 234: s.3(c) -- information security capability
 #   ISM: Guidelines for System Monitoring
 
 # Default deny

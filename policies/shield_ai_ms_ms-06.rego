@@ -1,7 +1,7 @@
 package shield_ai.ms.model_inventory_and_lineage_tr
 
-# SHIELD-AI™ MS-06: Model Inventory and Lineage Tracking
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-06: Model Inventory and Lineage Tracking
+# Pillar: MS -- Model Security
 #
 # Maintain a complete, versioned inventory of all models with traceable lineage from training through deployment to retirement.
 #
@@ -13,7 +13,7 @@ package shield_ai.ms.model_inventory_and_lineage_tr
 #
 # Regulatory mappings:
 #   NIST AI RMF: GOVERN (GV.OD)
-#   EU AI Act: Art. 11 — Registration
+#   EU AI Act: Art. 11 -- Registration
 #   ISO 42001: Clause 7.4
 
 # Default deny

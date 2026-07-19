@@ -1,7 +1,7 @@
 package shield_ai.ms.supply_chain_security
 
-# SHIELD-AI™ MS-03: Supply Chain Security
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-03: Supply Chain Security
+# Pillar: MS -- Model Security
 #
 # Verify the provenance and integrity of model weights, ML libraries, training infrastructure, and deployment tooling throughout the AI supply chain.
 #
@@ -12,8 +12,8 @@ package shield_ai.ms.supply_chain_security
 #   L4: Continuous supply chain monitoring. Automated rollback on integrity violation. Published ML SBOM for regulator review.
 #
 # Regulatory mappings:
-#   ISM: Guidelines for Procurement and Outsourcing, System Management — supply chain
-#   SOCI Act: CIRMP — supply chain obligations
+#   ISM: Guidelines for Procurement and Outsourcing, System Management -- supply chain
+#   SOCI Act: CIRMP -- supply chain obligations
 #   OWASP LLM Top 10 v2: LLM10 (Supply Chain)
 #   NIST AI RMF: IDENTIFY (ID.SC)
 

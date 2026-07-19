@@ -1,7 +1,7 @@
 package shield_ai.ds.data_minimisation
 
-# SHIELD-AI™ DS-04: Data Minimisation
-# Pillar: DS — Data Security
+# SHIELD-AI(TM) DS-04: Data Minimisation
+# Pillar: DS -- Data Security
 #
 # Filter data at the retrieval layer (field-level, not document-level) and enforce attribute-based access control at query time to ensure agents receive only the minimum data required.
 #
@@ -12,9 +12,9 @@ package shield_ai.ds.data_minimisation
 #   L4: Dynamic minimisation based on task context and sensitivity. Continuous monitoring of effectiveness.
 #
 # Regulatory mappings:
-#   Privacy Act 1988: APP 3 — Collection of solicited personal information, APP 11
+#   Privacy Act 1988: APP 3 -- Collection of solicited personal information, APP 11
 #   NIST AI RMF: IDENTIFY (ID.DA)
-#   EU AI Act: Art. 10(2) — Data Governance
+#   EU AI Act: Art. 10(2) -- Data Governance
 
 # Default deny
 default deny = false

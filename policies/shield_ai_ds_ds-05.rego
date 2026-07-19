@@ -1,7 +1,7 @@
 package shield_ai.ds.training_data_governance
 
-# SHIELD-AI™ DS-05: Training Data Governance
-# Pillar: DS — Data Security
+# SHIELD-AI(TM) DS-05: Training Data Governance
+# Pillar: DS -- Data Security
 #
 # Track training data lineage from source to model, verify consent for personal data, enforce retention limits, and provide machine unlearning capability.
 #
@@ -12,8 +12,8 @@ package shield_ai.ds.training_data_governance
 #   L4: Machine unlearning capability. Continuous training data audit. Third-party governance automatically assessed.
 #
 # Regulatory mappings:
-#   Privacy Act 1988: APP 3 — Collection, APP 5 — Notification, APP 6 — Use/Disclosure
-#   EU AI Act: Art. 10 — Data Governance
+#   Privacy Act 1988: APP 3 -- Collection, APP 5 -- Notification, APP 6 -- Use/Disclosure
+#   EU AI Act: Art. 10 -- Data Governance
 #   NIST AI RMF: IDENTIFY (ID.DA)
 
 # Default deny

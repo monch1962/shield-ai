@@ -1,7 +1,7 @@
 package shield_ai.iam.credential_isolation
 
-# SHIELD-AI™ IAM-04: Credential Isolation
-# Pillar: IAM — Identity and Access
+# SHIELD-AI(TM) IAM-04: Credential Isolation
+# Pillar: IAM -- Identity and Access
 #
 # Store, manage, and rotate agent credentials separately from human credentials with hardware-backed protection for critical agents and automated rotation on compromise signals.
 #
@@ -12,9 +12,9 @@ package shield_ai.iam.credential_isolation
 #   L4: Just-in-time credential issuance. Continuous credential verification. Credential-less authentication (SPIFFE).
 #
 # Regulatory mappings:
-#   ISM: Guidelines for System Management — credential management
+#   ISM: Guidelines for System Management -- credential management
 #   NIST AI RMF: PROTECT (PR.AC)
-#   Essential Eight: Multi-factor Authentication — extended to service accounts
+#   Essential Eight: Multi-factor Authentication -- extended to service accounts
 
 # Default deny
 default deny = false

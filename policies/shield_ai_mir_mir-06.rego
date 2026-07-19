@@ -1,7 +1,7 @@
 package shield_ai.mir.forensic_readiness
 
-# SHIELD-AI™ MIR-06: Forensic Readiness
-# Pillar: MIR — Monitoring, Logging, and Incident Response
+# SHIELD-AI(TM) MIR-06: Forensic Readiness
+# Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
 # Maintain immutable, verifiable logs with full session reconstruction capability for all agents, including support for multi-agent chain reconstruction.
 #
@@ -13,8 +13,8 @@ package shield_ai.mir.forensic_readiness
 #
 # Regulatory mappings:
 #   NIST AI RMF: RECOVER (RC.RP)
-#   ISM: Guidelines for Cyber Security Incidents — forensic readiness
-#   SOCI Act: CIRMP — record-keeping
+#   ISM: Guidelines for Cyber Security Incidents -- forensic readiness
+#   SOCI Act: CIRMP -- record-keeping
 
 # Default deny
 default deny = false

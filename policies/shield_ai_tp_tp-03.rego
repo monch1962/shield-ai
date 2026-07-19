@@ -1,7 +1,7 @@
 package shield_ai.tp.api_gateway_security
 
-# SHIELD-AI™ TP-03: API Gateway Security
-# Pillar: TP — Tool and Pipeline Security
+# SHIELD-AI(TM) TP-03: API Gateway Security
+# Pillar: TP -- Tool and Pipeline Security
 #
 # Deploy a gateway between agents and tools that enforces rate limiting, schema validation, audit logging, and MCP protocol awareness where applicable.
 #

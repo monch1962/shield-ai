@@ -1,7 +1,7 @@
 package shield_ai.ms.model_weight_protection
 
-# SHIELD-AI™ MS-01: Model Weight Protection
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-01: Model Weight Protection
+# Pillar: MS -- Model Security
 #
 # Ensure model weights are protected against exfiltration, cloning, and inversion attacks through encryption, access control, and integrity verification.
 #
@@ -12,7 +12,7 @@ package shield_ai.ms.model_weight_protection
 #   L4: Continuous attestation of weight integrity. Automated incident response on unauthorised access. Edge attestation.
 #
 # Regulatory mappings:
-#   ISM: Guidelines for Cryptography, System Management — access control
+#   ISM: Guidelines for Cryptography, System Management -- access control
 #   PSPF: Information Security
 
 # Default deny

@@ -1,7 +1,7 @@
 package shield_ai.ds.output_validation
 
-# SHIELD-AI™ DS-06: Output Validation
-# Pillar: DS — Data Security
+# SHIELD-AI(TM) DS-06: Output Validation
+# Pillar: DS -- Data Security
 #
 # Scan all model outputs for data leakage (PII, training data, system prompts, credentials) at the inference proxy layer before delivery to users or systems.
 #
@@ -13,7 +13,7 @@ package shield_ai.ds.output_validation
 #
 # Regulatory mappings:
 #   OWASP LLM Top 10 v2: LLM02 (Insecure Output Handling)
-#   Privacy Act 1988: APP 11 — data security
+#   Privacy Act 1988: APP 11 -- data security
 #   NIST AI RMF: MEASURE (ME.AD)
 
 # Default deny

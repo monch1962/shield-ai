@@ -1,7 +1,7 @@
 package shield_ai.grm.ethical_use_policy
 
-# SHIELD-AI™ GRM-03: Ethical Use Policy
-# Pillar: GRM — Governance and Risk Management
+# SHIELD-AI(TM) GRM-03: Ethical Use Policy
+# Pillar: GRM -- Governance and Risk Management
 #
 # Document and enforce an ethical use policy that classifies agents by risk tier, defines autonomy boundaries per tier, and specifies transparency obligations.
 #
@@ -12,9 +12,9 @@ package shield_ai.grm.ethical_use_policy
 #   L4: Continuous compliance verification. Automated enforcement at tool gateway. Policy improvement from experience.
 #
 # Regulatory mappings:
-#   EU AI Act: Art. 14 — Human Oversight
+#   EU AI Act: Art. 14 -- Human Oversight
 #   NIST AI RMF: GOVERN (GV.OC)
-#   Privacy Act 1988: APP 1 — accountability
+#   Privacy Act 1988: APP 1 -- accountability
 
 # Default deny
 default deny = false

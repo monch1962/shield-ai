@@ -1,7 +1,7 @@
 package shield_ai.ms.adversarial_robustness
 
-# SHIELD-AI™ MS-04: Adversarial Robustness
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-04: Adversarial Robustness
+# Pillar: MS -- Model Security
 #
 # Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs through automated testing, red-teaming, and proxy-layer guardrails.
 #
@@ -14,7 +14,7 @@ package shield_ai.ms.adversarial_robustness
 # Regulatory mappings:
 #   OWASP LLM Top 10 v2: LLM01 (Prompt Injection), LLM05 (Jailbreak)
 #   NIST AI RMF: MEASURE (ME.AD)
-#   EU AI Act: Art. 15 — Accuracy
+#   EU AI Act: Art. 15 -- Accuracy
 #   MITRE ATLAS: AML.T0051, AML.T0059
 
 # Default deny

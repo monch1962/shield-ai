@@ -1,7 +1,7 @@
 package shield_ai.ds.data_classification_and_labell
 
-# SHIELD-AI™ DS-01: Data Classification and Labelling
-# Pillar: DS — Data Security
+# SHIELD-AI(TM) DS-01: Data Classification and Labelling
+# Pillar: DS -- Data Security
 #
 # Classify all data entering the AI system at ingestion using an automated pipeline that feeds into downstream encryption, retention, and access controls.
 #
@@ -12,9 +12,9 @@ package shield_ai.ds.data_classification_and_labell
 #   L4: Real-time re-classification based on detected content. Continuous accuracy monitoring.
 #
 # Regulatory mappings:
-#   PSPF: Information Security — classified information
-#   ISM: Guidelines for Data Transfers — classification
-#   Privacy Act 1988: APP 5 — Collection, APP 6 — Use and Disclosure
+#   PSPF: Information Security -- classified information
+#   ISM: Guidelines for Data Transfers -- classification
+#   Privacy Act 1988: APP 5 -- Collection, APP 6 -- Use and Disclosure
 
 # Default deny
 default deny = false

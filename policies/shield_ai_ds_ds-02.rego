@@ -1,7 +1,7 @@
 package shield_ai.ds.inference_data_protection
 
-# SHIELD-AI™ DS-02: Inference Data Protection
-# Pillar: DS — Data Security
+# SHIELD-AI(TM) DS-02: Inference Data Protection
+# Pillar: DS -- Data Security
 #
 # Encrypt all data in transit between user, agent, model, and tools with TLS 1.3 minimum, and secure inference endpoints within the organisation's trust boundary for sensitive workloads.
 #
@@ -12,7 +12,7 @@ package shield_ai.ds.inference_data_protection
 #   L4: Client-side encryption keys for cloud inference. Full audit trail of all inference data exposure.
 #
 # Regulatory mappings:
-#   Privacy Act 1988: APP 11 — Security of Personal Information
+#   Privacy Act 1988: APP 11 -- Security of Personal Information
 #   ISM: Guidelines for Cryptography
 #   PSPF: Information Security
 

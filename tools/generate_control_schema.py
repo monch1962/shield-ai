@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-SHIELD-AI™ Control Schema Generator
+SHIELD-AI(TM) Control Schema Generator
 ===================================
 Generates machine-readable control definitions from canonical Python data structures.
 
 Outputs:
-  assets/shield-ai-control-schema.json   — Full control definitions, maturity
+  assets/shield-ai-control-schema.json   -- Full control definitions, maturity
                                             indicators, assessment questions,
                                             artifacts, regulatory mappings
-  policies/shield_ai_*.rego              — Rego policy stubs for automated
+  policies/shield_ai_*.rego              -- Rego policy stubs for automated
                                             control testing (optional)
 
 Usage:
@@ -21,9 +21,9 @@ import os
 import sys
 from datetime import date
 
-# ──────────────────────────────────────────────
+# ----------------------------------------------
 # Canonical control definitions
-# ──────────────────────────────────────────────
+# ----------------------------------------------
 
 FRAMEWORK_VERSION = "1.1"
 FRAMEWORK_DATE = "2026-07"
@@ -63,12 +63,12 @@ def reg(cid, title, pillar, description, objective,
         "tags": tags or [],
     }
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 1: MODEL SECURITY
-# ════════════════════════════════════════════
+# ============================================
 
 reg("MS-01", "Model Weight Protection", "MS",
-    "Model weights represent the trained intelligence of an AI system — often the single most valuable "
+    "Model weights represent the trained intelligence of an AI system -- often the single most valuable "
     "intellectual property an organisation has deployed. Weight protection covers encryption at rest and "
     "in transit, HSM-backed key management, and remote attestation for edge deployments.",
     "Ensure model weights are protected against exfiltration, cloning, and inversion attacks through "
@@ -97,14 +97,14 @@ reg("MS-01", "Model Weight Protection", "MS",
         "Data classification policy (are weights classified as sensitive/critical?)",
         "Incident response playbook for weight exfiltration",
     ],
-    mappings={"ISM": "Guidelines for Cryptography, System Management — access control",
+    mappings={"ISM": "Guidelines for Cryptography, System Management -- access control",
               "PSPF": "Information Security"},
     tags=["ISM", "PSPF"])
 
 reg("MS-02", "Training Data Integrity", "MS",
     "Training data integrity ensures that data used to train or fine-tune a model has not been poisoned, "
-    "corrupted, or substituted. Data poisoning — an attacker inserting crafted samples into the training "
-    "dataset — can cause a model to behave normally until a specific trigger condition is met.",
+    "corrupted, or substituted. Data poisoning -- an attacker inserting crafted samples into the training "
+    "dataset -- can cause a model to behave normally until a specific trigger condition is met.",
     "Ensure training and fine-tuning datasets are verified for integrity, provenance, and freedom from "
     "poisoning or corruption before use.",
     [
@@ -129,7 +129,7 @@ reg("MS-02", "Training Data Integrity", "MS",
         "Data provenance / lineage tracking system configuration",
         "Data ingestion audit logs",
     ],
-    mappings={"ISM": "Guidelines for Software Development — data validation",
+    mappings={"ISM": "Guidelines for Software Development -- data validation",
               "OWASP LLM Top 10 v2": "LLM04 (Data Poisoning)",
               "NIST AI RMF": "IDENTIFY (ID.DA)"},
     tags=["ISM", "OWASP", "NIST"])
@@ -162,15 +162,15 @@ reg("MS-03", "Supply Chain Security", "MS",
         "Vulnerability scanning reports for ML dependencies",
         "Model checkpoint signing configuration",
     ],
-    mappings={"ISM": "Guidelines for Procurement and Outsourcing, System Management — supply chain",
-              "SOCI Act": "CIRMP — supply chain obligations",
+    mappings={"ISM": "Guidelines for Procurement and Outsourcing, System Management -- supply chain",
+              "SOCI Act": "CIRMP -- supply chain obligations",
               "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
               "NIST AI RMF": "IDENTIFY (ID.SC)"},
     tags=["ISM", "SOCI", "OWASP", "NIST"])
 
 reg("MS-04", "Adversarial Robustness", "MS",
     "Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended "
-    "behaviour. For agentic AI, the primary adversarial attack is prompt injection — crafting input that "
+    "behaviour. For agentic AI, the primary adversarial attack is prompt injection -- crafting input that "
     "causes the model to ignore its system prompt and follow attacker instructions.",
     "Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs "
     "through automated testing, red-teaming, and proxy-layer guardrails.",
@@ -198,12 +198,12 @@ reg("MS-04", "Adversarial Robustness", "MS",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM01 (Prompt Injection), LLM05 (Jailbreak)",
               "NIST AI RMF": "MEASURE (ME.AD)",
-              "EU AI Act": "Art. 15 — Accuracy",
+              "EU AI Act": "Art. 15 -- Accuracy",
               "MITRE ATLAS": "AML.T0051, AML.T0059"},
     tags=["OWASP", "NIST", "EU", "MITRE"])
 
 reg("MS-05", "Model Behaviour Validation", "MS",
-    "Behaviour validation ensures that model outputs conform to expected bounds — the model produces "
+    "Behaviour validation ensures that model outputs conform to expected bounds -- the model produces "
     "content that is safe, contextually appropriate, and within its defined scope of operation. This "
     "is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour "
     "validation focuses on model outputs regardless of input quality.",
@@ -233,7 +233,7 @@ reg("MS-05", "Model Behaviour Validation", "MS",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
               "NIST AI RMF": "MANAGE (MG.DE)",
-              "EU AI Act": "Art. 14 — Human Oversight",
+              "EU AI Act": "Art. 14 -- Human Oversight",
               "ISO 42001": "Clause 8.6"},
     tags=["OWASP", "NIST", "EU"])
 
@@ -266,13 +266,13 @@ reg("MS-06", "Model Inventory and Lineage Tracking", "MS",
         "Shadow AI detection mechanisms",
     ],
     mappings={"NIST AI RMF": "GOVERN (GV.OD)",
-              "EU AI Act": "Art. 11 — Registration",
+              "EU AI Act": "Art. 11 -- Registration",
               "ISO 42001": "Clause 7.4"},
     tags=["NIST", "EU"])
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 2: IDENTITY AND ACCESS
-# ════════════════════════════════════════════
+# ============================================
 
 reg("IAM-01", "Agent Identity Management", "IAM",
     "Every agent must have a unique, auditable digital identity that is distinct from any human user's "
@@ -300,16 +300,16 @@ reg("IAM-01", "Agent Identity Management", "IAM",
         "Agent identity lifecycle policy",
         "Identity governance tool configuration",
         "Audit logs showing agent identity attribution",
-        "Session initiation audit records (human → agent correlation)",
+        "Session initiation audit records (human -> agent correlation)",
     ],
-    mappings={"ISM": "Guidelines for System Management — identification and authentication",
+    mappings={"ISM": "Guidelines for System Management -- identification and authentication",
               "Essential Eight": "Restrict Administrative Privileges",
               "NIST AI RMF": "IDENTIFY (ID.AM)"},
     tags=["ISM", "E8", "NIST"])
 
 reg("IAM-02", "Scope-Bound Delegation", "IAM",
     "Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, "
-    "data, and actions required for its function — and that the agent cannot exceed these bounds, cannot "
+    "data, and actions required for its function -- and that the agent cannot exceed these bounds, cannot "
     "grant permissions to other agents beyond its own scope, and cannot self-escalate privileges.",
     "Limit each agent's permissions to the minimum set of tools, data, and actions required for its "
     "function, enforced by a policy-as-code engine at invocation time.",
@@ -342,7 +342,7 @@ reg("IAM-02", "Scope-Bound Delegation", "IAM",
 
 reg("IAM-03", "Human Oversight Controls", "IAM",
     "Human oversight ensures that high-risk agent actions require explicit human approval before "
-    "execution. Not every agent action needs human review — a customer support agent reading account "
+    "execution. Not every agent action needs human review -- a customer support agent reading account "
     "details is low-risk; the same agent writing to the account requires approval.",
     "Implement risk-tiered human approval gates for agent actions, with documented break-glass "
     "procedures for urgent situations.",
@@ -366,9 +366,9 @@ reg("IAM-03", "Human Oversight Controls", "IAM",
         "Break-glass procedure documentation",
         "Approval audit trail",
     ],
-    mappings={"EU AI Act": "Art. 14 — Human Oversight",
+    mappings={"EU AI Act": "Art. 14 -- Human Oversight",
               "NIST AI RMF": "MANAGE (MG.DE)",
-              "APRA CPS 234": "s.2 — Board accountability for controls"},
+              "APRA CPS 234": "s.2 -- Board accountability for controls"},
     tags=["EU", "NIST", "CPS234"])
 
 reg("IAM-04", "Credential Isolation", "IAM",
@@ -396,14 +396,14 @@ reg("IAM-04", "Credential Isolation", "IAM",
         "Credential access audit logs",
         "HSM/TPM configuration (if applicable)",
     ],
-    mappings={"ISM": "Guidelines for System Management — credential management",
+    mappings={"ISM": "Guidelines for System Management -- credential management",
               "NIST AI RMF": "PROTECT (PR.AC)",
-              "Essential Eight": "Multi-factor Authentication — extended to service accounts"},
+              "Essential Eight": "Multi-factor Authentication -- extended to service accounts"},
     tags=["ISM", "NIST", "E8"])
 
 reg("IAM-05", "Just-in-Time (JIT) Access", "IAM",
     "JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically "
-    "after the session ends. This prevents credential persistence — an attacker who compromises a tool "
+    "after the session ends. This prevents credential persistence -- an attacker who compromises a tool "
     "gateway cannot replay stale credentials.",
     "Issue session-bound, ephemeral credentials for agents with automatic expiration and the ability "
     "to revoke mid-session on suspicious behaviour detection.",
@@ -411,7 +411,7 @@ reg("IAM-05", "Just-in-Time (JIT) Access", "IAM",
         "Persistent credentials. No expiration. Credentials valid indefinitely.",
         "Session-bound credentials with fixed expiration (e.g., 1 hour). Manual renewal.",
         "JIT credentials scoped per-session. Automatic expiration. Revocation available.",
-        "Dynamic scoping — credentials scoped to specific tools/data per agent task. Continuous authorisation checking.",
+        "Dynamic scoping -- credentials scoped to specific tools/data per agent task. Continuous authorisation checking.",
     ],
     [
         "Are agent credentials session-bound and automatically expired?",
@@ -429,12 +429,12 @@ reg("IAM-05", "Just-in-Time (JIT) Access", "IAM",
     ],
     mappings={"NIST AI RMF": "PROTECT (PR.AC)",
               "Essential Eight": "Restrict Administrative Privileges",
-              "ISM": "Guidelines for System Management — privileged access management"},
+              "ISM": "Guidelines for System Management -- privileged access management"},
     tags=["NIST", "E8", "ISM"])
 
 reg("IAM-06", "Cross-Session Boundary Enforcement", "IAM",
     "Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage "
-    "credentials, context, or access from another session — even if both sessions are for the same "
+    "credentials, context, or access from another session -- even if both sessions are for the same "
     "human user. Each session is an independent security context.",
     "Ensure each agent session is an independent security context with no credential or data sharing "
     "across sessions.",
@@ -458,13 +458,13 @@ reg("IAM-06", "Cross-Session Boundary Enforcement", "IAM",
         "Agent memory scoping configuration",
         "Session ID generation and validation configuration",
     ],
-    mappings={"OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure — memory scoping)",
+    mappings={"OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure -- memory scoping)",
               "NIST AI RMF": "PROTECT (PR.AC)"},
     tags=["OWASP", "NIST"])
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 3: DATA SECURITY
-# ════════════════════════════════════════════
+# ============================================
 
 reg("DS-01", "Data Classification and Labelling", "DS",
     "Data classification ensures that every piece of data that enters an agentic AI system is "
@@ -493,9 +493,9 @@ reg("DS-01", "Data Classification and Labelling", "DS",
         "Data classification audit logs",
         "Integration between classification and downstream controls",
     ],
-    mappings={"PSPF": "Information Security — classified information",
-              "ISM": "Guidelines for Data Transfers — classification",
-              "Privacy Act 1988": "APP 5 — Collection, APP 6 — Use and Disclosure"},
+    mappings={"PSPF": "Information Security -- classified information",
+              "ISM": "Guidelines for Data Transfers -- classification",
+              "Privacy Act 1988": "APP 5 -- Collection, APP 6 -- Use and Disclosure"},
     tags=["PSPF", "ISM", "PRIVACY"])
 
 reg("DS-02", "Inference Data Protection", "DS",
@@ -512,7 +512,7 @@ reg("DS-02", "Inference Data Protection", "DS",
     ],
     [
         "Are all inference endpoints TLS 1.3 (or equivalent) encrypted?",
-        "Is data encrypted in transit between every hop: user → agent → model → tool → response?",
+        "Is data encrypted in transit between every hop: user -> agent -> model -> tool -> response?",
         "Are inference logs encrypted? Who can access them?",
         "Are prompts and responses logged with sensitive data redacted before storage?",
         "Is inference performed within the organisation's trust boundary for sensitive workloads?",
@@ -524,7 +524,7 @@ reg("DS-02", "Inference Data Protection", "DS",
         "Cloud provider contract / data processing agreement",
         "VPC / private endpoint configuration",
     ],
-    mappings={"Privacy Act 1988": "APP 11 — Security of Personal Information",
+    mappings={"Privacy Act 1988": "APP 11 -- Security of Personal Information",
               "ISM": "Guidelines for Cryptography",
               "PSPF": "Information Security"},
     tags=["PRIVACY", "ISM", "PSPF"])
@@ -559,8 +559,8 @@ reg("DS-03", "Memory Sanitisation", "DS",
         "Data subject access request (DSAR) process for agent memory",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure)",
-              "Privacy Act 1988": "APP 11 — data security, Notifiable Data Breaches",
-              "ISM": "Guidelines for Media — data sanitisation"},
+              "Privacy Act 1988": "APP 11 -- data security, Notifiable Data Breaches",
+              "ISM": "Guidelines for Media -- data sanitisation"},
     tags=["OWASP", "PRIVACY", "ISM"])
 
 reg("DS-04", "Data Minimisation", "DS",
@@ -589,9 +589,9 @@ reg("DS-04", "Data Minimisation", "DS",
         "Data volume monitoring (bytes per query before/after minimisation)",
         "Bulk data access request policy",
     ],
-    mappings={"Privacy Act 1988": "APP 3 — Collection of solicited personal information, APP 11",
+    mappings={"Privacy Act 1988": "APP 3 -- Collection of solicited personal information, APP 11",
               "NIST AI RMF": "IDENTIFY (ID.DA)",
-              "EU AI Act": "Art. 10(2) — Data Governance"},
+              "EU AI Act": "Art. 10(2) -- Data Governance"},
     tags=["PRIVACY", "NIST", "EU"])
 
 reg("DS-05", "Training Data Governance", "DS",
@@ -619,8 +619,8 @@ reg("DS-05", "Training Data Governance", "DS",
         "Machine unlearning capability (or documented alternative)",
         "Training data scanning results (for sensitive data)",
     ],
-    mappings={"Privacy Act 1988": "APP 3 — Collection, APP 5 — Notification, APP 6 — Use/Disclosure",
-              "EU AI Act": "Art. 10 — Data Governance",
+    mappings={"Privacy Act 1988": "APP 3 -- Collection, APP 5 -- Notification, APP 6 -- Use/Disclosure",
+              "EU AI Act": "Art. 10 -- Data Governance",
               "NIST AI RMF": "IDENTIFY (ID.DA)"},
     tags=["PRIVACY", "EU", "NIST"])
 
@@ -651,16 +651,16 @@ reg("DS-06", "Output Validation", "DS",
         "Memorisation test results for production models",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
-              "Privacy Act 1988": "APP 11 — data security",
+              "Privacy Act 1988": "APP 11 -- data security",
               "NIST AI RMF": "MEASURE (ME.AD)"},
     tags=["OWASP", "PRIVACY", "NIST"])
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 4: TOOL AND PIPELINE SECURITY
-# ════════════════════════════════════════════
+# ============================================
 
 reg("TP-01", "Tool Inventory and Registry", "TP",
-    "Every tool that an agent can invoke — APIs, databases, file systems, code executors — must be "
+    "Every tool that an agent can invoke -- APIs, databases, file systems, code executors -- must be "
     "registered, versioned, and security-approved before any agent can call it. An unregistered tool "
     "is a blind spot: it cannot be monitored, access-controlled, or included in incident response.",
     "Maintain a central registry of all tools accessible to agents, with security review, versioning, "
@@ -692,7 +692,7 @@ reg("TP-01", "Tool Inventory and Registry", "TP",
 
 reg("TP-02", "Tool Access Control", "TP",
     "Tool access control ensures that each agent can only invoke the specific tools it is authorised "
-    "to use, and that each tool authenticates the agent — not the human — before accepting commands.",
+    "to use, and that each tool authenticates the agent -- not the human -- before accepting commands.",
     "Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and "
     "version-controlled, auditable access policies.",
     [
@@ -717,7 +717,7 @@ reg("TP-02", "Tool Access Control", "TP",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM08 (Excessive Agency)",
               "NIST AI RMF": "PROTECT (PR.AC)",
-              "Essential Eight": "Application Control — extended to tools"},
+              "Essential Eight": "Application Control -- extended to tools"},
     tags=["OWASP", "NIST", "E8"])
 
 reg("TP-03", "API Gateway Security", "TP",
@@ -754,7 +754,7 @@ reg("TP-03", "API Gateway Security", "TP",
 reg("TP-04", "Tool Output Validation", "TP",
     "Tool output validation ensures that data returned by tools is structurally validated and "
     "sanitised before being fed back into the agent's context. This prevents tool output injection "
-    "attacks — a compromised tool returning crafted data that causes the agent to behave outside "
+    "attacks -- a compromised tool returning crafted data that causes the agent to behave outside "
     "intended parameters.",
     "Validate all tool outputs against known-good schemas before passing to agent context, with "
     "content-type verification, size limits, and sandboxed execution for code-generation tools.",
@@ -809,9 +809,9 @@ reg("TP-05", "Pipeline Integrity", "TP",
         "Pipeline access control lists and audit logs",
         "Third-party plugin security reviews",
     ],
-    mappings={"ISM": "Guidelines for Software Development — CI/CD",
+    mappings={"ISM": "Guidelines for Software Development -- CI/CD",
               "NIST AI RMF": "PROTECT (PR.CI)",
-              "Essential Eight": "Application Control — restricted execution"},
+              "Essential Eight": "Application Control -- restricted execution"},
     tags=["ISM", "NIST", "E8"])
 
 reg("TP-06", "Dependency Scanning", "TP",
@@ -841,13 +841,13 @@ reg("TP-06", "Dependency Scanning", "TP",
         "Container image scanning configuration",
     ],
     mappings={"OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
-              "ISM": "Guidelines for System Management — vulnerability management",
+              "ISM": "Guidelines for System Management -- vulnerability management",
               "Essential Eight": "Patch Applications, Patch Operating Systems"},
     tags=["OWASP", "ISM", "E8"])
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 5: MONITORING, LOGGING, AND IR
-# ════════════════════════════════════════════
+# ============================================
 
 reg("MIR-01", "Agent Activity Logging", "MIR",
     "Agent activity logging captures every action an agent takes in a structured, auditable format "
@@ -876,8 +876,8 @@ reg("MIR-01", "Agent Activity Logging", "MIR",
         "SIEM integration configuration",
         "Log coverage report (are all agents logging?)",
     ],
-    mappings={"SOCI Act": "s.30B(5)(a) — record-keeping",
-              "APRA CPS 234": "s.3(c) — information security capability",
+    mappings={"SOCI Act": "s.30B(5)(a) -- record-keeping",
+              "APRA CPS 234": "s.3(c) -- information security capability",
               "ISM": "Guidelines for System Monitoring"},
     tags=["SOCI", "CPS234", "ISM"])
 
@@ -913,14 +913,14 @@ reg("MIR-02", "Behavioural Anomaly Detection", "MIR",
 
 reg("MIR-03", "Prompt Audit Log", "MIR",
     "The prompt audit log captures sanitised prompt/response pairs for forensic analysis while "
-    "protecting sensitive data. This is the AI-equivalent of database query logging — it enables "
+    "protecting sensitive data. This is the AI-equivalent of database query logging -- it enables "
     "investigators to reconstruct what the agent was asked and what it did.",
     "Log prompt/response pairs with automated sensitive data redaction, tiered retention, and "
     "SIEM integration for forensic analysis.",
     [
         "No prompt logging.",
         "Basic prompt/response logging. Manual review. Short retention.",
-        "Automated redaction. Tiered retention (full → redacted). SIEM integration.",
+        "Automated redaction. Tiered retention (full -> redacted). SIEM integration.",
         "Real-time prompt scanning for security events. Automated incident triggering from prompt analysis.",
     ],
     [
@@ -937,9 +937,9 @@ reg("MIR-03", "Prompt Audit Log", "MIR",
         "Prompt log retention policy",
         "Prompt log review process documentation",
     ],
-    mappings={"OWASP LLM Top 10 v2": "LLM01 (Prompt Injection — detection)",
+    mappings={"OWASP LLM Top 10 v2": "LLM01 (Prompt Injection -- detection)",
               "NIST AI RMF": "DETECT (DE.AE)",
-              "EU AI Act": "Art. 12 — Transparency"},
+              "EU AI Act": "Art. 12 -- Transparency"},
     tags=["OWASP", "NIST", "EU"])
 
 reg("MIR-04", "Incident Response Playbooks", "MIR",
@@ -970,13 +970,13 @@ reg("MIR-04", "Incident Response Playbooks", "MIR",
         "Playbook update history",
     ],
     mappings={"NIST AI RMF": "RESPOND (RS.RP)",
-              "SOCI Act": "CIRMP — incident response",
-              "APRA CPS 234": "s.3(c) — incident response capability"},
+              "SOCI Act": "CIRMP -- incident response",
+              "APRA CPS 234": "s.3(c) -- incident response capability"},
     tags=["NIST", "SOCI", "CPS234"])
 
 reg("MIR-05", "Mandatory Reporting Integration", "MIR",
     "Mandatory reporting integration ensures that the organisation can meet regulatory incident "
-    "reporting deadlines — SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, "
+    "reporting deadlines -- SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, "
     "and Privacy Act Notifiable Data Breaches reporting.",
     "Integrate incident detection with automated regulatory reporting triggers for SOCI Act, APRA "
     "CPS 234, and Notifiable Data Breaches, with pre-populated report templates.",
@@ -1000,14 +1000,14 @@ reg("MIR-05", "Mandatory Reporting Integration", "MIR",
         "Reporting deadline tracking configuration",
         "Historical incident report repository",
     ],
-    mappings={"SOCI Act": "s.30B — mandatory incident reporting (12h critical, 72h other)",
-              "APRA CPS 234": "s.3(c) — 72-hour notification",
+    mappings={"SOCI Act": "s.30B -- mandatory incident reporting (12h critical, 72h other)",
+              "APRA CPS 234": "s.3(c) -- 72-hour notification",
               "Privacy Act 1988": "Notifiable Data Breaches scheme"},
     tags=["SOCI", "CPS234", "PRIVACY"])
 
 reg("MIR-06", "Forensic Readiness", "MIR",
-    "Forensic readiness ensures that the organisation can reconstruct a full agent session — every "
-    "prompt, tool call, data access, decision, and response — for post-incident investigation. Logs "
+    "Forensic readiness ensures that the organisation can reconstruct a full agent session -- every "
+    "prompt, tool call, data access, decision, and response -- for post-incident investigation. Logs "
     "are written to immutable, append-only storage with integrity guarantees.",
     "Maintain immutable, verifiable logs with full session reconstruction capability for all agents, "
     "including support for multi-agent chain reconstruction.",
@@ -1032,13 +1032,13 @@ reg("MIR-06", "Forensic Readiness", "MIR",
         "Forensic data extraction procedure",
     ],
     mappings={"NIST AI RMF": "RECOVER (RC.RP)",
-              "ISM": "Guidelines for Cyber Security Incidents — forensic readiness",
-              "SOCI Act": "CIRMP — record-keeping"},
+              "ISM": "Guidelines for Cyber Security Incidents -- forensic readiness",
+              "SOCI Act": "CIRMP -- record-keeping"},
     tags=["NIST", "ISM", "SOCI"])
 
-# ════════════════════════════════════════════
+# ============================================
 # PILLAR 6: GOVERNANCE AND RISK MANAGEMENT
-# ════════════════════════════════════════════
+# ============================================
 
 reg("GRM-01", "AI Governance Body", "GRM",
     "The AI governance body is a chartered committee with the authority to approve agentic AI "
@@ -1066,9 +1066,9 @@ reg("GRM-01", "AI Governance Body", "GRM",
         "Escalation procedure documentation",
         "Decision implementation tracking",
     ],
-    mappings={"APRA CPS 234": "s.2 — Board accountability",
-              "PSPF": "Security Governance — Policy 1",
-              "Privacy Act 1988": "APP 1 — accountability"},
+    mappings={"APRA CPS 234": "s.2 -- Board accountability",
+              "PSPF": "Security Governance -- Policy 1",
+              "Privacy Act 1988": "APP 1 -- accountability"},
     tags=["CPS234", "PSPF", "PRIVACY"])
 
 reg("GRM-02", "AI Risk Register", "GRM",
@@ -1086,7 +1086,7 @@ reg("GRM-02", "AI Risk Register", "GRM",
     [
         "Is there a dedicated AI risk register or AI-specific section in the enterprise risk register?",
         "Does the AI risk taxonomy cover model, tool, data, identity, and pipeline risks?",
-        "Are risks assessed using a defined methodology (likelihood × impact)?",
+        "Are risks assessed using a defined methodology (likelihood x impact)?",
         "Are risk owners assigned to each AI risk?",
         "Is there a process for accepting AI risks with documented rationale and expiry?",
     ],
@@ -1099,8 +1099,8 @@ reg("GRM-02", "AI Risk Register", "GRM",
         "Risk acceptance records with rationale and expiry",
     ],
     mappings={"NIST AI RMF": "GOVERN (GV.RM)",
-              "SOCI Act": "CIRMP — risk management",
-              "APRA CPS 234": "s.3(a) — risk assessment"},
+              "SOCI Act": "CIRMP -- risk management",
+              "APRA CPS 234": "s.3(a) -- risk assessment"},
     tags=["NIST", "SOCI", "CPS234"])
 
 reg("GRM-03", "Ethical Use Policy", "GRM",
@@ -1129,9 +1129,9 @@ reg("GRM-03", "Ethical Use Policy", "GRM",
         "Policy violation records and remediation",
         "Policy review schedule and update history",
     ],
-    mappings={"EU AI Act": "Art. 14 — Human Oversight",
+    mappings={"EU AI Act": "Art. 14 -- Human Oversight",
               "NIST AI RMF": "GOVERN (GV.OC)",
-              "Privacy Act 1988": "APP 1 — accountability"},
+              "Privacy Act 1988": "APP 1 -- accountability"},
     tags=["EU", "NIST", "PRIVACY"])
 
 reg("GRM-04", "Third-Party AI Risk Management", "GRM",
@@ -1163,7 +1163,7 @@ reg("GRM-04", "Third-Party AI Risk Management", "GRM",
     mappings={"OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
               "NIST AI RMF": "IDENTIFY (ID.SC)",
               "ISM": "Guidelines for Procurement and Outsourcing",
-              "EU AI Act": "Art. 28 — Third Parties"},
+              "EU AI Act": "Art. 28 -- Third Parties"},
     tags=["OWASP", "NIST", "ISM", "EU"])
 
 reg("GRM-05", "Regulatory Mapping and Compliance Reporting", "GRM",
@@ -1193,15 +1193,15 @@ reg("GRM-05", "Regulatory Mapping and Compliance Reporting", "GRM",
         "Compliance dashboard configuration",
         "Regulatory change monitoring configuration",
     ],
-    mappings={"APRA CPS 234": "s.2 — Board reporting",
+    mappings={"APRA CPS 234": "s.2 -- Board reporting",
               "NIST AI RMF": "GOVERN (GV.OV)",
               "ISM": "Guidelines for Cyber Security Documentation"},
     tags=["CPS234", "NIST", "ISM"])
 
 reg("GRM-06", "Board and Executive Reporting", "GRM",
     "Board and executive reporting provides a standardised dashboard giving the Board and executive "
-    "team visibility into the organisation's AI security posture — maturity scores per pillar, open "
-    "findings, regulatory compliance status, and risk acceptances — designed for non-technical audiences.",
+    "team visibility into the organisation's AI security posture -- maturity scores per pillar, open "
+    "findings, regulatory compliance status, and risk acceptances -- designed for non-technical audiences.",
     "Provide a standardised executive dashboard showing pillar maturity scores, open findings, "
     "regulatory compliance status, and risk acceptances, refreshed automatically.",
     [
@@ -1224,14 +1224,14 @@ reg("GRM-06", "Board and Executive Reporting", "GRM",
         "Risk acceptance register",
         "Board reporting schedule and recent reports",
     ],
-    mappings={"APRA CPS 234": "s.2 — Board accountability and reporting",
+    mappings={"APRA CPS 234": "s.2 -- Board accountability and reporting",
               "NIST AI RMF": "GOVERN (GV.OV)"},
     tags=["CPS234", "NIST"])
 
 
-# ──────────────────────────────────────────────
+# ----------------------------------------------
 # OUTPUT GENERATION
-# ──────────────────────────────────────────────
+# ----------------------------------------------
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -1299,8 +1299,8 @@ def generate_rego_stubs(output_dir=None):
 
         rego_code = f"""package {package_name}
 
-# SHIELD-AI™ {cid}: {ctrl['title']}
-# Pillar: {ctrl['pillar']} — {PILLARS[ctrl['pillar']]}
+# SHIELD-AI(TM) {cid}: {ctrl['title']}
+# Pillar: {ctrl['pillar']} -- {PILLARS[ctrl['pillar']]}
 #
 # {ctrl['objective']}
 #
@@ -1344,11 +1344,11 @@ def main():
     schema = build_schema()
     print()
     print(f"SHIELD-AI Control Schema v{FRAMEWORK_VERSION}")
-    print(f"{'─'*50}")
+    print(f"{'-'*50}")
     for pid in PILLAR_ORDER:
         p = schema["pillars"][pid]
         print(f"  {pid}: {p['name']:<40s} {p['control_count']:>2d} controls")
-    print(f"{'─'*50}")
+    print(f"{'-'*50}")
     print(f"  Total: {schema['meta']['control_count']} controls across {schema['meta']['pillar_count']} pillars")
 
 

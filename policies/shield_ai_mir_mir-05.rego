@@ -1,7 +1,7 @@
 package shield_ai.mir.mandatory_reporting_integratio
 
-# SHIELD-AI™ MIR-05: Mandatory Reporting Integration
-# Pillar: MIR — Monitoring, Logging, and Incident Response
+# SHIELD-AI(TM) MIR-05: Mandatory Reporting Integration
+# Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
 # Integrate incident detection with automated regulatory reporting triggers for SOCI Act, APRA CPS 234, and Notifiable Data Breaches, with pre-populated report templates.
 #
@@ -12,8 +12,8 @@ package shield_ai.mir.mandatory_reporting_integratio
 #   L4: Fully automated reporting lifecycle. Continuous compliance monitoring with regulator dashboards.
 #
 # Regulatory mappings:
-#   SOCI Act: s.30B — mandatory incident reporting (12h critical, 72h other)
-#   APRA CPS 234: s.3(c) — 72-hour notification
+#   SOCI Act: s.30B -- mandatory incident reporting (12h critical, 72h other)
+#   APRA CPS 234: s.3(c) -- 72-hour notification
 #   Privacy Act 1988: Notifiable Data Breaches scheme
 
 # Default deny

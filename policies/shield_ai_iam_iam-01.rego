@@ -1,7 +1,7 @@
 package shield_ai.iam.agent_identity_management
 
-# SHIELD-AI™ IAM-01: Agent Identity Management
-# Pillar: IAM — Identity and Access
+# SHIELD-AI(TM) IAM-01: Agent Identity Management
+# Pillar: IAM -- Identity and Access
 #
 # Ensure every agent has a unique, lifecycle-managed digital identity distinct from human user identities, integrated with the organisation's identity provider.
 #
@@ -12,7 +12,7 @@ package shield_ai.iam.agent_identity_management
 #   L4: SPIFFE/SPIRE workload identity for every agent. Automated credential rotation. Cross-platform identity federation.
 #
 # Regulatory mappings:
-#   ISM: Guidelines for System Management — identification and authentication
+#   ISM: Guidelines for System Management -- identification and authentication
 #   Essential Eight: Restrict Administrative Privileges
 #   NIST AI RMF: IDENTIFY (ID.AM)
 

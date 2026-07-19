@@ -1,7 +1,7 @@
 package shield_ai.ms.training_data_integrity
 
-# SHIELD-AI™ MS-02: Training Data Integrity
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-02: Training Data Integrity
+# Pillar: MS -- Model Security
 #
 # Ensure training and fine-tuning datasets are verified for integrity, provenance, and freedom from poisoning or corruption before use.
 #
@@ -12,7 +12,7 @@ package shield_ai.ms.training_data_integrity
 #   L4: Continuous monitoring for data drift and statistical anomalies. Automated retraining triggered by integrity findings.
 #
 # Regulatory mappings:
-#   ISM: Guidelines for Software Development — data validation
+#   ISM: Guidelines for Software Development -- data validation
 #   OWASP LLM Top 10 v2: LLM04 (Data Poisoning)
 #   NIST AI RMF: IDENTIFY (ID.DA)
 

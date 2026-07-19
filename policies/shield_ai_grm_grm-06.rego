@@ -1,7 +1,7 @@
 package shield_ai.grm.board_and_executive_reporting
 
-# SHIELD-AI™ GRM-06: Board and Executive Reporting
-# Pillar: GRM — Governance and Risk Management
+# SHIELD-AI(TM) GRM-06: Board and Executive Reporting
+# Pillar: GRM -- Governance and Risk Management
 #
 # Provide a standardised executive dashboard showing pillar maturity scores, open findings, regulatory compliance status, and risk acceptances, refreshed automatically.
 #
@@ -12,7 +12,7 @@ package shield_ai.grm.board_and_executive_reporting
 #   L4: Real-time executive dashboard. Predictive risk scoring. Automated Board reporting with trend analysis.
 #
 # Regulatory mappings:
-#   APRA CPS 234: s.2 — Board accountability and reporting
+#   APRA CPS 234: s.2 -- Board accountability and reporting
 #   NIST AI RMF: GOVERN (GV.OV)
 
 # Default deny

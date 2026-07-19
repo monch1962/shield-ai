@@ -1,7 +1,7 @@
 package shield_ai.ms.model_behaviour_validation
 
-# SHIELD-AI™ MS-05: Model Behaviour Validation
-# Pillar: MS — Model Security
+# SHIELD-AI(TM) MS-05: Model Behaviour Validation
+# Pillar: MS -- Model Security
 #
 # Validate that model outputs conform to expected safety, content, and scope boundaries through proxy-layer guardrails and per-agent behaviour configuration.
 #
@@ -14,7 +14,7 @@ package shield_ai.ms.model_behaviour_validation
 # Regulatory mappings:
 #   OWASP LLM Top 10 v2: LLM02 (Insecure Output Handling)
 #   NIST AI RMF: MANAGE (MG.DE)
-#   EU AI Act: Art. 14 — Human Oversight
+#   EU AI Act: Art. 14 -- Human Oversight
 #   ISO 42001: Clause 8.6
 
 # Default deny

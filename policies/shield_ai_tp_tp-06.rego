@@ -1,7 +1,7 @@
 package shield_ai.tp.dependency_scanning
 
-# SHIELD-AI™ TP-06: Dependency Scanning
-# Pillar: TP — Tool and Pipeline Security
+# SHIELD-AI(TM) TP-06: Dependency Scanning
+# Pillar: TP -- Tool and Pipeline Security
 #
 # Continuously scan all ML libraries, model dependencies, tool SDKs, and container images for vulnerabilities with automated blocking of critical-severity findings.
 #
@@ -13,7 +13,7 @@ package shield_ai.tp.dependency_scanning
 #
 # Regulatory mappings:
 #   OWASP LLM Top 10 v2: LLM10 (Supply Chain)
-#   ISM: Guidelines for System Management — vulnerability management
+#   ISM: Guidelines for System Management -- vulnerability management
 #   Essential Eight: Patch Applications, Patch Operating Systems
 
 # Default deny

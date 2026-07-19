@@ -1,7 +1,7 @@
 package shield_ai.iam.cross_session_boundary_enforce
 
-# SHIELD-AI™ IAM-06: Cross-Session Boundary Enforcement
-# Pillar: IAM — Identity and Access
+# SHIELD-AI(TM) IAM-06: Cross-Session Boundary Enforcement
+# Pillar: IAM -- Identity and Access
 #
 # Ensure each agent session is an independent security context with no credential or data sharing across sessions.
 #
@@ -12,7 +12,7 @@ package shield_ai.iam.cross_session_boundary_enforce
 #   L4: Continuous session boundary verification. Automated incident response on boundary violation.
 #
 # Regulatory mappings:
-#   OWASP LLM Top 10 v2: LLM06 (Sensitive Information Disclosure — memory scoping)
+#   OWASP LLM Top 10 v2: LLM06 (Sensitive Information Disclosure -- memory scoping)
 #   NIST AI RMF: PROTECT (PR.AC)
 
 # Default deny

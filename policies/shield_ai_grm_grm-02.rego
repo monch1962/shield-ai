@@ -1,7 +1,7 @@
 package shield_ai.grm.ai_risk_register
 
-# SHIELD-AI™ GRM-02: AI Risk Register
-# Pillar: GRM — Governance and Risk Management
+# SHIELD-AI(TM) GRM-02: AI Risk Register
+# Pillar: GRM -- Governance and Risk Management
 #
 # Maintain a dedicated AI risk register using a threat taxonomy that covers model, tool, data, identity, and pipeline risks, with defined owners, assessment methodology, and review cadence.
 #
@@ -13,8 +13,8 @@ package shield_ai.grm.ai_risk_register
 #
 # Regulatory mappings:
 #   NIST AI RMF: GOVERN (GV.RM)
-#   SOCI Act: CIRMP — risk management
-#   APRA CPS 234: s.3(a) — risk assessment
+#   SOCI Act: CIRMP -- risk management
+#   APRA CPS 234: s.3(a) -- risk assessment
 
 # Default deny
 default deny = false

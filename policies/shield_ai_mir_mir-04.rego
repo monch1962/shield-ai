@@ -1,7 +1,7 @@
 package shield_ai.mir.incident_response_playbooks
 
-# SHIELD-AI™ MIR-04: Incident Response Playbooks
-# Pillar: MIR — Monitoring, Logging, and Incident Response
+# SHIELD-AI(TM) MIR-04: Incident Response Playbooks
+# Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
 # Develop and maintain AI-specific IR playbooks covering prompt injection, model compromise, tool abuse, and code-generation attacks, tested through regular tabletop exercises.
 #
@@ -13,8 +13,8 @@ package shield_ai.mir.incident_response_playbooks
 #
 # Regulatory mappings:
 #   NIST AI RMF: RESPOND (RS.RP)
-#   SOCI Act: CIRMP — incident response
-#   APRA CPS 234: s.3(c) — incident response capability
+#   SOCI Act: CIRMP -- incident response
+#   APRA CPS 234: s.3(c) -- incident response capability
 
 # Default deny
 default deny = false

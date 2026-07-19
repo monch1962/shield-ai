@@ -1,7 +1,7 @@
 package shield_ai.grm.third_party_ai_risk_management
 
-# SHIELD-AI™ GRM-04: Third-Party AI Risk Management
-# Pillar: GRM — Governance and Risk Management
+# SHIELD-AI(TM) GRM-04: Third-Party AI Risk Management
+# Pillar: GRM -- Governance and Risk Management
 #
 # Assess and monitor third-party AI providers for security controls, with contractual security requirements and right-to-audit provisions in all AI-related procurement.
 #
@@ -15,7 +15,7 @@ package shield_ai.grm.third_party_ai_risk_management
 #   OWASP LLM Top 10 v2: LLM10 (Supply Chain)
 #   NIST AI RMF: IDENTIFY (ID.SC)
 #   ISM: Guidelines for Procurement and Outsourcing
-#   EU AI Act: Art. 28 — Third Parties
+#   EU AI Act: Art. 28 -- Third Parties
 
 # Default deny
 default deny = false
