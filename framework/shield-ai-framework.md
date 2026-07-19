@@ -8,18 +8,18 @@ abstract: "A comprehensive framework for securing agentic AI systems in Australi
 
 # Executive Summary
 
-Australian enterprises and government agencies are racing to deploy agentic AI — autonomous systems that perceive, reason, act, and learn across enterprise environments. These systems introduce a fundamentally new attack surface that existing security frameworks (ISM, Essential Eight, NIST CSF, ISO 27001) were not designed to address. Agentic AI systems can execute multi-step workflows, invoke external tools, access enterprise data, generate code, and make operational decisions — each action a potential vector for compromise, data exfiltration, or unintended behaviour.
+Australian enterprises and government agencies are racing to deploy agentic AI  --  autonomous systems that perceive, reason, act, and learn across enterprise environments. These systems introduce a fundamentally new attack surface that existing security frameworks (ISM, Essential Eight, NIST CSF, ISO 27001) were not designed to address. Agentic AI systems can execute multi-step workflows, invoke external tools, access enterprise data, generate code, and make operational decisions  --  each action a potential vector for compromise, data exfiltration, or unintended behaviour.
 
 **SHIELD-AI** (Security and Holistic Integrity for Enterprise-Level Deployment of Artificial Intelligence) is a sovereign Australian framework purpose-built for securing agentic AI systems. It is:
 
-- **Cloud-agnostic** — applies equally to AWS, Azure, Google Cloud, on-premise, and hybrid deployments
-- **LLM-agnostic** — works with OpenAI, Anthropic, open-weight, or any model provider
-- **Industry-agnostic** — relevant to banking, insurance, healthcare, critical infrastructure, and government
+- **Cloud-agnostic**  --  applies equally to AWS, Azure, Google Cloud, on-premise, and hybrid deployments
+- **LLM-agnostic**  --  works with OpenAI, Anthropic, open-weight, or any model provider
+- **Industry-agnostic**  --  relevant to banking, insurance, healthcare, critical infrastructure, and government
 - **Fully aligned** with Australian regulatory frameworks including ASD ISM, Essential Eight, SOCI Act, APRA CPS 234/CPG 230, PSPF, and the Privacy Act 1988
 
-The framework defines six security pillars, four maturity levels, and a comprehensive control set mapped to existing Australian frameworks. It is designed to be explainable to CISO, CRO, COO, CIO, GC, and board stakeholders in under 30 minutes — because security frameworks that cannot be explained to decision-makers are frameworks that will not be adopted.
+The framework defines six security pillars, four maturity levels, and a comprehensive control set mapped to existing Australian frameworks. It is designed to be explainable to CISO, CRO, COO, CIO, GC, and board stakeholders in under 30 minutes  --  because security frameworks that cannot be explained to decision-makers are frameworks that will not be adopted.
 
-Alongside the framework, this document defines a **definable business offering** — a tiered service model that an Australian IT security consultancy can take to market immediately, with clear pricing, delivery methodology, and competitive differentiation.
+Alongside the framework, this document defines a **definable business offering**  --  a tiered service model that an Australian IT security consultancy can take to market immediately, with clear pricing, delivery methodology, and competitive differentiation.
 
 ---
 
@@ -27,13 +27,13 @@ Alongside the framework, this document defines a **definable business offering**
 
 ## 1.1 The Agentic AI Security Gap
 
-Traditional AI security has focused on model-level concerns: adversarial prompts, data poisoning, model inversion. Agentic AI introduces an entirely new class of risk because the AI system is no longer a stateless inference endpoint — it is an **active computational agent** with:
+Traditional AI security has focused on model-level concerns: adversarial prompts, data poisoning, model inversion. Agentic AI introduces an entirely new class of risk because the AI system is no longer a stateless inference endpoint  --  it is an **active computational agent** with:
 
-- **Tool access** — ability to read/write databases, APIs, file systems, and execute code
-- **Multi-step reasoning** — chains of actions that compound risk across steps
-- **Memory** — persistent state across sessions, enabling data aggregation and inference
-- **Autonomous action** — decisions made without human-in-the-loop approval
-- **Identity delegation** — the agent acts on behalf of a user, with that user's privileges
+- **Tool access**  --  ability to read/write databases, APIs, file systems, and execute code
+- **Multi-step reasoning**  --  chains of actions that compound risk across steps
+- **Memory**  --  persistent state across sessions, enabling data aggregation and inference
+- **Autonomous action**  --  decisions made without human-in-the-loop approval
+- **Identity delegation**  --  the agent acts on behalf of a user, with that user's privileges
 
 The OWASP Top 10 for LLM Applications (2025) identified prompt injection, insecure output handling, and excessive agency as critical risks. MITRE ATLAS catalogues attack techniques specific to AI systems. Both are valuable references, but neither provides a **comprehensive, implementable framework** that maps to Australian regulatory obligations.
 
@@ -129,7 +129,7 @@ An Australian framework must demonstrably align with the regulatory frameworks t
 ### Protective Security Policy Framework (PSPF)
 - Mandatory for Australian Government agencies
 - Security governance, personnel security, physical security, information security
-- Policy 8: Cyber security — references ISM compliance
+- Policy 8: Cyber security  --  references ISM compliance
 
 ### Privacy Act 1988 / Australian Privacy Principles (APPs)
 - 13 Australian Privacy Principles
@@ -138,10 +138,10 @@ An Australian framework must demonstrably align with the regulatory frameworks t
 - Mandatory Notifiable Data Breaches (NDB) scheme
 
 ### International Alignment
-- EU AI Act (2024) — establishes risk categories for AI systems
-- NIST AI RMF (January 2023) — risk management framework
-- Singapore's AI Verify — testing framework for AI
-- UK's AI Safety Institute — testing and evaluation
+- EU AI Act (2024)  --  establishes risk categories for AI systems
+- NIST AI RMF (January 2023)  --  risk management framework
+- Singapore's AI Verify  --  testing framework for AI
+- UK's AI Safety Institute  --  testing and evaluation
 
 SHIELD-AI provides a single unified framework that maps controls to all of these obligations simultaneously.
 
@@ -155,15 +155,15 @@ The framework is built on six principles:
 
 1. **Sovereign by design.** Controls are mapped to Australian frameworks first, international frameworks second. An entity that complies with SHIELD-AI is demonstrably compliant with ISM, E8, SOCI, CPS 234, PSPF, and the Privacy Act.
 
-2. **Defence in depth for agentic systems.** Agentic AI is not a single technology — it is a system of systems. Controls must cover the model, the data pipeline, the tool layer, the identity layer, and the monitoring layer.
+2. **Defence in depth for agentic systems.** Agentic AI is not a single technology  --  it is a system of systems. Controls must cover the model, the data pipeline, the tool layer, the identity layer, and the monitoring layer.
 
-3. **Least privilege for agents.** An AI agent must have the minimum set of tools, data access, and permissions required for its function — and no more. This principle extends to model weights, training data, inference endpoints, and tool registries.
+3. **Least privilege for agents.** An AI agent must have the minimum set of tools, data access, and permissions required for its function  --  and no more. This principle extends to model weights, training data, inference endpoints, and tool registries.
 
-4. **Verifiable by default.** Every control must be testable through automated means. Compliance is not a document — it is a set of passing assertions that can be validated in CI/CD pipelines.
+4. **Verifiable by default.** Every control must be testable through automated means. Compliance is not a document  --  it is a set of passing assertions that can be validated in CI/CD pipelines.
 
 5. **Proportional maturity.** Not every organisation needs Level 4 controls. The framework defines four maturity levels so entities can adopt controls proportional to their risk profile, threat model, and regulatory obligations.
 
-6. **Evolvable architecture.** The AI security landscape changes monthly. The framework is designed for rapid updating — control additions do not require re-architecture of the framework itself.
+6. **Evolvable architecture.** The AI security landscape changes monthly. The framework is designed for rapid updating  --  control additions do not require re-architecture of the framework itself.
 
 ```
 +---------------------------------------------------------------------+
@@ -221,7 +221,7 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 ### Pillar 1: Model Security (MS)
 
-**Objective:** Secure the AI model itself — its weights, its training pipeline, its inference behaviour, and its supply chain.
+**Objective:** Secure the AI model itself  --  its weights, its training pipeline, its inference behaviour, and its supply chain.
 
 **Why this matters to the board:** If your model is compromised, every decision the agent makes is suspect. A backdoored model in a financial services agent could approve fraudulent transactions for months before detection. Unlike traditional software, models can be poisoned during training, producing behaviour that appears normal until a specific trigger condition is met.
 
@@ -233,7 +233,7 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 - MS-05: Model behaviour validation (output guardrails constraining model responses, content filtering for prohibited topics or data leakage, behavioural bounds enforcement)
 - MS-06: Model inventory and lineage tracking (catalogue all models, version history, deployment locations, training data provenance)
 
-**Implementation guidance (L2+):** Deploy a model registry (e.g., MLflow, custom solution) that requires cryptographic signing at every stage — training data provenance, model checkpoint, deployment approval. Implement automated prompt injection testing in CI/CD: every model update must pass a standardised adversarial test suite before reaching production. Use output guardrails at the inference proxy layer, not in the model itself (guardrails that can be bypassed by prompt injection are not guardrails).
+**Implementation guidance (L2+):** Deploy a model registry (e.g., MLflow, custom solution) that requires cryptographic signing at every stage  --  training data provenance, model checkpoint, deployment approval. Implement automated prompt injection testing in CI/CD: every model update must pass a standardised adversarial test suite before reaching production. Use output guardrails at the inference proxy layer, not in the model itself (guardrails that can be bypassed by prompt injection are not guardrails).
 
 **AU framework mappings:** ISM (Guidelines for system hardening, procurement guidelines, system management), ISM "Guidelines for secure AI system development" (March 2026 edition), ASD supply chain guidance for AI/ML (March 2026)
 
@@ -241,25 +241,25 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Objective:** Control what the agent can do, what it can access, and whose authority it acts under. This is the single highest-impact pillar for agentic AI security.
 
-**Why this matters to the board:** The most common agentic AI security failure is excessive agency — an agent with the same access rights as its human user. If the human can read emails, edit documents, and submit payments, and the agent inherits those permissions, a prompt injection can weaponise the entire access tree. This is not theoretical: the OWASP Top 10 for LLMs ranks Excessive Agency as the No. 2 risk.
+**Why this matters to the board:** The most common agentic AI security failure is excessive agency  --  an agent with the same access rights as its human user. If the human can read emails, edit documents, and submit payments, and the agent inherits those permissions, a prompt injection can weaponise the entire access tree. This is not theoretical: the OWASP Top 10 for LLMs ranks Excessive Agency as the No. 2 risk.
 
 **Control areas:**
 - IAM-01: Agent identity management (unique service identities per agent, not human credential sharing; each agent has a distinct, auditable identity)
 - IAM-02: Scope-bound delegation (tools and data access scoped to agent function; no wildcard permissions; agents cannot self-escalate)
-- IAM-03: Human oversight controls (approval gates for high-risk actions — data writes, financial transactions, user impersonation; break-glass mechanisms with audit trail)
+- IAM-03: Human oversight controls (approval gates for high-risk actions  --  data writes, financial transactions, user impersonation; break-glass mechanisms with audit trail)
 - IAM-04: Credential isolation (agent credentials stored separately from human credentials; hardware-backed for L3+; credential rotation automatically triggered on compromise)
 - IAM-05: Just-in-time access (ephemeral credentials with automatic revocation after session expiry; no persistent standing access for agent identities)
 - IAM-06: Cross-session boundary enforcement (agent memory and session state must not share credentials across sessions; each session is an independent identity context)
 
 **Implementation guidance (L2+):** Implement a policy-as-code engine (e.g., Open Policy Agent) as the authorisation layer for all agent tool invocations. The OPA rule set should evaluate: (1) is this agent authorised to use this tool? (2) is this agent acting within its scope for this data category? (3) does this action require human approval? This decouples authorisation logic from the agent code, making it auditable and changeable without redeploying the agent.
 
-**AU framework mappings:** ISM (Guidelines for system management — privileged access, user identification and authentication), Essential Eight (Restrict Administrative Privileges, Multi-factor Authentication, User Application Hardening), PSPF (Personnel Security, Information Security — access control)
+**AU framework mappings:** ISM (Guidelines for system management  --  privileged access, user identification and authentication), Essential Eight (Restrict Administrative Privileges, Multi-factor Authentication, User Application Hardening), PSPF (Personnel Security, Information Security  --  access control)
 
 ### Pillar 3: Data Security (DS)
 
-**Objective:** Protect data at every stage of the agentic AI lifecycle — ingestion, processing, storage, inference, and memory. Agentic AI multiplies data risk because the agent aggregates data across multiple sources during a session and may persist that aggregation in memory.
+**Objective:** Protect data at every stage of the agentic AI lifecycle  --  ingestion, processing, storage, inference, and memory. Agentic AI multiplies data risk because the agent aggregates data across multiple sources during a session and may persist that aggregation in memory.
 
-**Why this matters to the board:** Agentic AI systems can unintentionally aggregate data from multiple sources in a single session — cross-referencing customer records, financial transactions, and internal communications — creating a consolidated view that would itself be a protected dataset. The Privacy Act 1988 (APP 11) requires entities to protect personal information from misuse, interference, loss, and unauthorised access, modification, or disclosure. An agent that violates this creates personal liability for directors.
+**Why this matters to the board:** Agentic AI systems can unintentionally aggregate data from multiple sources in a single session  --  cross-referencing customer records, financial transactions, and internal communications  --  creating a consolidated view that would itself be a protected dataset. The Privacy Act 1988 (APP 11) requires entities to protect personal information from misuse, interference, loss, and unauthorised access, modification, or disclosure. An agent that violates this creates personal liability for directors.
 
 **Control areas:**
 - DS-01: Data classification and labelling (input and output data classified per PSPF/ISM/GovERP schema; automated tagging at ingestion)
@@ -271,23 +271,23 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Implementation guidance (L2+):** Implement a retrieval-augmented generation (RAG) security layer that filters data at the retrieval stage, not at the model stage. The RAG pipeline should: classify documents before indexing, apply attribute-based access control (ABAC) at retrieval time, redact sensitive fields before they reach the model context, and strip system prompts from model outputs. This ensures that even if the model is compromised by prompt injection, the data exposed is limited to what the agent's scope permits.
 
-**AU framework mappings:** Privacy Act 1988 (APP 11 — security of personal information, APP 5 — collection, APP 6 — use and disclosure), ISM (Guidelines for data transfers, media, cryptography), SOCI Act (CIRMP data protection obligations), PSPF (Information Security — sensitive and classified information)
+**AU framework mappings:** Privacy Act 1988 (APP 11  --  security of personal information, APP 5  --  collection, APP 6  --  use and disclosure), ISM (Guidelines for data transfers, media, cryptography), SOCI Act (CIRMP data protection obligations), PSPF (Information Security  --  sensitive and classified information)
 
 ### Pillar 4: Tool and Pipeline Security (TP)
 
-**Objective:** Secure the tools, APIs, plugins, and execution pipelines that the agent invokes. In agentic AI, the agent's power comes from its tools — and its risk comes from the same source. Every tool is a potential attack surface.
+**Objective:** Secure the tools, APIs, plugins, and execution pipelines that the agent invokes. In agentic AI, the agent's power comes from its tools  --  and its risk comes from the same source. Every tool is a potential attack surface.
 
-**Why this matters to the board:** A compromised agent with access to a database query tool is a data breach vector. A compromised agent with access to a code execution tool is a supply chain attack vector. Tools are the difference between a chatbot that talks and an agent that acts — and each action capability is a liability if not secured. The SolarWinds supply chain compromise cost impacted organisations an estimated $12B+; an agentic supply chain compromise through an unsecured tool pipeline would have similar magnitude.
+**Why this matters to the board:** A compromised agent with access to a database query tool is a data breach vector. A compromised agent with access to a code execution tool is a supply chain attack vector. Tools are the difference between a chatbot that talks and an agent that acts  --  and each action capability is a liability if not secured. The SolarWinds supply chain compromise cost impacted organisations an estimated $12B+; an agentic supply chain compromise through an unsecured tool pipeline would have similar magnitude.
 
 **Control areas:**
 - TP-01: Tool inventory and registry (all agent-accessible tools must be registered, versioned, and security-approved before any agent can invoke them)
 - TP-02: Tool access control (least-privilege tool assignment per agent identity; tools must authenticate the agent, not delegate to the human's session)
 - TP-03: API gateway security (rate limiting, payload validation, schema enforcement, and audit logging on every agent-facing API endpoint)
-- TP-04: Tool output validation (tool outputs must be structurally validated and sanitised before being fed back into the agent context — prevent tool output injection)
+- TP-04: Tool output validation (tool outputs must be structurally validated and sanitised before being fed back into the agent context  --  prevent tool output injection)
 - TP-05: Pipeline integrity (CI/CD pipelines for agent deployments must be signed, attested, and gated by security validation gates)
 - TP-06: Dependency scanning (all libraries, model dependencies, and tools continuously scanned for known vulnerabilities; automated blocking for critical-severity findings)
 
-**Implementation guidance (L2+):** Deploy a tool gateway / sidecar proxy that sits between the agent and every external tool. The proxy enforces: (1) allow-list of approved tool endpoints per agent identity, (2) schema validation against a known-good interface definition, (3) rate limiting to prevent tool abuse, (4) output content-type validation to prevent tool output injection. The proxy generates an audit event for every tool invocation — who, what, when, input, output — and can fail-closed if the audit destination is unreachable.
+**Implementation guidance (L2+):** Deploy a tool gateway / sidecar proxy that sits between the agent and every external tool. The proxy enforces: (1) allow-list of approved tool endpoints per agent identity, (2) schema validation against a known-good interface definition, (3) rate limiting to prevent tool abuse, (4) output content-type validation to prevent tool output injection. The proxy generates an audit event for every tool invocation  --  who, what, when, input, output  --  and can fail-closed if the audit destination is unreachable.
 
 **AU framework mappings:** ISM (Guidelines for gateways, networking, software development, system management), Essential Eight (Patch Applications, Patch Operating Systems, Application Control), SOCI Act (CIRMP technology security obligations)
 
@@ -295,11 +295,11 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Objective:** Detect and respond to security incidents involving agentic AI systems. Traditional monitoring was designed for static applications and known attack signatures. Agentic AI monitoring must detect behavioural anomalies, not just signature matches.
 
-**Why this matters to the board:** An agentic AI compromise can execute its entire attack chain in seconds — from initial prompt injection to data exfiltration — faster than a human can detect. Without AI-specific monitoring, you will not know an agent has been compromised until the data is already exfiltrated. The SOCI Act requires critical infrastructure entities to report incidents within 12 hours. Without monitoring controls, you cannot meet that obligation.
+**Why this matters to the board:** An agentic AI compromise can execute its entire attack chain in seconds  --  from initial prompt injection to data exfiltration  --  faster than a human can detect. Without AI-specific monitoring, you will not know an agent has been compromised until the data is already exfiltrated. The SOCI Act requires critical infrastructure entities to report incidents within 12 hours. Without monitoring controls, you cannot meet that obligation.
 
 **Control areas:**
-- MIR-01: Agent activity logging (all agent actions logged — every tool invocation, data access, decision, and error; logs include agent identity, session ID, tool, input summary, output summary)
-- MIR-02: Behavioural anomaly detection (baseline per-agent behaviour established over training period; alerts on deviation — unusual tool, unusual data access pattern, unusual frequency)
+- MIR-01: Agent activity logging (all agent actions logged  --  every tool invocation, data access, decision, and error; logs include agent identity, session ID, tool, input summary, output summary)
+- MIR-02: Behavioural anomaly detection (baseline per-agent behaviour established over training period; alerts on deviation  --  unusual tool, unusual data access pattern, unusual frequency)
 - MIR-03: Prompt audit log (capture sanitised prompt/response pairs for forensic analysis; sensitive fields redacted before logging but recoverable for incident response)
 - MIR-04: Incident response playbooks (AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation)
 - MIR-05: Mandatory reporting integration (automated triggers for SOCI 12-hour and APRA 72-hour notification windows; pre-populated incident report templates)
@@ -307,13 +307,13 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Implementation guidance (L2+):** Deploy agent telemetry as a structured event stream (e.g., OTLP, structured JSON to a SIEM platform). Each event should include: agent ID, session ID, timestamp, action type (tool_call, data_access, model_inference, decision), action target, action result, and a correlation ID that ties the event to the human-initiating session. Build at least two behavioural baselines: per-agent (what is normal for this specific agent) and per-agent-class (what is normal for this type of agent). Deviation from per-agent baseline is a high-confidence alert; deviation from per-agent-class baseline only is a medium-confidence alert.
 
-**AU framework mappings:** SOCI Act (s.30B mandatory incident reporting — 12 hours for critical, 72 hours for other), APRA CPS 234 (s.3(c) incident notification within 72 hours), ISM (Guidelines for system monitoring, cyber security incidents), Privacy Act (Notifiable Data Breaches scheme)
+**AU framework mappings:** SOCI Act (s.30B mandatory incident reporting  --  12 hours for critical, 72 hours for other), APRA CPS 234 (s.3(c) incident notification within 72 hours), ISM (Guidelines for system monitoring, cyber security incidents), Privacy Act (Notifiable Data Breaches scheme)
 
 ### Pillar 6: Governance and Risk Management (GRM)
 
-**Objective:** Establish the organisational structures, policies, and risk processes for safe agentic AI. This is the pillar that makes all other pillars sustainable — without governance, technical controls erode over time.
+**Objective:** Establish the organisational structures, policies, and risk processes for safe agentic AI. This is the pillar that makes all other pillars sustainable  --  without governance, technical controls erode over time.
 
-**Why this matters to the board:** APRA CPS 234 explicitly makes the Board responsible for information security. In an age of agentic AI, this means the Board is responsible for AI security. Without a governance structure that documents who decides, who approves, and who is accountable, Board members cannot discharge their duty of care. The Privacy Act's accountability principle (APP 1) requires entities to have practices in place to manage privacy risks — and agentic AI introduces privacy risks that existing practices do not cover.
+**Why this matters to the board:** APRA CPS 234 explicitly makes the Board responsible for information security. In an age of agentic AI, this means the Board is responsible for AI security. Without a governance structure that documents who decides, who approves, and who is accountable, Board members cannot discharge their duty of care. The Privacy Act's accountability principle (APP 1) requires entities to have practices in place to manage privacy risks  --  and agentic AI introduces privacy risks that existing practices do not cover.
 
 **Control areas:**
 - GRM-01: AI governance body (chartered committee with CISO, CRO, General Counsel, data owner, and AI lead; terms of reference that include agentic AI approval authority)
@@ -325,7 +325,7 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Implementation guidance (L2+):** Implement a policy-as-code compliance engine that continuously tests agentic AI deployments against SHIELD-AI controls. Each control is expressed as a machine-readable assertion (e.g., Rego policy for OPA, or an automated test in the CI/CD pipeline). Results feed into a compliance dashboard that shows: (1) which controls pass/fail per agent, (2) trend over time (is posture improving?), (3) regulatory exposure by framework (what would a regulator find?), (4) open risk acceptances with expiry dates. This replaces the traditional "annual audit" model with continuous compliance verification.
 
-**AU framework mappings:** APRA CPS 234 (s.2 Board accountability for information security), PSPF (Security Governance — Policy 1, Policy 2, Policy 8), SOCI Act (CIRMP governance obligations), Privacy Act (APP 1 — accountability, APP 12 — access to information), ISM (Guidelines for cyber security roles, documentation)
+**AU framework mappings:** APRA CPS 234 (s.2 Board accountability for information security), PSPF (Security Governance  --  Policy 1, Policy 2, Policy 8), SOCI Act (CIRMP governance obligations), Privacy Act (APP 1  --  accountability, APP 12  --  access to information), ISM (Guidelines for cyber security roles, documentation)
 
 ## 2.3 Maturity Model
 
@@ -411,11 +411,11 @@ A core differentiator of SHIELD-AI is its explicit, auditable mapping to the fra
 
 ## 3.1 Service Overview
 
-SHIELD-AI is delivered as a **professional services and managed assurance offering** by the Australian IT security consultancy. It is not a software product — it is an **expert-driven framework implementation service** that combines deep Australian regulatory knowledge, AI security expertise, and hands-on technical delivery.
+SHIELD-AI is delivered as a **professional services and managed assurance offering** by the Australian IT security consultancy. It is not a software product  --  it is an **expert-driven framework implementation service** that combines deep Australian regulatory knowledge, AI security expertise, and hands-on technical delivery.
 
 The offering is structured as three tiers:
 
-### SHIELD-AI™ Lite — Quick Start ($25,000–$45,000)
+### SHIELD-AI™ Lite  --  Quick Start ($25,000-$45,000)
 
 **Best for:** Organisations experimenting with AI, running 1-3 pilots, needing to understand their exposure.
 
@@ -433,7 +433,7 @@ The offering is structured as three tiers:
 - What they need to fix first
 - Whether they need SHIELD-AI Standard
 
-### SHIELD-AI™ Standard — Enterprise Programme ($120,000–$250,000)
+### SHIELD-AI™ Standard  --  Enterprise Programme ($120,000-$250,000)
 
 **Best for:** Regulated entities, government agencies, and large enterprises deploying agentic AI in production.
 
@@ -453,7 +453,7 @@ The offering is structured as three tiers:
 - Auditable regulatory compliance
 - Ongoing assurance without hiring full-time AI security specialists
 
-### SHIELD-AI™ Enterprise — Strategic Partnership ($400,000–$800,000+ per annum)
+### SHIELD-AI™ Enterprise  --  Strategic Partnership ($400,000-$800,000+ per annum)
 
 **Best for:** Critical infrastructure operators, top-tier banks, national security agencies, multi-entity government deployments.
 
@@ -542,9 +542,9 @@ SHIELD-AI engagements follow a five-phase methodology:
 
 | Tier | Phases | Duration | Investment |
 |------|--------|----------|------------|
-| Lite | 1→2 | 2-3 weeks | $25-45K |
-| Standard | 1→4 | 12-16 weeks + Phase 5 (6mo) | $120-250K |
-| Enterprise | 1→5 | Ongoing | $400-800K+/yr |
+| Lite | 1->2 | 2-3 weeks | $25-45K |
+| Standard | 1->4 | 12-16 weeks + Phase 5 (6mo) | $120-250K |
+| Enterprise | 1->5 | Ongoing | $400-800K+/yr |
 
 ## 3.3 Competitive Advantage
 
@@ -562,15 +562,15 @@ SHIELD-AI engagements follow a five-phase methodology:
 
 1. **Sovereign Australian framework.** Not a US framework adapted for Australia. Built from the ground up for ISM, E8, SOCI, CPS 234, PSPF, and the Privacy Act. No translation layer needed. When a client asks "does this satisfy my ISM obligations?", the answer is a control-by-control mapping, not a hand-wavy reference.
 
-2. **Agentic-AI-specific, not general AI.** Most competitor frameworks address "AI" as a monolith — one set of controls for chatbots, RAG systems, recommendation engines, and autonomous agents. SHIELD-AI is specifically designed for autonomous, tool-using, multi-step reasoning agents — the highest-risk, highest-complexity deployment pattern that existing frameworks were not designed to cover.
+2. **Agentic-AI-specific, not general AI.** Most competitor frameworks address "AI" as a monolith  --  one set of controls for chatbots, RAG systems, recommendation engines, and autonomous agents. SHIELD-AI is specifically designed for autonomous, tool-using, multi-step reasoning agents  --  the highest-risk, highest-complexity deployment pattern that existing frameworks were not designed to cover.
 
-3. **Implementable controls, not just policies.** Every control area includes technical implementation guidance (IAM agent identification via OPA, RAG security via ABAC at retrieval, monitoring via structured telemetry streams), not just policy language. Clients leave with configured tool registries, API gateways, guardrails, and test suites — not a PDF binder that sits on a shelf.
+3. **Implementable controls, not just policies.** Every control area includes technical implementation guidance (IAM agent identification via OPA, RAG security via ABAC at retrieval, monitoring via structured telemetry streams), not just policy language. Clients leave with configured tool registries, API gateways, guardrails, and test suites  --  not a PDF binder that sits on a shelf.
 
 4. **Maturity progression, not binary compliance.** Clients can start at their level and grow. The framework does not demand Level 4 from every organisation. This makes it accessible to AI experimenters (who need L1-L2 to manage risk while proving value) and credible for critical infrastructure operators (who need L3-L4 for regulatory compliance). The maturity model also gives the consultancy a natural upsell path.
 
-5. **Demonstrable compliance.** The regulatory mapping is explicit and auditable. When the regulator asks "how are you securing your AI systems?", the answer is not a PowerPoint — it is a documented control framework with passing assertions mapped to ISM control IDs, Essential Eight maturity descriptors, SOCI obligations, and CPS 234 criteria. This eliminates the anxiety that keeps CISO up at night.
+5. **Demonstrable compliance.** The regulatory mapping is explicit and auditable. When the regulator asks "how are you securing your AI systems?", the answer is not a PowerPoint  --  it is a documented control framework with passing assertions mapped to ISM control IDs, Essential Eight maturity descriptors, SOCI obligations, and CPS 234 criteria. This eliminates the anxiety that keeps CISO up at night.
 
-6. **Australian data sovereignty.** The framework assumes Australian data sovereignty requirements (Privacy Act, PSPF, SOCI, OAIC guidance) as default, not special cases. International data flows, cross-border model inference, and global cloud deployments are handled as documented exceptions with compensating controls — not the other way around.
+6. **Australian data sovereignty.** The framework assumes Australian data sovereignty requirements (Privacy Act, PSPF, SOCI, OAIC guidance) as default, not special cases. International data flows, cross-border model inference, and global cloud deployments are handled as documented exceptions with compensating controls  --  not the other way around.
 
 7. **Consultancy ecosystem advantage.** Because the consultancy delivers both the assessment AND the implementation, there is no "report handoff" gap where findings go unactioned. The same team that identifies the gap designs and deploys the fix. This eliminates the most common failure mode of security consulting: excellent reports that gather dust.
 
@@ -600,9 +600,9 @@ Level 1 ------> Level 2 ------> Level 3 ------> Level 4
 
 | Starting Level | Target Level | Typical Duration | Investment |
 |----------------|--------------|------------------|------------|
-| L1 (None) | L2 (Managed) | 3-4 months | $120K–$200K (Standard) |
-| L1 (None) | L3 (Defined) | 8-12 months | $300K–$500K (Standard + follow-on) |
-| L2 (Managed) | L3 (Defined) | 4-6 months | $150K–$250K (Targeted uplift) |
+| L1 (None) | L2 (Managed) | 3-4 months | $120K-$200K (Standard) |
+| L1 (None) | L3 (Defined) | 8-12 months | $300K-$500K (Standard + follow-on) |
+| L2 (Managed) | L3 (Defined) | 4-6 months | $150K-$250K (Targeted uplift) |
 | L3 (Defined) | L4 (Optimised) | 12+ months | $400K+/year (Enterprise) |
 
 ## 4.2 Market Entry Strategy for the Consultancy
@@ -639,7 +639,7 @@ Level 1 ------> Level 2 ------> Level 3 ------> Level 4
 | Lite engagements | 8-10 | 12-15 | 15-20 |
 | Standard engagements | 3-5 | 6-8 | 10-12 |
 | Enterprise clients | 0-1 | 1-3 | 3-5 |
-| Total revenue (est.) | $600K–$1.2M | $1.5M–$3.0M | $3.5M–$6.0M |
+| Total revenue (est.) | $600K-$1.2M | $1.5M-$3.0M | $3.5M-$6.0M |
 | Consultant headcount | 3-5 | 6-10 | 12-18 |
 | Gross margin | 50-60% | 55-65% | 60-70% |
 
@@ -649,11 +649,11 @@ Level 1 ------> Level 2 ------> Level 3 ------> Level 4
 
 | Risk Scenario | Cost of Inaction | SHIELD-AI Cost to Mitigate |
 |---------------|------------------|----------------------------|
-| AI system exfiltrates customer PII | $1.78M avg NDB breach cost (OAIC 2025) + regulatory action + reputation | $25K–$120K (Lite or Standard) |
-| Prompt injection causes financial loss | Loss magnitude × agent transaction limit + brand damage | $120K–$250K (Standard) |
-| SOCI-reportable incident involving AI | Penalties up to $2.2M per obligation + mandatory public notification | $250K–$400K (Standard + assurance) |
-| APRA regulator inquiry into AI security | Enforcement action + remediation direction + remediation costs | $120K–$250K (Standard with regulatory add-on) |
-| Board liability for AI-related harm | Director duty of care + civil penalties | $120K–$250K (Standard with governance focus) |
+| AI system exfiltrates customer PII | $1.78M avg NDB breach cost (OAIC 2025) + regulatory action + reputation | $25K-$120K (Lite or Standard) |
+| Prompt injection causes financial loss | Loss magnitude x agent transaction limit + brand damage | $120K-$250K (Standard) |
+| SOCI-reportable incident involving AI | Penalties up to $2.2M per obligation + mandatory public notification | $250K-$400K (Standard + assurance) |
+| APRA regulator inquiry into AI security | Enforcement action + remediation direction + remediation costs | $120K-$250K (Standard with regulatory add-on) |
+| Board liability for AI-related harm | Director duty of care + civil penalties | $120K-$250K (Standard with governance focus) |
 
 ### For the consultancy (why they invest in building this):
 
@@ -661,24 +661,24 @@ Level 1 ------> Level 2 ------> Level 3 ------> Level 4
 - **High demand trajectory.** Agentic AI adoption is accelerating faster than security capability development. The gap between deployment and protection is widening.
 - **Regulatory tailwind.** Every new AU AI regulation (mandatory guardrails, AI Safety Commissioner, OAIC guidance) increases the obligation on entities to demonstrate AI security.
 - **Recurring revenue model.** Assurance engagements create ongoing revenue beyond initial implementation. Standard clients convert to Enterprise over time.
-- **IP value.** The SHIELD-AI framework itself has value as intellectual property — assessment methodology, control mappings, maturity scoring, reference architectures.
+- **IP value.** The SHIELD-AI framework itself has value as intellectual property  --  assessment methodology, control mappings, maturity scoring, reference architectures.
 
 ---
 
-# Part 6: Future Horizons — Agentic AI Trends 2026–2029
+# Part 6: Future Horizons  --  Agentic AI Trends 2026-2029
 
 ## 6.1 Why Future-Proofing Matters Now
 
-The SHIELD-AI framework was designed from the outset to be evolvable — its six-pillar structure accommodates new control areas without requiring re-architecture. This section identifies the key trends, threats, and regulatory developments expected over the next 2-3 years, and maps them to specific SHIELD-AI controls that will need to evolve. Organisations that plan for these developments today will avoid the "bolt-on compliance" trap that has plagued earlier security frameworks.
+The SHIELD-AI framework was designed from the outset to be evolvable  --  its six-pillar structure accommodates new control areas without requiring re-architecture. This section identifies the key trends, threats, and regulatory developments expected over the next 2-3 years, and maps them to specific SHIELD-AI controls that will need to evolve. Organisations that plan for these developments today will avoid the "bolt-on compliance" trap that has plagued earlier security frameworks.
 
 ## 6.2 Emerging Agentic AI Deployment Trends
 
 ### Trend 1: Multi-Agent Systems and Agent Swarms
 
-**What is happening:** Organisations are moving from single-agent deployments (one agent performing one task) to multi-agent architectures where specialised agents coordinate, delegate tasks, and share context. Agent swarms — collections of agents with different roles — introduce complex trust relationships between agents.
+**What is happening:** Organisations are moving from single-agent deployments (one agent performing one task) to multi-agent architectures where specialised agents coordinate, delegate tasks, and share context. Agent swarms  --  collections of agents with different roles  --  introduce complex trust relationships between agents.
 
 **Security implications for SHIELD-AI:**
-- **IAM-02 (Scope-bound delegation)** must evolve to cover agent-to-agent delegation, not just human-to-agent. An agent that delegates to another agent must not expand the scope of the original authorisation — the delegation chain must be bounded at each hop.
+- **IAM-02 (Scope-bound delegation)** must evolve to cover agent-to-agent delegation, not just human-to-agent. An agent that delegates to another agent must not expand the scope of the original authorisation  --  the delegation chain must be bounded at each hop.
 - **IAM-06 (Cross-session boundary)** must cover inter-agent communication channels. Agents that share a context window must have explicit data-sharing agreements enforced at the infrastructure layer, not just by convention.
 - **MIR-01 (Activity logging)** must support session tracing across agent boundaries. A single user request triggering a chain of agent calls must be reconstructable as a single audit trail.
 - **TP-01 (Tool registry)** must cover agent-to-agent APIs as a tool class. Agents that expose functions to other agents must be registered, versioned, and security-approved just like external tool endpoints.
@@ -687,30 +687,30 @@ The SHIELD-AI framework was designed from the outset to be evolvable — its six
 
 ### Trend 2: Model Context Protocol (MCP) and Standardised Agent-Tool Interfaces
 
-**What is happening:** The Model Context Protocol (MCP) is emerging as a standardised way for AI agents to discover and invoke tools. Similar to how HTTP standardised web communication, MCP standardises the agent-tool interface. This is a positive development for security — standard interfaces enable standard security controls — but also introduces a single protocol-layer attack surface.
+**What is happening:** The Model Context Protocol (MCP) is emerging as a standardised way for AI agents to discover and invoke tools. Similar to how HTTP standardised web communication, MCP standardises the agent-tool interface. This is a positive development for security  --  standard interfaces enable standard security controls  --  but also introduces a single protocol-layer attack surface.
 
 **Security implications for SHIELD-AI:**
 - **TP-03 (API gateway security)** must extend to MCP endpoints. MCP gateways that sit between agents and tools must enforce schema validation, rate limiting, and authentication at the protocol layer, not just at the HTTP layer.
 - **TP-04 (Tool output validation)** must understand MCP response schemas. Standardised tool-output formats (MCP responses) must be validated against known-good schemas before being fed back into agent context.
-- **MS-04 (Adversarial robustness)** must include MCP protocol-layer attacks — tool discovery poisoning, capability advertisement manipulation, and protocol-level prompt injection through tool descriptions.
+- **MS-04 (Adversarial robustness)** must include MCP protocol-layer attacks  --  tool discovery poisoning, capability advertisement manipulation, and protocol-level prompt injection through tool descriptions.
 
 **Timeline:** MCP adoption is accelerating through 2026. SHIELD-AI L3+ clients should have MCP-aware security controls by early 2027.
 
 ### Trend 3: Persistent Agent Memory and State Management
 
-**What is happening:** Early agentic AI deployments used stateless, session-bound interactions. The next generation maintains persistent memory — agents that remember users, preferences, past decisions, and long-running tasks across sessions. This creates data aggregation risk at a systemic level.
+**What is happening:** Early agentic AI deployments used stateless, session-bound interactions. The next generation maintains persistent memory  --  agents that remember users, preferences, past decisions, and long-running tasks across sessions. This creates data aggregation risk at a systemic level.
 
 **Security implications for SHIELD-AI:**
 - **DS-03 (Memory sanitisation)** is the highest-priority control in this trend. Persistent memory stores must implement data retention policies, automated purging of sensitive data, and cross-session aggregation detection.
 - **DS-04 (Data minimisation)** must apply to memory stores. Agents should not remember data they do not need for their function. Memory must be scoped per-agent and per-task, not shared across agents by default.
-- **DS-06 (Output validation)** must include memory-read attacks — an attacker who compromises one session should not be able to read data from another session through shared memory.
+- **DS-06 (Output validation)** must include memory-read attacks  --  an attacker who compromises one session should not be able to read data from another session through shared memory.
 - **MIR-02 (Anomaly detection)** must baseline memory access patterns. An agent that suddenly accesses memory records from weeks ago is a potential indicator of compromise.
 
 **Timeline:** Persistent memory is available in major platforms today (OpenAI Memory, Anthropic Projects, open-source RAG agents). Controls should be at L2+ by end of 2026.
 
 ### Trend 4: Agent-as-a-Service (AaaS) and Managed Agent Platforms
 
-**What is happening:** Cloud providers and AI vendors are offering managed agent platforms — fully hosted environments where clients define agent behaviour via configuration. This shifts security responsibility to the platform provider for infrastructure controls, but the client remains responsible for agent behaviour, data protection, and regulatory compliance.
+**What is happening:** Cloud providers and AI vendors are offering managed agent platforms  --  fully hosted environments where clients define agent behaviour via configuration. This shifts security responsibility to the platform provider for infrastructure controls, but the client remains responsible for agent behaviour, data protection, and regulatory compliance.
 
 **Security implications for SHIELD-AI:**
 - **GRM-04 (Third-party AI risk management)** becomes the critical control. Clients using AaaS must assess the provider's security controls, understand shared responsibility models, and retain contractual rights to audit agent behaviour.
@@ -722,11 +722,11 @@ The SHIELD-AI framework was designed from the outset to be evolvable — its six
 
 ### Trend 5: Autonomous Code Generation and Self-Healing Agents
 
-**What is happening:** Agents are increasingly able to generate, modify, and execute code — not just call fixed tools. This includes agents that write database queries, generate shell commands, modify configuration files, and even patch their own code. This is the highest-risk capability an agent can possess.
+**What is happening:** Agents are increasingly able to generate, modify, and execute code  --  not just call fixed tools. This includes agents that write database queries, generate shell commands, modify configuration files, and even patch their own code. This is the highest-risk capability an agent can possess.
 
 **Security implications for SHIELD-AI:**
 - **TP-01 (Tool registry)** must include "code execution" as a distinct tool class with the highest security requirements. Code-generation tools must require human approval for production writes.
-- **TP-04 (Tool output validation)** must include code-output validation — generated code must be sandbox-executed and output-verified before affecting production systems.
+- **TP-04 (Tool output validation)** must include code-output validation  --  generated code must be sandbox-executed and output-verified before affecting production systems.
 - **MIR-04 (Incident response)** must include code-injection containment playbooks. An agent that generates malicious code requires different containment (revoke code-execution tool, roll back affected systems) than a prompt-injected agent.
 - **IAM-03 (Human oversight)** must require explicit human approval for any agent-generated code that modifies production infrastructure, data, or user-facing behaviour.
 
@@ -734,7 +734,7 @@ The SHIELD-AI framework was designed from the outset to be evolvable — its six
 
 ### Trend 6: Edge-Based and On-Device Agent Deployment
 
-**What is happening:** As small language models improve (phi-4, Llama 3.2 1B, Gemma 3), agentic capabilities are being deployed on edge devices — phones, IoT gateways, vehicles, and industrial controllers. These deployments lack the infrastructure controls of cloud environments.
+**What is happening:** As small language models improve (phi-4, Llama 3.2 1B, Gemma 3), agentic capabilities are being deployed on edge devices  --  phones, IoT gateways, vehicles, and industrial controllers. These deployments lack the infrastructure controls of cloud environments.
 
 **Security implications for SHIELD-AI:**
 - **MS-01 (Model weight protection)** becomes critical for edge deployments. Model weights on edge devices must be encrypted, integrity-checked at boot, and remotely attestable.
@@ -746,7 +746,7 @@ The SHIELD-AI framework was designed from the outset to be evolvable — its six
 
 ## 6.3 Foreseeable Regulatory Developments
 
-### Australian AI Regulation — Mandatory Guardrails
+### Australian AI Regulation  --  Mandatory Guardrails
 
 **Expected:** The Australian Government has signalled mandatory AI guardrails for high-risk AI systems, likely legislated by 2027-2028. The current voluntary framework (10 guardrails published by DISR) will transition to mandatory obligations with enforcement mechanisms.
 
@@ -768,7 +768,7 @@ The SHIELD-AI framework was designed from the outset to be evolvable — its six
 
 **Expected:** The OAIC has been active on AI and privacy, with enforceable guidance expected by 2027. This will likely cover automated decision-making, data aggregation by AI systems, and transparency obligations.
 
-**Action for SHIELD-AI:** The DS (Data Security) pillar's controls — particularly DS-01 (classification), DS-04 (minimisation), and DS-06 (output validation) — directly address OAIC concerns. Formal OAIC guidance mapping should be published alongside the framework.
+**Action for SHIELD-AI:** The DS (Data Security) pillar's controls  --  particularly DS-01 (classification), DS-04 (minimisation), and DS-06 (output validation)  --  directly address OAIC concerns. Formal OAIC guidance mapping should be published alongside the framework.
 
 ---
 
@@ -794,9 +794,9 @@ The steering group meets quarterly to review:
 
 | Version | Trigger | Process |
 |---------|---------|---------|
-| Patch (v1.0 → v1.1) | ISM update, minor control refinement | Practice lead approval, updated mapping table |
-| Minor (v1.x → v2.0) | New regulatory obligation, new attack vector class | Steering group review, 4-week consultation |
-| Major (v1.x → v2.x) | Fundamental framework change | 8-week consultation including select client feedback |
+| Patch (v1.0 -> v1.1) | ISM update, minor control refinement | Practice lead approval, updated mapping table |
+| Minor (v1.x -> v2.0) | New regulatory obligation, new attack vector class | Steering group review, 4-week consultation |
+| Major (v1.x -> v2.x) | Fundamental framework change | 8-week consultation including select client feedback |
 
 ## 5.3 Certification Path
 
@@ -805,7 +805,7 @@ For clients requiring formal recognition:
 - SHIELD-AI Assessor (authorised to perform independent SHIELD-AI assessments)
 - SHIELD-AI Certified Organisation (organisation assessed at target maturity level)
 
-Certification is optional — most clients will use the framework for self-assessment and regulatory compliance without formal certification.
+Certification is optional  --  most clients will use the framework for self-assessment and regulatory compliance without formal certification.
 
 ---
 
@@ -897,16 +897,16 @@ The following table maps each SHIELD-AI control to emerging international and na
 
 A key differentiator for the SHIELD-AI offering is the transition from periodic assessment to **continuous compliance monitoring**. By 2028, the consultancy should offer:
 
-1. **Automated control testing** — every control expressed as machine-readable assertions (Rego policies, OPA rules, automated test suites) that run against live agentic AI deployments on a continuous basis.
-2. **Regulatory change detection** — automated monitoring of ISM updates, new legislation, and OAIC/APRA guidance, with impact analysis mapped to specific SHIELD-AI controls.
-3. **Client compliance dashboard** — a SaaS-delivered dashboard showing maturity scores per pillar, regulatory compliance status per framework, open findings, and trend data.
-4. **Evidence collection automation** — automated gathering of control evidence (logs, configurations, attestations) for audit readiness, replacing the manual evidence-gathering exercise that annual compliance assessments require.
+1. **Automated control testing**  --  every control expressed as machine-readable assertions (Rego policies, OPA rules, automated test suites) that run against live agentic AI deployments on a continuous basis.
+2. **Regulatory change detection**  --  automated monitoring of ISM updates, new legislation, and OAIC/APRA guidance, with impact analysis mapped to specific SHIELD-AI controls.
+3. **Client compliance dashboard**  --  a SaaS-delivered dashboard showing maturity scores per pillar, regulatory compliance status per framework, open findings, and trend data.
+4. **Evidence collection automation**  --  automated gathering of control evidence (logs, configurations, attestations) for audit readiness, replacing the manual evidence-gathering exercise that annual compliance assessments require.
 
 This capability transforms SHIELD-AI from an assessment service (snapshot in time) to an ongoing security operations capability. It is the natural evolution path from Standard ($120-250K) to Enterprise ($400-800K+/yr) engagements.
 
 ---
 
-# Appendix D: Glossary Addendum — Emerging Concepts
+# Appendix D: Glossary Addendum  --  Emerging Concepts
 
 | Term | Definition |
 |------|------------|
@@ -917,7 +917,7 @@ This capability transforms SHIELD-AI from an assessment service (snapshot in tim
 | Agent-as-a-Service (AaaS) | A managed platform offering where agent runtime, orchestration, and infrastructure are provided by a third party |
 | Persistent agent memory | Long-term storage of agent state, user preferences, and interaction history across sessions |
 | Self-healing agent | An agent that can detect errors in its own operation and autonomously modify its code, configuration, or tool usage to recover |
-| Code-generating agent | An agent with the capability to generate, modify, and execute code — the highest-risk agent capability |
+| Code-generating agent | An agent with the capability to generate, modify, and execute code  --  the highest-risk agent capability |
 | Tool output injection | An attack where a compromised or malicious tool returns crafted output that causes the agent to behave outside intended parameters |
 | Agent credential delegation | The mechanism by which an agent inherits or derives access permissions from a user or another agent |
 | Policy-as-code | The practice of expressing security and compliance policies as machine-readable, testable assertions (e.g., OPA/Rego policies) |
@@ -928,10 +928,10 @@ This capability transforms SHIELD-AI from an assessment service (snapshot in tim
 | Shared responsibility model (AI) | The division of security responsibilities between a managed agent platform provider and the client organisation using it |
 | MCP gateway | A security proxy that enforces authentication, schema validation, rate limiting, and audit logging on MCP-compliant agent-tool communication |
 | Practice lead advisory model | The SHIELD-AI Enterprise engagement model where a senior security architect is embedded part-time in the client organisation |
-| ASvsD | The ratio of advisory (consulting) services to staff augmentation / delivery services — a key profitability metric for security consultancies |
+| ASvsD | The ratio of advisory (consulting) services to staff augmentation / delivery services  --  a key profitability metric for security consultancies |
 
 ---
 
-*SHIELD-AI v1.1 — July 2026*
+*SHIELD-AI v1.1  --  July 2026*
 *Authored by the Security Architecture Practice*
 *For enquiries: practice-lead@consultancy.example.com*
