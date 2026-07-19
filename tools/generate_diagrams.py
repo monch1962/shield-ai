@@ -153,7 +153,7 @@ def diagram_threat():
 
     body += f'''<text x="{cx}" y="{h - 8}" text-anchor="middle" class="sm" font-style="italic">Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration</text>'''
 
-    return svg(w, h, body)
+    return svg(w, h, arrow_head() + body)
 
 
 # ── Diagram 3: Maturity Journey ─────────────────────────
@@ -252,7 +252,7 @@ def diagram_delivery():
         if i < len(phases) - 1:
             ax = x + bw
             ay = y + bh / 2
-            body += f'''<line x1="{ax}" y1="{ay}" x2="{ax + gap}" y2="{ay}" stroke="{BLUE}" stroke-width="2" marker-end="url(#r)"/>'''
+            body += f'''<line x1="{ax}" y1="{ay}" x2="{ax + gap}" y2="{ay}" stroke="{BLUE}" stroke-width="2" marker-end="url(#a)"/>'''
 
     # Tier indicators below
     tier_y = y + bh + 55
