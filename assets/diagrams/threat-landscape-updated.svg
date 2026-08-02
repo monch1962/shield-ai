@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 560" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 12px; fill: #1a1a2e; }
+    .sm { font-size: 10px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .red { fill: #ef4444; }
+    .white { fill: #ffffff; }
+    .cap { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+  </style>
+  <defs>
+      <marker id="a" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a3a6b"/>
+      </marker>
+      <marker id="r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+      </marker>
+    </defs>
+    <!-- NEW Top Layer: SANDBOX/VM ESCAPE -->
+    <rect x="90.0" y="472" width="400" height="40" rx="6" fill="#ffffff" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="290.0" y="490.0" text-anchor="middle" class="label" font-weight="bold" fill="#ef4444">SANDBOX / VM CONTAINMENT</text>
+    <text x="290.0" y="502.0" text-anchor="middle" class="sm" fill="#ef4444">[NEW]  Container escape | VM boundary | Hypervisor isolation</text>
+    <line x1="290.0" y1="472" x2="290.0" y2="460" stroke="#ef4444" stroke-width="2" marker-end="url(#r)"/>
+
+    <!-- Layer 6: GOVERNANCE (existing) -->
+    <rect x="90.0" y="410" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="428.0" text-anchor="middle" class="label" font-weight="bold">GOVERNANCE</text>
+    <text x="290.0" y="442.0" text-anchor="middle" class="sm">[GOV]  Shadow AI | Missing audit trails | Incident reconstruction</text>
+    <line x1="290.0" y1="410" x2="290.0" y2="398" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+
+    <!-- Layer 5: PIPELINE (existing) -->
+    <rect x="90.0" y="348" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="366.0" text-anchor="middle" class="label" font-weight="bold">PIPELINE</text>
+    <text x="290.0" y="380.0" text-anchor="middle" class="sm">[PPL]  CI/CD compromise | Model substitution | Chain poisoning</text>
+    <line x1="290.0" y1="348" x2="290.0" y2="336" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+
+    <!-- Layer 4: IDENTITY (existing) -->
+    <rect x="90.0" y="286" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="304.0" text-anchor="middle" class="label" font-weight="bold">IDENTITY</text>
+    <text x="290.0" y="318.0" text-anchor="middle" class="sm">[ID]   Credential abuse | Session hijack | Escalation</text>
+    <line x1="290.0" y1="286" x2="290.0" y2="274" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+
+    <!-- Layer 3: DATA (existing) -->
+    <rect x="90.0" y="224" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="242.0" text-anchor="middle" class="label" font-weight="bold">DATA</text>
+    <text x="290.0" y="256.0" text-anchor="middle" class="sm">[DAT]  Cross-session aggregation | RAG poisoning | PII leak</text>
+    <line x1="290.0" y1="224" x2="290.0" y2="212" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+
+    <!-- Layer 2: TOOLS (existing) -->
+    <rect x="90.0" y="162" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="180.0" text-anchor="middle" class="label" font-weight="bold">TOOLS</text>
+    <text x="290.0" y="194.0" text-anchor="middle" class="sm">[TUL]  Tool output injection | Malicious registration | API abuse</text>
+    <line x1="290.0" y1="162" x2="290.0" y2="150" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+
+    <!-- Layer 1: MODEL (existing) -->
+    <rect x="90.0" y="100" width="400" height="42" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="290.0" y="118.0" text-anchor="middle" class="label" font-weight="bold">MODEL</text>
+    <text x="290.0" y="132.0" text-anchor="middle" class="sm">[MDL]  Prompt injection | Jailbreaking | Model inversion</text>
+
+    <!-- New annotation: sandbox escape as cross-cutting -->
+    <text x="290.0" y="537" text-anchor="middle" class="sm" font-style="italic" fill="#ef4444">[NEW] Sandbox/VM Escape as a cross-cutting layer above Governance — every pillar below can be breached via sandbox escape</text>
+    <text x="290.0" y="552" text-anchor="middle" class="sm" font-style="italic">Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration</text>
+</svg>

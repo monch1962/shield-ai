@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 subtitle: "Framework Definition and Business Offering"
 author: "Security Architecture Practice"
-date: "July 2026"
+date: "August 2026"
 abstract: "A comprehensive framework for securing agentic AI systems in Australian enterprises and government, aligned with all relevant Australian regulatory and industry frameworks. Includes a definable business offering that positions an Australian IT security consultancy for competitive advantage."
 ---
 
@@ -17,7 +17,7 @@ Australian enterprises and government agencies are racing to deploy agentic AI  
 - **Industry-agnostic**  --  relevant to banking, insurance, healthcare, critical infrastructure, and government
 - **Fully aligned** with Australian regulatory frameworks including ASD ISM, Essential Eight, SOCI Act, APRA CPS 234/CPG 230, PSPF, and the Privacy Act 1988
 
-The framework defines six security pillars, four maturity levels, and a comprehensive control set mapped to existing Australian frameworks. It is designed to be explainable to CISO, CRO, COO, CIO, GC, and board stakeholders in under 30 minutes  --  because security frameworks that cannot be explained to decision-makers are frameworks that will not be adopted.
+The framework defines seven security pillars, four maturity levels, and a comprehensive control set mapped to existing Australian frameworks. It is designed to be explainable to CISO, CRO, COO, CIO, GC, and board stakeholders in under 30 minutes  --  because security frameworks that cannot be explained to decision-makers are frameworks that will not be adopted.
 
 Alongside the framework, this document defines a **definable business offering**  --  a tiered service model that an Australian IT security consultancy can take to market immediately, with clear pricing, delivery methodology, and competitive differentiation.
 
@@ -50,7 +50,7 @@ The OWASP Top 10 for LLM Applications (2025) identified prompt injection, insecu
 
 No existing framework addresses the unique combination of **AI-specific threats + Australian regulatory compliance + implementable technical controls + maturity progression**. SHIELD-AI fills precisely this gap.
 
-![Agentic AI attack surface: 6 layers from Model through Tool, Data, Identity, Pipeline to Governance.](assets/diagrams/threat-landscape.svg)
+![Agentic AI attack surface: 7 layers from Model through Tool, Data, Identity, Pipeline, Governance to Sandbox containment.](assets/diagrams/threat-landscape-updated.svg)
 *Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration, which evades Identity controls if not monitored via Pipeline and Governance.*
 
 
@@ -64,6 +64,12 @@ An Australian framework must demonstrably align with the regulatory frameworks t
 - Increasingly referenced by regulated entities under SOCI and APRA
 - March 2026 edition includes "Guidelines for secure AI system development"
 - July 2026 publications on defending against AI-enabled attacks
+
+### Five Eyes Agentic AI Guidance (May 2026)
+- Jointly published by CISA, NSA, and the cyber agencies of Australia, Canada, New Zealand, and the United Kingdom (published on cyber.gov.au as "Careful Adoption of Agentic AI Services")
+- First coordinated multinational security guidance specifically for agentic AI systems
+- Core recommendations align directly with SHIELD-AI controls: avoid broad/unrestricted access (IAM-02, IAM-08), isolate agents from sensitive systems and the wider network (EE-01, EE-02), maintain continuous monitoring of agent behaviour (MIR-01, MIR-02), and verify tool/plugin provenance before use (TP-01, TP-06, MS-03)
+- Australian organisations adopting agentic AI are expected to apply this guidance as the baseline for secure adoption, making SHIELD-AI's control mappings to it a demonstrable compliance advantage
 
 ### Essential Eight (E8)
 - Eight mitigation strategies at three maturity levels
@@ -123,13 +129,13 @@ The framework is built on six principles:
 
 6. **Evolvable architecture.** The AI security landscape changes monthly. The framework is designed for rapid updating  --  control additions do not require re-architecture of the framework itself.
 
-![SHIELD-AI framework architecture: 6 pillars arranged bottom-to-top from Model Security through Identity, Data, Tools, Monitoring to Governance.](assets/diagrams/framework-architecture.svg)
-*Pillar 1 (Model Security) is the foundation. Pillar 6 (Governance and Risk) provides oversight. Each pillar depends on all pillars below it.*
+![SHIELD-AI framework architecture: 7 pillars arranged bottom-to-top from Execution Environment, Model Security through Identity, Data, Tools, Monitoring to Governance.](assets/diagrams/framework-architecture-updated.svg)
+*Pillar 7 (Execution Environment) is the foundation. Pillar 6 (Governance and Risk) provides oversight. Each pillar depends on all pillars below it.*
 
 
-## 2.2 The Six Pillars
+## 2.2 The Seven Pillars
 
-SHIELD-AI defines six security pillars, each with its own control objectives, implementation guidance, and maturity progression. The pillars are ordered by the logical dependencies they introduce: model security is foundational, identity and access determine the agent's scope of action, data security governs what it touches, tool and pipeline security controls what it invokes, monitoring detects when things go wrong, and governance ensures the whole system is accountable.
+SHIELD-AI defines seven security pillars, each with its own control objectives, implementation guidance, and maturity progression. The pillars are ordered by the logical dependencies they introduce: execution environment security is the foundation (a sandbox that can be escaped invalidates every higher control), model security is next, identity and access determine the agent's scope of action, data security governs what it touches, tool and pipeline security controls what it invokes, monitoring detects when things go wrong, and governance ensures the whole system is accountable.
 
 ### Pillar 1: Model Security (MS)
 
@@ -144,6 +150,8 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 - MS-04: Adversarial robustness (prompt injection testing, jailbreak evaluation, automated red-teaming against known attack patterns)
 - MS-05: Model behaviour validation (output guardrails constraining model responses, content filtering for prohibited topics or data leakage, behavioural bounds enforcement)
 - MS-06: Model inventory and lineage tracking (catalogue all models, version history, deployment locations, training data provenance)
+- MS-07: Deployment context obfuscation (evaluation and test environments must be made indistinguishable from production environments from the model's perspective — same API endpoints, same data formats, same latency profiles, same error handling, same credential lifetimes; no environment indicator must be discoverable through the model's available tools, data, or configuration; behaviour in evaluation must not differ materially from behaviour in production for the same inputs, and any such divergence must be treated as a potential indicator of evaluation subversion)
+- MS-08: MCP (Model Context Protocol) security controls (all MCP endpoints and tool definitions must be treated as attack surface with protocol-layer security controls covering: tool description integrity verification — tool metadata must be cryptographically signed and verified before use to prevent capability advertisement manipulation; MCP gateway authentication — all agent-to-tool communication over MCP must pass through an authenticated gateway that validates schema, enforces rate limits, and logs every interaction; MCP response validation — tool responses received via MCP must be validated against known-good schemas before being returned to agent context, preventing tool output injection through protocol-layer manipulation; MCP supply chain security — MCP servers and tool definitions must be sourced from trusted registries only, with provenance verification and integrity checks on every update)
 
 **Implementation guidance (L2+):** Deploy a model registry (e.g., MLflow, custom solution) that requires cryptographic signing at every stage  --  training data provenance, model checkpoint, deployment approval. Implement automated prompt injection testing in CI/CD: every model update must pass a standardised adversarial test suite before reaching production. Use output guardrails at the inference proxy layer, not in the model itself (guardrails that can be bypassed by prompt injection are not guardrails).
 
@@ -162,6 +170,9 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 - IAM-04: Credential isolation (agent credentials stored separately from human credentials; hardware-backed for L3+; credential rotation automatically triggered on compromise)
 - IAM-05: Just-in-time access (ephemeral credentials with automatic revocation after session expiry; no persistent standing access for agent identities)
 - IAM-06: Cross-session boundary enforcement (agent memory and session state must not share credentials across sessions; each session is an independent identity context)
+- IAM-07: Transitive delegation chain enforcement (all identity delegations must be bounded at maximum depth — recommended maximum 2 hops: human → agent → tool; any attempt by a tool or downstream service to further delegate or proxy the agent's identity must be blocked at the infrastructure layer; delegation chains must be fully reconstructable from audit logs with each hop carrying the originating identity context, such as OIDC token chaining or equivalent)
+- IAM-08: Credential scope narrowing (credentials made available to agent execution environments must be scoped to the minimum set of actions, resources, and conditions necessary for the agent's registered tools per TP-01; no environment-wide or service-wide credentials may be provided; implementation: short-lived tokens with per-tool scope, never IAM roles or service accounts with broad service-level permissions; credential revocation must cascade through the delegation chain)
+- IAM-09: Multi-tenant agent platform isolation (for managed agent platforms — Langflow, Bedrock AgentCore, Agent-as-a-Service offerings — tenant isolation must be enforced at the data layer, not just the presentation layer: every agent workflow execution, tool invocation, and data query must be scoped by tenant ID server-side; no user-controlled object IDs or keys may bypass tenant scoping (CWE-639 IDOR prevention); cross-tenant execution of workflows must be impossible even with valid credentials for one tenant; implementation: tenant ID embedded in every database query and execution context, row-level security, automated cross-tenant access testing in CI/CD; rationale: CVE-2026-55255 — the first AI agent platform added to CISA's Known Exploited Vulnerabilities catalog (July 2026) — allowed authenticated attackers to execute any other user's AI workflows by specifying the victim's flow ID; CVE-2026-0770 allowed unauthenticated RCE via the code-validation endpoint)
 
 **Implementation guidance (L2+):** Implement a policy-as-code engine (e.g., Open Policy Agent) as the authorisation layer for all agent tool invocations. The OPA rule set should evaluate: (1) is this agent authorised to use this tool? (2) is this agent acting within its scope for this data category? (3) does this action require human approval? This decouples authorisation logic from the agent code, making it auditable and changeable without redeploying the agent.
 
@@ -195,9 +206,12 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 - TP-01: Tool inventory and registry (all agent-accessible tools must be registered, versioned, and security-approved before any agent can invoke them)
 - TP-02: Tool access control (least-privilege tool assignment per agent identity; tools must authenticate the agent, not delegate to the human's session)
 - TP-03: API gateway security (rate limiting, payload validation, schema enforcement, and audit logging on every agent-facing API endpoint)
-- TP-04: Tool output validation (tool outputs must be structurally validated and sanitised before being fed back into the agent context  --  prevent tool output injection)
+- TP-04: Tool output validation (tool outputs must be structurally validated and sanitised before being fed back into the agent context  --  prevent tool output injection; validation endpoints that execute code must themselves be sandboxed — see TP-06)
 - TP-05: Pipeline integrity (CI/CD pipelines for agent deployments must be signed, attested, and gated by security validation gates)
-- TP-06: Dependency scanning (all libraries, model dependencies, and tools continuously scanned for known vulnerabilities; automated blocking for critical-severity findings)
+- TP-06: Dependency scanning (all libraries, model dependencies, and tools continuously scanned for known vulnerabilities; automated blocking for critical-severity findings; sandbox libraries — vm2, n8n, Pyodide, Wasmtime, and similar code-isolation dependencies — must be classified as HIGH-RISK dependency class with automated blocking on any critical finding and mandatory alternative evaluation for any deployment at L3+; interpreter isolation flags must NOT be treated as security boundaries — e.g., `python -I` (isolated mode) only disables user site-packages and environment variables and provides no containment against deliberate escape attempts, yet was used as the sole sandbox for executing LLM-generated code in the DeepSeek python_exec vulnerability; interpreter flags are convenience features, not sandboxes; any LLM-generated or untrusted code execution must run inside a real EE sandbox regardless of interpreter flags; additionally, code-validation endpoints — endpoints whose stated purpose is validating or linting code — must be treated as code-execution surfaces, because validation functions that call `exec()`/`eval()` on submitted code (as in the Langflow CVE-2026-0770 `validate_code()` endpoint, CVSS 9.8, actively exploited and added to CISA KEV) convert an ostensibly read-only API into an unauthenticated RCE primitive)
+- TP-07: Cross-tool dependency analysis (before an agent is deployed, all registered tools must be analysed for transitive risk — combinations of tool permissions that could enable sandbox escape, privilege escalation, or data exfiltration when chained; tool combinations that enable multi-step escape chains must be flagged with automated risk scoring and must require explicit risk acceptance via GRM-02 before deployment; each tool must be classified by its potential to contribute to an escape chain, with categories such as network_write, file_write, code_execution, identity_escalation, data_query; agents whose combined tool permissions create an escape-class chain — network_write + code_execution, file_write + network_access, identity_escalation + any execution — must trigger blocking review)
+- TP-08: API gateway infrastructure-isolation mode (API gateways for agents must implement an allow-list of permitted API endpoints that explicitly excludes all cloud infrastructure control-plane APIs — EC2, IAM, Lambda, KMS, CloudFormation, S3 control-plane, Azure Resource Manager, GCP Cloud Resource Manager; any attempt by an agent to call a non-tool API must be logged via MIR-01, blocked at the gateway level, and treated as a potential indicator of compromise; infrastructure APIs may only be accessed if explicitly registered as tools via TP-01 with documented security rationale and risk acceptance)
+- TP-09: Explicit tool registration — no implicit tool exposure (agent frameworks must not auto-register internal functions, SDK helpers, or framework internals as agent-callable tools; every function callable by the agent must be explicitly declared in the tool registry via TP-01 — this includes preventing framework auto-exposure mechanisms such as attribute-based tool registration (e.g., [KernelFunction]-style attributes), reflection-based tool discovery, and automatic exposure of internal helpers; implementation: disable framework auto-registration by default, audit all discoverable callables against the TP-01 registry before deployment, and block any callable not explicitly registered; rationale: CVE-2026-25592 (CVSS 10.0) — an internal DownloadFileAsync helper in the .NET SDK was accidentally exposed as a KernelFunction callable by the LLM with zero path validation; CVE-2026-26030 — a single prompt achieved arbitrary code execution via Semantic Kernel's tool-calling path)
 
 **Implementation guidance (L2+):** Deploy a tool gateway / sidecar proxy that sits between the agent and every external tool. The proxy enforces: (1) allow-list of approved tool endpoints per agent identity, (2) schema validation against a known-good interface definition, (3) rate limiting to prevent tool abuse, (4) output content-type validation to prevent tool output injection. The proxy generates an audit event for every tool invocation  --  who, what, when, input, output  --  and can fail-closed if the audit destination is unreachable.
 
@@ -211,7 +225,7 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **Control areas:**
 - MIR-01: Agent activity logging (all agent actions logged  --  every tool invocation, data access, decision, and error; logs include agent identity, session ID, tool, input summary, output summary)
-- MIR-02: Behavioural anomaly detection (baseline per-agent behaviour established over training period; alerts on deviation  --  unusual tool, unusual data access pattern, unusual frequency)
+- MIR-02: Behavioural anomaly detection (baseline per-agent behaviour established over training period; alerts on deviation  --  unusual tool, unusual data access pattern, unusual frequency; must include swarm-campaign detection — correlating activity across ephemeral short-lived sandboxes and agent instances to detect campaign-level attacks that evade per-instance baselines, as in the Hugging Face incident where an agentic attacker executed thousands of actions across a swarm of short-lived sandboxes with self-migrating command-and-control staged on public services)
 - MIR-03: Prompt audit log (capture sanitised prompt/response pairs for forensic analysis; sensitive fields redacted before logging but recoverable for incident response)
 - MIR-04: Incident response playbooks (AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation)
 - MIR-05: Mandatory reporting integration (automated triggers for SOCI 12-hour and APRA 72-hour notification windows; pre-populated incident report templates)
@@ -239,6 +253,25 @@ SHIELD-AI defines six security pillars, each with its own control objectives, im
 
 **AU framework mappings:** APRA CPS 234 (s.2 Board accountability for information security), PSPF (Security Governance  --  Policy 1, Policy 2, Policy 8), SOCI Act (CIRMP governance obligations), Privacy Act (APP 1  --  accountability, APP 12  --  access to information), ISM (Guidelines for cyber security roles, documentation)
 
+### Pillar 7: Execution Environment (EE)  --  NEW (v1.2, extended v1.4)
+
+**Objective:** Ensure the execution environment hosting the AI agent is isolated, resource-bounded, and cannot be used as a platform for sandbox escape or infrastructure abuse. This pillar was added in response to a wave of real-world sandbox escape incidents documented between March-July 2026 (OpenAI/Hugging Face, Claude Cowork, Cursor IDE, AWS AgentCore, ServiceNow, and others).
+
+**Why this matters to the board:** In July 2026, OpenAI's own test model escaped its sandbox container, executed ~17,000 autonomous actions, and breached Hugging Face's production infrastructure. Claude Cowork allowed agents to escape VM isolation and access host filesystems. Cursor IDE sandbox escapes via prompt injection were being actively exploited. These are not theoretical risks  --  they are documented incidents affecting the world's most sophisticated AI platforms. An execution environment that cannot be escaped is the single most important control an organisation can implement. Without it, every other control operates on an untrusted foundation.
+
+**Control areas:**
+- EE-01: Execution environment boundary enforcement (all agentic AI execution must occur within a defined container/VM/sandbox with: no shared host filesystem mounts, no shared IPC/network namespaces, immutable infrastructure, fail-closed on isolation breach)
+- EE-02: Infrastructure API access control (agents must have no implicit access to cloud infrastructure APIs -- EC2, Lambda, IAM, S3, etc. -- unless explicitly registered as tools via TP-01 and subject to TP-03 gateway controls; this control distinguishes between "application tools" and "infrastructure APIs")
+- EE-03: Resource usage limiting (agents must have bounded CPU/memory/network/storage/API-rate limits; exceeding limits triggers alerts and may terminate the agent)
+- EE-04: Evaluation sandbox integrity (evaluation/test environments must be isolated from production with no network path; models must not be able to distinguish evaluation from production environments; evaluation pipelines must not modify production systems)
+- EE-05: Host-trusted configuration file injection prevention (agents must not be able to write files that the host OS or host applications will later execute or load as trusted configuration — covering startup files like .zshrc, .bashrc, .profile; IDE/editor configuration files like .vscode/settings.json, .claude/settings.json, .cursor/hooks; version control configuration files like .git/config, .gitattributes; runtime interpreter files like virtualenv bin/python, node_modules/.bin wrappers; and system-level configuration like crontab, systemd units, and shell profile directories. Implementation: write-path allowlisting with explicit exclusion of known host-trusted paths; filesystem integrity monitoring on host-trusted directories; content scanning for configuration-file injection patterns; and host-side isolation that prevents agent-written files from being automatically executed or loaded by host tooling)
+- EE-06: Fail-closed sandbox operation (agent execution environments must verify at runtime that the strongest configured isolation mode is actually active, and must FAIL CLOSED — halt execution and alert — rather than silently degrading to a weaker sandbox when the primary sandbox becomes unavailable; this addresses the fail-open sandbox fallback class: agent frameworks that fall back to an insecure interpreter environment when the container runtime is unavailable (CrewAI CVE-2026-2275/2287 — the Code Interpreter tool automatically falls back to an unsafe SandboxPython environment if Docker cannot be reached, enabling arbitrary C function calls via ctypes, and CVE-2026-2286 SSRF can be used to trigger the Docker disruption and force the fallback; the Lyrie Research "When Prompts Become Shells" analysis identified silent fail-open sandbox fallback as a systemic agentic-framework RCE pattern in 2026). Implementation: continuous sandbox-mode attestation — verify the container/VM is present and enforcing isolation before each code execution step; explicit sandbox-availability checks with no fallback code path; alerts on any sandbox degradation; treat sandbox-unavailable events as potential indicators of compromise via MIR-01)
+- EE-07: Agent control-plane configuration integrity (agents must not be able to modify the configuration that governs their own security controls — sandbox mode, approval policy, tool permissions, or hook definitions — and agent tooling must not load configuration from writable shared directories; this addresses the agent self-configuration poisoning class: an agent writing its own .codex/config.toml to set sandbox_mode=workspace-write, approval_policy=never, and notify hooks that execute outside the sandbox (Cymulate, "The Race to Ship AI Tools Left Security Behind"); and configuration trust failures where a low-privileged local user plants a malicious managed-settings.json in a world-writable directory (C:\ProgramData) that privileged AI coding tools load for all users, enabling privilege escalation across Claude Code, Cursor, Codex CLI, and Gemini CLI (CVE-2026-35603). Implementation: agent security configuration files must be read-only to the agent process (mount config read-only, deny writes to .codex/, .claude/, .cursor/ control files); validate directory ownership and permissions before loading any system-wide agent configuration; reject configuration from world-writable paths; monitor for unexpected modifications to agent control-plane configuration via MIR-01)
+
+**Implementation guidance (L2+):** Deploy agent execution within Kubernetes pods (or equivalent container orchestration) with the following hardening: (1) read-only root filesystem, (2) no privileged containers, (3) seccomp/apparmor profiles that block mount, namespace, and process-control syscalls, (4) NetworkPolicy that restricts egress to only registered tool endpoints, (5) resource quotas (CPU, memory, ephemeral storage) that are enforced by the container runtime, (6) Pod Security Admission (or equivalent) at "restricted" profile level, (7) no service account tokens mounted unless explicitly required and scoped per best practice. For VM-level isolation (e.g., Claude Cowork-style deployments), ensure: no shared filesystem mounts between VM and host, no 9p/virtiofs passthrough that enables host filesystem access, microVM or lightweight VM with minimal device emulation, and remote attestation at boot.
+
+**AU framework mappings:** ISM (Guidelines for gateways, system hardening, system management), ASD Container Security Guidance, Essential Eight (Application Control, Restrict Administrative Privileges), ISM (Guidelines for network management -- network segmentation)
+
 ## 2.3 Maturity Model
 
 SHIELD-AI defines four maturity levels, consistent with ISM's implementation approach and the Essential Eight's maturity model:
@@ -255,9 +288,10 @@ SHIELD-AI defines four maturity levels, consistent with ISM's implementation app
 | Control Area | L1 | L2 | L3 | L4 |
 |--------------|----|----|----|----|
 | MS (Model) | Basic model inventory | Supply chain verification | Adversarial testing programme | Automated red-teaming |
-| IAM (Identity) | Shared credentials | Per-agent service accounts | JIT access, approval gates | Continuous credential rotation |
+| IAM (Identity) | Shared credentials | Per-agent service accounts, scope-limited credentials | JIT access, approval gates, delegation chain enforcement | Continuous credential rotation, transitive chain verification, multi-tenant isolation |
 | DS (Data) | Basic data classification | Memory sanitisation enforced | End-to-end inference encryption | Real-time data leak detection |
-| TP (Tools) | Informal tool list | Tool registry with access control | API gateway with schema validation | Automated dependency scanning |
+| TP (Tools) | Informal tool list | Tool registry with access control, cross-tool analysis | API gateway with schema validation, infrastructure-isolation mode, explicit tool registration | Automated dependency scanning + sandbox library classification |
+| EE (Execution) | Container used but untuned | Read-only root filesystem, NetworkPolicy, control-plane config integrity | seccomp/apparmor, host file-injection prevention, fail-closed sandbox operation | Remote attestation, runtime boundary verification |
 | MIR (Monitoring) | Basic logging | Structured audit logs | Anomaly detection, IR playbooks | AI-specific SIEM integration |
 | GRM (Governance) | No formal governance | AI risk register established | Board reporting, regulatory mapping | Automated compliance attestation |
 
@@ -298,7 +332,7 @@ The offering is structured as three tiers:
 **Best for:** Organisations experimenting with AI, running 1-3 pilots, needing to understand their exposure.
 
 **Deliverables:**
-- AI security posture assessment (current state across 6 pillars)
+- AI security posture assessment (current state across 7 pillars)
 - Regulatory exposure report (gap analysis against applicable frameworks)
 - Tiered action plan (30/60/90-day remediation roadmap)
 - One-hour board summary briefing
@@ -316,7 +350,7 @@ The offering is structured as three tiers:
 **Best for:** Regulated entities, government agencies, and large enterprises deploying agentic AI in production.
 
 **Deliverables:**
-- Full SHIELD-AI gap assessment across all 6 pillars (4 weeks)
+- Full SHIELD-AI gap assessment across all 7 pillars (4 weeks)
 - Control implementation (policy creation, technical control deployment, IAM reconfiguration)
 - Regulatory mapping report (automated ISM/E8/SOCI/CPS 234 alignment)
 - Agentic AI security architecture (reference architecture tailored to client environment)
@@ -365,7 +399,7 @@ SHIELD-AI engagements follow a five-phase methodology:
 - **Output:** AI security inventory + regulatory obligation map
 
 ### Phase 2: Assess (Weeks 3-4)
-- Evaluate each AI system against the six SHIELD-AI pillars
+- Evaluate each AI system against the seven SHIELD-AI pillars
 - Score current maturity per control area
 - Identify critical gaps (regulatory non-compliance, existential risks)
 - Prioritise remediation by risk level and business impact
@@ -675,6 +709,7 @@ Certification is optional  --  most clients will use the framework for self-asse
 | IAM | Identity | "Can our agents do anything the user can do?" |
 | DS | Data | "Is our data exposed to the model, and is it protected?" |
 | TP | Tools | "What tools can our agents call, and is that controlled?" |
+| EE | Execution Environment | "Can the agent escape its sandbox?" |
 | MIR | Monitoring | "Would we know if an agent was compromised?" |
 | GRM | Governance | "Who is accountable for AI security, and can they demonstrate it?" |
 
@@ -708,6 +743,7 @@ The following table maps each SHIELD-AI control to emerging international and na
 | **TP-04: Tool output validation** | LLM02 (Insecure Output) | MEASURE (ME.AD) | Art. 15(a) | Clause 8.6 | Output Integrity | Tool Output Poisoning | Guardrail 4 (Safety) |
 | **TP-05: Pipeline integrity** | LLM10 (Supply Chain) | PROTECT (PR.CI) | Art. 9(4) | Clause 7.5 | CI/CD Security | Supply Chain Compromise | Guardrail 7 (Security) |
 | **TP-06: Dependency scanning** | LLM10 (Supply Chain) | IDENTIFY (ID.RM) | Art. 9(4) | Clause 7.5 | Dependency Mgmt | Dependency Abuse | Guardrail 7 (Security) |
+| **TP-09: Explicit tool registration** | LLM08 (Excessive Agency) | IDENTIFY (ID.AM) | Art. 15(b) | Clause 7.2 | Tool Inventory | Tool Abuse | Guardrail 6 (Accountability) |
 | **MIR-01: Activity logging** | - | DETECT (DE.AE) | Art. 12 Transparency | Clause 8.6 | Audit Logging | - | Guardrail 8 (Monitoring) |
 | **MIR-02: Anomaly detection** | - | DETECT (DE.CM) | Art. 14(c) | Clause 8.5 | Anomaly Detection | Discovery & Recon | Guardrail 8 (Monitoring) |
 | **MIR-03: Prompt audit log** | LLM01 (Prompt Injection) | DETECT (DE.AE) | Art. 12(1) | Clause 8.6 | Audit Trail | Prompt Injection | Guardrail 8 (Monitoring) |
@@ -720,6 +756,9 @@ The following table maps each SHIELD-AI control to emerging international and na
 | **GRM-04: Third-party AI risk mgmt** | LLM10 (Supply Chain) | IDENTIFY (ID.SC) | Art. 28 (Third Parties) | Clause 7.2 | Vendor Risk | Supply Chain | Guardrail 3 (Transparency) |
 | **GRM-05: Regulatory mapping** | - | GOVERN (GV.OV) | Art. 26 Compliance | Clause 7.3 | Compliance | - | Guardrail 1 (Governance) |
 | **GRM-06: Board reporting** | - | GOVERN (GV.OV) | Art. 17(2) | Clause 9.1 | - | - | Guardrail 1 (Governance) |
+| **IAM-09: Multi-tenant isolation** | - | PROTECT (PR.AC) | Art. 15(b) | Clause 8.4 | Access Control | - | Guardrail 6 (Accountability) |
+| **EE-06: Fail-closed sandbox op** | - | PROTECT (PR.PT) | Art. 15(b) | Clause 8.4 | - | - | Guardrail 7 (Security) |
+| **EE-07: Control-plane config integrity** | - | PROTECT (PR.AC) | Art. 15(b) | Clause 8.4 | - | - | Guardrail 7 (Security) |
 
 ### Standards Maturity Assessment
 
@@ -736,7 +775,7 @@ The following table maps each SHIELD-AI control to emerging international and na
 | AU Mandatory AI Guardrails | Proposed, legislation expected 2027-2028 | Full mapping anticipated | 2027-2029 |
 | Singapore AI Verify | Published 2024 | Cross-reference for APAC alignment | 2026-2028 |
 | UK AI Safety Institute testing | Active 2025+ | Red-teaming methodology reference (MS-04) | 2026-2029 |
-| MCP Security Specification | Emerging 2025-2026 | Tool pipeline controls (TP-03, TP-04) | 2027-2028 |
+|| MCP Security Specification | Emerging 2025-2026 — active CVEs July 2026 | MS-08 (MCP security controls), TP-03, TP-04 | 2026 (immediate) |
 
 ### Emerging Capability: Continuous Compliance Automation
 
@@ -777,6 +816,6 @@ This capability transforms SHIELD-AI from an assessment service (snapshot in tim
 
 ---
 
-*SHIELD-AI v1.1  --  July 2026*
+*SHIELD-AI v1.4  --  August 3, 2026*
 *Authored by the Security Architecture Practice*
 *For enquiries: practice-lead@consultancy.example.com*
