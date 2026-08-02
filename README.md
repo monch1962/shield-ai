@@ -10,9 +10,12 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework document
-|   +-- shield-ai-framework.md          #   Full framework (v1.1, 9,771 words)
-|   +-- shield-ai-framework.pdf         #   PDF (30 pages)
+|   +-- shield-ai-framework.md          #   Full framework (v1.4, updated with EE-06/07, IAM-09, TP-09)
+|   +-- shield-ai-framework.pdf         #   PDF (updated)
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.4)
+|   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
+|   +-- shield-ai-gap-analysis.epub     #   Gap analysis EPUB
 +-- presentations/
 |   +-- business-deck/                  # Business decision-maker slide deck
 |   |   +-- shield-ai-deck-business.html  #   Reveal.js HTML slides (15 slides)
@@ -31,10 +34,10 @@ shield-ai/
 
 ## Framework at a Glance
 
-- **6 Pillars**: Model Security (MS), Identity & Access (IAM), Data Security (DS),
+- **7 Pillars**: Model Security (MS), Identity & Access (IAM), Data Security (DS),
   Tool & Pipeline Security (TP), Monitoring & Incident Response (MIR),
-  Governance & Risk Management (GRM)
-- **36 Controls** across all pillars, each with implementation guidance,
+  Governance & Risk Management (GRM), **Execution Environment (EE) -- NEW**
+- **46 Controls** across all pillars, each with implementation guidance,
   maturity indicators, and regulatory mappings
 - **4 Maturity Levels**: L1 (Initial) -> L2 (Managed) -> L3 (Defined) -> L4 (Optimised)
 - **Regulatory Alignment**: ISM, Essential Eight, SOCI Act, APRA CPS 234,
@@ -69,6 +72,10 @@ Open the `.html` files in any web browser. Navigate with arrow keys. Press `O` f
 
 ## Framework Version
 
-**v1.1** -- July 2026
+**v1.4** -- August 3, 2026 (added fail-closed sandbox operation EE-06, agent control-plane configuration integrity EE-07, multi-tenant agent platform isolation IAM-09, explicit tool registration TP-09; extended TP-04/TP-06/MIR-02 for interpreter-flag misuse, code-validation endpoints, and swarm-campaign detection; addressed CrewAI, Codex CLI, CVE-2026-35603, Langflow KEV, Semantic Kernel/.NET SDK, DeepSeek incidents)
+
+**v1.3** -- July 27, 2026 (added host-trusted file injection prevention EE-05 and MCP security controls MS-08; 50 controls)
+
+**v1.2** -- July 2026 (added P7 Execution Environment pillar, EE-01 to EE-04, IAM-07/08, TP-07/08, MS-07)
 
 Authored by the Security Architecture Practice.
