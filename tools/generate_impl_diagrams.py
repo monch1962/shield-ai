@@ -120,7 +120,7 @@ def d1_reference():
     b.append(box(60, 55, 170, 60, WHITE, "Users & Business Apps", "web / API / IDE"))
     b.append(box(270, 55, 190, 60, WHITE, "Agent Orchestrator", "LangGraph, CrewAI, Semantic Kernel"))
     b.append(box(500, 55, 170, 60, LTBL, "AI Gateway", "authN, WAF, intent filter", cap="INGRESS"))
-    b.append(box(710, 55, 190, 60, WHITE, "Model Gateway & Guardrails", "output guardrails, redaction", cap="MS-01..08"))
+    b.append(box(710, 55, 190, 60, WHITE, "Model Gateway & Guardrails", "output guardrails, redaction", cap="MS-01..09"))
     b.append(box(940, 55, 160, 60, WHITE, "LLM Provider(s)", "cloud / self-hosted"))
     b.append(arrow(230, 85, 270, 85))
     b.append(arrow(460, 85, 500, 85))
@@ -130,14 +130,14 @@ def d1_reference():
     b.append(label(385, 140, "dispatch to sandboxed agent runtime", "sm", anchor="start"))
 
     # ---- Row 2: agent execution zone ----
-    b.append(box(60, 195, 220, 100, WHITE, "Agent Runtime (sandboxed)", "read-only rootfs, seccomp, quotas", cap="EE-01..07"))
+    b.append(box(60, 195, 220, 100, WHITE, "Agent Runtime (sandboxed)", "read-only rootfs, seccomp, quotas", cap="EE-01..08"))
     b.append(box(320, 195, 220, 100, WHITE, "Agent Sidecar", "OPA + tool gateway + telemetry", cap="POLICY POINT"))
     b.append(label(30, 315, "NetworkPolicy egress allow-list + fail-closed attestation (EE-06)", "sm", anchor="start"))
     b.append(arrow(280, 245, 320, 245))
 
     # ---- Row 3: policy, tool & model plane ----
     b.append(box(620, 195, 230, 100, LTBL, "Policy Decision Points (OPA)", "Rego: IAM, DS, TP, GRM", cap="POLICY-AS-CODE"))
-    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..09"))
+    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..10"))
     b.append(arrow(540, 245, 620, 245))
     b.append(arrow(850, 245, 880, 245))
     b.append(box(620, 330, 230, 90, WHITE, "Identity Plane", "SPIFFE/SPIRE, JIT creds, delegation", cap="IAM-01..09"))
@@ -146,7 +146,7 @@ def d1_reference():
     b.append(varrow(880, 295, 330))
 
     # ---- Row 4: data plane ----
-    b.append(box(60, 495, 250, 70, WHITE, "Data & RAG Security Layer", "classification, ABAC, redaction", cap="DS-01..06"))
+    b.append(box(60, 495, 250, 70, WHITE, "Data & RAG Security Layer", "classification, ABAC, redaction", cap="DS-01..07"))
     b.append(box(350, 495, 240, 70, WHITE, "Memory Store", "per-agent scoped, retention, sanitisation", cap="DS-03/04"))
     b.append(box(630, 495, 240, 70, WHITE, "Training Data Governance", "lineage, consent, poison detection", cap="DS-05"))
     b.append(box(910, 495, 190, 70, WHITE, "Data Sources", "warehouse, lake, APIs"))

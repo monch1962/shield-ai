@@ -62,6 +62,8 @@ build_doc assessment-guide/shield-ai-assessment-guide.md \
   "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 build_doc framework/shield-ai-implementation-architecture.md \
   "SHIELD-AI(TM) Implementation Architecture"
+build_doc framework/shield-ai-deep-review-2026-08.md \
+  "SHIELD-AI(TM) Monthly Deep Review -- August 2026"
 
 rm -f "$TMP"
 echo ""

@@ -10,18 +10,18 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework documents
-|   +-- shield-ai-framework.md          #   Full framework (v1.4)
+|   +-- shield-ai-framework.md          #   Full framework (v1.5)
 |   +-- shield-ai-framework.pdf         #   PDF
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
 |   +-- shield-ai-implementation-architecture.md   #   Deployable components, reference
 |   |                                          #   architecture, full diagram set (NEW)
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
-|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.4)
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.5)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
 |   +-- shield-ai-gap-analysis.epub     #   Gap analysis EPUB
 +-- assessment-guide/                   # Consultant's field manual
-|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 51 controls
+|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 55 controls
 |   +-- shield-ai-assessment-guide.pdf  #   PDF
 |   +-- shield-ai-assessment-guide.epub #   EPUB for field use
 +-- presentations/
@@ -39,7 +39,7 @@ shield-ai/
 |   +-- shield_ai_iam_*.rego            #   (MS, IAM, DS, TP, MIR, GRM)
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
-|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.4)
+|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.5)
 |   +-- logo*.svg                       # Brand assets
 |   +-- style.css                       # Document styling (Markdown/HTML/PDF/EPUB)
 +-- tools/
@@ -53,7 +53,7 @@ shield-ai/
   Tool & Pipeline Security (TP), Monitoring & Incident Response (MIR),
   Governance & Risk Management (GRM), Execution Environment (EE)
 
-- **51 Controls** across all pillars, each with implementation guidance,
+- **55 Controls** across all pillars, each with implementation guidance,
   maturity indicators, and regulatory mappings
 
 - **4 Maturity Levels**: L1 (Initial) -> L2 (Managed) -> L3 (Defined) -> L4 (Optimised)
@@ -74,7 +74,7 @@ shield-ai/
   deployment topologies, maturity mapping)
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
-  incident research driving framework evolution (v1.4, 17 incidents, 13 gaps)
+  incident research driving framework evolution (v1.5, 25 incidents, 19 gaps)
 
 - **[Assessment Guide (Markdown)](assessment-guide/shield-ai-assessment-guide.md)** --
   consultant's field manual with per-control assessment questions, artifacts to
@@ -98,6 +98,8 @@ shield-ai/
 Open the `.html` files in any web browser. Navigate with arrow keys. Press `O` for overview, `ESC` for slide navigator.
 
 ## Framework Version
+
+**v1.5** -- August 3, 2026 (monthly deep review: added perception-fidelity enforcement MS-09, agent-originated artifact publication control DS-07, agent platform inbound control-plane protection TP-10, and evaluation-harness isolation and integrity EE-08; extended MS-04/MS-08/IAM-03/EE-07/MIR-02/GRM-02/GRM-04; addressed the Anthropic evaluation-breach cluster, AWS Kiro, OpenClaw, Azure DevOps MCP, Unit 42 autonomous-attacker campaign, Metasploit/Wiz MCP research, and Android on-device agent incidents; 55 controls)
 
 **v1.4** -- August 3, 2026 (added fail-closed sandbox operation EE-06, agent control-plane configuration integrity EE-07, multi-tenant agent platform isolation IAM-09, explicit tool registration TP-09; extended TP-04/TP-06/MIR-02 for interpreter-flag misuse, code-validation endpoints, and swarm-campaign detection; addressed CrewAI, Codex CLI, CVE-2026-35603, Langflow KEV, Semantic Kernel/.NET SDK, DeepSeek incidents)
 

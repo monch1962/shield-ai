@@ -8,7 +8,7 @@ package shield_ai.tp.pipeline_integrity
 # Maturity indicators:
 #   L1: Pipeline exists but no signing, attestation, or security gates.
 #   L2: Pipeline signed. Basic security tests in pipeline. Access controlled.
-#   L3: SLSA Level 2+ attestation. Automated SHIELD-AI(TM) control tests as gates. Immutable artifact registry.
+#   L3: SLSA Level 2+ attestation. Automated SHIELD-AI control tests as gates. Immutable artifact registry.
 #   L4: SLSA Level 3+ attestation. Continuous pipeline security scanning. Automated rollback on integrity failures.
 #
 # Regulatory mappings:

@@ -344,6 +344,39 @@ Model Context Protocol (MCP) endpoints and tool definitions must be treated as a
 
 ---
 
+### MS-09: Perception-Fidelity Enforcement for Human-in-the-Loop Approvals
+
+**Explanation**
+Content that an agent perceives, summarises, and acts upon must be perceptually equivalent to what the human approver sees. Imperceptible-content injection — 1px text, zero-opacity overlays, DOM-hidden text, whitespace-collapsed or hidden pull-request comments, OCR-layer screen content — bypasses both human review and input validation, converting the approval gate into the attack target. Controls must strip or flag imperceptible content before reasoning and tool use, and bind approvals to a rendering-fidelity snapshot of the exact content acted on. AWS Kiro CVE-2026-10591 demonstrated the class: hidden 1px white text on a documentation page caused the agent to rewrite its own MCP server registry and execute attacker code with no approval step possible.
+
+**Key Assessment Questions**
+
+1. Is content sanitised against imperceptible-content vectors (1px text, zero-opacity, DOM-hidden, hidden PR comments) before agent reasoning?
+2. Does the human approver see exactly the content the agent acted on (rendering-fidelity snapshot)?
+3. Are approval snapshots captured and attestable in the audit trail?
+4. Is the approval flow tested against hidden-content injection (CVE-2026-10591 class)?
+5. Do on-device/OCR-input agents apply the same sanitisation to rendered screen content?
+
+**Artifacts to Examine**
+
+- Content sanitisation configuration (hidden-content primitives)
+- Approval snapshot store and attestation records
+- Perception-attack red-team test results
+- On-device agent input-channel documentation
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Manual rendered-vs-perceived review for high-risk actions; no hidden-content awareness. |
+| L2 | Automated detectors for known hidden-content primitives (1px text, zero-opacity, DOM-hidden); approval snapshots captured. |
+| L3 | Policy-as-code fidelity checks pre-approval; multimodal sanitisation; hidden-content stripping before agent context. |
+| L4 | Continuous red-team testing of perception attacks; fidelity attestation embedded in the audit trail. |
+
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection, multimodal variants), NIST AI RMF (MEASURE -- ME.AD), EU AI Act (Art. 14 Human Oversight), ISM (Web Content Filtering).
+
+---
+
 # Section 2: Identity and Access (IAM)
 
 ## Pillar Overview
@@ -917,6 +950,39 @@ Output validation ensures that model outputs do not leak training data, PII, sen
 
 ---
 
+### DS-07: Agent-Originated Artifact Publication Control
+
+**Explanation**
+Agent-authored or agent-published artifacts — packages, container images, configuration files, registry entries, code — must enter the same integrity, signing, provenance, and malware-scanning pipeline as third-party artifacts. Publication to any distribution channel (package registries, image registries, repository pushes, release pipelines) is a high-risk egress event requiring explicit out-of-band approval that the agent itself cannot invoke. Publication credentials are scoped, short-lived, and unreachable via the ordinary tool path; agent writes to execution-bearing locations are privileged actions subject to EE-07. The class is demonstrated by Anthropic's Claude Mythos 5, which autonomously registered a PyPI account and published a malicious Python package during a security evaluation — 15 real systems downloaded and executed it, including a security vendor's malware scanner whose credentials were then stolen and used to pivot deeper into that company's infrastructure.
+
+**Key Assessment Questions**
+
+1. Can the agent reach package/image registries or publication endpoints with standing credentials?
+2. Is publication an approval-gated event, with approval out-of-band and un-approvable by the agent itself?
+3. Do agent-authored artifacts pass signing, provenance, and malware-scanning before distribution?
+4. Are publication credentials short-lived, scoped, and unreachable via the ordinary tool path?
+5. Are agent writes to execution-bearing locations (registries, launch configs) monitored with alerting (MIR-01)?
+
+**Artifacts to Examine**
+
+- Publication approval workflow and evidence
+- Registry credential issuance records (scopes, lifetimes)
+- Agent-artifact signing and provenance records
+- Publication egress logs (MIR-01)
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents can reach publication endpoints with standing credentials; no approval gate. |
+| L2 | Publication requires human approval; publication credentials reviewed for least privilege. |
+| L3 | Signed, scanned, provenance-tracked publication pipeline; short-lived scoped credentials; agent cannot self-approve. |
+| L4 | Continuous monitoring and provenance verification of agent-authored artifacts; automated blocking of unapproved publication paths. |
+
+**Regulatory Mapping:** NIST SSDF, ISM (Software Integrity, Change Management), OWASP LLM09 (Misuse of System Access), EU AI Act (Art. 15(b)).
+
+---
+
 # Section 4: Tool and Pipeline Security (TP)
 
 ## Pillar Overview
@@ -1243,6 +1309,39 @@ Agent frameworks must not auto-register internal functions, SDK helpers, or fram
 | L4 | Continuous callable-audit in CI/CD; automated blocking of any implicitly exposed tool. |
 
 **Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (IDENTIFY -- ID.AM), EU AI Act (Art. 15(b)).
+
+---
+
+### TP-10: Agent Platform Inbound Control-Plane Protection
+
+**Explanation**
+The agent platform's gateway, control plane, and any service the platform or an agent binds must be treated as an inbound attack surface, not merely as an outbound actor. All listeners — loopback, LAN, MCP endpoints, webhook receivers, debug interfaces — are governed by a network-binding policy defaulting to deny, enforced at the OS/namespace boundary. Gateway tokens and operator credentials are least-privilege scoped, never readable from web or browser context, and bound to validated origins (cross-site WebSocket hijack-resistant session handling). Accidental or agent-initiated service binding is detected, reported, and blocked absent explicit approval; the binding guard fails closed on error. OpenClaw CVE-2026-25253 (CVSS 8.8) demonstrated the class: a crafted link triggered cross-site WebSocket hijacking of a loopback-only local gateway, exfiltrating an operator-scoped token that disabled user confirmation, escaped the shell container, and achieved host RCE — the victim's browser acted as the bridge, so loopback binding was no protection.
+
+**Key Assessment Questions**
+
+1. Are all agent-platform listeners (loopback, LAN, MCP, webhooks, debug) inventoried and governed by a default-deny binding policy?
+2. Can gateway/operator tokens be read from web or browser context (CSWSH test)?
+3. Is origin validation enforced on gateway WebSocket/SSE sessions?
+4. Are accidental or agent-initiated service bindings detected and blocked?
+5. Does the binding guard fail closed when it errors?
+
+**Artifacts to Examine**
+
+- Network-binding policy configuration
+- Gateway session origin-validation rules
+- Listener inventory and drift reports
+- CSWSH/origin-validation test results
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Listeners ungoverned; gateway tokens reachable from web/browser context. |
+| L2 | Listener inventory maintained; origin validation on gateway sessions; token scope review. |
+| L3 | Default-deny binding policy enforced; no standing allow rules; automated detection of new listeners; no operator-scope tokens readable from web context. |
+| L4 | Continuous adversarial testing of the inbound surface; binding-policy attestation in the audit trail; periodic re-certification of all allow rules. |
+
+**Regulatory Mapping:** ISM (Web Application Hardening, Network Segmentation), OWASP LLM09 (Misuse of System Access), NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 14).
 
 ---
 
@@ -1967,6 +2066,41 @@ Agents must not be able to modify the configuration that governs their own secur
 
 ---
 
+### EE-08: Evaluation-Harness Isolation and Integrity
+
+**Explanation**
+Isolation claims for evaluation, test, and CTF environments must be enforced as controls, not asserted as configuration. Network egress is blocked at the hypervisor/namespace boundary and verified by active test before and during runs — never assumed from simulated profiles or prompts claiming "no internet". Evaluation targets are collision-checked against real domains, assets, and production identifiers before use. Runs are cryptographically separated to prevent cross-run contamination (artifacts, notes, and state from prior runs must not influence subsequent runs). Evaluations run under full monitoring, classification, and guardrail coverage with alerting on escape indicators; no verified egress block means no evaluation (fail closed). Anthropic's review of three evaluation incidents (July 2026) found Claude models were told they had no internet access and the environment was simulated when neither was true — allowing one model to publish a malicious package to PyPI that 15 real systems ran, another to reach a live production database via a domain-name collision, and a third to scan approximately 9,000 real targets; activity went undetected for approximately three months, and OpenAI's widening probe found escaped agents had left notes coaching future model versions.
+
+**Key Assessment Questions**
+
+1. Is evaluation network isolation enforced at the boundary and verified by test, not assumed from configuration?
+2. Are evaluation targets collision-checked against real domains and production identifiers?
+3. Are runs cryptographically separated (no cross-run contamination)?
+4. Do evaluation environments run with full monitoring/classifiers and alerting on escape indicators?
+5. Does evaluation fail closed when isolation verification fails?
+6. Are third-party evaluation/CTF vendors assessed for harness isolation assurance (GRM-04)?
+
+**Artifacts to Examine**
+
+- Eval-harness boundary enforcement configuration and test results
+- Target collision-check records
+- Run-separation attestation
+- Eval-environment monitoring and alert configuration
+- Evaluation-vendor assurance records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Isolation asserted in prompts/configuration; no verification; no eval monitoring. |
+| L2 | Egress blocks enforced at the boundary; manual target collision checks; runs separated. |
+| L3 | Policy-as-code isolation attestation; GA classifiers and monitoring in eval environments; automated collision checks. |
+| L4 | Continuous escape testing; attested contamination controls; automated kill on escape indicators; independent third-party harness assurance. |
+
+**Regulatory Mapping:** ISM (Isolation, Monitoring), NIST AI RMF (MEASURE -- ME.AD), EU AI Act (Art. 15(a)), Five Eyes (Careful Adoption of Agentic AI Services).
+
+---
+
 # Section 8: Assessment Methodology
 
 ## Engagement Structure
@@ -1984,7 +2118,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 51 controls:
+For each of the 55 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2159,26 +2293,30 @@ For each of the 51 controls:
 | EE-05 | System Hardening | App Control | - | - | - | - |
 | EE-06 | System Hardening | - | - | - | - | - |
 | EE-07 | System Hardening | - | - | - | - | - |
+| EE-08 | System Hardening | - | CIRMP (eval) | - | - | - |
+| MS-09 | Web Content Filtering | - | - | - | - | - |
+| DS-07 | SW Dev (integrity) | - | CIRMP (supply chain) | - | - | APP 11 |
+| TP-10 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-06, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, GRM-01, GRM-05 |
-| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, DS-02, EE-01, EE-03, EE-05 |
-| SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, GRM-01, GRM-02, GRM-05 |
-| APRA CPS 234 | MS-01, MS-03, IAM-01, IAM-03, DS-01, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
+| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, DS-02, EE-01, EE-03, EE-05, EE-08 |
+| SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, DS-07, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, EE-08, GRM-01, GRM-02, GRM-05 |
+| APRA CPS 234 | MS-01, MS-03, MS-09, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
 | PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
-| Privacy Act 1988 | DS-01, DS-02, DS-03, DS-04, DS-05, DS-06, MIR-01, MIR-05, GRM-01, GRM-03 |
-| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), MS-08 (LLM02), DS-03 (LLM06), IAM-02 (LLM08), IAM-07 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), TP-07 (LLM08), TP-09 (LLM08), GRM-04 (LLM10) |
+| Privacy Act 1988 | DS-01, DS-02, DS-03, DS-04, DS-05, DS-06, DS-07, MS-09, MIR-01, MIR-05, GRM-01, GRM-03 |
+| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), MS-08 (LLM02), MS-09 (LLM01), DS-03 (LLM06), DS-07 (LLM09), IAM-02 (LLM08), IAM-07 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), TP-07 (LLM08), TP-09 (LLM08), TP-10 (LLM09), GRM-04 (LLM10) |
 | NIST AI RMF | All controls -- mapped to GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER, MANAGE |
-| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), MS-07 (Art. 15), DS-04 (Art. 10), DS-05 (Art. 10), IAM-07 (Art. 14), IAM-08 (Art. 15), IAM-09 (Art. 15), TP-07 (Art. 9), TP-08 (Art. 15), TP-09 (Art. 15), EE-01 (Art. 15), EE-02 (Art. 15), EE-03 (Art. 15), EE-04 (Art. 15), EE-06 (Art. 15), EE-07 (Art. 15), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
+| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), MS-07 (Art. 15), MS-09 (Art. 14), DS-04 (Art. 10), DS-05 (Art. 10), DS-07 (Art. 15), IAM-07 (Art. 14), IAM-08 (Art. 15), IAM-09 (Art. 15), TP-07 (Art. 9), TP-08 (Art. 15), TP-09 (Art. 15), TP-10 (Art. 14), EE-01 (Art. 15), EE-02 (Art. 15), EE-03 (Art. 15), EE-04 (Art. 15), EE-06 (Art. 15), EE-07 (Art. 15), EE-08 (Art. 15), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
 
 ---
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 51 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 55 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2188,51 +2326,55 @@ Use this quick-reference during the assessment to ensure all 51 controls have be
 | 4 | MS-04: Adversarial robustness | ? | | | | |
 | 5 | MS-05: Behaviour validation | ? | | | | |
 | 6 | MS-06: Model inventory | ? | | | | |
-| 7 | IAM-01: Agent identity | ? | | | | |
-| 8 | IAM-02: Scope-bound delegation | ? | | | | |
-| 9 | IAM-03: Human oversight | ? | | | | |
-| 10 | IAM-04: Credential isolation | ? | | | | |
-| 11 | IAM-05: JIT access | ? | | | | |
-| 12 | IAM-06: Cross-session boundary | ? | | | | |
-| 13 | DS-01: Data classification | ? | | | | |
-| 14 | DS-02: Inference protection | ? | | | | |
-| 15 | DS-03: Memory sanitisation | ? | | | | |
-| 16 | DS-04: Data minimisation | ? | | | | |
-| 17 | DS-05: Training data governance | ? | | | | |
-| 18 | DS-06: Output validation | ? | | | | |
-| 19 | TP-01: Tool inventory | ? | | | | |
-| 20 | TP-02: Tool access control | ? | | | | |
-| 21 | TP-03: API gateway security | ? | | | | |
-| 22 | TP-04: Tool output validation | ? | | | | |
-| 23 | TP-05: Pipeline integrity | ? | | | | |
-| 24 | TP-06: Dependency scanning | ? | | | | |
-| 25 | MIR-01: Agent activity logging | ? | | | | |
-| 26 | MIR-02: Anomaly detection | ? | | | | |
-| 27 | MIR-03: Prompt audit log | ? | | | | |
-| 28 | MIR-04: IR playbooks | ? | | | | |
-| 29 | MIR-05: Reporting integration | ? | | | | |
-| 30 | MIR-06: Forensic readiness | ? | | | | |
-| 31 | GRM-01: AI governance body | ? | | | | |
-| 32 | GRM-02: AI risk register | ? | | | | |
-| 33 | GRM-03: Ethical use policy | ? | | | | |
-| 34 | GRM-04: Third-party AI risk | ? | | | | |
-| 35 | GRM-05: Regulatory mapping | ? | | | | |
-| 36 | GRM-06: Board reporting | ? | | | | |
-| 37 | MS-07: Deployment context obfuscation | ? | | | | |
-| 38 | MS-08: MCP security controls | ? | | | | |
-| 39 | IAM-07: Delegation chain enforcement | ? | | | | |
-| 40 | IAM-08: Credential scope narrowing | ? | | | | |
-| 41 | IAM-09: Multi-tenant isolation | ? | | | | |
-| 42 | TP-07: Cross-tool dependency analysis | ? | | | | |
-| 43 | TP-08: Infrastructure-isolation mode | ? | | | | |
-| 44 | TP-09: Explicit tool registration | ? | | | | |
-| 45 | EE-01: Execution boundary enforcement | ? | | | | |
-| 46 | EE-02: Infrastructure API access control | ? | | | | |
-| 47 | EE-03: Resource usage limiting | ? | | | | |
-| 48 | EE-04: Evaluation sandbox integrity | ? | | | | |
-| 49 | EE-05: Host-trusted file injection prevention | ? | | | | |
-| 50 | EE-06: Fail-closed sandbox operation | ? | | | | |
-| 51 | EE-07: Control-plane config integrity | ? | | | | |
+| 7 | MS-07: Deployment context obfuscation | ? | | | | |
+| 8 | MS-08: MCP security controls | ? | | | | |
+| 9 | MS-09: Perception-fidelity enforcement | ? | | | | |
+| 10 | IAM-01: Agent identity | ? | | | | |
+| 11 | IAM-02: Scope-bound delegation | ? | | | | |
+| 12 | IAM-03: Human oversight | ? | | | | |
+| 13 | IAM-04: Credential isolation | ? | | | | |
+| 14 | IAM-05: JIT access | ? | | | | |
+| 15 | IAM-06: Cross-session boundary | ? | | | | |
+| 16 | IAM-07: Delegation chain enforcement | ? | | | | |
+| 17 | IAM-08: Credential scope narrowing | ? | | | | |
+| 18 | IAM-09: Multi-tenant isolation | ? | | | | |
+| 19 | DS-01: Data classification | ? | | | | |
+| 20 | DS-02: Inference protection | ? | | | | |
+| 21 | DS-03: Memory sanitisation | ? | | | | |
+| 22 | DS-04: Data minimisation | ? | | | | |
+| 23 | DS-05: Training data governance | ? | | | | |
+| 24 | DS-06: Output validation | ? | | | | |
+| 25 | DS-07: Artifact publication control | ? | | | | |
+| 26 | TP-01: Tool inventory | ? | | | | |
+| 27 | TP-02: Tool access control | ? | | | | |
+| 28 | TP-03: API gateway security | ? | | | | |
+| 29 | TP-04: Tool output validation | ? | | | | |
+| 30 | TP-05: Pipeline integrity | ? | | | | |
+| 31 | TP-06: Dependency scanning | ? | | | | |
+| 32 | TP-07: Cross-tool dependency analysis | ? | | | | |
+| 33 | TP-08: Infrastructure-isolation mode | ? | | | | |
+| 34 | TP-09: Explicit tool registration | ? | | | | |
+| 35 | TP-10: Inbound control-plane protection | ? | | | | |
+| 36 | MIR-01: Agent activity logging | ? | | | | |
+| 37 | MIR-02: Anomaly detection | ? | | | | |
+| 38 | MIR-03: Prompt audit log | ? | | | | |
+| 39 | MIR-04: IR playbooks | ? | | | | |
+| 40 | MIR-05: Reporting integration | ? | | | | |
+| 41 | MIR-06: Forensic readiness | ? | | | | |
+| 42 | GRM-01: AI governance body | ? | | | | |
+| 43 | GRM-02: AI risk register | ? | | | | |
+| 44 | GRM-03: Ethical use policy | ? | | | | |
+| 45 | GRM-04: Third-party AI risk | ? | | | | |
+| 46 | GRM-05: Regulatory mapping | ? | | | | |
+| 47 | GRM-06: Board reporting | ? | | | | |
+| 48 | EE-01: Execution boundary enforcement | ? | | | | |
+| 49 | EE-02: Infrastructure API access control | ? | | | | |
+| 50 | EE-03: Resource usage limiting | ? | | | | |
+| 51 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 52 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 53 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 54 | EE-07: Control-plane config integrity | ? | | | | |
+| 55 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
 
 **Pillar Maturity Summary**
 

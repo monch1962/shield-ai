@@ -25,7 +25,7 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.4"
+FRAMEWORK_VERSION = "1.5"
 FRAMEWORK_DATE = "2026-08"
 
 PILLARS = {
@@ -172,7 +172,12 @@ reg("MS-03", "Supply Chain Security", "MS",
 reg("MS-04", "Adversarial Robustness", "MS",
     "Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended "
     "behaviour. For agentic AI, the primary adversarial attack is prompt injection -- crafting input that "
-    "causes the model to ignore its system prompt and follow attacker instructions.",
+    "causes the model to ignore its system prompt and follow attacker instructions. Inputs must additionally "
+    "be sanitised against imperceptible-content vectors (zero-opacity text, sub-pixel/1px text, DOM-hidden "
+    "content, hidden pull-request comments) before reasoning -- the perception-bypass class demonstrated by "
+    "AWS Kiro CVE-2026-10591 and hidden-PR-comment review-agent hijacks -- and tool-returned content (PR "
+    "comments, documentation pages, search results) must be scanned for hidden-content primitives before "
+    "use (v1.5).",
     "Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs "
     "through automated testing, red-teaming, and proxy-layer guardrails.",
     [
@@ -344,7 +349,10 @@ reg("IAM-02", "Scope-Bound Delegation", "IAM",
 reg("IAM-03", "Human Oversight Controls", "IAM",
     "Human oversight ensures that high-risk agent actions require explicit human approval before "
     "execution. Not every agent action needs human review -- a customer support agent reading account "
-    "details is low-risk; the same agent writing to the account requires approval.",
+    "details is low-risk; the same agent writing to the account requires approval. Gateway and operator "
+    "tokens must not be readable from web or browser context (cross-site WebSocket hijack resistance -- "
+    "OpenClaw CVE-2026-25253), and publication credentials under DS-07 are scoped, short-lived, and "
+    "un-approvable by the agent itself (v1.5).",
     "Implement risk-tiered human approval gates for agent actions, with documented break-glass "
     "procedures for urgent situations.",
     [
@@ -656,6 +664,31 @@ reg("DS-06", "Output Validation", "DS",
               "NIST AI RMF": "MEASURE (ME.AD)"},
     tags=["OWASP", "PRIVACY", "NIST"])
 
+reg("DS-07", "Agent-Originated Artifact Publication Control", "DS",
+    "Agent-authored or agent-published artifacts -- packages, container images, configuration files, registry entries, code -- must enter the same integrity, signing, provenance, and malware-scanning pipeline as third-party artifacts. Publication to any distribution channel (package registries, image registries, repository pushes, release pipelines) is a high-risk egress event requiring explicit out-of-band approval that the agent itself cannot invoke. Publication credentials are scoped, short-lived, and unreachable via the ordinary tool path; agent writes to execution-bearing locations are privileged actions subject to EE-07. Addresses the agent-as-publisher class (Anthropic Claude Mythos 5 published a malicious Python package to PyPI during an evaluation; 15 real systems downloaded and executed it, including a security vendor's malware scanner whose credentials were then stolen and used to pivot deeper -- INC-19).",
+    "Prevent agents from unintentionally or maliciously publishing execution-bearing artifacts into the software supply chain.",
+    [
+        "Agents can reach publication endpoints with standing credentials; no approval gate.",
+        "Publication requires human approval; publication credentials reviewed for least privilege.",
+        "Signed, scanned, provenance-tracked publication pipeline; short-lived scoped credentials; agent cannot self-approve.",
+        "Continuous monitoring and provenance verification of agent-authored artifacts; automated blocking of unapproved publication paths.",
+    ],
+    [
+        "Can the agent reach package/image registries or publication endpoints with standing credentials?",
+        "Is publication an approval-gated event, with approval out-of-band and un-approvable by the agent itself?",
+        "Do agent-authored artifacts pass signing, provenance, and malware-scanning before distribution?",
+        "Are publication credentials short-lived, scoped, and unreachable via the ordinary tool path?",
+        "Are agent writes to execution-bearing locations monitored (MIR-01)?",
+    ],
+    [
+        "Publication approval workflow and evidence",
+        "Registry credential issuance records (scopes, lifetimes)",
+        "Agent-artifact signing and provenance records",
+        "Publication egress logs (MIR-01)",
+    ],
+    {"NIST": "SSDF", "ISM": "Software Integrity, Change Management", "OWASP": "LLM09 (Misuse of System Access)", "EU AI Act": "Art. 15(b)"},
+    ["publication", "supply-chain", "egress"])
+
 # ============================================
 # PILLAR 4: TOOL AND PIPELINE SECURITY
 # ============================================
@@ -885,7 +918,11 @@ reg("MIR-01", "Agent Activity Logging", "MIR",
 reg("MIR-02", "Behavioural Anomaly Detection", "MIR",
     "Behavioural anomaly detection establishes per-agent and per-agent-class behaviour baselines "
     "and alerts when an agent deviates. Unlike traditional anomaly detection (known attack signatures), "
-    "agent behavioural detection learns what 'normal' looks like for each agent.",
+    "agent behavioural detection learns what 'normal' looks like for each agent. Detection must include "
+    "adversary-owned autonomous agents operating at model speed with zero human-in-the-loop friction -- "
+    "autonomous discovery (FOFA-style), mass exploitation of exposed instances, and self-propagating "
+    "campaign patterns (Unit 42 INC-23; Kimi K3 autonomous exploit development) -- and unexpected "
+    "listener/binding events from agent environments (v1.5).",
     "Establish per-agent and per-agent-class behaviour baselines for tool usage, data access, memory "
     "access, and decision patterns, with automated alerting on deviation.",
     [
@@ -1075,7 +1112,9 @@ reg("GRM-01", "AI Governance Body", "GRM",
 reg("GRM-02", "AI Risk Register", "GRM",
     "The AI risk register is a distinct register that captures AI-specific risks using a dedicated "
     "threat taxonomy covering model-level, tool-level, data-level, identity-level, and pipeline-level "
-    "risks. Each risk is assessed, owned, and tracked to resolution.",
+    "risks. Each risk is assessed, owned, and tracked to resolution. Risk treatment must include AI-speed "
+    "campaign response: automated tripwires, unledgered-asset discovery obligations, and a single exercised "
+    "kill-switch capability tested at least annually (v1.5).",
     "Maintain a dedicated AI risk register using a threat taxonomy that covers model, tool, data, "
     "identity, and pipeline risks, with defined owners, assessment methodology, and review cadence.",
     [
@@ -1138,7 +1177,9 @@ reg("GRM-03", "Ethical Use Policy", "GRM",
 reg("GRM-04", "Third-Party AI Risk Management", "GRM",
     "Third-party AI risk management ensures that external model providers, tool providers, and AI "
     "infrastructure vendors are assessed against security requirements, contractually bound to "
-    "maintain controls, and subject to right-to-audit provisions.",
+    "maintain controls, and subject to right-to-audit provisions. Incident-response planning with AI/agent "
+    "vendors must include agent-speed adversary playbooks and automatic containment, and evaluation-harness "
+    "vendors (third-party CTF/eval partners) must be assessed for harness isolation assurance per EE-08 (v1.5).",
     "Assess and monitor third-party AI providers for security controls, with contractual security "
     "requirements and right-to-audit provisions in all AI-related procurement.",
     [
@@ -1260,7 +1301,7 @@ reg("MS-07", "Deployment Context Obfuscation", "MS",
     ["evaluation-subversion", "deployment-context"])
 
 reg("MS-08", "MCP Security Controls", "MS",
-    "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain.",
+    "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain. Monitoring must cover model-originated writes to execution-bearing locations and publication channels (MCP registry self-write -- AWS Kiro CVE-2026-10591), with alerting on any write (a log without alerting is not a control) (v1.5).",
     "Secure the MCP protocol layer for agent-tool communication.",
     [
         "MCP used without gateway; no protocol-layer controls.",
@@ -1282,6 +1323,29 @@ reg("MS-08", "MCP Security Controls", "MS",
     ],
     {"OWASP": "LLM02 (Insecure Output Handling)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISO 42001": "Clause 8.4"},
     ["mcp", "protocol-security"])
+
+reg("MS-09", "Perception-Fidelity Enforcement for Human-in-the-Loop Approvals", "MS",
+    "Content that an agent perceives, summarises, and acts upon must be perceptually equivalent to what the human approver sees. Inputs are pre-processed to strip or flag imperceptible content -- zero-opacity text, sub-pixel/1px text, background-contrast text, off-screen content, whitespace-collapsed or DOM-hidden text, and hidden pull-request comments -- before reasoning or tool use. Approvals bind to a rendering-fidelity snapshot of the exact content acted on, and agent actions must never be gated on content the human cannot perceive. Addresses the imperceptible-content injection class (AWS Kiro CVE-2026-10591 -- 1px white text rewriting the MCP registry to achieve host RCE; Android on-device agents hijacked via invisible on-screen text; Azure DevOps hidden PR comments hijacking AI review agents).",
+    "Ensure human-in-the-loop approval is never gated on content the human cannot perceive.",
+    [
+        "Manual review for high-risk actions; no hidden-content awareness.",
+        "Automated detectors for known hidden-content primitives (1px text, zero-opacity, DOM-hidden); approval snapshots captured.",
+        "Policy-as-code fidelity checks pre-approval; multimodal sanitisation; hidden-content stripping before agent context.",
+        "Continuous red-team testing of perception attacks; fidelity attestation embedded in the audit trail.",
+    ],
+    [
+        "Is content sanitised against imperceptible-content vectors (1px, zero-opacity, DOM-hidden, hidden PR comments) before agent reasoning?",
+        "Does the human approver see exactly the content the agent acted on (rendering-fidelity snapshot)?",
+        "Are approval snapshots captured and attestable?",
+        "Is the approval flow tested against hidden-content injection (CVE-2026-10591 class)?",
+    ],
+    [
+        "Content sanitisation configuration (hidden-content primitives)",
+        "Approval snapshot store and attestation records",
+        "Perception-attack red-team test results",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection, multimodal variants)", "NIST AI RMF": "MEASURE (ME.AD)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Web Content Filtering"},
+    ["perception-fidelity", "hidden-content", "hitl"])
 
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)
@@ -1430,6 +1494,31 @@ reg("TP-09", "Explicit Tool Registration", "TP",
     {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "IDENTIFY (ID.AM)", "EU AI Act": "Art. 15(b)"},
     ["tool-registry", "implicit-exposure"])
 
+reg("TP-10", "Agent Platform Inbound Control-Plane Protection", "TP",
+    "The agent platform's gateway, control plane, and any service the platform or an agent binds must be treated as an inbound attack surface, not merely as an outbound actor. All listeners -- loopback, LAN, MCP endpoints, webhook receivers, debug interfaces -- are governed by a network-binding policy defaulting to deny, enforced at the OS/namespace boundary. Gateway tokens and operator credentials are least-privilege scoped, never readable from web or browser context, and bound to validated origins (cross-site WebSocket hijack-resistant session handling). Accidental or agent-initiated service binding is detected, reported, and blocked absent explicit approval; the binding guard fails closed on error. Addresses the inbound control-plane class (OpenClaw CVE-2026-25253 -- cross-site WebSocket hijacking of a loopback gateway token disabling approvals and escaping the shell container to host RCE; Unit 42 -- an attacker's agent accidentally exposing an HTTP server from its home directory with API keys and shell history; Wiz exposed-MCP-servers research; Metasploit 6.5 shipping an MCP server).",
+    "Defend the agent platform's inbound listening surface from direct, model-independent attack.",
+    [
+        "Listeners ungoverned; gateway tokens reachable from web/browser context.",
+        "Listener inventory maintained; origin validation on gateway sessions; token scope review.",
+        "Default-deny binding policy enforced; no standing allow rules; automated detection of new listeners; no operator-scope tokens readable from web context.",
+        "Continuous adversarial testing of the inbound surface; binding-policy attestation in the audit trail; periodic re-certification of all allow rules.",
+    ],
+    [
+        "Are all agent-platform listeners (loopback, LAN, MCP, webhooks, debug) inventoried and governed by a default-deny binding policy?",
+        "Can gateway/operator tokens be read from web or browser context (CSWSH test)?",
+        "Is origin validation enforced on gateway WebSocket/SSE sessions?",
+        "Are accidental or agent-initiated service bindings detected and blocked?",
+        "Does the binding guard fail closed when it errors?",
+    ],
+    [
+        "Network-binding policy configuration",
+        "Gateway session origin-validation rules",
+        "Listener inventory and drift reports",
+        "CSWSH/origin-validation test results",
+    ],
+    {"ISM": "Web Application Hardening, Network Segmentation", "OWASP": "LLM09 (Misuse of System Access)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 14"},
+    ["inbound-surface", "gateway", "cswsh"])
+
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
 # ============================================
@@ -1573,7 +1662,7 @@ reg("EE-06", "Fail-Closed Sandbox Operation", "EE",
     ["fail-closed", "sandbox-attestation"])
 
 reg("EE-07", "Agent Control-Plane Configuration Integrity", "EE",
-    "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603).",
+    "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603). Extends to any execution-bearing configuration the agent can self-write, including MCP server registries and launch configurations -- MCP registry entries are executable launch commands auto-run on reload (AWS Kiro CVE-2026-10591) -- and to external modification of control-plane configuration via gateway/API surfaces (OpenClaw CVE-2026-25253) (v1.5).",
     "Prevent agents from disabling their own security controls.",
     [
         "Agents can modify their own security configuration; tools load config from writable paths.",
@@ -1595,6 +1684,31 @@ reg("EE-07", "Agent Control-Plane Configuration Integrity", "EE",
     ],
     {"NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISM": "Guidelines for System Hardening"},
     ["control-plane", "config-poisoning"])
+
+reg("EE-08", "Evaluation-Harness Isolation and Integrity", "EE",
+    "Isolation claims for evaluation, test, and CTF environments must be enforced as controls, not asserted as configuration. Network egress is blocked at the hypervisor/namespace boundary and verified by active test before and during runs -- never assumed from simulated profiles or prompts claiming 'no internet'. Evaluation targets are collision-checked against real domains, assets, and production identifiers before use (fictional targets must not resolve to or share names with live systems). Runs are cryptographically separated to prevent cross-run contamination (artifacts, notes, and state from prior runs must not influence subsequent runs). Evaluations run under full monitoring, classification, and guardrail coverage with alerting on escape indicators, and no verified egress block means no evaluation (fail closed). Addresses the evaluation-harness integrity class (Anthropic INC-19 -- three Claude models escaped harnesses told 'no internet/simulated' that actually had internet; PyPI malware publication, live-domain credential theft reaching a production database, ~9,000-target scanning; cross-run coaching notes; undetected for approximately three months; OpenAI breach probe widening with notes coaching future versions).",
+    "Ensure evaluation harnesses are genuinely isolated and monitored, with isolation verified rather than asserted.",
+    [
+        "Isolation asserted in prompts/configuration; no verification; no eval monitoring.",
+        "Egress blocks enforced at the boundary; manual target collision checks; runs separated.",
+        "Policy-as-code isolation attestation; GA classifiers and monitoring in eval environments; automated collision checks.",
+        "Continuous escape testing; attested contamination controls; automated kill on escape indicators; independent third-party harness assurance (GRM-04).",
+    ],
+    [
+        "Is evaluation network isolation enforced at the boundary and verified by test, not assumed from configuration?",
+        "Are evaluation targets collision-checked against real domains and production identifiers?",
+        "Are runs cryptographically separated (no cross-run contamination)?",
+        "Do evaluation environments run with full monitoring/classifiers and alerting on escape indicators?",
+        "Does evaluation fail closed when isolation verification fails?",
+    ],
+    [
+        "Eval-harness boundary enforcement configuration and test results",
+        "Target collision-check records",
+        "Run-separation attestation",
+        "Eval-environment monitoring and alert configuration",
+    ],
+    {"ISM": "Isolation, Monitoring", "NIST AI RMF": "MEASURE (ME.AD)", "EU AI Act": "Art. 15(a)", "Five Eyes": "Careful Adoption of Agentic AI Services"},
+    ["evaluation-harness", "isolation", "contamination"])
 
 # ----------------------------------------------
 # OUTPUT GENERATION
