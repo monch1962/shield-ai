@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "July 2026"
+date: "August 2026"
 ---
 
 # Introduction
@@ -11,12 +11,13 @@ date: "July 2026"
 
 This is the **SHIELD-AI Assessment Guide** -- a field manual for consultants evaluating an organisation's agentic AI security posture. It is structured for use during client engagements:
 
-- **Section 1-6** -- Pillar-by-pillar control breakdown. Use during the Assess phase (Weeks 3-4) to score each control and gather evidence.
-- **Section 7** -- Assessment methodology. How to run the engagement, who to interview, what to inspect.
-- **Section 8** -- Maturity progression paths. Per-pillar guidance for moving from L1 to L4, aligned with regulatory obligations.
-- **Section 9** -- Regulatory cross-reference. Quick lookup of which controls satisfy which obligations.
+- **Section 1-7** -- Pillar-by-pillar control breakdown. Use during the Assess phase (Weeks 3-4) to score each control and gather evidence.
+- **Section 8** -- Assessment methodology. How to run the engagement, who to interview, what to inspect.
+- **Section 9** -- Maturity progression paths. Per-pillar guidance for moving from L1 to L4, aligned with regulatory obligations.
+- **Section 10** -- Regulatory cross-reference. Quick lookup of which controls satisfy which obligations.
 
 Each control entry includes:
+
 - **Explanation** -- what the control does and why it matters
 - **Key Assessment Questions** -- questions to ask the client team
 - **Artifacts to Examine** -- specific documents, configurations, and logs to request
@@ -43,6 +44,7 @@ Model Security addresses the security of the AI model itself -- its weights, its
 Model weights represent the trained intelligence of an AI system -- often the single most valuable intellectual property an organisation has deployed. If weights are exfiltrated, an attacker can clone the model, extract training data through model inversion attacks, or analyse weights for embedded vulnerabilities. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.
 
 **Key Assessment Questions**
+
 1. Are model weights encrypted at rest? Which encryption standard and key management system?
 2. Are model weights encrypted during transit between training infrastructure, storage, and inference endpoints?
 3. Is a hardware security module (HSM) or cloud KMS used for weight encryption keys?
@@ -52,6 +54,7 @@ Model weights represent the trained intelligence of an AI system -- often the si
 7. Is there an inventory of all locations where model weights are stored (training checkpoints, inference caches, backup)?
 
 **Artifacts to Examine**
+
 - Key management policy (who has access to weight encryption keys)
 - Cloud KMS configuration (key hierarchy, rotation schedule, access logs)
 - Model weight storage configuration (bucket policies, encryption settings, access control lists)
@@ -79,6 +82,7 @@ Model weights represent the trained intelligence of an AI system -- often the si
 Training data integrity ensures that the data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning -- an attacker inserting crafted samples into the training dataset -- can cause a model to behave normally until a specific trigger condition is met, at which point it produces attacker-desired output. This is one of the most difficult attacks to detect because the model appears to function correctly in standard testing.
 
 **Key Assessment Questions**
+
 1. Is there a documented data provenance pipeline for all training datasets?
 2. How is training data validated before ingestion (format checks, anomaly detection, statistical profiling)?
 3. Is there a data sanitisation step that removes PII, sensitive content, and potential poison samples?
@@ -89,6 +93,7 @@ Training data integrity ensures that the data used to train or fine-tune a model
 8. Do fine-tuning pipelines include integrity checks on the base model before fine-tuning begins?
 
 **Artifacts to Examine**
+
 - Data pipeline architecture documentation
 - Dataset versioning records (DVC, HuggingFace datasets, MLflow)
 - Data validation test results (Great Expectations, TFX, custom)
@@ -117,6 +122,7 @@ Training data integrity ensures that the data used to train or fine-tune a model
 AI supply chain security covers the provenance and integrity of model weights, ML libraries, training infrastructure, and deployment tooling at every stage. The AI supply chain is particularly vulnerable because: (a) pre-trained models are often downloaded from public repositories (HuggingFace, PyTorch Hub) with limited integrity verification, (b) ML libraries (PyTorch, TensorFlow, transformers) are frequently updated and can introduce backdoors, and (c) training infrastructure (GPUs, orchestrators, data loaders) may be compromised at the hardware or firmware level.
 
 **Key Assessment Questions**
+
 1. Is there an ML software bill of materials (ML SBOM) for each model? What does it include?
 2. Are model weights verified against publisher signatures or hashes before deployment?
 3. Are all ML libraries and dependencies sourced from trusted registries with integrity verification?
@@ -127,6 +133,7 @@ AI supply chain security covers the provenance and integrity of model weights, M
 8. Is the ML supply chain documented in a format that can be shared with regulators?
 
 **Artifacts to Examine**
+
 - ML SBOM(s) for each production model
 - Model provenance documentation
 - Third-party model/vendor security assessments
@@ -155,6 +162,7 @@ AI supply chain security covers the provenance and integrity of model weights, M
 Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection -- crafting input that causes the model to ignore its system prompt and follow attacker instructions. Other attacks include jailbreaking (bypassing safety filters), adversarial examples (subtle input perturbations that cause misclassification), and multi-turn attacks (building rapport over multiple exchanges before injecting malicious intent).
 
 **Key Assessment Questions**
+
 1. Is there a standardised prompt injection test suite? How often is it run against production models?
 2. Are jailbreak evaluation techniques applied (DAN, token smuggling, role-playing, hypothetical framing)?
 3. Are new model versions required to pass adversarial tests before deployment (CI/CD gate)?
@@ -165,6 +173,7 @@ Adversarial robustness ensures that the model resists malicious inputs designed 
 8. Are models tested against known adversarial techniques from MITRE ATLAS?
 
 **Artifacts to Examine**
+
 - Prompt injection test suite and results
 - Jailbreak evaluation reports
 - CI/CD pipeline configuration showing adversarial test gates
@@ -193,6 +202,7 @@ Adversarial robustness ensures that the model resists malicious inputs designed 
 Behaviour validation ensures that model outputs conform to expected bounds -- the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model *outputs* regardless of input quality. Controls include output guardrails, content filtering, topic scoping, and behavioural bounds enforcement (preventing the model from exceeding its permitted operational domain).
 
 **Key Assessment Questions**
+
 1. Are output guardrails implemented at the inference proxy layer or within the model?
 2. What content categories are filtered (PII, toxic content, code, financial advice, medical guidance)?
 3. Are there topic scoping mechanisms that prevent the agent from operating outside its designated domain?
@@ -203,6 +213,7 @@ Behaviour validation ensures that model outputs conform to expected bounds -- th
 8. Are guardrail bypass attempts logged and reviewed?
 
 **Artifacts to Examine**
+
 - Output guardrail configuration files
 - Content filtering policy document
 - Agent scope definition documents (per-agent operational domain)
@@ -231,6 +242,7 @@ Behaviour validation ensures that model outputs conform to expected bounds -- th
 Model inventory and lineage tracking ensures that every model in the organisation is known, versioned, and traceable from training through deployment to retirement. Without an inventory, organisations cannot answer the most basic security question: "What models do we have?" Model lineage provides the audit trail required for regulatory compliance and incident investigation.
 
 **Key Assessment Questions**
+
 1. Is there a central model registry or inventory? Does it cover all models (production, staging, experimental)?
 2. What metadata is captured per model (version, training data, deployment location, owner, status)?
 3. Are models automatically discovered, or is the inventory manually maintained?
@@ -240,6 +252,7 @@ Model inventory and lineage tracking ensures that every model in the organisatio
 7. Can the organisation produce a model inventory report for regulator review within 24 hours?
 
 **Artifacts to Examine**
+
 - Model registry configuration (MLflow, SageMaker, custom)
 - Model metadata completeness (coverage, fields populated)
 - Model promotion workflow documentation
@@ -262,6 +275,75 @@ Model inventory and lineage tracking ensures that every model in the organisatio
 
 ---
 
+### MS-07: Deployment Context Obfuscation
+
+**Explanation**
+Evaluation and test environments must be indistinguishable from production from the model's perspective -- same API endpoints, data formats, latency profiles, error handling, and credential lifetimes. No environment indicator must be discoverable through the model's available tools, data, or configuration. This closes the evaluation-subversion class of attacks, where a model recognises a test environment and behaves differently (as demonstrated in the Claude Mythos and OpenAI evaluation-subversion incidents).
+
+**Key Assessment Questions**
+
+1. Are evaluation and test environments API-compatible with production (endpoints, schemas, latency, error responses)?
+2. Can a model detect its environment through tool outputs, data content, configuration files, or response timing?
+3. Are credential lifetimes identical between evaluation and production environments?
+4. Does agent behaviour in evaluation diverge materially from production for the same inputs?
+5. Is any divergence between evaluation and production behaviour treated as an indicator of evaluation subversion?
+6. Are evaluation environments isolated from production with no network path (see EE-04)?
+
+**Artifacts to Examine**
+
+- Evaluation environment configuration and architecture documentation
+- Environment-indicator audit results (differences in headers, endpoints, data, latency)
+- Behavioural comparison reports between evaluation and production runs
+- Evaluation subversion incident logs and response records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Evaluation environments are ad-hoc and clearly distinguishable from production. |
+| L2 | Evaluation environments API-compatible with production; known divergence documented. |
+| L3 | No discoverable environment indicators; automated behavioural divergence checks; divergence treated as an incident signal. |
+| L4 | Continuous divergence monitoring; evaluation pipelines indistinguishable from production; automated response on divergence detection. |
+
+**Regulatory Mapping:** ISM (Guidelines for secure AI system development), NIST AI RMF (MANAGE -- MG.DE), EU AI Act (Art. 15).
+
+---
+
+### MS-08: MCP Security Controls
+
+**Explanation**
+Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security controls: tool description integrity (cryptographically signed and verified tool metadata), MCP gateway authentication, MCP response validation against known-good schemas, and MCP supply chain security (trusted registries, provenance verification). MCP standardises agent-tool communication, so a single protocol-layer vulnerability affects every tool the agent can reach.
+
+**Key Assessment Questions**
+
+1. Are all agent-to-tool communications over MCP passing through an authenticated gateway?
+2. Is tool metadata (descriptions, schemas) cryptographically signed and verified before use?
+3. Are MCP responses validated against known-good schemas before being returned to agent context?
+4. Are MCP servers and tool definitions sourced from a trusted registry with provenance verification?
+5. Are MCP-specific rate limits and audit logs in place per agent and per tool?
+6. Is tool discovery hardened against capability advertisement manipulation?
+
+**Artifacts to Examine**
+
+- MCP gateway configuration and audit logs
+- Tool definition signing and verification configuration
+- MCP response schema validation rules
+- MCP server registry and provenance records
+- MCP incident response runbooks
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | MCP used without gateway; no protocol-layer controls. |
+| L2 | MCP gateway deployed for agent-tool traffic; basic schema validation. |
+| L3 | Signed tool metadata; response validation against known-good schemas; trusted MCP registry with provenance checks. |
+| L4 | Continuous MCP protocol-layer testing; automated blocking of unsigned or unverified tool definitions. |
+
+**Regulatory Mapping:** OWASP LLM02 (Insecure Output Handling), NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 15(b)), ISO 42001 (Clause 8.4).
+
+---
+
 # Section 2: Identity and Access (IAM)
 
 ## Pillar Overview
@@ -280,6 +362,7 @@ Identity and Access is the single highest-impact pillar for agentic AI security.
 Every agent must have a unique, auditable digital identity that is distinct from any human user's identity. This identity is what the tool gateway, API endpoints, data stores, and audit logs reference. When agents share human credentials, there is no way to attribute actions to a specific agent, no way to revoke an agent's access without affecting the human, and no way to enforce agent-specific permissions.
 
 **Key Assessment Questions**
+
 1. Do agents use service accounts / workload identities, or do they inherit human credentials?
 2. Is each agent's identity unique, or do multiple agents share the same identity?
 3. Is the agent identity lifecycle managed (creation, rotation, revocation)?
@@ -289,6 +372,7 @@ Every agent must have a unique, auditable digital identity that is distinct from
 7. Are agent identities flagged differently from human identities in monitoring systems?
 
 **Artifacts to Examine**
+
 - Agent identity provisioning process documentation
 - Identity provider configuration (service accounts, workload identities)
 - Agent identity lifecycle policy (creation -> rotation -> revocation)
@@ -316,6 +400,7 @@ Every agent must have a unique, auditable digital identity that is distinct from
 Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function -- and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges. This is the control that prevents the "agent-as-the-user" problem where a prompt injection gives the attacker full access to the user's entire permission set.
 
 **Key Assessment Questions**
+
 1. Are agent permissions explicitly scoped per-agent, or do agents inherit the human's full permission set?
 2. Is there a policy enforcement point (OPA, custom authz) that evaluates every agent action against its permitted scope?
 3. Can an agent access tools or data that its initiating human cannot?
@@ -325,6 +410,7 @@ Scope-bound delegation ensures that an agent's permissions are limited to the mi
 7. Is there a "deny by default" policy for unauthorised agent actions?
 
 **Artifacts to Examine**
+
 - Agent permission scope definitions (per-agent tool and data access)
 - Policy-as-code files (OPA/Rego, custom) defining agent authorisation rules
 - Tool gateway configuration (allow-lists, schema validation)
@@ -351,6 +437,7 @@ Scope-bound delegation ensures that an agent's permissions are limited to the mi
 Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review -- a customer support agent reading account details is low-risk; the same agent writing to the account or submitting a refund requires approval. The control defines risk tiers, approval mechanisms, and break-glass procedures for urgent situations.
 
 **Key Assessment Questions**
+
 1. Are agent actions classified into risk tiers? Which actions require human approval?
 2. Is there a human-in-the-loop mechanism for high-risk actions (approval gate)?
 3. What is the approval process (time limit, escalation, delegation)?
@@ -360,6 +447,7 @@ Human oversight ensures that high-risk agent actions require explicit human appr
 7. Is the oversight mechanism itself secured against compromise (can an agent self-approve?)?
 
 **Artifacts to Examine**
+
 - Agent risk classification policy
 - Human-in-the-loop workflow configuration
 - Approval gate logs (approved, denied, expired)
@@ -386,6 +474,7 @@ Human oversight ensures that high-risk agent actions require explicit human appr
 Credential isolation ensures that agent credentials are stored, managed, and rotated separately from human credentials, and that a compromise of one does not compromise the other. This includes hardware-backed credential storage for higher maturity levels, credential rotation triggered by compromise events, and secret management that requires different approval for agent vs human credential access.
 
 **Key Assessment Questions**
+
 1. Are agent credentials (API keys, tokens, certificates) stored in a separate secret store from human credentials?
 2. Is access to agent credentials subject to a separate approval process from human credentials?
 3. Are agent credentials automatically rotated? On what schedule?
@@ -395,6 +484,7 @@ Credential isolation ensures that agent credentials are stored, managed, and rot
 7. Are credential access events logged and monitored?
 
 **Artifacts to Examine**
+
 - Secret management configuration (HashiCorp Vault, AWS Secrets Manager, Azure Key Vault)
 - Credential access policies (who can read agent credentials)
 - Credential rotation policy and automation configuration
@@ -421,6 +511,7 @@ Credential isolation ensures that agent credentials are stored, managed, and rot
 JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence -- an attacker who compromises a tool gateway cannot replay stale credentials, and an agent whose session ends cannot continue to act. JIT access is the operationalisation of least privilege: the agent has the permissions it needs for this task, for this session, and no longer.
 
 **Key Assessment Questions**
+
 1. Are agent credentials session-bound and automatically expired?
 2. What is the default credential lifetime? Can it be extended, and by whom?
 3. Is there a mechanism for emergency credential extension (e.g., long-running tasks)?
@@ -429,6 +520,7 @@ JIT access ensures that agents receive temporary, ephemeral credentials that exp
 6. Can credentials be revoked mid-session if suspicious behaviour is detected?
 
 **Artifacts to Examine**
+
 - JIT credential configuration (lifespan, scope, renewal policy)
 - Session management documentation
 - Credential issuance audit logs
@@ -455,6 +547,7 @@ JIT access ensures that agents receive temporary, ephemeral credentials that exp
 Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session -- even if both sessions are for the same human user. Each session is an independent security context. This prevents session-hopping attacks where an attacker compromises one session and uses it to access another session's data or permissions.
 
 **Key Assessment Questions**
+
 1. Are agent credentials scoped to a single session, or can they be reused across sessions?
 2. Can an agent in Session A access data that was retrieved in Session B (through shared memory or tools)?
 3. Is there a mechanism for agent-to-agent authentication that prevents credential sharing across sessions?
@@ -463,6 +556,7 @@ Cross-session boundary enforcement ensures that an agent acting in one session c
 6. Can an agent's session context be inspected by another agent or another user?
 
 **Artifacts to Examine**
+
 - Session management architecture
 - Session credential isolation policy
 - Cross-session access audit logs (should be empty if properly enforced)
@@ -480,6 +574,109 @@ Cross-session boundary enforcement ensures that an agent acting in one session c
 | L4 | Continuous session boundary verification. Automated incident response on boundary violation. |
 
 **Regulatory Mapping:** OWASP LLM06 (Sensitive Information Disclosure -- memory scoping), NIST AI RMF (PROTECT -- PR.AC).
+
+---
+
+### IAM-07: Transitive Delegation Chain Enforcement
+
+**Explanation**
+All identity delegations must be bounded at maximum depth -- recommended maximum 2 hops: human to agent to tool. Any attempt by a tool or downstream service to further delegate or proxy the agent's identity must be blocked at the infrastructure layer. Delegation chains must be fully reconstructable from audit logs with each hop carrying the originating identity context (for example, OIDC token chaining).
+
+**Key Assessment Questions**
+
+1. Is delegation depth bounded (recommended maximum: human to agent to tool)?
+2. Can a tool or downstream service further delegate or proxy the agent's identity?
+3. Is every delegation hop recorded with the originating identity context?
+4. Are audit logs capable of reconstructing the full delegation chain for any action?
+5. Is token chaining (e.g., OIDC) used to carry identity context across hops?
+6. Is an attempt to exceed delegation bounds blocked at the infrastructure layer and alerted?
+
+**Artifacts to Examine**
+
+- Delegation chain enforcement configuration (OPA policies, API gateway rules)
+- Token chaining configuration (OIDC, SPIFFE/SPIRE)
+- Audit logs demonstrating chain reconstruction
+- Delegation abuse incident records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Unbounded delegation; agents inherit full downstream permissions. |
+| L2 | Delegation depth documented; basic bounds enforced for critical tools. |
+| L3 | Infrastructure-layer blocking of unbounded delegation; token chaining across hops; full chain reconstructable from logs. |
+| L4 | Continuous chain verification; automated alerting on any delegation anomaly; periodic chain-boundary red-team testing. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Management), OWASP LLM08 (Excessive Agency), NIST AI RMF (GOVERN -- GV.AC), EU AI Act (Art. 14(b)).
+
+---
+
+### IAM-08: Credential Scope Narrowing
+
+**Explanation**
+Credentials made available to agent execution environments must be scoped to the minimum set of actions, resources, and conditions necessary for the agent's registered tools per TP-01. No environment-wide or service-wide credentials may be provided. Implementation: short-lived tokens with per-tool scope; never IAM roles or service accounts with broad service-level permissions. Credential revocation must cascade through the delegation chain.
+
+**Key Assessment Questions**
+
+1. Are credentials scoped per tool, not per environment or service?
+2. Are short-lived tokens used rather than persistent service accounts?
+3. Are any environment-wide or service-wide credentials mounted into agent environments?
+4. Does credential revocation cascade through the delegation chain?
+5. Are credentials rotated automatically and on compromise?
+6. Is the credential scope for each agent documented and reviewed?
+
+**Artifacts to Examine**
+
+- Credential issuance configuration (per-tool token scopes, token lifetimes)
+- Agent environment credential mounts (secrets, volumes, environment variables)
+- Credential rotation and revocation runbooks
+- Credential scope documentation per agent
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Broad shared credentials available in agent environments. |
+| L2 | Per-agent credentials; scope aligned to tool inventory. |
+| L3 | Per-tool scoped short-lived tokens; no environment-wide credentials; automated rotation. |
+| L4 | Continuous credential scope verification; automatic cascade revocation on any compromise; per-tool scope attestation. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Management -- credentials), NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 15(b)), Essential Eight (Restrict Administrative Privileges).
+
+---
+
+### IAM-09: Multi-Tenant Agent Platform Isolation
+
+**Explanation**
+For managed agent platforms (Langflow, Bedrock AgentCore, Agent-as-a-Service), tenant isolation must be enforced at the data layer, not just the presentation layer: every agent workflow execution, tool invocation, and data query must be scoped by tenant ID server-side. No user-controlled object IDs or keys may bypass tenant scoping (CWE-639 IDOR prevention). Cross-tenant execution of workflows must be impossible even with valid credentials for one tenant.
+
+**Key Assessment Questions**
+
+1. Is every agent workflow execution, tool invocation, and data query scoped by tenant ID server-side?
+2. Can user-controlled object IDs or keys bypass tenant scoping (IDOR testing performed)?
+3. Is cross-tenant execution of workflows impossible even with valid credentials for one tenant?
+4. Is tenant ID embedded in every database query and execution context?
+5. Is row-level security enforced at the database layer?
+6. Are automated cross-tenant access tests part of CI/CD?
+7. Is the platform patched against known tenant-isolation CVEs (e.g., CVE-2026-55255, CVE-2026-0770)?
+
+**Artifacts to Examine**
+
+- Platform tenant-isolation configuration and database row-level security policies
+- Automated cross-tenant access test results from CI/CD
+- Vulnerability scan and patch records for the managed platform
+- IDOR-focused penetration test reports
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | No tenant isolation; shared data plane across tenants. |
+| L2 | Tenant scoping at the application layer; presentation-layer isolation only. |
+| L3 | Data-layer tenant isolation (row-level security); tenant ID in every query; automated cross-tenant testing in CI/CD. |
+| L4 | Continuous tenant-isolation verification; automated blocking of any cross-tenant access attempt; platform CVE monitoring. |
+
+**Regulatory Mapping:** NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 15(b)), ISO 42001 (Clause 8.4), ISM (Guidelines for System Management).
 
 ---
 
@@ -501,6 +698,7 @@ Data Security protects data at every stage of the agentic AI lifecycle: ingestio
 Data classification ensures that every piece of data that enters an agentic AI system -- whether through prompts, tool calls, training data, or memory -- is classified according to its sensitivity and handling requirements. Automated classification at ingestion enables downstream controls: sensitive data gets different encryption, different retention, different access rules. Without classification, all data is treated equally, which means sensitive data is under-protected and non-sensitive data is over-restricted.
 
 **Key Assessment Questions**
+
 1. Is there an automated data classification pipeline for data entering the AI system?
 2. What classification scheme is used (PSPF, ISM, GovERP, proprietary)?
 3. Is data classified before it reaches the model context, or after?
@@ -510,6 +708,7 @@ Data classification ensures that every piece of data that enters an agentic AI s
 7. Is there a mechanism for detecting and handling unclassified data?
 
 **Artifacts to Examine**
+
 - Data classification policy document
 - Automated classification pipeline configuration and test results
 - Classification scheme mapping (which labels map to which sensitivity levels)
@@ -536,6 +735,7 @@ Data classification ensures that every piece of data that enters an agentic AI s
 Inference data protection ensures that data transmitted between the user, the agent, the model, and the tool endpoints is encrypted end-to-end and that inference endpoints themselves are secured against eavesdropping or data extraction. This covers the prompt (user input), the model's intermediate computation, and the response -- any of which may contain sensitive data.
 
 **Key Assessment Questions**
+
 1. Are all inference endpoints TLS 1.3 (or equivalent) encrypted?
 2. Is data encrypted in transit between every hop: user -> agent -> model -> tool -> response?
 3. Are inference logs encrypted? Who can access them?
@@ -544,6 +744,7 @@ Inference data protection ensures that data transmitted between the user, the ag
 6. Is inference performed within the organisation's trust boundary (VPC, private endpoint) for sensitive workloads?
 
 **Artifacts to Examine**
+
 - Network architecture diagram showing inference data flows
 - TLS configuration for all inference endpoints
 - Inference logging configuration (redaction, encryption, retention)
@@ -570,6 +771,7 @@ Inference data protection ensures that data transmitted between the user, the ag
 Memory sanitisation ensures that agents do not persist sensitive, classified, or personal information beyond the current session, and that any persistent memory store is properly scoped, encrypted, and subject to retention policies. Persistent agent memory (agents that remember users, preferences, and past interactions across sessions) is one of the highest-risk capabilities because it creates a cross-session data aggregation point. An attacker who compromises one session can read data from another session through shared memory.
 
 **Key Assessment Questions**
+
 1. Does the agent have persistent memory? What data is stored in it?
 2. Is there a data retention policy for agent memory? Is automated purging implemented?
 3. Is sensitive data (PII, financial, health) stored in memory? If so, is it encrypted?
@@ -580,6 +782,7 @@ Memory sanitisation ensures that agents do not persist sensitive, classified, or
 8. Is memory wiped between non-correlated sessions?
 
 **Artifacts to Examine**
+
 - Agent memory architecture
 - Memory retention policy
 - Automated purging configuration and logs
@@ -607,6 +810,7 @@ Memory sanitisation ensures that agents do not persist sensitive, classified, or
 Data minimisation ensures that only the minimum data required for the agent to perform its task is exposed to the model, retrieved from data stores, or stored in memory. This is the AI equivalent of least privilege for data. At the retrieval layer (RAG), this means field-level filtering rather than passing entire documents into the model context. At the tool layer, this means the agent receives only the data fields it needs, not the entire API response.
 
 **Key Assessment Questions**
+
 1. Does the RAG pipeline filter data at the field level before passing it to the model context?
 2. Are full documents ever passed to the model, or only relevant excerpts?
 3. Is there an attribute-based access control (ABAC) layer at retrieval time?
@@ -616,6 +820,7 @@ Data minimisation ensures that only the minimum data required for the agent to p
 7. Can an agent request bulk data export, or is minimisation enforced on every request?
 
 **Artifacts to Examine**
+
 - RAG pipeline architecture (focusing on data filtering)
 - Retrieval access control configuration (ABAC)
 - Tool response filtering configuration
@@ -642,6 +847,7 @@ Data minimisation ensures that only the minimum data required for the agent to p
 Training data governance ensures that data used to train or fine-tune AI models is properly sourced, consented, and retained in compliance with legal and regulatory requirements. This covers data lineage (knowing where each training sample came from), consent verification (confirming that personal data was collected with appropriate consent), and retention limits (not keeping training data longer than necessary).
 
 **Key Assessment Questions**
+
 1. Is training data lineage tracked from source through preprocessing to training?
 2. Is consent verified for personal data used in training?
 3. Are there retention limits on training datasets? Are they enforced?
@@ -651,6 +857,7 @@ Training data governance ensures that data used to train or fine-tune AI models 
 7. Are third-party training datasets subject to the same governance requirements?
 
 **Artifacts to Examine**
+
 - Data lineage tracking system configuration
 - Consent management records for training data
 - Training data retention policy and enforcement configuration
@@ -678,6 +885,7 @@ Training data governance ensures that data used to train or fine-tune AI models 
 Output validation ensures that model outputs do not leak training data, PII, sensitive business context, or system prompts. While MS-05 covers behaviour validation (is the output appropriate for its intended use?), DS-06 covers data leakage (does the output contain data it should not?). This includes scanning for memorised training examples (a common failure in smaller models), PII pattern matching, and detection of system prompt fragments in outputs.
 
 **Key Assessment Questions**
+
 1. Are model outputs automatically scanned for data leakage?
 2. What patterns are checked (PII, credit card numbers, API keys, system prompt fragments)?
 3. Is there a mechanism for scanning outputs from tool calls, not just model responses?
@@ -687,6 +895,7 @@ Output validation ensures that model outputs do not leak training data, PII, sen
 7. Is output scanning performed at the inference proxy (application) layer, not in the model?
 
 **Artifacts to Examine**
+
 - Output scanning configuration and rules
 - Data leakage detection alerts and incident records
 - Tool output scanning configuration
@@ -726,6 +935,7 @@ Tool and Pipeline Security secures the tools, APIs, plugins, and execution pipel
 Every tool that an agent can invoke -- APIs, databases, file systems, code executors, email senders, chatbot integrations -- must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, cannot be access-controlled, and cannot be included in the incident response plan. The tool registry is the source of truth for what agents can do.
 
 **Key Assessment Questions**
+
 1. Is there a central tool registry listing all tools available to agents?
 2. Does the registry include metadata (tool owner, version, security review date, data sensitivity)?
 3. Are tools security-reviewed before being added to the registry?
@@ -734,6 +944,7 @@ Every tool that an agent can invoke -- APIs, databases, file systems, code execu
 6. Is the registry integrated with the authorisation system (no registry entry = no access)?
 
 **Artifacts to Examine**
+
 - Tool registry system (custom, Backstage, service catalog)
 - Tool metadata completeness
 - Tool security review records
@@ -760,6 +971,7 @@ Every tool that an agent can invoke -- APIs, databases, file systems, code execu
 Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent -- not the human -- before accepting commands. This is tool-level least privilege: the customer support agent can call the CRM read API but not the CRM write API; the financial analyst agent can query the database but not execute shell commands.
 
 **Key Assessment Questions**
+
 1. Is there a per-agent tool allow-list, or do agents have access to all registered tools?
 2. Do tools authenticate the agent identity, or do they trust the identity passed by the agent?
 3. Can an agent invoke a tool that its initiating human cannot access?
@@ -768,6 +980,7 @@ Tool access control ensures that each agent can only invoke the specific tools i
 6. Can tool access be revoked without redeploying the agent?
 
 **Artifacts to Examine**
+
 - Per-agent tool allow-list configuration
 - Tool authentication configuration (does the tool validate agent identity?)
 - Tool authorisation policy files
@@ -793,6 +1006,7 @@ Tool access control ensures that each agent can only invoke the specific tools i
 API gateway security protects every agent-facing API endpoint with rate limiting, payload validation, schema enforcement, and audit logging. The agent-to-tool API surface is often larger and more dynamic than traditional human-facing APIs -- agents discover new tools, call tools with programmatic frequency, and can chain multiple tool calls in a single task. The API gateway must handle this at machine speed.
 
 **Key Assessment Questions**
+
 1. Is there a gateway / proxy between agents and external tools?
 2. Does the gateway enforce rate limiting per agent? Per tool?
 3. Is payload validation performed against a known-good schema?
@@ -802,6 +1016,7 @@ API gateway security protects every agent-facing API endpoint with rate limiting
 7. Are new tool endpoints automatically discovered and added to the gateway, or must they be explicitly configured?
 
 **Artifacts to Examine**
+
 - API gateway configuration (rate limits, schemas, logging)
 - Gateway audit logs
 - Gateway fail-closed test results
@@ -828,6 +1043,7 @@ API gateway security protects every agent-facing API endpoint with rate limiting
 Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks -- a compromised or malicious tool returning crafted data that causes the agent to behave outside intended parameters. For example, a database query tool returning a row containing hidden SQL commands that the agent then executes as a new query.
 
 **Key Assessment Questions**
+
 1. Are tool outputs validated against a known-good schema before entering agent context?
 2. Is content-type validation performed (expecting JSON, receiving script)?
 3. Are tool outputs sanitised (removing potentially dangerous content) before feeding to the model?
@@ -836,6 +1052,7 @@ Tool output validation ensures that data returned by tools is structurally valid
 6. Are tool output validation failures logged and alerted?
 
 **Artifacts to Examine**
+
 - Tool output validation schemas and rules
 - Tool output sanitisation configuration
 - Content-type validation configuration
@@ -862,6 +1079,7 @@ Tool output validation ensures that data returned by tools is structurally valid
 Pipeline integrity ensures that the CI/CD pipelines that build, test, and deploy agent updates are cryptographically signed, attested, and gated by security validation. An attacker who compromises the pipeline can deploy a backdoored agent to every production environment. Pipeline integrity controls ensure that every deployment is traceable to an approved change, verified by automated tests, and recorded in an immutable audit trail.
 
 **Key Assessment Questions**
+
 1. Are CI/CD pipeline runs signed and attested (SLSA / in-toto)?
 2. Is there a security gate in the pipeline that requires passing SHIELD-AI control tests before deployment?
 3. Are pipeline configurations version-controlled and reviewed?
@@ -870,6 +1088,7 @@ Pipeline integrity ensures that the CI/CD pipelines that build, test, and deploy
 6. Are deployment artifacts stored in an immutable registry with integrity verification?
 
 **Artifacts to Examine**
+
 - CI/CD pipeline configuration files
 - Pipeline signing / attestation configuration
 - Security gate configuration (which tests must pass)
@@ -896,6 +1115,7 @@ Pipeline integrity ensures that the CI/CD pipelines that build, test, and deploy
 Dependency scanning ensures that all libraries, models, and tools used by the agent are continuously scanned for known vulnerabilities, with automated blocking for critical-severity findings. The AI supply chain is particularly vulnerable to dependency-level attacks because ML libraries and model registries are frequent targets -- a compromised package on PyPI or a backdoored model on HuggingFace can affect every organisation that depends on it.
 
 **Key Assessment Questions**
+
 1. Are ML libraries (PyTorch, TensorFlow, transformers) scanned for vulnerabilities?
 2. Are model weights and configurations scanned?
 3. Are tool SDKs and plugins scanned?
@@ -905,6 +1125,7 @@ Dependency scanning ensures that all libraries, models, and tools used by the ag
 7. Are base container images scanned for the agent runtime?
 
 **Artifacts to Examine**
+
 - Dependency scanning tool configuration
 - Vulnerability scan reports (ML and non-ML dependencies)
 - Automated blocking configuration
@@ -922,6 +1143,106 @@ Dependency scanning ensures that all libraries, models, and tools used by the ag
 | L4 | AI-specific dependency scanning (ML libraries, model registries). Predictive vulnerability assessment. |
 
 **Regulatory Mapping:** OWASP LLM10 (Supply Chain), ISM (Guidelines for System Management -- vulnerability management), Essential Eight (Patch Applications, Patch Operating Systems).
+
+---
+
+### TP-07: Cross-Tool Dependency Analysis
+
+**Explanation**
+Before an agent is deployed, all registered tools must be analysed for transitive risk -- combinations of tool permissions that could enable sandbox escape, privilege escalation, or data exfiltration when chained. Tool combinations that enable multi-step escape chains must be flagged with automated risk scoring and require explicit risk acceptance via GRM-02 before deployment.
+
+**Key Assessment Questions**
+
+1. Is every tool classified by its potential to contribute to an escape chain (network_write, file_write, code_execution, identity_escalation, data_query)?
+2. Are tool combinations analysed for chained risk before deployment?
+3. Do combinations that create an escape-class chain (e.g., network_write + code_execution) trigger blocking review?
+4. Are any escape-class tool chains deployed with explicit risk acceptance via GRM-02?
+5. Is the analysis automated and re-run when tools change?
+
+**Artifacts to Examine**
+
+- Tool classification registry (per-tool escape-chain categories)
+- Cross-tool dependency analysis reports
+- Risk acceptance records (GRM-02) for escape-class chains
+- Automated chain-analysis configuration and outputs
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | No cross-tool analysis; tools assessed in isolation. |
+| L2 | Manual review of tool combinations for critical agents. |
+| L3 | Automated risk scoring of tool combinations; escape-class chains blocked or risk-accepted via GRM-02. |
+| L4 | Continuous chain analysis on every tool change; automated blocking of new escape-class combinations. |
+
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (MANAGE -- MG.DE), EU AI Act (Art. 9(4)).
+
+---
+
+### TP-08: API Gateway Infrastructure-Isolation Mode
+
+**Explanation**
+API gateways for agents must implement an allow-list of permitted API endpoints that explicitly excludes all cloud infrastructure control-plane APIs (EC2, IAM, Lambda, KMS, CloudFormation, S3 control-plane, Azure Resource Manager, GCP Cloud Resource Manager). Any attempt by an agent to call a non-tool API must be logged, blocked at the gateway level, and treated as a potential indicator of compromise.
+
+**Key Assessment Questions**
+
+1. Does the gateway enforce an allow-list of permitted API endpoints?
+2. Are all cloud infrastructure control-plane APIs excluded from the allow-list?
+3. Is any attempt by an agent to call a non-tool API logged and blocked?
+4. Are infrastructure APIs only accessible if explicitly registered as tools via TP-01 with documented security rationale and risk acceptance?
+5. Do blocked infrastructure-API attempts trigger an alert (MIR-01)?
+6. Is the allow-list tested regularly against known control-plane API endpoints?
+
+**Artifacts to Examine**
+
+- Gateway allow-list configuration
+- Blocked-request logs for infrastructure API attempts
+- Tool registration records (TP-01) for any infrastructure access
+- Infrastructure-API bypass test results
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents can reach infrastructure APIs directly or via default gateway routing. |
+| L2 | Gateway present; infrastructure APIs blocked by policy but not consistently tested. |
+| L3 | Explicit allow-list excluding all control-plane APIs; blocked attempts logged and alerted as potential compromise. |
+| L4 | Continuous testing of the allow-list against provider endpoint inventories; automated addition of new provider endpoints to the block list. |
+
+**Regulatory Mapping:** ISM (Guidelines for Gateways), NIST AI RMF (PROTECT -- PR.PT), EU AI Act (Art. 15(b)).
+
+---
+
+### TP-09: Explicit Tool Registration
+
+**Explanation**
+Agent frameworks must not auto-register internal functions, SDK helpers, or framework internals as agent-callable tools. Every function callable by the agent must be explicitly declared in the tool registry via TP-01. This includes preventing attribute-based tool registration (e.g., [KernelFunction]-style attributes), reflection-based tool discovery, and automatic exposure of internal helpers.
+
+**Key Assessment Questions**
+
+1. Is framework auto-registration of tools disabled by default?
+2. Are all discoverable callables audited against the TP-01 registry before deployment?
+3. Is any callable not explicitly registered blocked from agent invocation?
+4. Are attribute-based registration, reflection-based discovery, and internal-helper exposure prevented?
+5. Was the agent framework checked for implicit tool exposure CVEs (e.g., CVE-2026-25592, CVE-2026-26030)?
+
+**Artifacts to Examine**
+
+- Framework tool-registration configuration (auto-registration disabled)
+- TP-01 tool registry (explicit declarations)
+- Callable-discovery audit results
+- Agent framework CVE scan and patch records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Frameworks auto-expose internal functions as tools; no registry enforcement. |
+| L2 | Explicit registry for critical tools; auto-registration partially disabled. |
+| L3 | Auto-registration disabled by default; all discoverable callables audited; unregistered callables blocked. |
+| L4 | Continuous callable-audit in CI/CD; automated blocking of any implicitly exposed tool. |
+
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (IDENTIFY -- ID.AM), EU AI Act (Art. 15(b)).
 
 ---
 
@@ -943,6 +1264,7 @@ Monitoring, Logging, and Incident Response detects and responds to security inci
 Agent activity logging captures every action an agent takes -- every tool invocation, data access, decision, and error -- in a structured, auditable format. Each log entry includes agent identity, session ID, timestamp, action type, action target, action result, and a correlation ID that ties the event to the human-initiating session. This is the foundation for anomaly detection, incident investigation, and regulatory reporting.
 
 **Key Assessment Questions**
+
 1. Are all agent actions logged (every tool call, data access, decision, error)?
 2. Is each log entry structured with agent ID, session ID, timestamp, action type, target, result?
 3. Is there a correlation ID that ties agent actions to the initiating human session?
@@ -953,6 +1275,7 @@ Agent activity logging captures every action an agent takes -- every tool invoca
 8. For multi-agent architectures, does logging support distributed tracing across agent boundaries?
 
 **Artifacts to Examine**
+
 - Log schema definition (agent event structure)
 - Agent telemetry pipeline configuration
 - Log storage configuration (immutability, retention)
@@ -981,6 +1304,7 @@ Agent activity logging captures every action an agent takes -- every tool invoca
 Behavioural anomaly detection establishes per-agent and per-agent-class behaviour baselines and alerts when an agent deviates. Unlike traditional anomaly detection (which looks for known attack signatures), agent behavioural detection learns what "normal" looks like for each agent -- which tools it calls, how frequently, what data it accesses, and what decisions it makes -- and flags deviations. This catches attacks that signature-based detection misses.
 
 **Key Assessment Questions**
+
 1. Are per-agent behaviour baselines established (what is normal for this specific agent)?
 2. Are per-agent-class baselines established (what is normal for this type of agent)?
 3. What deviation thresholds trigger alerts? Are they tuned per agent?
@@ -990,6 +1314,7 @@ Behavioural anomaly detection establishes per-agent and per-agent-class behaviou
 7. Are false positives reviewed and used to improve baseline accuracy?
 
 **Artifacts to Examine**
+
 - Behavioural baseline definitions
 - Anomaly detection rule configuration
 - Recent anomaly alerts and their disposition
@@ -1017,6 +1342,7 @@ Behavioural anomaly detection establishes per-agent and per-agent-class behaviou
 The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. Full prompts and responses are logged temporarily for incident investigation, with sensitive fields (PII, credentials, internal URLs) automatically redacted in long-term storage. This is the AI-equivalent of database query logging -- it enables investigators to reconstruct what the agent was asked and what it did.
 
 **Key Assessment Questions**
+
 1. Are prompt/response pairs logged with agent identity and session ID?
 2. Is sensitive data automatically redacted before long-term storage?
 3. Is there a mechanism to recover redacted data for incident investigation?
@@ -1026,6 +1352,7 @@ The prompt audit log captures sanitised prompt/response pairs for forensic analy
 7. Are prompt logs included in the data retention and disposal schedule?
 
 **Artifacts to Examine**
+
 - Prompt logging configuration (redaction rules, retention periods)
 - Prompt log storage architecture
 - Redaction recovery mechanism (for legitimate IR use)
@@ -1052,6 +1379,7 @@ The prompt audit log captures sanitised prompt/response pairs for forensic analy
 Incident response playbooks define AI-specific procedures for detecting, containing, and recovering from security incidents involving agentic AI. These are distinct from general IT incident response playbooks because they address AI-unique scenarios: prompt injection containment (block the injected prompt, revoke agent's tool access, roll back model state), model compromise (remove compromised weights, restore from verified checkpoint), and tool abuse (revoke tool access for affected agents, audit tool invocation logs for the incident window).
 
 **Key Assessment Questions**
+
 1. Are there AI-specific IR playbooks, or does the organisation rely on general IR procedures?
 2. What incident scenarios are covered (prompt injection, data exfiltration, model compromise, tool abuse, code-generation attack)?
 3. Are playbooks tested (tabletop exercises, simulations)?
@@ -1060,6 +1388,7 @@ Incident response playbooks define AI-specific procedures for detecting, contain
 6. Is there a process for post-incident review and playbook improvement?
 
 **Artifacts to Examine**
+
 - AI-specific IR playbook documents
 - Tabletop exercise records and findings
 - SOAR playbook configuration
@@ -1086,6 +1415,7 @@ Incident response playbooks define AI-specific procedures for detecting, contain
 Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines -- SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting. The control provides automated triggers that detect reportable incidents, pre-populated incident report templates, and escalation workflows to the relevant regulatory body.
 
 **Key Assessment Questions**
+
 1. Are SOCI Act/APRA/NDB reporting triggers integrated with agent monitoring?
 2. Are incident report templates pre-populated with agent data (timeline, affected systems, data types)?
 3. Is there an escalation workflow that notifies the designated reporting officer?
@@ -1094,6 +1424,7 @@ Mandatory reporting integration ensures that the organisation can meet regulator
 6. Are historical incident reports available for regulatory review?
 
 **Artifacts to Examine**
+
 - Reporting trigger configuration (which events trigger which reports)
 - Incident report templates
 - Escalation workflow documentation and test results
@@ -1120,6 +1451,7 @@ Mandatory reporting integration ensures that the organisation can meet regulator
 Forensic readiness ensures that the organisation can reconstruct a full agent session -- every prompt, tool call, data access, decision, and response -- for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees. Session reconstruction enables investigators to determine precisely what happened, what data was accessed, and what actions were taken during a security incident.
 
 **Key Assessment Questions**
+
 1. Are logs written to immutable, append-only storage?
 2. Is log integrity verifiable (cannot be modified or deleted without detection)?
 3. Can a full agent session be reconstructed (every action in sequence)?
@@ -1129,6 +1461,7 @@ Forensic readiness ensures that the organisation can reconstruct a full agent se
 7. Are forensic tools available for analysing agent-specific log formats?
 
 **Artifacts to Examine**
+
 - Log storage architecture (immutability, append-only)
 - Log integrity verification mechanism (checksums, blockchain, WORM storage)
 - Session reconstruction capability demonstration
@@ -1167,6 +1500,7 @@ Governance and Risk Management establishes the organisational structures, polici
 The AI governance body is a chartered committee with the authority to approve agentic AI deployments, define acceptable use boundaries, and oversee the organisation's AI security posture. The committee must include the CISO, CRO, General Counsel, data owner, and AI lead -- reflecting that AI security is not just a technology issue but a risk, legal, data, and operational issue.
 
 **Key Assessment Questions**
+
 1. Is there a chartered AI governance body with defined terms of reference?
 2. Who sits on the committee (CISO, CRO, GC, data owner, AI lead)?
 3. What decisions require committee approval (new agent deployments, scope changes, exception approvals)?
@@ -1176,6 +1510,7 @@ The AI governance body is a chartered committee with the authority to approve ag
 7. Is committee membership reviewed periodically?
 
 **Artifacts to Examine**
+
 - AI governance body charter and terms of reference
 - Committee meeting minutes and decision records
 - Committee membership list and review schedule
@@ -1201,6 +1536,7 @@ The AI governance body is a chartered committee with the authority to approve ag
 The AI risk register is a distinct register (or distinct section of the enterprise risk register) that captures AI-specific risks using a dedicated threat taxonomy. This includes model-level risks (poisoning, prompt injection), tool-level risks (tool output injection, credential delegation), data-level risks (cross-session aggregation, training data leakage), identity-level risks (excessive agency), and pipeline-level risks (supply chain compromise). Each risk is assessed, owned, and tracked to resolution.
 
 **Key Assessment Questions**
+
 1. Is there a dedicated AI risk register or AI-specific section in the enterprise risk register?
 2. Does the AI risk taxonomy cover model, tool, data, identity, and pipeline risks?
 3. Are risks assessed using a defined methodology (likelihood x impact)?
@@ -1210,6 +1546,7 @@ The AI risk register is a distinct register (or distinct section of the enterpri
 7. Is the AI risk register reviewed by the AI governance body?
 
 **Artifacts to Examine**
+
 - AI risk register entries
 - AI risk taxonomy documentation
 - Risk assessment methodology
@@ -1236,6 +1573,7 @@ The AI risk register is a distinct register (or distinct section of the enterpri
 The ethical use policy defines what agents are allowed and not allowed to do, what level of autonomy they may have based on risk tier, and what transparency obligations apply. This is the "terms of use" for agentic AI within the organisation -- it sets boundaries that the technical controls then enforce.
 
 **Key Assessment Questions**
+
 1. Is there an approved ethical use policy for agentic AI?
 2. Does the policy define acceptable use boundaries (what agents can and cannot do)?
 3. Are agents classified into risk tiers with corresponding autonomy levels?
@@ -1245,6 +1583,7 @@ The ethical use policy defines what agents are allowed and not allowed to do, wh
 7. Are policy violations investigated and remediated?
 
 **Artifacts to Examine**
+
 - AI ethical use policy document
 - Agent risk classification methodology and classifications
 - Policy compliance monitoring configuration
@@ -1270,6 +1609,7 @@ The ethical use policy defines what agents are allowed and not allowed to do, wh
 Third-party AI risk management ensures that external model providers, tool providers, and AI infrastructure vendors are assessed against security requirements, contractually bound to maintain security controls, and subject to right-to-audit provisions. As organisations adopt managed agent platforms (AaaS) and third-party models, the shared responsibility model becomes critical -- the client remains responsible for agent behaviour and regulatory compliance even when infrastructure is outsourced.
 
 **Key Assessment Questions**
+
 1. Are model providers (OpenAI, Anthropic, AWS, GCP) subject to a vendor security assessment?
 2. Are tool providers (APIs, SaaS, data sources) subject to a vendor security assessment?
 3. Does the assessment cover data protection, incident response, and shared responsibility?
@@ -1279,6 +1619,7 @@ Third-party AI risk management ensures that external model providers, tool provi
 7. Is there a process for decommissioning a third-party provider if security requirements are not met?
 
 **Artifacts to Examine**
+
 - Third-party AI vendor risk assessments
 - Contractual security requirements (SOWs, MSAs)
 - Right-to-audit clauses
@@ -1305,6 +1646,7 @@ Third-party AI risk management ensures that external model providers, tool provi
 Regulatory mapping ensures that every SHIELD-AI control is mapped to the regulatory frameworks the organisation must comply with, and that compliance status is reported on a regular cadence. This transforms compliance from a point-in-time audit exercise ("did we pass the audit?") to a continuous process ("are we compliant today?").
 
 **Key Assessment Questions**
+
 1. Is there a documented mapping of SHIELD-AI controls to applicable regulatory frameworks (ISM, E8, SOCI, CPS 234, PSPF, Privacy Act)?
 2. Is the mapping maintained when frameworks are updated?
 3. Are compliance reports generated automatically or manually?
@@ -1314,6 +1656,7 @@ Regulatory mapping ensures that every SHIELD-AI control is mapped to the regulat
 7. Are regulatory changes monitored and their impact on controls assessed?
 
 **Artifacts to Examine**
+
 - Regulatory mapping matrix
 - Framework version tracking (which ISM edition, which E8 maturity baseline)
 - Compliance report templates and recent reports
@@ -1340,6 +1683,7 @@ Regulatory mapping ensures that every SHIELD-AI control is mapped to the regulat
 Board and executive reporting provides a standardised dashboard and report that gives the Board and executive team visibility into the organisation's AI security posture -- maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances. The dashboard is designed for a non-technical audience: it answers three questions: "How are we doing? Where are we exposed? What are we doing about it?"
 
 **Key Assessment Questions**
+
 1. Is there a standardised AI security dashboard for executives?
 2. Does the dashboard show maturity scores per pillar?
 3. Are open findings tracked with severity, owner, and status?
@@ -1349,6 +1693,7 @@ Board and executive reporting provides a standardised dashboard and report that 
 7. Is there a periodic reporting cadence to the Board?
 
 **Artifacts to Examine**
+
 - Executive dashboard configuration
 - Recent dashboard snapshots or reports
 - Finding tracking records
@@ -1369,7 +1714,260 @@ Board and executive reporting provides a standardised dashboard and report that 
 
 ---
 
-# Section 7: Assessment Methodology
+# Section 7: Execution Environment (EE)
+
+## Pillar Overview
+
+Execution Environment security ensures the environment hosting the AI agent is isolated, resource-bounded, and cannot be used as a platform for sandbox escape or infrastructure abuse. This pillar was added in response to a wave of real-world sandbox escape incidents documented in 2026 (OpenAI/Hugging Face, Claude Cowork, Cursor IDE, AWS AgentCore, ServiceNow, CrewAI, Codex CLI, and others).
+
+**Why this matters to the client:** An execution environment that can be escaped invalidates every higher-level control. In July 2026, OpenAI's own test model escaped its sandbox container and executed ~17,000 autonomous actions against Hugging Face production infrastructure. Container escape is the most common attack pattern in real-world AI incidents -- it bypasses controls that all assume the agent stays inside its intended boundary.
+
+**Primary stakeholders to interview:** Platform Engineering Lead, Container/Cloud Infrastructure Lead, MLOps Lead, DevSecOps Lead.
+
+---
+
+### EE-01: Execution Environment Boundary Enforcement
+
+**Explanation**
+All agentic AI execution must occur within a defined container/VM/sandbox with: no shared host filesystem mounts, no shared IPC/network namespaces, immutable infrastructure, and fail-closed behaviour on isolation breach. The sandbox must protect the host from the agent AND the agent from itself -- preventing escape attempts even when the sandbox is technically sound.
+
+**Key Assessment Questions**
+
+1. Does every agent run inside a defined container/VM/sandbox boundary?
+2. Are host filesystem mounts, IPC, and network namespaces shared with the sandbox?
+3. Is the infrastructure immutable (no runtime writes to host-controlled paths)?
+4. Does the environment fail closed on isolation breach rather than degrading?
+5. Are sandbox escape attempts detected and alerted?
+
+**Artifacts to Examine**
+
+- Sandbox/container runtime configuration
+- Host filesystem mount configuration (no shared mounts)
+- Namespace isolation configuration (IPC, network, PID, UID)
+- Immutable infrastructure configuration (read-only rootfs, ImagePolicy)
+- Isolation breach alerts and incident records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents run on shared infrastructure with no boundary enforcement. |
+| L2 | Container per agent; basic isolation; shared mounts present but documented. |
+| L3 | No shared host mounts or namespaces; immutable infrastructure; fail-closed on breach. |
+| L4 | Runtime boundary verification (attestation); automated response on any isolation breach. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Hardening), Essential Eight (Application Control), ASD Container Security Guidance.
+
+---
+
+### EE-02: Infrastructure API Access Control
+
+**Explanation**
+Agents must have no implicit access to cloud infrastructure APIs (EC2, IAM, Lambda, S3, Azure Resource Manager, GCP Cloud Resource Manager) unless explicitly registered as tools via TP-01 and subject to TP-03 gateway controls. This distinguishes application tools from infrastructure APIs -- an agent that can call infrastructure APIs is no longer operating within any meaningful security boundary.
+
+**Key Assessment Questions**
+
+1. Do agent execution environments have credentials for infrastructure APIs?
+2. Is any infrastructure API access explicitly registered as a tool via TP-01 with documented rationale?
+3. Is the network path from agent environments to infrastructure endpoints blocked by default?
+4. Is agent metadata service access (e.g., IMDS) disabled or scoped?
+5. Are infrastructure API calls monitored for anomalous agent-originated usage?
+
+**Artifacts to Examine**
+
+- Agent environment IAM role/credential configuration
+- Metadata service configuration (IMDSv2, disabled)
+- Network security group / firewall rules between agents and control planes
+- TP-01 registration records for any infrastructure tool
+- Infrastructure API access logs
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents inherit infrastructure credentials or can reach control planes. |
+| L2 | Infrastructure credentials not mounted; network path blocked but not tested. |
+| L3 | Explicit tool registration required for any infrastructure access; metadata service disabled; blocked attempts logged. |
+| L4 | Continuous verification of credential scoping; automated alerting on any infrastructure API attempt by an agent. |
+
+**Regulatory Mapping:** ISM (Guidelines for Gateways), NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 15(b)).
+
+---
+
+### EE-03: Resource Usage Limiting
+
+**Explanation**
+Agents must have bounded CPU, memory, network, storage, and API-rate limits. Exceeding limits triggers alerts and may terminate the agent. This prevents resource exhaustion attacks, cryptocurrency mining, and denial-of-service via compromised agents, and provides a hard backstop when an agent behaves unexpectedly.
+
+**Key Assessment Questions**
+
+1. Are CPU, memory, storage, and network limits configured per agent?
+2. Are API rate limits enforced per agent (not per shared account)?
+3. What happens when an agent exceeds its limits -- alert, throttle, or terminate?
+4. Are resource usage anomalies detected (e.g., sustained high CPU, unusual network egress)?
+5. Are limits enforced by the container runtime (not just policy)?
+6. Is burst behaviour bounded (ephemeral storage, egress spikes)?
+
+**Artifacts to Examine**
+
+- Resource quota configuration (Kubernetes ResourceQuota, limits)
+- API rate limit configuration
+- Runtime enforcement logs (cgroup, seccomp, quota events)
+- Resource anomaly alert rules
+- Termination/incident records for limit breaches
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | No resource limits; agents share unbounded resources. |
+| L2 | Basic limits configured; enforcement by policy only. |
+| L3 | Runtime-enforced limits (CPU, memory, storage, network, API rate); exceeding limits alerts and may terminate. |
+| L4 | Continuous anomaly detection on resource usage; automated termination for abuse patterns. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Management), NIST AI RMF (PROTECT -- PR.PT), Essential Eight (Application Control).
+
+---
+
+### EE-04: Evaluation Sandbox Integrity
+
+**Explanation**
+Evaluation and test environments must be isolated from production with no network path. Models must not be able to distinguish evaluation from production environments (see MS-07). Evaluation pipelines must not modify production systems. This prevents evaluation subversion and contains the blast radius of any model behaviour during testing.
+
+**Key Assessment Questions**
+
+1. Is there a network path between evaluation environments and production?
+2. Can evaluation pipelines modify production systems?
+3. Are evaluation environments isolated from production data?
+4. Can a model in evaluation reach production tools or APIs?
+5. Are evaluation results trusted without integrity verification?
+6. Is the evaluation environment lifecycle managed (creation, teardown, cleanup)?
+
+**Artifacts to Examine**
+
+- Network segmentation configuration (evaluation vs production)
+- Evaluation environment architecture documentation
+- Evaluation pipeline access control lists
+- Isolation breach test results
+- Evaluation environment lifecycle records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Evaluation and production share networks, data, and tooling. |
+| L2 | Evaluation isolated from production data; network path partially open. |
+| L3 | No network path between evaluation and production; evaluation pipelines cannot modify production. |
+| L4 | Continuous isolation verification; automated teardown of evaluation environments; evaluation subversion detection per MS-07. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Management), NIST AI RMF (GOVERN -- GV.OD), EU AI Act (Art. 15(a)).
+
+---
+
+### EE-05: Host-Trusted Configuration File Injection Prevention
+
+**Explanation**
+Agents must not be able to write files that the host OS or host applications will later execute or load as trusted configuration -- covering startup files (.zshrc, .bashrc, .profile), IDE/editor configuration (.vscode/settings.json, .claude/settings.json, .cursor/hooks), version control configuration (.git/config, .gitattributes), runtime interpreter files (virtualenv bin/python, node_modules/.bin wrappers), and system configuration (crontab, systemd units).
+
+**Key Assessment Questions**
+
+1. Can the agent write to host-trusted paths (shell profiles, IDE config, git config, systemd, crontab)?
+2. Is a write-path allowlist enforced with host-trusted paths explicitly excluded?
+3. Is filesystem integrity monitoring in place on host-trusted directories?
+4. Is content scanning performed for configuration-file injection patterns?
+5. Are agent-written files prevented from being automatically executed or loaded by host tooling?
+
+**Artifacts to Examine**
+
+- Write-path allowlist configuration
+- Filesystem integrity monitoring configuration (host-trusted paths)
+- Host-trusted path inventory (shell profiles, IDE config, git config, runtime wrappers)
+- Configuration injection detection alerts
+- Sandbox escape via file injection incident records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents can write anywhere in the sandbox including host-trusted paths. |
+| L2 | Write-path allowlist for critical paths; manual review of agent writes. |
+| L3 | Host-trusted paths excluded from agent write access; FIM on host-trusted directories; content scanning for injection patterns. |
+| L4 | Host-side isolation preventing agent-written file execution; continuous FIM; automated response on injection detection. |
+
+**Regulatory Mapping:** ISM (Guidelines for System Hardening), Essential Eight (Application Control), ASD Container Security Guidance.
+
+---
+
+### EE-06: Fail-Closed Sandbox Operation
+
+**Explanation**
+Agent execution environments must verify at runtime that the strongest configured isolation mode is actually active, and must FAIL CLOSED -- halt execution and alert -- rather than silently degrading to a weaker sandbox when the primary sandbox becomes unavailable. This addresses the fail-open sandbox fallback class (e.g., CrewAI CVE-2026-2275/2287, where the Code Interpreter tool falls back to an unsafe environment when Docker cannot be reached).
+
+**Key Assessment Questions**
+
+1. Is sandbox-mode attestation performed before each code execution step?
+2. Is there any fallback code path that runs untrusted code when the sandbox is unavailable?
+3. Does execution halt (fail closed) when the sandbox cannot be verified?
+4. Are sandbox-unavailable events alerted and treated as potential indicators of compromise (MIR-01)?
+5. Have agent frameworks been checked for fail-open fallback patterns (e.g., Docker-unavailable fallbacks)?
+
+**Artifacts to Examine**
+
+- Sandbox-mode attestation configuration and logs
+- Framework fallback path audit (code execution tooling)
+- Sandbox availability check implementation
+- Fail-open incident records (e.g., CrewAI CVE-2026-2275/2287 assessment)
+- Alert rules for sandbox degradation
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Sandbox used opportunistically; silent fallback to weaker environments possible. |
+| L2 | Sandbox availability checked; fallback paths documented but not blocked. |
+| L3 | Runtime attestation before each code execution; no fallback path; fail-closed on sandbox unavailability; alerts on degradation. |
+| L4 | Continuous sandbox attestation; automated blocking of any non-sandboxed execution; sandbox-unavailable events treated as compromise indicators. |
+
+**Regulatory Mapping:** NIST AI RMF (PROTECT -- PR.PT), EU AI Act (Art. 15(b)), ISM (Guidelines for System Hardening).
+
+---
+
+### EE-07: Agent Control-Plane Configuration Integrity
+
+**Explanation**
+Agents must not be able to modify the configuration that governs their own security controls -- sandbox mode, approval policy, tool permissions, or hook definitions -- and agent tooling must not load configuration from writable shared directories. This addresses agent self-configuration poisoning (e.g., Codex CLI config.toml disabling its own sandbox) and configuration-trust failures (e.g., CVE-2026-35603, world-writable config directories loaded by privileged tools).
+
+**Key Assessment Questions**
+
+1. Is agent security configuration (sandbox mode, approval policy, tool permissions, hooks) read-only to the agent process?
+2. Can the agent write to its own control-plane configuration files (.codex/, .claude/, .cursor/, .zshrc)?
+3. Are directory ownership and permissions validated before loading system-wide agent configuration?
+4. Is configuration from world-writable paths rejected?
+5. Are unexpected modifications to agent control-plane configuration monitored (MIR-01)?
+6. Have AI coding tools been assessed against CVE-2026-35603 (config-trust privilege escalation)?
+
+**Artifacts to Examine**
+
+- Agent control-plane configuration mount/read-only settings
+- Configuration file permissions and ownership
+- World-writable directory audit results
+- Control-plane configuration integrity monitoring rules
+- CVE-2026-35603 assessment and patch records
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents can modify their own security configuration; tools load config from writable paths. |
+| L2 | Control-plane config documented; agent write access partially restricted. |
+| L3 | Control-plane config read-only to the agent; world-writable config paths rejected; integrity monitoring on control files. |
+| L4 | Continuous integrity verification of control-plane configuration; automated blocking of self-configuration changes; config-trust vulnerability patching. |
+
+**Regulatory Mapping:** NIST AI RMF (PROTECT -- PR.AC), EU AI Act (Art. 15(b)), ISM (Guidelines for System Hardening).
+
+---
+
+# Section 8: Assessment Methodology
 
 ## Engagement Structure
 
@@ -1386,7 +1984,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 36 controls:
+For each of the 51 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -1426,7 +2024,7 @@ For each of the 36 controls:
 
 ---
 
-# Section 8: Maturity Progression Paths
+# Section 9: Maturity Progression Paths
 
 ## Principles for Progression
 
@@ -1484,23 +2082,31 @@ For each of the 36 controls:
 | L1->L2 | Form AI governance body (GRM-01). Create AI risk register (GRM-02). Draft ethical use policy (GRM-03). | 6-10 weeks | Executive sponsorship |
 | L2->L3 | Chartered governance body with regular meetings (GRM-01). Automated compliance mapping (GRM-05). Board reporting dashboard (GRM-06). Vendor assessments for AI providers (GRM-04). | 8-12 weeks | GRM-01-03 at L2 |
 | L3->L4 | Continuous compliance monitoring (GRM-05). Real-time executive dashboard (GRM-06). Cross-entity governance (GRM-01). | 12+ weeks | GRM-01-05 at L3 |
+### EE: Execution Environment
+
+| Level | Key Activities | Typical Duration | Prerequisites |
+|-------|---------------|------------------|---------------|
+| L1->L2 | Container per agent with basic isolation (EE-01). Block infrastructure API access (EE-02). Set resource limits (EE-03). | 4-8 weeks | None |
+| L2->L3 | Read-only rootfs + NetworkPolicy (EE-01). Host-trusted file injection prevention (EE-05). Fail-closed sandbox attestation (EE-06). Control-plane config integrity (EE-07). | 8-12 weeks | EE-01-03 at L2 |
+| L3->L4 | Remote attestation and runtime boundary verification (EE-01). Evaluation sandbox integrity programme (EE-04). Continuous sandbox-mode attestation (EE-06). | 12+ weeks | EE-01-05 at L3 |
+
 
 ## Overall Maturity Timeline
 
-| Current Level | Target Level | Typical Duration (All Pillars) | Investment Range |
+| Current Level | Target Level | Typical Duration (All Pillars) |
 |---------------|--------------|-------------------------------|------------------|
-| L1 (None) | L2 (Managed) | 3-4 months | $120K-$200K |
-| L1 (None) | L3 (Defined) | 8-12 months | $300K-$500K |
-| L2 (Managed) | L3 (Defined) | 4-6 months | $150K-$250K |
-| L3 (Defined) | L4 (Optimised) | 12+ months | $400K+/year |
+| L1 (None) | L2 (Managed) | 3-4 months |
+| L1 (None) | L3 (Defined) | 8-12 months |
+| L2 (Managed) | L3 (Defined) | 4-6 months |
+| L3 (Defined) | L4 (Optimised) | 12+ months | 
 
 ---
 
-# Section 9: Regulatory Cross-Reference
+# Section 10: Regulatory Cross-Reference
 
 ## Quick-Reference: Control -> Framework Mapping
 
-| Control | ISM | E8 | SOCI Act | CPS 234 | PSPF | Privacy Act |
+| PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
 |---------|-----|----|----------|---------|------|-------------|
 | MS-01 | Cryptography, Sys Mgmt | - | CIRMP s.4(a) | s.3(b) | Info Sec | - |
 | MS-02 | SW Dev, System Mgmt | - | - | - | - | - |
@@ -1538,26 +2144,41 @@ For each of the 36 controls:
 | GRM-04 | Procurement | - | - | - | - | - |
 | GRM-05 | Documentation | - | CIRMP | s.2 | Gov | - |
 | GRM-06 | - | - | - | s.2 | Gov | - |
+| MS-07 | - | - | - | - | - | - |
+| MS-08 | - | - | - | - | - | - |
+| IAM-07 | System Mgmt | - | - | - | - | - |
+| IAM-08 | System Mgmt (Cred Mgmt) | - | - | - | - | - |
+| IAM-09 | System Mgmt | - | CIRMP (platform) | - | - | - |
+| TP-07 | SW Dev | - | - | - | - | - |
+| TP-08 | Gateways | - | - | - | - | - |
+| TP-09 | SW Dev | - | - | - | - | - |
+| EE-01 | System Hardening | App Control | CIRMP | - | - | - |
+| EE-02 | Gateways | - | - | - | - | - |
+| EE-03 | System Mgmt | App Control | - | - | - | - |
+| EE-04 | - | - | - | - | - | - |
+| EE-05 | System Hardening | App Control | - | - | - | - |
+| EE-06 | System Hardening | - | - | - | - | - |
+| EE-07 | System Hardening | - | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-06, IAM-01, IAM-02, IAM-04, IAM-05, DS-01, DS-02, TP-01, TP-03, TP-05, TP-06, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, GRM-01, GRM-05 |
-| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, DS-02 |
-| SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, TP-01, MIR-01, MIR-04, MIR-05, MIR-06, GRM-01, GRM-02, GRM-05 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-06, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, GRM-01, GRM-05 |
+| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, DS-02, EE-01, EE-03, EE-05 |
+| SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, GRM-01, GRM-02, GRM-05 |
 | APRA CPS 234 | MS-01, MS-03, IAM-01, IAM-03, DS-01, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
 | PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
 | Privacy Act 1988 | DS-01, DS-02, DS-03, DS-04, DS-05, DS-06, MIR-01, MIR-05, GRM-01, GRM-03 |
-| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), DS-03 (LLM06), IAM-02 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), GRM-04 (LLM10) |
+| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), MS-08 (LLM02), DS-03 (LLM06), IAM-02 (LLM08), IAM-07 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), TP-07 (LLM08), TP-09 (LLM08), GRM-04 (LLM10) |
 | NIST AI RMF | All controls -- mapped to GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER, MANAGE |
-| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), DS-04 (Art. 10), DS-05 (Art. 10), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
+| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), MS-07 (Art. 15), DS-04 (Art. 10), DS-05 (Art. 10), IAM-07 (Art. 14), IAM-08 (Art. 15), IAM-09 (Art. 15), TP-07 (Art. 9), TP-08 (Art. 15), TP-09 (Art. 15), EE-01 (Art. 15), EE-02 (Art. 15), EE-03 (Art. 15), EE-04 (Art. 15), EE-06 (Art. 15), EE-07 (Art. 15), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
 
 ---
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 36 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 51 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -1597,6 +2218,21 @@ Use this quick-reference during the assessment to ensure all 36 controls have be
 | 34 | GRM-04: Third-party AI risk | ? | | | | |
 | 35 | GRM-05: Regulatory mapping | ? | | | | |
 | 36 | GRM-06: Board reporting | ? | | | | |
+| 37 | MS-07: Deployment context obfuscation | ? | | | | |
+| 38 | MS-08: MCP security controls | ? | | | | |
+| 39 | IAM-07: Delegation chain enforcement | ? | | | | |
+| 40 | IAM-08: Credential scope narrowing | ? | | | | |
+| 41 | IAM-09: Multi-tenant isolation | ? | | | | |
+| 42 | TP-07: Cross-tool dependency analysis | ? | | | | |
+| 43 | TP-08: Infrastructure-isolation mode | ? | | | | |
+| 44 | TP-09: Explicit tool registration | ? | | | | |
+| 45 | EE-01: Execution boundary enforcement | ? | | | | |
+| 46 | EE-02: Infrastructure API access control | ? | | | | |
+| 47 | EE-03: Resource usage limiting | ? | | | | |
+| 48 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 49 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 50 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 51 | EE-07: Control-plane config integrity | ? | | | | |
 
 **Pillar Maturity Summary**
 

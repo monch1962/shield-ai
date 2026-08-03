@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 480" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 12px; fill: #1a1a2e; }
+    .sm { font-size: 10px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .white { fill: #ffffff; }
+    .cap { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a3a6b"/>
+    </marker>
+  </defs>
+  <rect x="20" y="30" width="300" height="400" rx="10" fill="#f7fafd" stroke="#1a3a6b" stroke-width="1.2"/>
+    <text x="30" y="46" class="cap">AGENT FLEET</text>
+  <rect x="340" y="30" width="320" height="400" rx="10" fill="#f7fafd" stroke="#1a3a6b" stroke-width="1.2"/>
+    <text x="350" y="46" class="cap">INGESTION &amp; ANALYTICS</text>
+  <rect x="680" y="30" width="380" height="400" rx="10" fill="#f7fafd" stroke="#1a3a6b" stroke-width="1.2"/>
+    <text x="690" y="46" class="cap">RESPONSE &amp; REPORTING</text>
+  <rect x="50" y="70" width="240" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="170.0" y="91.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Agent A (sidecar)</text>
+    <text x="170.0" y="109.5" text-anchor="middle" class="sm">OTLP exporter</text>
+  <rect x="50" y="140" width="240" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="170.0" y="161.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Agent B (sidecar)</text>
+    <text x="170.0" y="179.5" text-anchor="middle" class="sm">OTLP exporter</text>
+  <rect x="50" y="210" width="240" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="170.0" y="231.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Agent C (sidecar)</text>
+    <text x="170.0" y="249.5" text-anchor="middle" class="sm">OTLP exporter</text>
+  <text x="170" y="290" text-anchor="middle" class="sm">tool calls, data access,</text>
+  <text x="170" y="305" text-anchor="middle" class="sm">policy verdicts, model calls</text>
+  <rect x="370" y="70" width="260" height="55" rx="6" fill="#dce6f0" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="500.0" y="91.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">OTLP Collector</text>
+    <text x="500.0" y="109.5" text-anchor="middle" class="sm">batch, sample, enrich</text>
+  <rect x="370" y="140" width="260" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="500.0" y="171.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">SIEM / Log Store</text>
+    <text x="500.0" y="189.5" text-anchor="middle" class="sm">immutable, append-only</text>
+    <text x="500.0" y="157" text-anchor="middle" class="cap">MIR-06</text>
+  <rect x="370" y="210" width="260" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="500.0" y="241.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Anomaly Detection</text>
+    <text x="500.0" y="259.5" text-anchor="middle" class="sm">per-agent + per-class baselines, swarm</text>
+    <text x="500.0" y="227" text-anchor="middle" class="cap">MIR-02</text>
+  <rect x="710" y="70" width="320" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="870.0" y="91.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">SOC Dashboards</text>
+    <text x="870.0" y="109.5" text-anchor="middle" class="sm">live posture, agent activity</text>
+  <rect x="710" y="140" width="320" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="870.0" y="171.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">IR Playbooks</text>
+    <text x="870.0" y="189.5" text-anchor="middle" class="sm">containment, tool revocation</text>
+    <text x="870.0" y="157" text-anchor="middle" class="cap">MIR-04</text>
+  <rect x="710" y="210" width="320" height="55" rx="6" fill="#dce6f0" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="870.0" y="241.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Mandatory Reporting Triggers</text>
+    <text x="870.0" y="259.5" text-anchor="middle" class="sm">SOCI 12h | APRA 72h | NDB</text>
+    <text x="870.0" y="227" text-anchor="middle" class="cap">MIR-05</text>
+  <rect x="710" y="280" width="320" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="870.0" y="311.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Compliance Dashboard</text>
+    <text x="870.0" y="329.5" text-anchor="middle" class="sm">51 controls, per-pillar maturity</text>
+    <text x="870.0" y="297" text-anchor="middle" class="cap">GRM-06</text>
+  <line x1="290" y1="97" x2="370" y2="97" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="290" y1="167" x2="370" y2="167" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="290" y1="237" x2="370" y2="237" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="500" y1="125" x2="500" y2="140" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="500" y1="195" x2="500" y2="210" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5 4"/>
+  <line x1="630" y1="97" x2="710" y2="97" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="630" y1="167" x2="710" y2="167" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="630" y1="237" x2="710" y2="237" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="870" y1="265" x2="870" y2="280" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="550" y="370" text-anchor="middle" class="sm">correlation ID ties every event to the originating user session</text>
+  <text x="550" y="430" text-anchor="middle" class="sm">Forensic readiness: full session reconstruction from immutable logs (MIR-06).</text>
+</svg>

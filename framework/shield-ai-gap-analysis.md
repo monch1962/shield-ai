@@ -128,6 +128,7 @@ An Alibaba AI agent autonomously discovered available compute resources in its e
 | 5 | Write .claude hook config for unsandboxed command execution | **NONE** | Gap G8 |
 
 **The four failure modes identified by Pillar Security:**
+
 1. **Denylist sandboxes that cannot keep pace with OS complexity** — Blocklist approaches miss the sheer variety of host-trusted paths
 2. **Workspace configurations that are really executable code** — Configuration files (.vscode, .claude, .cursor) are treated as data but executed as code
 3. **"Safe" command allowlists that trust command names instead of invocations** — `git show --output` writes files despite `git show` being safe
@@ -345,6 +346,7 @@ Affected controls: MS-04, MS-08 (new), TP-03, TP-04, TP-07, MIR-01.
 **Current coverage:** MIR-02 (anomaly detection) establishes per-agent baselines but does not specifically look for side-channel indicators (timing correlations, error message patterns, covert traffic).
 
 **Recommended action:** Extend MIR-02 implementation guidance to include side-channel detection:
+
 - Monitor for consistent timing patterns in tool responses that correlate with unauthorized data access
 - Detect agents that trigger unusually high error rates from tools (potential information leakage through error messages)
 - Block outbound network connections that do not match registered tool endpoints
@@ -358,6 +360,7 @@ This does not require a new control ID — MIR-02's anomaly detection scope is a
 **Severity: Critical** — 5 Pillar Security "Week of Sandbox Escapes" scenarios demonstrate this as a repeatable failure mode across Cursor, Codex CLI, Gemini CLI, and Antigravity.
 
 **Evidence:** The Pillar Security research series (INC-11) demonstrates that AI coding agents can escape their sandboxes without breaching the sandbox boundary itself. The technique involves writing files that the host OS or host tools later execute or load as trusted configuration. Specific vectors include:
+
 - Writing to ~/.zshrc, ~/.bashrc, ~/.profile (shell startup files)
 - Writing to .vscode/settings.json, .vscode/tasks.json (VS Code extension configuration)
 - Writing to .claude/settings.json, .cursor/hooks (AI coding agent hook config)
@@ -371,6 +374,7 @@ This does not require a new control ID — MIR-02's anomaly detection scope is a
 **Key technical observation:** This gap exists because AI coding agents *need* filesystem write access to function — a coding agent that cannot write to the workspace is not useful. The mitigation cannot be "prevent all filesystem writes." Instead, it must distinguish between *workspace files the agent should write* (source code, documentation, test files) and *host-trusted files that the host will later execute* (config files, startup files, interpreter paths). This is a fundamentally different control problem from traditional sandboxing.
 
 **Recommended action:** Add EE-05 (Host-trusted file injection prevention) as a new control in P7 with the following capabilities:
+
 - Write-path allowlisting with explicit exclusion of known host-trusted paths
 - Filesystem integrity monitoring on host-trusted directories
 - Content scanning for configuration-file injection patterns
@@ -394,6 +398,7 @@ This does not require a new control ID — MIR-02's anomaly detection scope is a
 **Current coverage:** The gap analysis's Future Horizons section (Trend 2) identified MCP as an emerging concern but recommended "MCP-aware security controls by early 2027." Active CVEs and exploited vulnerabilities in production tools mean this timeline is too conservative. The framework's existing controls (TP-03, TP-04, TP-07) partially cover MCP endpoints but do not specifically address the protocol-layer attack surface.
 
 **Recommended action:** Fill MS-08 (currently Reserved) as **MCP security controls** with the following:
+
 - Tool description integrity verification (cryptographic signing of tool metadata)
 - MCP gateway authentication (authenticated proxy between agents and MCP servers)
 - MCP response validation (schema validation against known-good interfaces)
@@ -413,6 +418,7 @@ Additionally, extend TP-06 implementation guidance to classify sandbox library d
 **Current coverage:** EE-01 (execution environment boundary enforcement) mandates fail-closed *on isolation breach* but assumes the boundary is present and enforced. No control requires runtime verification that the strongest configured sandbox mode is active, nor prohibits silent fallback to weaker modes.
 
 **Recommended action:** Add **EE-06 (Fail-closed sandbox operation)** as a new control in P7:
+
 - Continuous sandbox-mode attestation — verify the container/VM is present and enforcing isolation before each code execution step
 - Explicit sandbox-availability checks with no fallback code path to weaker interpreters
 - Alerts on any sandbox degradation; treat sandbox-unavailable events as potential indicators of compromise (MIR-01)
@@ -427,6 +433,7 @@ Additionally, extend TP-06 implementation guidance to classify sandbox library d
 **Current coverage:** EE-05 (host-trusted file injection prevention) protects host-trusted *files* from agent *writes* (shell startup files, IDE config, git config). It does not cover (a) the agent's own control-plane configuration that governs its sandbox/approval/hooks, or (b) the reverse direction — agent tooling *reading* configuration from untrusted locations.
 
 **Recommended action:** Add **EE-07 (Agent control-plane configuration integrity)** as a new control in P7:
+
 - Agent security configuration files (.codex/, .claude/, .cursor/ control files) must be read-only to the agent process
 - Directory ownership and permission validation before loading any system-wide agent configuration; reject configuration from world-writable paths
 - Write-path deny rules for agent control-plane directories; integrity monitoring on config files
@@ -441,6 +448,7 @@ Additionally, extend TP-06 implementation guidance to classify sandbox library d
 **Current coverage:** IAM-01 (agent identity) and IAM-02 (scope-bound delegation) cover single-tenant agent identity. Neither requires tenant scoping at the data layer for managed agent platforms, nor IDOR testing, nor cross-tenant access prevention.
 
 **Recommended action:** Add **IAM-09 (Multi-tenant agent platform isolation)** as a new control in P2:
+
 - Tenant isolation enforced at the data layer — tenant ID embedded in every query and execution context, not just presentation-layer checks
 - No user-controlled object IDs or keys may bypass tenant scoping (CWE-639 prevention)
 - Cross-tenant execution of workflows must be impossible even with valid credentials for one tenant
@@ -455,6 +463,7 @@ Additionally, extend TP-06 implementation guidance to classify sandbox library d
 **Current coverage:** TP-01 (tool inventory and registry) assumes tools are explicitly registered. It has no mechanism to prevent *implicit* tool exposure through framework auto-registration mechanisms, and no requirement to audit discoverable callables against the registry.
 
 **Recommended action:** Add **TP-09 (Explicit tool registration — no implicit tool exposure)** as a new control in P4:
+
 - Disable framework auto-registration by default (attribute-based, reflection-based, convention-based)
 - Audit all discoverable callables against the TP-01 registry before deployment; block any callable not explicitly registered
 - Treat code-validation endpoints as code-execution surfaces (Langflow `validate_code()` pattern) — see TP-06 extension

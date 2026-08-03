@@ -1,39 +1,44 @@
 {
   "meta": {
-    "framework": "SHIELD-AI(TM)",
-    "version": "1.1",
-    "date": "2026-07",
+    "framework": "SHIELD-AI",
+    "version": "1.4",
+    "date": "2026-08",
     "description": "Sovereign Australian Framework for Secure Agentic AI Deployment",
-    "pillar_count": 6,
-    "control_count": 36
+    "pillar_count": 7,
+    "control_count": 51
   },
   "pillars": {
     "MS": {
       "id": "MS",
       "name": "Model Security",
       "order": 1,
-      "control_count": 6,
+      "control_count": 8,
       "control_ids": [
         "MS-01",
         "MS-02",
         "MS-03",
         "MS-04",
         "MS-05",
-        "MS-06"
+        "MS-06",
+        "MS-07",
+        "MS-08"
       ]
     },
     "IAM": {
       "id": "IAM",
       "name": "Identity and Access",
       "order": 2,
-      "control_count": 6,
+      "control_count": 9,
       "control_ids": [
         "IAM-01",
         "IAM-02",
         "IAM-03",
         "IAM-04",
         "IAM-05",
-        "IAM-06"
+        "IAM-06",
+        "IAM-07",
+        "IAM-08",
+        "IAM-09"
       ]
     },
     "DS": {
@@ -54,14 +59,17 @@
       "id": "TP",
       "name": "Tool and Pipeline Security",
       "order": 4,
-      "control_count": 6,
+      "control_count": 9,
       "control_ids": [
         "TP-01",
         "TP-02",
         "TP-03",
         "TP-04",
         "TP-05",
-        "TP-06"
+        "TP-06",
+        "TP-07",
+        "TP-08",
+        "TP-09"
       ]
     },
     "MIR": {
@@ -90,6 +98,21 @@
         "GRM-04",
         "GRM-05",
         "GRM-06"
+      ]
+    },
+    "EE": {
+      "id": "EE",
+      "name": "Execution Environment",
+      "order": 7,
+      "control_count": 7,
+      "control_ids": [
+        "EE-01",
+        "EE-02",
+        "EE-03",
+        "EE-04",
+        "EE-05",
+        "EE-06",
+        "EE-07"
       ]
     }
   },
@@ -121,9 +144,9 @@
         "Integration between classification and downstream controls"
       ],
       "regulatory_mappings": {
-        "PSPF": "Information Security \u2014 classified information",
-        "ISM": "Guidelines for Data Transfers \u2014 classification",
-        "Privacy Act 1988": "APP 5 \u2014 Collection, APP 6 \u2014 Use and Disclosure"
+        "PSPF": "Information Security -- classified information",
+        "ISM": "Guidelines for Data Transfers -- classification",
+        "Privacy Act 1988": "APP 5 -- Collection, APP 6 -- Use and Disclosure"
       },
       "tags": [
         "PSPF",
@@ -146,7 +169,7 @@
       },
       "assessment_questions": [
         "Are all inference endpoints TLS 1.3 (or equivalent) encrypted?",
-        "Is data encrypted in transit between every hop: user \u2192 agent \u2192 model \u2192 tool \u2192 response?",
+        "Is data encrypted in transit between every hop: user -> agent -> model -> tool -> response?",
         "Are inference logs encrypted? Who can access them?",
         "Are prompts and responses logged with sensitive data redacted before storage?",
         "Is inference performed within the organisation's trust boundary for sensitive workloads?"
@@ -159,7 +182,7 @@
         "VPC / private endpoint configuration"
       ],
       "regulatory_mappings": {
-        "Privacy Act 1988": "APP 11 \u2014 Security of Personal Information",
+        "Privacy Act 1988": "APP 11 -- Security of Personal Information",
         "ISM": "Guidelines for Cryptography",
         "PSPF": "Information Security"
       },
@@ -200,8 +223,8 @@
       ],
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure)",
-        "Privacy Act 1988": "APP 11 \u2014 data security, Notifiable Data Breaches",
-        "ISM": "Guidelines for Media \u2014 data sanitisation"
+        "Privacy Act 1988": "APP 11 -- data security, Notifiable Data Breaches",
+        "ISM": "Guidelines for Media -- data sanitisation"
       },
       "tags": [
         "OWASP",
@@ -237,9 +260,9 @@
         "Bulk data access request policy"
       ],
       "regulatory_mappings": {
-        "Privacy Act 1988": "APP 3 \u2014 Collection of solicited personal information, APP 11",
+        "Privacy Act 1988": "APP 3 -- Collection of solicited personal information, APP 11",
         "NIST AI RMF": "IDENTIFY (ID.DA)",
-        "EU AI Act": "Art. 10(2) \u2014 Data Governance"
+        "EU AI Act": "Art. 10(2) -- Data Governance"
       },
       "tags": [
         "PRIVACY",
@@ -275,8 +298,8 @@
         "Training data scanning results (for sensitive data)"
       ],
       "regulatory_mappings": {
-        "Privacy Act 1988": "APP 3 \u2014 Collection, APP 5 \u2014 Notification, APP 6 \u2014 Use/Disclosure",
-        "EU AI Act": "Art. 10 \u2014 Data Governance",
+        "Privacy Act 1988": "APP 3 -- Collection, APP 5 -- Notification, APP 6 -- Use/Disclosure",
+        "EU AI Act": "Art. 10 -- Data Governance",
         "NIST AI RMF": "IDENTIFY (ID.DA)"
       },
       "tags": [
@@ -314,7 +337,7 @@
       ],
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
-        "Privacy Act 1988": "APP 11 \u2014 data security",
+        "Privacy Act 1988": "APP 11 -- data security",
         "NIST AI RMF": "MEASURE (ME.AD)"
       },
       "tags": [
@@ -323,6 +346,245 @@
         "NIST"
       ],
       "pillar_name": "Data Security"
+    },
+    "EE-01": {
+      "id": "EE-01",
+      "title": "Execution Environment Boundary Enforcement",
+      "pillar": "EE",
+      "description": "All agentic AI execution must occur within a defined container/VM/sandbox with no shared host filesystem mounts, no shared IPC/network namespaces, immutable infrastructure, and fail-closed behaviour on isolation breach.",
+      "objective": "Enforce a hard execution boundary around every agent.",
+      "maturity": {
+        "L1": "Agents run on shared infrastructure with no boundary enforcement.",
+        "L2": "Container per agent; basic isolation; shared mounts documented.",
+        "L3": "No shared host mounts or namespaces; immutable infrastructure; fail-closed on breach.",
+        "L4": "Runtime boundary verification (attestation); automated response on any isolation breach."
+      },
+      "assessment_questions": [
+        "Does every agent run inside a defined sandbox boundary?",
+        "Are host mounts, IPC, and network namespaces shared?",
+        "Does the environment fail closed on isolation breach?"
+      ],
+      "artifacts": [
+        "Sandbox/container runtime configuration",
+        "Host filesystem mount configuration",
+        "Namespace isolation configuration",
+        "Isolation breach alerts and incident records"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Hardening",
+        "Essential Eight": "Application Control",
+        "ASD": "Container Security Guidance"
+      },
+      "tags": [
+        "sandbox",
+        "isolation"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-02": {
+      "id": "EE-02",
+      "title": "Infrastructure API Access Control",
+      "pillar": "EE",
+      "description": "Agents must have no implicit access to cloud infrastructure APIs (EC2, IAM, Lambda, S3, Azure Resource Manager, GCP Cloud Resource Manager) unless explicitly registered as tools via TP-01 and gated by TP-03.",
+      "objective": "Ensure agents cannot reach infrastructure control planes implicitly.",
+      "maturity": {
+        "L1": "Agents inherit infrastructure credentials or can reach control planes.",
+        "L2": "Infrastructure credentials not mounted; network path blocked but untested.",
+        "L3": "Explicit tool registration required for infrastructure access; metadata service disabled; blocked attempts logged.",
+        "L4": "Continuous verification of credential scoping; automated alerting on any infrastructure API attempt."
+      },
+      "assessment_questions": [
+        "Do agent environments hold infrastructure API credentials?",
+        "Is infrastructure access explicitly registered via TP-01?",
+        "Is the network path to control planes blocked by default?",
+        "Is the metadata service disabled or scoped?"
+      ],
+      "artifacts": [
+        "Agent environment IAM role/credential configuration",
+        "Metadata service configuration",
+        "Network security rules between agents and control planes",
+        "Infrastructure API access logs"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Gateways",
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "EU AI Act": "Art. 15(b)"
+      },
+      "tags": [
+        "infrastructure-apis",
+        "control-plane"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-03": {
+      "id": "EE-03",
+      "title": "Resource Usage Limiting",
+      "pillar": "EE",
+      "description": "Agents must have bounded CPU, memory, network, storage, and API-rate limits. Exceeding limits triggers alerts and may terminate the agent -- preventing resource exhaustion, mining, and DoS via compromised agents.",
+      "objective": "Bound agent resource consumption with runtime enforcement.",
+      "maturity": {
+        "L1": "No resource limits; agents share unbounded resources.",
+        "L2": "Basic limits configured; policy-only enforcement.",
+        "L3": "Runtime-enforced limits (CPU, memory, storage, network, API rate); exceeding limits alerts and may terminate.",
+        "L4": "Continuous anomaly detection on resource usage; automated termination for abuse patterns."
+      },
+      "assessment_questions": [
+        "Are CPU, memory, storage, and network limits configured per agent?",
+        "Are API rate limits enforced per agent?",
+        "Are limits enforced by the container runtime, not just policy?"
+      ],
+      "artifacts": [
+        "Resource quota configuration",
+        "API rate limit configuration",
+        "Runtime enforcement logs",
+        "Resource anomaly alert rules"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management",
+        "NIST AI RMF": "PROTECT (PR.PT)",
+        "Essential Eight": "Application Control"
+      },
+      "tags": [
+        "resource-limits",
+        "denial-of-service"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-04": {
+      "id": "EE-04",
+      "title": "Evaluation Sandbox Integrity",
+      "pillar": "EE",
+      "description": "Evaluation and test environments must be isolated from production with no network path; models must not distinguish evaluation from production (see MS-07); evaluation pipelines must not modify production systems.",
+      "objective": "Contain the blast radius of model behaviour during evaluation.",
+      "maturity": {
+        "L1": "Evaluation and production share networks, data, and tooling.",
+        "L2": "Evaluation isolated from production data; network path partially open.",
+        "L3": "No network path between evaluation and production; evaluation pipelines cannot modify production.",
+        "L4": "Continuous isolation verification; automated teardown; evaluation subversion detection per MS-07."
+      },
+      "assessment_questions": [
+        "Is there a network path between evaluation and production?",
+        "Can evaluation pipelines modify production systems?",
+        "Can a model in evaluation reach production tools or APIs?"
+      ],
+      "artifacts": [
+        "Network segmentation configuration",
+        "Evaluation environment architecture documentation",
+        "Isolation breach test results"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management",
+        "NIST AI RMF": "GOVERN (GV.OD)",
+        "EU AI Act": "Art. 15(a)"
+      },
+      "tags": [
+        "evaluation",
+        "test-isolation"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-05": {
+      "id": "EE-05",
+      "title": "Host-Trusted Configuration File Injection Prevention",
+      "pillar": "EE",
+      "description": "Agents must not write files that the host OS or host applications will later execute or load as trusted configuration -- shell profiles, IDE/editor config, version control config, runtime interpreter wrappers, crontab, systemd units. Write-path allowlisting with host-trusted path exclusion; filesystem integrity monitoring.",
+      "objective": "Prevent indirect sandbox escape via host-trusted file injection.",
+      "maturity": {
+        "L1": "Agents can write anywhere including host-trusted paths.",
+        "L2": "Write-path allowlist for critical paths; manual review.",
+        "L3": "Host-trusted paths excluded from agent writes; FIM on host-trusted directories; content scanning.",
+        "L4": "Host-side isolation preventing agent-written file execution; continuous FIM; automated response."
+      },
+      "assessment_questions": [
+        "Can the agent write to host-trusted paths (shell profiles, IDE config, git config, crontab)?",
+        "Is a write-path allowlist enforced with host-trusted paths excluded?",
+        "Is filesystem integrity monitoring in place on host-trusted directories?"
+      ],
+      "artifacts": [
+        "Write-path allowlist configuration",
+        "Filesystem integrity monitoring configuration",
+        "Host-trusted path inventory",
+        "Configuration injection detection alerts"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Hardening",
+        "Essential Eight": "Application Control",
+        "ASD": "Container Security Guidance"
+      },
+      "tags": [
+        "file-injection",
+        "host-trusted-paths"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-06": {
+      "id": "EE-06",
+      "title": "Fail-Closed Sandbox Operation",
+      "pillar": "EE",
+      "description": "Agent execution environments must verify at runtime that the strongest configured isolation mode is active and FAIL CLOSED -- halt execution and alert -- rather than silently degrading when the primary sandbox is unavailable. Addresses fail-open fallback (CrewAI CVE-2026-2275/2287).",
+      "objective": "Eliminate silent fallback to weaker sandboxes.",
+      "maturity": {
+        "L1": "Sandbox used opportunistically; silent fallback possible.",
+        "L2": "Sandbox availability checked; fallback paths documented but not blocked.",
+        "L3": "Runtime attestation before each execution; no fallback path; fail-closed on unavailability; alerts on degradation.",
+        "L4": "Continuous attestation; automated blocking of non-sandboxed execution; sandbox-unavailable events treated as compromise indicators."
+      },
+      "assessment_questions": [
+        "Is sandbox-mode attestation performed before each code execution step?",
+        "Is there any fallback path that runs untrusted code without the sandbox?",
+        "Does execution halt when the sandbox cannot be verified?"
+      ],
+      "artifacts": [
+        "Sandbox-mode attestation configuration and logs",
+        "Framework fallback path audit",
+        "Fail-open incident records (CrewAI CVE-2026-2275/2287 assessment)",
+        "Alert rules for sandbox degradation"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "PROTECT (PR.PT)",
+        "EU AI Act": "Art. 15(b)",
+        "ISM": "Guidelines for System Hardening"
+      },
+      "tags": [
+        "fail-closed",
+        "sandbox-attestation"
+      ],
+      "pillar_name": "Execution Environment"
+    },
+    "EE-07": {
+      "id": "EE-07",
+      "title": "Agent Control-Plane Configuration Integrity",
+      "pillar": "EE",
+      "description": "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603).",
+      "objective": "Prevent agents from disabling their own security controls.",
+      "maturity": {
+        "L1": "Agents can modify their own security configuration; tools load config from writable paths.",
+        "L2": "Control-plane config documented; agent write access partially restricted.",
+        "L3": "Control-plane config read-only to the agent; world-writable paths rejected; integrity monitoring on control files.",
+        "L4": "Continuous integrity verification; automated blocking of self-configuration changes; config-trust vulnerability patching."
+      },
+      "assessment_questions": [
+        "Is agent security configuration read-only to the agent process?",
+        "Can the agent write to its own control-plane configuration files?",
+        "Is configuration from world-writable paths rejected?",
+        "Are unexpected control-plane config changes monitored (MIR-01)?"
+      ],
+      "artifacts": [
+        "Control-plane configuration mount/read-only settings",
+        "Configuration file permissions and ownership",
+        "World-writable directory audit results",
+        "CVE-2026-35603 assessment and patch records"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "EU AI Act": "Art. 15(b)",
+        "ISM": "Guidelines for System Hardening"
+      },
+      "tags": [
+        "control-plane",
+        "config-poisoning"
+      ],
+      "pillar_name": "Execution Environment"
     },
     "GRM-01": {
       "id": "GRM-01",
@@ -351,9 +613,9 @@
         "Decision implementation tracking"
       ],
       "regulatory_mappings": {
-        "APRA CPS 234": "s.2 \u2014 Board accountability",
-        "PSPF": "Security Governance \u2014 Policy 1",
-        "Privacy Act 1988": "APP 1 \u2014 accountability"
+        "APRA CPS 234": "s.2 -- Board accountability",
+        "PSPF": "Security Governance -- Policy 1",
+        "Privacy Act 1988": "APP 1 -- accountability"
       },
       "tags": [
         "CPS234",
@@ -377,7 +639,7 @@
       "assessment_questions": [
         "Is there a dedicated AI risk register or AI-specific section in the enterprise risk register?",
         "Does the AI risk taxonomy cover model, tool, data, identity, and pipeline risks?",
-        "Are risks assessed using a defined methodology (likelihood \u00d7 impact)?",
+        "Are risks assessed using a defined methodology (likelihood x impact)?",
         "Are risk owners assigned to each AI risk?",
         "Is there a process for accepting AI risks with documented rationale and expiry?"
       ],
@@ -391,8 +653,8 @@
       ],
       "regulatory_mappings": {
         "NIST AI RMF": "GOVERN (GV.RM)",
-        "SOCI Act": "CIRMP \u2014 risk management",
-        "APRA CPS 234": "s.3(a) \u2014 risk assessment"
+        "SOCI Act": "CIRMP -- risk management",
+        "APRA CPS 234": "s.3(a) -- risk assessment"
       },
       "tags": [
         "NIST",
@@ -428,9 +690,9 @@
         "Policy review schedule and update history"
       ],
       "regulatory_mappings": {
-        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "EU AI Act": "Art. 14 -- Human Oversight",
         "NIST AI RMF": "GOVERN (GV.OC)",
-        "Privacy Act 1988": "APP 1 \u2014 accountability"
+        "Privacy Act 1988": "APP 1 -- accountability"
       },
       "tags": [
         "EU",
@@ -469,7 +731,7 @@
         "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
         "NIST AI RMF": "IDENTIFY (ID.SC)",
         "ISM": "Guidelines for Procurement and Outsourcing",
-        "EU AI Act": "Art. 28 \u2014 Third Parties"
+        "EU AI Act": "Art. 28 -- Third Parties"
       },
       "tags": [
         "OWASP",
@@ -507,7 +769,7 @@
         "Regulatory change monitoring configuration"
       ],
       "regulatory_mappings": {
-        "APRA CPS 234": "s.2 \u2014 Board reporting",
+        "APRA CPS 234": "s.2 -- Board reporting",
         "NIST AI RMF": "GOVERN (GV.OV)",
         "ISM": "Guidelines for Cyber Security Documentation"
       },
@@ -522,7 +784,7 @@
       "id": "GRM-06",
       "title": "Board and Executive Reporting",
       "pillar": "GRM",
-      "description": "Board and executive reporting provides a standardised dashboard giving the Board and executive team visibility into the organisation's AI security posture \u2014 maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances \u2014 designed for non-technical audiences.",
+      "description": "Board and executive reporting provides a standardised dashboard giving the Board and executive team visibility into the organisation's AI security posture -- maturity scores per pillar, open findings, regulatory compliance status, and risk acceptances -- designed for non-technical audiences.",
       "objective": "Provide a standardised executive dashboard showing pillar maturity scores, open findings, regulatory compliance status, and risk acceptances, refreshed automatically.",
       "maturity": {
         "L1": "No AI security reporting to executives.",
@@ -545,7 +807,7 @@
         "Board reporting schedule and recent reports"
       ],
       "regulatory_mappings": {
-        "APRA CPS 234": "s.2 \u2014 Board accountability and reporting",
+        "APRA CPS 234": "s.2 -- Board accountability and reporting",
         "NIST AI RMF": "GOVERN (GV.OV)"
       },
       "tags": [
@@ -580,10 +842,10 @@
         "Agent identity lifecycle policy",
         "Identity governance tool configuration",
         "Audit logs showing agent identity attribution",
-        "Session initiation audit records (human \u2192 agent correlation)"
+        "Session initiation audit records (human -> agent correlation)"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for System Management \u2014 identification and authentication",
+        "ISM": "Guidelines for System Management -- identification and authentication",
         "Essential Eight": "Restrict Administrative Privileges",
         "NIST AI RMF": "IDENTIFY (ID.AM)"
       },
@@ -598,7 +860,7 @@
       "id": "IAM-02",
       "title": "Scope-Bound Delegation",
       "pillar": "IAM",
-      "description": "Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function \u2014 and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges.",
+      "description": "Scope-bound delegation ensures that an agent's permissions are limited to the minimum set of tools, data, and actions required for its function -- and that the agent cannot exceed these bounds, cannot grant permissions to other agents beyond its own scope, and cannot self-escalate privileges.",
       "objective": "Limit each agent's permissions to the minimum set of tools, data, and actions required for its function, enforced by a policy-as-code engine at invocation time.",
       "maturity": {
         "L1": "Agents have the same permissions as the initiating human. No scope boundaries.",
@@ -639,7 +901,7 @@
       "id": "IAM-03",
       "title": "Human Oversight Controls",
       "pillar": "IAM",
-      "description": "Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review \u2014 a customer support agent reading account details is low-risk; the same agent writing to the account requires approval.",
+      "description": "Human oversight ensures that high-risk agent actions require explicit human approval before execution. Not every agent action needs human review -- a customer support agent reading account details is low-risk; the same agent writing to the account requires approval.",
       "objective": "Implement risk-tiered human approval gates for agent actions, with documented break-glass procedures for urgent situations.",
       "maturity": {
         "L1": "No human oversight. Agent acts autonomously on all actions.",
@@ -662,9 +924,9 @@
         "Approval audit trail"
       ],
       "regulatory_mappings": {
-        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "EU AI Act": "Art. 14 -- Human Oversight",
         "NIST AI RMF": "MANAGE (MG.DE)",
-        "APRA CPS 234": "s.2 \u2014 Board accountability for controls"
+        "APRA CPS 234": "s.2 -- Board accountability for controls"
       },
       "tags": [
         "EU",
@@ -700,9 +962,9 @@
         "HSM/TPM configuration (if applicable)"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for System Management \u2014 credential management",
+        "ISM": "Guidelines for System Management -- credential management",
         "NIST AI RMF": "PROTECT (PR.AC)",
-        "Essential Eight": "Multi-factor Authentication \u2014 extended to service accounts"
+        "Essential Eight": "Multi-factor Authentication -- extended to service accounts"
       },
       "tags": [
         "ISM",
@@ -715,13 +977,13 @@
       "id": "IAM-05",
       "title": "Just-in-Time (JIT) Access",
       "pillar": "IAM",
-      "description": "JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence \u2014 an attacker who compromises a tool gateway cannot replay stale credentials.",
+      "description": "JIT access ensures that agents receive temporary, ephemeral credentials that expire automatically after the session ends. This prevents credential persistence -- an attacker who compromises a tool gateway cannot replay stale credentials.",
       "objective": "Issue session-bound, ephemeral credentials for agents with automatic expiration and the ability to revoke mid-session on suspicious behaviour detection.",
       "maturity": {
         "L1": "Persistent credentials. No expiration. Credentials valid indefinitely.",
         "L2": "Session-bound credentials with fixed expiration (e.g., 1 hour). Manual renewal.",
         "L3": "JIT credentials scoped per-session. Automatic expiration. Revocation available.",
-        "L4": "Dynamic scoping \u2014 credentials scoped to specific tools/data per agent task. Continuous authorisation checking."
+        "L4": "Dynamic scoping -- credentials scoped to specific tools/data per agent task. Continuous authorisation checking."
       },
       "assessment_questions": [
         "Are agent credentials session-bound and automatically expired?",
@@ -740,7 +1002,7 @@
       "regulatory_mappings": {
         "NIST AI RMF": "PROTECT (PR.AC)",
         "Essential Eight": "Restrict Administrative Privileges",
-        "ISM": "Guidelines for System Management \u2014 privileged access management"
+        "ISM": "Guidelines for System Management -- privileged access management"
       },
       "tags": [
         "NIST",
@@ -753,7 +1015,7 @@
       "id": "IAM-06",
       "title": "Cross-Session Boundary Enforcement",
       "pillar": "IAM",
-      "description": "Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session \u2014 even if both sessions are for the same human user. Each session is an independent security context.",
+      "description": "Cross-session boundary enforcement ensures that an agent acting in one session cannot leverage credentials, context, or access from another session -- even if both sessions are for the same human user. Each session is an independent security context.",
       "objective": "Ensure each agent session is an independent security context with no credential or data sharing across sessions.",
       "maturity": {
         "L1": "Agents share credentials across sessions. No session isolation.",
@@ -776,12 +1038,118 @@
         "Session ID generation and validation configuration"
       ],
       "regulatory_mappings": {
-        "OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure \u2014 memory scoping)",
+        "OWASP LLM Top 10 v2": "LLM06 (Sensitive Information Disclosure -- memory scoping)",
         "NIST AI RMF": "PROTECT (PR.AC)"
       },
       "tags": [
         "OWASP",
         "NIST"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-07": {
+      "id": "IAM-07",
+      "title": "Transitive Delegation Chain Enforcement",
+      "pillar": "IAM",
+      "description": "All identity delegations must be bounded at maximum depth (recommended 2 hops: human to agent to tool). Downstream delegation or proxying of the agent's identity must be blocked at the infrastructure layer; chains must be reconstructable from audit logs with originating identity context.",
+      "objective": "Bound delegation chains and make them fully auditable.",
+      "maturity": {
+        "L1": "Unbounded delegation; agents inherit full downstream permissions.",
+        "L2": "Delegation depth documented; basic bounds for critical tools.",
+        "L3": "Infrastructure-layer blocking of unbounded delegation; token chaining across hops; full chain reconstruction.",
+        "L4": "Continuous chain verification; automated alerting on delegation anomalies; chain-boundary red-team testing."
+      },
+      "assessment_questions": [
+        "Is delegation depth bounded (human to agent to tool)?",
+        "Can tools or downstream services further delegate the agent's identity?",
+        "Is every delegation hop recorded with originating identity context?",
+        "Are audit logs capable of reconstructing the full delegation chain?"
+      ],
+      "artifacts": [
+        "Delegation enforcement configuration (OPA, gateway rules)",
+        "Token chaining configuration (OIDC, SPIFFE/SPIRE)",
+        "Audit logs demonstrating chain reconstruction"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management",
+        "OWASP": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "GOVERN (GV.AC)",
+        "EU AI Act": "Art. 14(b)"
+      },
+      "tags": [
+        "delegation",
+        "token-chaining"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-08": {
+      "id": "IAM-08",
+      "title": "Credential Scope Narrowing",
+      "pillar": "IAM",
+      "description": "Credentials in agent execution environments must be scoped to the minimum set of actions, resources, and conditions for the agent's registered tools per TP-01. No environment-wide credentials. Short-lived per-tool tokens; revocation cascades through the delegation chain.",
+      "objective": "Ensure credentials in agent environments are minimal, short-lived, and revocable.",
+      "maturity": {
+        "L1": "Broad shared credentials in agent environments.",
+        "L2": "Per-agent credentials; scope aligned to tool inventory.",
+        "L3": "Per-tool scoped short-lived tokens; no environment-wide credentials; automated rotation.",
+        "L4": "Continuous scope verification; cascade revocation on compromise; per-tool scope attestation."
+      },
+      "assessment_questions": [
+        "Are credentials scoped per tool, not per environment or service?",
+        "Are short-lived tokens used rather than persistent service accounts?",
+        "Does credential revocation cascade through the delegation chain?",
+        "Is credential scope per agent documented and reviewed?"
+      ],
+      "artifacts": [
+        "Credential issuance configuration (token scopes, lifetimes)",
+        "Agent environment credential mounts",
+        "Rotation and revocation runbooks"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for System Management",
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "EU AI Act": "Art. 15(b)",
+        "Essential Eight": "Restrict Administrative Privileges"
+      },
+      "tags": [
+        "credentials",
+        "least-privilege"
+      ],
+      "pillar_name": "Identity and Access"
+    },
+    "IAM-09": {
+      "id": "IAM-09",
+      "title": "Multi-Tenant Agent Platform Isolation",
+      "pillar": "IAM",
+      "description": "For managed agent platforms, tenant isolation must be enforced at the data layer: every workflow execution, tool invocation, and data query scoped by tenant ID server-side; no user-controlled object IDs bypass tenant scoping (CWE-639 IDOR); cross-tenant execution impossible.",
+      "objective": "Enforce data-layer tenant isolation on managed agent platforms.",
+      "maturity": {
+        "L1": "No tenant isolation; shared data plane across tenants.",
+        "L2": "Tenant scoping at the application layer only.",
+        "L3": "Data-layer tenant isolation (row-level security); tenant ID in every query; automated cross-tenant testing in CI/CD.",
+        "L4": "Continuous tenant-isolation verification; automated blocking of cross-tenant attempts; platform CVE monitoring."
+      },
+      "assessment_questions": [
+        "Is every execution and query scoped by tenant ID server-side?",
+        "Can user-controlled object IDs bypass tenant scoping (IDOR tested)?",
+        "Is cross-tenant execution impossible even with valid credentials?",
+        "Is row-level security enforced at the database layer?"
+      ],
+      "artifacts": [
+        "Tenant isolation configuration and row-level security policies",
+        "Automated cross-tenant access test results (CI/CD)",
+        "Platform vulnerability scan and patch records",
+        "IDOR penetration test reports"
+      ],
+      "regulatory_mappings": {
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "EU AI Act": "Art. 15(b)",
+        "ISO 42001": "Clause 8.4",
+        "ISM": "Guidelines for System Management"
+      },
+      "tags": [
+        "multi-tenant",
+        "idor"
       ],
       "pillar_name": "Identity and Access"
     },
@@ -813,8 +1181,8 @@
         "Log coverage report (are all agents logging?)"
       ],
       "regulatory_mappings": {
-        "SOCI Act": "s.30B(5)(a) \u2014 record-keeping",
-        "APRA CPS 234": "s.3(c) \u2014 information security capability",
+        "SOCI Act": "s.30B(5)(a) -- record-keeping",
+        "APRA CPS 234": "s.3(c) -- information security capability",
         "ISM": "Guidelines for System Monitoring"
       },
       "tags": [
@@ -864,12 +1232,12 @@
       "id": "MIR-03",
       "title": "Prompt Audit Log",
       "pillar": "MIR",
-      "description": "The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. This is the AI-equivalent of database query logging \u2014 it enables investigators to reconstruct what the agent was asked and what it did.",
+      "description": "The prompt audit log captures sanitised prompt/response pairs for forensic analysis while protecting sensitive data. This is the AI-equivalent of database query logging -- it enables investigators to reconstruct what the agent was asked and what it did.",
       "objective": "Log prompt/response pairs with automated sensitive data redaction, tiered retention, and SIEM integration for forensic analysis.",
       "maturity": {
         "L1": "No prompt logging.",
         "L2": "Basic prompt/response logging. Manual review. Short retention.",
-        "L3": "Automated redaction. Tiered retention (full \u2192 redacted). SIEM integration.",
+        "L3": "Automated redaction. Tiered retention (full -> redacted). SIEM integration.",
         "L4": "Real-time prompt scanning for security events. Automated incident triggering from prompt analysis."
       },
       "assessment_questions": [
@@ -887,9 +1255,9 @@
         "Prompt log review process documentation"
       ],
       "regulatory_mappings": {
-        "OWASP LLM Top 10 v2": "LLM01 (Prompt Injection \u2014 detection)",
+        "OWASP LLM Top 10 v2": "LLM01 (Prompt Injection -- detection)",
         "NIST AI RMF": "DETECT (DE.AE)",
-        "EU AI Act": "Art. 12 \u2014 Transparency"
+        "EU AI Act": "Art. 12 -- Transparency"
       },
       "tags": [
         "OWASP",
@@ -926,8 +1294,8 @@
       ],
       "regulatory_mappings": {
         "NIST AI RMF": "RESPOND (RS.RP)",
-        "SOCI Act": "CIRMP \u2014 incident response",
-        "APRA CPS 234": "s.3(c) \u2014 incident response capability"
+        "SOCI Act": "CIRMP -- incident response",
+        "APRA CPS 234": "s.3(c) -- incident response capability"
       },
       "tags": [
         "NIST",
@@ -940,7 +1308,7 @@
       "id": "MIR-05",
       "title": "Mandatory Reporting Integration",
       "pillar": "MIR",
-      "description": "Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines \u2014 SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting.",
+      "description": "Mandatory reporting integration ensures that the organisation can meet regulatory incident reporting deadlines -- SOCI Act 12/72-hour windows, APRA CPS 234 72-hour notification, and Privacy Act Notifiable Data Breaches reporting.",
       "objective": "Integrate incident detection with automated regulatory reporting triggers for SOCI Act, APRA CPS 234, and Notifiable Data Breaches, with pre-populated report templates.",
       "maturity": {
         "L1": "No automated reporting. Incidents reported manually (if at all).",
@@ -963,8 +1331,8 @@
         "Historical incident report repository"
       ],
       "regulatory_mappings": {
-        "SOCI Act": "s.30B \u2014 mandatory incident reporting (12h critical, 72h other)",
-        "APRA CPS 234": "s.3(c) \u2014 72-hour notification",
+        "SOCI Act": "s.30B -- mandatory incident reporting (12h critical, 72h other)",
+        "APRA CPS 234": "s.3(c) -- 72-hour notification",
         "Privacy Act 1988": "Notifiable Data Breaches scheme"
       },
       "tags": [
@@ -978,7 +1346,7 @@
       "id": "MIR-06",
       "title": "Forensic Readiness",
       "pillar": "MIR",
-      "description": "Forensic readiness ensures that the organisation can reconstruct a full agent session \u2014 every prompt, tool call, data access, decision, and response \u2014 for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees.",
+      "description": "Forensic readiness ensures that the organisation can reconstruct a full agent session -- every prompt, tool call, data access, decision, and response -- for post-incident investigation. Logs are written to immutable, append-only storage with integrity guarantees.",
       "objective": "Maintain immutable, verifiable logs with full session reconstruction capability for all agents, including support for multi-agent chain reconstruction.",
       "maturity": {
         "L1": "Logs stored in standard database. Can be modified. Retention ad-hoc.",
@@ -1002,8 +1370,8 @@
       ],
       "regulatory_mappings": {
         "NIST AI RMF": "RECOVER (RC.RP)",
-        "ISM": "Guidelines for Cyber Security Incidents \u2014 forensic readiness",
-        "SOCI Act": "CIRMP \u2014 record-keeping"
+        "ISM": "Guidelines for Cyber Security Incidents -- forensic readiness",
+        "SOCI Act": "CIRMP -- record-keeping"
       },
       "tags": [
         "NIST",
@@ -1016,7 +1384,7 @@
       "id": "MS-01",
       "title": "Model Weight Protection",
       "pillar": "MS",
-      "description": "Model weights represent the trained intelligence of an AI system \u2014 often the single most valuable intellectual property an organisation has deployed. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.",
+      "description": "Model weights represent the trained intelligence of an AI system -- often the single most valuable intellectual property an organisation has deployed. Weight protection covers encryption at rest and in transit, HSM-backed key management, and remote attestation for edge deployments.",
       "objective": "Ensure model weights are protected against exfiltration, cloning, and inversion attacks through encryption, access control, and integrity verification.",
       "maturity": {
         "L1": "Weights stored on shared storage with default encryption. No key rotation.",
@@ -1043,7 +1411,7 @@
         "Incident response playbook for weight exfiltration"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for Cryptography, System Management \u2014 access control",
+        "ISM": "Guidelines for Cryptography, System Management -- access control",
         "PSPF": "Information Security"
       },
       "tags": [
@@ -1056,7 +1424,7 @@
       "id": "MS-02",
       "title": "Training Data Integrity",
       "pillar": "MS",
-      "description": "Training data integrity ensures that data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning \u2014 an attacker inserting crafted samples into the training dataset \u2014 can cause a model to behave normally until a specific trigger condition is met.",
+      "description": "Training data integrity ensures that data used to train or fine-tune a model has not been poisoned, corrupted, or substituted. Data poisoning -- an attacker inserting crafted samples into the training dataset -- can cause a model to behave normally until a specific trigger condition is met.",
       "objective": "Ensure training and fine-tuning datasets are verified for integrity, provenance, and freedom from poisoning or corruption before use.",
       "maturity": {
         "L1": "Training data collected ad-hoc. No provenance tracking. No validation.",
@@ -1081,7 +1449,7 @@
         "Data ingestion audit logs"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for Software Development \u2014 data validation",
+        "ISM": "Guidelines for Software Development -- data validation",
         "OWASP LLM Top 10 v2": "LLM04 (Data Poisoning)",
         "NIST AI RMF": "IDENTIFY (ID.DA)"
       },
@@ -1121,8 +1489,8 @@
         "Model checkpoint signing configuration"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for Procurement and Outsourcing, System Management \u2014 supply chain",
-        "SOCI Act": "CIRMP \u2014 supply chain obligations",
+        "ISM": "Guidelines for Procurement and Outsourcing, System Management -- supply chain",
+        "SOCI Act": "CIRMP -- supply chain obligations",
         "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
         "NIST AI RMF": "IDENTIFY (ID.SC)"
       },
@@ -1138,7 +1506,7 @@
       "id": "MS-04",
       "title": "Adversarial Robustness",
       "pillar": "MS",
-      "description": "Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection \u2014 crafting input that causes the model to ignore its system prompt and follow attacker instructions.",
+      "description": "Adversarial robustness ensures that the model resists malicious inputs designed to produce unintended behaviour. For agentic AI, the primary adversarial attack is prompt injection -- crafting input that causes the model to ignore its system prompt and follow attacker instructions.",
       "objective": "Test and verify that models resist prompt injection, jailbreaking, and other adversarial inputs through automated testing, red-teaming, and proxy-layer guardrails.",
       "maturity": {
         "L1": "No adversarial testing. Models deployed based on functional tests only.",
@@ -1165,7 +1533,7 @@
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM01 (Prompt Injection), LLM05 (Jailbreak)",
         "NIST AI RMF": "MEASURE (ME.AD)",
-        "EU AI Act": "Art. 15 \u2014 Accuracy",
+        "EU AI Act": "Art. 15 -- Accuracy",
         "MITRE ATLAS": "AML.T0051, AML.T0059"
       },
       "tags": [
@@ -1180,7 +1548,7 @@
       "id": "MS-05",
       "title": "Model Behaviour Validation",
       "pillar": "MS",
-      "description": "Behaviour validation ensures that model outputs conform to expected bounds \u2014 the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model outputs regardless of input quality.",
+      "description": "Behaviour validation ensures that model outputs conform to expected bounds -- the model produces content that is safe, contextually appropriate, and within its defined scope of operation. This is distinct from adversarial robustness (MS-04), which focuses on malicious inputs; behaviour validation focuses on model outputs regardless of input quality.",
       "objective": "Validate that model outputs conform to expected safety, content, and scope boundaries through proxy-layer guardrails and per-agent behaviour configuration.",
       "maturity": {
         "L1": "No output validation. Model responses served as-is.",
@@ -1207,7 +1575,7 @@
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM02 (Insecure Output Handling)",
         "NIST AI RMF": "MANAGE (MG.DE)",
-        "EU AI Act": "Art. 14 \u2014 Human Oversight",
+        "EU AI Act": "Art. 14 -- Human Oversight",
         "ISO 42001": "Clause 8.6"
       },
       "tags": [
@@ -1247,7 +1615,7 @@
       ],
       "regulatory_mappings": {
         "NIST AI RMF": "GOVERN (GV.OD)",
-        "EU AI Act": "Art. 11 \u2014 Registration",
+        "EU AI Act": "Art. 11 -- Registration",
         "ISO 42001": "Clause 7.4"
       },
       "tags": [
@@ -1256,11 +1624,82 @@
       ],
       "pillar_name": "Model Security"
     },
+    "MS-07": {
+      "id": "MS-07",
+      "title": "Deployment Context Obfuscation",
+      "pillar": "MS",
+      "description": "Evaluation and test environments must be indistinguishable from production from the model's perspective -- same API endpoints, data formats, latency profiles, error handling, and credential lifetimes. Closes the evaluation-subversion class of attacks.",
+      "objective": "Prevent models from detecting evaluation environments and behaving differently than in production.",
+      "maturity": {
+        "L1": "Evaluation environments clearly distinguishable from production.",
+        "L2": "Evaluation environments API-compatible with production; divergence documented.",
+        "L3": "No discoverable environment indicators; automated behavioural divergence checks; divergence treated as incident signal.",
+        "L4": "Continuous divergence monitoring; evaluation pipelines indistinguishable from production; automated response on divergence."
+      },
+      "assessment_questions": [
+        "Can a model detect its environment through tool outputs, data, config, or timing?",
+        "Are credential lifetimes identical between evaluation and production?",
+        "Is evaluation-to-production divergence treated as a subversion indicator?",
+        "Are evaluation environments isolated from production (no network path)?"
+      ],
+      "artifacts": [
+        "Evaluation environment configuration",
+        "Environment-indicator audit results",
+        "Behavioural comparison reports (eval vs production)",
+        "Evaluation subversion incident logs"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for secure AI system development",
+        "NIST AI RMF": "MANAGE (MG.DE)",
+        "EU AI Act": "Art. 15"
+      },
+      "tags": [
+        "evaluation-subversion",
+        "deployment-context"
+      ],
+      "pillar_name": "Model Security"
+    },
+    "MS-08": {
+      "id": "MS-08",
+      "title": "MCP Security Controls",
+      "pillar": "MS",
+      "description": "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain.",
+      "objective": "Secure the MCP protocol layer for agent-tool communication.",
+      "maturity": {
+        "L1": "MCP used without gateway; no protocol-layer controls.",
+        "L2": "MCP gateway deployed for agent-tool traffic; basic schema validation.",
+        "L3": "Signed tool metadata; response validation against known-good schemas; trusted MCP registry.",
+        "L4": "Continuous MCP protocol-layer testing; automated blocking of unsigned tool definitions."
+      },
+      "assessment_questions": [
+        "Do all MCP agent-tool communications pass through an authenticated gateway?",
+        "Is tool metadata signed and verified before use?",
+        "Are MCP responses validated against known-good schemas?",
+        "Are MCP servers sourced from trusted registries with provenance verification?"
+      ],
+      "artifacts": [
+        "MCP gateway configuration and audit logs",
+        "Tool definition signing configuration",
+        "MCP response schema validation rules",
+        "MCP server registry and provenance records"
+      ],
+      "regulatory_mappings": {
+        "OWASP": "LLM02 (Insecure Output Handling)",
+        "NIST AI RMF": "PROTECT (PR.AC)",
+        "EU AI Act": "Art. 15(b)",
+        "ISO 42001": "Clause 8.4"
+      },
+      "tags": [
+        "mcp",
+        "protocol-security"
+      ],
+      "pillar_name": "Model Security"
+    },
     "TP-01": {
       "id": "TP-01",
       "title": "Tool Inventory and Registry",
       "pillar": "TP",
-      "description": "Every tool that an agent can invoke \u2014 APIs, databases, file systems, code executors \u2014 must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, access-controlled, or included in incident response.",
+      "description": "Every tool that an agent can invoke -- APIs, databases, file systems, code executors -- must be registered, versioned, and security-approved before any agent can call it. An unregistered tool is a blind spot: it cannot be monitored, access-controlled, or included in incident response.",
       "objective": "Maintain a central registry of all tools accessible to agents, with security review, versioning, and integration with the authorisation system.",
       "maturity": {
         "L1": "No tool registry. Tools documented informally or not at all.",
@@ -1298,7 +1737,7 @@
       "id": "TP-02",
       "title": "Tool Access Control",
       "pillar": "TP",
-      "description": "Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent \u2014 not the human \u2014 before accepting commands.",
+      "description": "Tool access control ensures that each agent can only invoke the specific tools it is authorised to use, and that each tool authenticates the agent -- not the human -- before accepting commands.",
       "objective": "Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and version-controlled, auditable access policies.",
       "maturity": {
         "L1": "Agents can invoke any registered tool. No per-agent access control.",
@@ -1323,7 +1762,7 @@
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM08 (Excessive Agency)",
         "NIST AI RMF": "PROTECT (PR.AC)",
-        "Essential Eight": "Application Control \u2014 extended to tools"
+        "Essential Eight": "Application Control -- extended to tools"
       },
       "tags": [
         "OWASP",
@@ -1373,7 +1812,7 @@
       "id": "TP-04",
       "title": "Tool Output Validation",
       "pillar": "TP",
-      "description": "Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks \u2014 a compromised tool returning crafted data that causes the agent to behave outside intended parameters.",
+      "description": "Tool output validation ensures that data returned by tools is structurally validated and sanitised before being fed back into the agent's context. This prevents tool output injection attacks -- a compromised tool returning crafted data that causes the agent to behave outside intended parameters.",
       "objective": "Validate all tool outputs against known-good schemas before passing to agent context, with content-type verification, size limits, and sandboxed execution for code-generation tools.",
       "maturity": {
         "L1": "No tool output validation. Raw tool responses passed to agent context.",
@@ -1433,9 +1872,9 @@
         "Third-party plugin security reviews"
       ],
       "regulatory_mappings": {
-        "ISM": "Guidelines for Software Development \u2014 CI/CD",
+        "ISM": "Guidelines for Software Development -- CI/CD",
         "NIST AI RMF": "PROTECT (PR.CI)",
-        "Essential Eight": "Application Control \u2014 restricted execution"
+        "Essential Eight": "Application Control -- restricted execution"
       },
       "tags": [
         "ISM",
@@ -1472,13 +1911,115 @@
       ],
       "regulatory_mappings": {
         "OWASP LLM Top 10 v2": "LLM10 (Supply Chain)",
-        "ISM": "Guidelines for System Management \u2014 vulnerability management",
+        "ISM": "Guidelines for System Management -- vulnerability management",
         "Essential Eight": "Patch Applications, Patch Operating Systems"
       },
       "tags": [
         "OWASP",
         "ISM",
         "E8"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-07": {
+      "id": "TP-07",
+      "title": "Cross-Tool Dependency Analysis",
+      "pillar": "TP",
+      "description": "Before deployment, all registered tools must be analysed for transitive risk -- combinations that enable sandbox escape, privilege escalation, or exfiltration when chained. Escape-class chains require explicit risk acceptance via GRM-02.",
+      "objective": "Detect and gate escape-class tool combinations before deployment.",
+      "maturity": {
+        "L1": "No cross-tool analysis; tools assessed in isolation.",
+        "L2": "Manual review of tool combinations for critical agents.",
+        "L3": "Automated risk scoring of combinations; escape-class chains blocked or risk-accepted via GRM-02.",
+        "L4": "Continuous chain analysis on every tool change; automated blocking of new escape-class combinations."
+      },
+      "assessment_questions": [
+        "Is every tool classified by escape-chain potential (network_write, file_write, code_execution, identity_escalation, data_query)?",
+        "Are tool combinations analysed for chained risk before deployment?",
+        "Do escape-class chains (e.g., network_write + code_execution) trigger blocking review?"
+      ],
+      "artifacts": [
+        "Tool classification registry",
+        "Cross-tool dependency analysis reports",
+        "Risk acceptance records (GRM-02)"
+      ],
+      "regulatory_mappings": {
+        "OWASP": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "MANAGE (MG.DE)",
+        "EU AI Act": "Art. 9(4)"
+      },
+      "tags": [
+        "escape-chains",
+        "transitive-risk"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-08": {
+      "id": "TP-08",
+      "title": "API Gateway Infrastructure-Isolation Mode",
+      "pillar": "TP",
+      "description": "Agent API gateways must enforce an allow-list of permitted endpoints that excludes all cloud infrastructure control-plane APIs (EC2, IAM, Lambda, KMS, CloudFormation, S3 control-plane, Azure Resource Manager, GCP Cloud Resource Manager). Non-tool API calls are blocked, logged, and treated as compromise indicators.",
+      "objective": "Prevent agents from reaching cloud infrastructure control planes.",
+      "maturity": {
+        "L1": "Agents can reach infrastructure APIs directly or via default routing.",
+        "L2": "Gateway present; infrastructure APIs blocked by policy but untested.",
+        "L3": "Explicit allow-list excluding control-plane APIs; blocked attempts logged and alerted.",
+        "L4": "Continuous testing of the allow-list against provider endpoint inventories; automated block-list updates."
+      },
+      "assessment_questions": [
+        "Does the gateway enforce an allow-list of permitted endpoints?",
+        "Are all control-plane APIs excluded from the allow-list?",
+        "Are blocked infrastructure-API attempts logged and alerted?",
+        "Is the allow-list tested against known provider endpoints?"
+      ],
+      "artifacts": [
+        "Gateway allow-list configuration",
+        "Blocked-request logs for infrastructure API attempts",
+        "Infrastructure-API bypass test results"
+      ],
+      "regulatory_mappings": {
+        "ISM": "Guidelines for Gateways",
+        "NIST AI RMF": "PROTECT (PR.PT)",
+        "EU AI Act": "Art. 15(b)"
+      },
+      "tags": [
+        "control-plane",
+        "gateway-allowlist"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-09": {
+      "id": "TP-09",
+      "title": "Explicit Tool Registration",
+      "pillar": "TP",
+      "description": "Agent frameworks must not auto-register internal functions, SDK helpers, or framework internals as agent-callable tools. Every callable must be explicitly declared in the TP-01 registry; attribute-based registration, reflection-based discovery, and internal-helper exposure are prevented.",
+      "objective": "Eliminate implicit tool exposure in agent frameworks.",
+      "maturity": {
+        "L1": "Frameworks auto-expose internal functions; no registry enforcement.",
+        "L2": "Explicit registry for critical tools; auto-registration partially disabled.",
+        "L3": "Auto-registration disabled by default; all callables audited; unregistered callables blocked.",
+        "L4": "Continuous callable-audit in CI/CD; automated blocking of implicitly exposed tools."
+      },
+      "assessment_questions": [
+        "Is framework auto-registration disabled by default?",
+        "Are all discoverable callables audited against the TP-01 registry?",
+        "Are unregistered callables blocked from agent invocation?",
+        "Is the framework checked for implicit-exposure CVEs (CVE-2026-25592, CVE-2026-26030)?"
+      ],
+      "artifacts": [
+        "Framework tool-registration configuration",
+        "TP-01 tool registry (explicit declarations)",
+        "Callable-discovery audit results",
+        "Framework CVE scan records"
+      ],
+      "regulatory_mappings": {
+        "OWASP": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "IDENTIFY (ID.AM)",
+        "EU AI Act": "Art. 15(b)"
+      },
+      "tags": [
+        "tool-registry",
+        "implicit-exposure"
       ],
       "pillar_name": "Tool and Pipeline Security"
     }

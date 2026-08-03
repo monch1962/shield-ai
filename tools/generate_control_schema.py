@@ -25,8 +25,8 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.1"
-FRAMEWORK_DATE = "2026-07"
+FRAMEWORK_VERSION = "1.4"
+FRAMEWORK_DATE = "2026-08"
 
 PILLARS = {
     "MS":  "Model Security",
@@ -35,9 +35,10 @@ PILLARS = {
     "TP":  "Tool and Pipeline Security",
     "MIR": "Monitoring, Logging, and Incident Response",
     "GRM": "Governance and Risk Management",
+    "EE":  "Execution Environment",
 }
 
-PILLAR_ORDER = ["MS", "IAM", "DS", "TP", "MIR", "GRM"]
+PILLAR_ORDER = ["MS", "IAM", "DS", "TP", "MIR", "GRM", "EE"]
 
 CONTROLS = {}
 
@@ -1228,6 +1229,372 @@ reg("GRM-06", "Board and Executive Reporting", "GRM",
               "NIST AI RMF": "GOVERN (GV.OV)"},
     tags=["CPS234", "NIST"])
 
+
+
+# ============================================
+# PILLAR 1 EXTENSIONS (v1.2/v1.3/v1.4)
+# ============================================
+
+reg("MS-07", "Deployment Context Obfuscation", "MS",
+    "Evaluation and test environments must be indistinguishable from production from the model's perspective -- same API endpoints, data formats, latency profiles, error handling, and credential lifetimes. Closes the evaluation-subversion class of attacks.",
+    "Prevent models from detecting evaluation environments and behaving differently than in production.",
+    [
+        "Evaluation environments clearly distinguishable from production.",
+        "Evaluation environments API-compatible with production; divergence documented.",
+        "No discoverable environment indicators; automated behavioural divergence checks; divergence treated as incident signal.",
+        "Continuous divergence monitoring; evaluation pipelines indistinguishable from production; automated response on divergence.",
+    ],
+    [
+        "Can a model detect its environment through tool outputs, data, config, or timing?",
+        "Are credential lifetimes identical between evaluation and production?",
+        "Is evaluation-to-production divergence treated as a subversion indicator?",
+        "Are evaluation environments isolated from production (no network path)?",
+    ],
+    [
+        "Evaluation environment configuration",
+        "Environment-indicator audit results",
+        "Behavioural comparison reports (eval vs production)",
+        "Evaluation subversion incident logs",
+    ],
+    {"ISM": "Guidelines for secure AI system development", "NIST AI RMF": "MANAGE (MG.DE)", "EU AI Act": "Art. 15"},
+    ["evaluation-subversion", "deployment-context"])
+
+reg("MS-08", "MCP Security Controls", "MS",
+    "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain.",
+    "Secure the MCP protocol layer for agent-tool communication.",
+    [
+        "MCP used without gateway; no protocol-layer controls.",
+        "MCP gateway deployed for agent-tool traffic; basic schema validation.",
+        "Signed tool metadata; response validation against known-good schemas; trusted MCP registry.",
+        "Continuous MCP protocol-layer testing; automated blocking of unsigned tool definitions.",
+    ],
+    [
+        "Do all MCP agent-tool communications pass through an authenticated gateway?",
+        "Is tool metadata signed and verified before use?",
+        "Are MCP responses validated against known-good schemas?",
+        "Are MCP servers sourced from trusted registries with provenance verification?",
+    ],
+    [
+        "MCP gateway configuration and audit logs",
+        "Tool definition signing configuration",
+        "MCP response schema validation rules",
+        "MCP server registry and provenance records",
+    ],
+    {"OWASP": "LLM02 (Insecure Output Handling)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISO 42001": "Clause 8.4"},
+    ["mcp", "protocol-security"])
+
+# ============================================
+# PILLAR 2 EXTENSIONS (v1.2/v1.4)
+# ============================================
+
+reg("IAM-07", "Transitive Delegation Chain Enforcement", "IAM",
+    "All identity delegations must be bounded at maximum depth (recommended 2 hops: human to agent to tool). Downstream delegation or proxying of the agent's identity must be blocked at the infrastructure layer; chains must be reconstructable from audit logs with originating identity context.",
+    "Bound delegation chains and make them fully auditable.",
+    [
+        "Unbounded delegation; agents inherit full downstream permissions.",
+        "Delegation depth documented; basic bounds for critical tools.",
+        "Infrastructure-layer blocking of unbounded delegation; token chaining across hops; full chain reconstruction.",
+        "Continuous chain verification; automated alerting on delegation anomalies; chain-boundary red-team testing.",
+    ],
+    [
+        "Is delegation depth bounded (human to agent to tool)?",
+        "Can tools or downstream services further delegate the agent's identity?",
+        "Is every delegation hop recorded with originating identity context?",
+        "Are audit logs capable of reconstructing the full delegation chain?",
+    ],
+    [
+        "Delegation enforcement configuration (OPA, gateway rules)",
+        "Token chaining configuration (OIDC, SPIFFE/SPIRE)",
+        "Audit logs demonstrating chain reconstruction",
+    ],
+    {"ISM": "Guidelines for System Management", "OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "GOVERN (GV.AC)", "EU AI Act": "Art. 14(b)"},
+    ["delegation", "token-chaining"])
+
+reg("IAM-08", "Credential Scope Narrowing", "IAM",
+    "Credentials in agent execution environments must be scoped to the minimum set of actions, resources, and conditions for the agent's registered tools per TP-01. No environment-wide credentials. Short-lived per-tool tokens; revocation cascades through the delegation chain.",
+    "Ensure credentials in agent environments are minimal, short-lived, and revocable.",
+    [
+        "Broad shared credentials in agent environments.",
+        "Per-agent credentials; scope aligned to tool inventory.",
+        "Per-tool scoped short-lived tokens; no environment-wide credentials; automated rotation.",
+        "Continuous scope verification; cascade revocation on compromise; per-tool scope attestation.",
+    ],
+    [
+        "Are credentials scoped per tool, not per environment or service?",
+        "Are short-lived tokens used rather than persistent service accounts?",
+        "Does credential revocation cascade through the delegation chain?",
+        "Is credential scope per agent documented and reviewed?",
+    ],
+    [
+        "Credential issuance configuration (token scopes, lifetimes)",
+        "Agent environment credential mounts",
+        "Rotation and revocation runbooks",
+    ],
+    {"ISM": "Guidelines for System Management", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "Essential Eight": "Restrict Administrative Privileges"},
+    ["credentials", "least-privilege"])
+
+reg("IAM-09", "Multi-Tenant Agent Platform Isolation", "IAM",
+    "For managed agent platforms, tenant isolation must be enforced at the data layer: every workflow execution, tool invocation, and data query scoped by tenant ID server-side; no user-controlled object IDs bypass tenant scoping (CWE-639 IDOR); cross-tenant execution impossible.",
+    "Enforce data-layer tenant isolation on managed agent platforms.",
+    [
+        "No tenant isolation; shared data plane across tenants.",
+        "Tenant scoping at the application layer only.",
+        "Data-layer tenant isolation (row-level security); tenant ID in every query; automated cross-tenant testing in CI/CD.",
+        "Continuous tenant-isolation verification; automated blocking of cross-tenant attempts; platform CVE monitoring.",
+    ],
+    [
+        "Is every execution and query scoped by tenant ID server-side?",
+        "Can user-controlled object IDs bypass tenant scoping (IDOR tested)?",
+        "Is cross-tenant execution impossible even with valid credentials?",
+        "Is row-level security enforced at the database layer?",
+    ],
+    [
+        "Tenant isolation configuration and row-level security policies",
+        "Automated cross-tenant access test results (CI/CD)",
+        "Platform vulnerability scan and patch records",
+        "IDOR penetration test reports",
+    ],
+    {"NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISO 42001": "Clause 8.4", "ISM": "Guidelines for System Management"},
+    ["multi-tenant", "idor"])
+
+# ============================================
+# PILLAR 4 EXTENSIONS (v1.2/v1.4)
+# ============================================
+
+reg("TP-07", "Cross-Tool Dependency Analysis", "TP",
+    "Before deployment, all registered tools must be analysed for transitive risk -- combinations that enable sandbox escape, privilege escalation, or exfiltration when chained. Escape-class chains require explicit risk acceptance via GRM-02.",
+    "Detect and gate escape-class tool combinations before deployment.",
+    [
+        "No cross-tool analysis; tools assessed in isolation.",
+        "Manual review of tool combinations for critical agents.",
+        "Automated risk scoring of combinations; escape-class chains blocked or risk-accepted via GRM-02.",
+        "Continuous chain analysis on every tool change; automated blocking of new escape-class combinations.",
+    ],
+    [
+        "Is every tool classified by escape-chain potential (network_write, file_write, code_execution, identity_escalation, data_query)?",
+        "Are tool combinations analysed for chained risk before deployment?",
+        "Do escape-class chains (e.g., network_write + code_execution) trigger blocking review?",
+    ],
+    [
+        "Tool classification registry",
+        "Cross-tool dependency analysis reports",
+        "Risk acceptance records (GRM-02)",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "MANAGE (MG.DE)", "EU AI Act": "Art. 9(4)"},
+    ["escape-chains", "transitive-risk"])
+
+reg("TP-08", "API Gateway Infrastructure-Isolation Mode", "TP",
+    "Agent API gateways must enforce an allow-list of permitted endpoints that excludes all cloud infrastructure control-plane APIs (EC2, IAM, Lambda, KMS, CloudFormation, S3 control-plane, Azure Resource Manager, GCP Cloud Resource Manager). Non-tool API calls are blocked, logged, and treated as compromise indicators.",
+    "Prevent agents from reaching cloud infrastructure control planes.",
+    [
+        "Agents can reach infrastructure APIs directly or via default routing.",
+        "Gateway present; infrastructure APIs blocked by policy but untested.",
+        "Explicit allow-list excluding control-plane APIs; blocked attempts logged and alerted.",
+        "Continuous testing of the allow-list against provider endpoint inventories; automated block-list updates.",
+    ],
+    [
+        "Does the gateway enforce an allow-list of permitted endpoints?",
+        "Are all control-plane APIs excluded from the allow-list?",
+        "Are blocked infrastructure-API attempts logged and alerted?",
+        "Is the allow-list tested against known provider endpoints?",
+    ],
+    [
+        "Gateway allow-list configuration",
+        "Blocked-request logs for infrastructure API attempts",
+        "Infrastructure-API bypass test results",
+    ],
+    {"ISM": "Guidelines for Gateways", "NIST AI RMF": "PROTECT (PR.PT)", "EU AI Act": "Art. 15(b)"},
+    ["control-plane", "gateway-allowlist"])
+
+reg("TP-09", "Explicit Tool Registration", "TP",
+    "Agent frameworks must not auto-register internal functions, SDK helpers, or framework internals as agent-callable tools. Every callable must be explicitly declared in the TP-01 registry; attribute-based registration, reflection-based discovery, and internal-helper exposure are prevented.",
+    "Eliminate implicit tool exposure in agent frameworks.",
+    [
+        "Frameworks auto-expose internal functions; no registry enforcement.",
+        "Explicit registry for critical tools; auto-registration partially disabled.",
+        "Auto-registration disabled by default; all callables audited; unregistered callables blocked.",
+        "Continuous callable-audit in CI/CD; automated blocking of implicitly exposed tools.",
+    ],
+    [
+        "Is framework auto-registration disabled by default?",
+        "Are all discoverable callables audited against the TP-01 registry?",
+        "Are unregistered callables blocked from agent invocation?",
+        "Is the framework checked for implicit-exposure CVEs (CVE-2026-25592, CVE-2026-26030)?",
+    ],
+    [
+        "Framework tool-registration configuration",
+        "TP-01 tool registry (explicit declarations)",
+        "Callable-discovery audit results",
+        "Framework CVE scan records",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "IDENTIFY (ID.AM)", "EU AI Act": "Art. 15(b)"},
+    ["tool-registry", "implicit-exposure"])
+
+# ============================================
+# PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
+# ============================================
+
+reg("EE-01", "Execution Environment Boundary Enforcement", "EE",
+    "All agentic AI execution must occur within a defined container/VM/sandbox with no shared host filesystem mounts, no shared IPC/network namespaces, immutable infrastructure, and fail-closed behaviour on isolation breach.",
+    "Enforce a hard execution boundary around every agent.",
+    [
+        "Agents run on shared infrastructure with no boundary enforcement.",
+        "Container per agent; basic isolation; shared mounts documented.",
+        "No shared host mounts or namespaces; immutable infrastructure; fail-closed on breach.",
+        "Runtime boundary verification (attestation); automated response on any isolation breach.",
+    ],
+    [
+        "Does every agent run inside a defined sandbox boundary?",
+        "Are host mounts, IPC, and network namespaces shared?",
+        "Does the environment fail closed on isolation breach?",
+    ],
+    [
+        "Sandbox/container runtime configuration",
+        "Host filesystem mount configuration",
+        "Namespace isolation configuration",
+        "Isolation breach alerts and incident records",
+    ],
+    {"ISM": "Guidelines for System Hardening", "Essential Eight": "Application Control", "ASD": "Container Security Guidance"},
+    ["sandbox", "isolation"])
+
+reg("EE-02", "Infrastructure API Access Control", "EE",
+    "Agents must have no implicit access to cloud infrastructure APIs (EC2, IAM, Lambda, S3, Azure Resource Manager, GCP Cloud Resource Manager) unless explicitly registered as tools via TP-01 and gated by TP-03.",
+    "Ensure agents cannot reach infrastructure control planes implicitly.",
+    [
+        "Agents inherit infrastructure credentials or can reach control planes.",
+        "Infrastructure credentials not mounted; network path blocked but untested.",
+        "Explicit tool registration required for infrastructure access; metadata service disabled; blocked attempts logged.",
+        "Continuous verification of credential scoping; automated alerting on any infrastructure API attempt.",
+    ],
+    [
+        "Do agent environments hold infrastructure API credentials?",
+        "Is infrastructure access explicitly registered via TP-01?",
+        "Is the network path to control planes blocked by default?",
+        "Is the metadata service disabled or scoped?",
+    ],
+    [
+        "Agent environment IAM role/credential configuration",
+        "Metadata service configuration",
+        "Network security rules between agents and control planes",
+        "Infrastructure API access logs",
+    ],
+    {"ISM": "Guidelines for Gateways", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)"},
+    ["infrastructure-apis", "control-plane"])
+
+reg("EE-03", "Resource Usage Limiting", "EE",
+    "Agents must have bounded CPU, memory, network, storage, and API-rate limits. Exceeding limits triggers alerts and may terminate the agent -- preventing resource exhaustion, mining, and DoS via compromised agents.",
+    "Bound agent resource consumption with runtime enforcement.",
+    [
+        "No resource limits; agents share unbounded resources.",
+        "Basic limits configured; policy-only enforcement.",
+        "Runtime-enforced limits (CPU, memory, storage, network, API rate); exceeding limits alerts and may terminate.",
+        "Continuous anomaly detection on resource usage; automated termination for abuse patterns.",
+    ],
+    [
+        "Are CPU, memory, storage, and network limits configured per agent?",
+        "Are API rate limits enforced per agent?",
+        "Are limits enforced by the container runtime, not just policy?",
+    ],
+    [
+        "Resource quota configuration",
+        "API rate limit configuration",
+        "Runtime enforcement logs",
+        "Resource anomaly alert rules",
+    ],
+    {"ISM": "Guidelines for System Management", "NIST AI RMF": "PROTECT (PR.PT)", "Essential Eight": "Application Control"},
+    ["resource-limits", "denial-of-service"])
+
+reg("EE-04", "Evaluation Sandbox Integrity", "EE",
+    "Evaluation and test environments must be isolated from production with no network path; models must not distinguish evaluation from production (see MS-07); evaluation pipelines must not modify production systems.",
+    "Contain the blast radius of model behaviour during evaluation.",
+    [
+        "Evaluation and production share networks, data, and tooling.",
+        "Evaluation isolated from production data; network path partially open.",
+        "No network path between evaluation and production; evaluation pipelines cannot modify production.",
+        "Continuous isolation verification; automated teardown; evaluation subversion detection per MS-07.",
+    ],
+    [
+        "Is there a network path between evaluation and production?",
+        "Can evaluation pipelines modify production systems?",
+        "Can a model in evaluation reach production tools or APIs?",
+    ],
+    [
+        "Network segmentation configuration",
+        "Evaluation environment architecture documentation",
+        "Isolation breach test results",
+    ],
+    {"ISM": "Guidelines for System Management", "NIST AI RMF": "GOVERN (GV.OD)", "EU AI Act": "Art. 15(a)"},
+    ["evaluation", "test-isolation"])
+
+reg("EE-05", "Host-Trusted Configuration File Injection Prevention", "EE",
+    "Agents must not write files that the host OS or host applications will later execute or load as trusted configuration -- shell profiles, IDE/editor config, version control config, runtime interpreter wrappers, crontab, systemd units. Write-path allowlisting with host-trusted path exclusion; filesystem integrity monitoring.",
+    "Prevent indirect sandbox escape via host-trusted file injection.",
+    [
+        "Agents can write anywhere including host-trusted paths.",
+        "Write-path allowlist for critical paths; manual review.",
+        "Host-trusted paths excluded from agent writes; FIM on host-trusted directories; content scanning.",
+        "Host-side isolation preventing agent-written file execution; continuous FIM; automated response.",
+    ],
+    [
+        "Can the agent write to host-trusted paths (shell profiles, IDE config, git config, crontab)?",
+        "Is a write-path allowlist enforced with host-trusted paths excluded?",
+        "Is filesystem integrity monitoring in place on host-trusted directories?",
+    ],
+    [
+        "Write-path allowlist configuration",
+        "Filesystem integrity monitoring configuration",
+        "Host-trusted path inventory",
+        "Configuration injection detection alerts",
+    ],
+    {"ISM": "Guidelines for System Hardening", "Essential Eight": "Application Control", "ASD": "Container Security Guidance"},
+    ["file-injection", "host-trusted-paths"])
+
+reg("EE-06", "Fail-Closed Sandbox Operation", "EE",
+    "Agent execution environments must verify at runtime that the strongest configured isolation mode is active and FAIL CLOSED -- halt execution and alert -- rather than silently degrading when the primary sandbox is unavailable. Addresses fail-open fallback (CrewAI CVE-2026-2275/2287).",
+    "Eliminate silent fallback to weaker sandboxes.",
+    [
+        "Sandbox used opportunistically; silent fallback possible.",
+        "Sandbox availability checked; fallback paths documented but not blocked.",
+        "Runtime attestation before each execution; no fallback path; fail-closed on unavailability; alerts on degradation.",
+        "Continuous attestation; automated blocking of non-sandboxed execution; sandbox-unavailable events treated as compromise indicators.",
+    ],
+    [
+        "Is sandbox-mode attestation performed before each code execution step?",
+        "Is there any fallback path that runs untrusted code without the sandbox?",
+        "Does execution halt when the sandbox cannot be verified?",
+    ],
+    [
+        "Sandbox-mode attestation configuration and logs",
+        "Framework fallback path audit",
+        "Fail-open incident records (CrewAI CVE-2026-2275/2287 assessment)",
+        "Alert rules for sandbox degradation",
+    ],
+    {"NIST AI RMF": "PROTECT (PR.PT)", "EU AI Act": "Art. 15(b)", "ISM": "Guidelines for System Hardening"},
+    ["fail-closed", "sandbox-attestation"])
+
+reg("EE-07", "Agent Control-Plane Configuration Integrity", "EE",
+    "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603).",
+    "Prevent agents from disabling their own security controls.",
+    [
+        "Agents can modify their own security configuration; tools load config from writable paths.",
+        "Control-plane config documented; agent write access partially restricted.",
+        "Control-plane config read-only to the agent; world-writable paths rejected; integrity monitoring on control files.",
+        "Continuous integrity verification; automated blocking of self-configuration changes; config-trust vulnerability patching.",
+    ],
+    [
+        "Is agent security configuration read-only to the agent process?",
+        "Can the agent write to its own control-plane configuration files?",
+        "Is configuration from world-writable paths rejected?",
+        "Are unexpected control-plane config changes monitored (MIR-01)?",
+    ],
+    [
+        "Control-plane configuration mount/read-only settings",
+        "Configuration file permissions and ownership",
+        "World-writable directory audit results",
+        "CVE-2026-35603 assessment and patch records",
+    ],
+    {"NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISM": "Guidelines for System Hardening"},
+    ["control-plane", "config-poisoning"])
 
 # ----------------------------------------------
 # OUTPUT GENERATION

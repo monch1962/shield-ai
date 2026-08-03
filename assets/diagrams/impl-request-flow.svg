@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 12px; fill: #1a1a2e; }
+    .sm { font-size: 10px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .white { fill: #ffffff; }
+    .cap { font-size: 9px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a3a6b"/>
+    </marker>
+  </defs>
+  <rect x="40" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="100.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">User</text>
+  <rect x="220" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="280.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">AI Gateway</text>
+  <rect x="400" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="460.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Agent (sandbox)</text>
+  <rect x="580" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="640.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">OPA Policy</text>
+  <rect x="760" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="820.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Tool Gateway</text>
+  <rect x="940" y="300" width="120" height="50" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="1000.0" y="325.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Tool / Model</text>
+  <text x="540" y="40" text-anchor="middle" class="label">1. User request (authenticated, session-scoped)</text>
+  <text x="540" y="64" text-anchor="middle" class="label">2. Gateway: authN, WAF, intent filter, rate limit</text>
+  <text x="540" y="88" text-anchor="middle" class="label">3. Agent plans; tool invocation proposed</text>
+  <text x="540" y="112" text-anchor="middle" class="label">4. OPA: is agent authorised? scope? approval needed?</text>
+  <text x="540" y="136" text-anchor="middle" class="label">5. Tool gateway: schema validation, allow-list, audit</text>
+  <text x="540" y="160" text-anchor="middle" class="label">6. Output validated &amp; sanitised before agent context</text>
+  <text x="540" y="184" text-anchor="middle" class="label">7. Response returned; full chain logged (MIR-01)</text>
+  <line x1="160" y1="340" x2="220" y2="340" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="340" y1="340" x2="400" y2="340" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="520" y1="340" x2="580" y2="340" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="700" y1="340" x2="760" y2="340" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="880" y1="340" x2="940" y2="340" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="100" y1="390" x2="1000" y2="390" stroke="#d4a017" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5 4"/>
+  <text x="550" y="410" text-anchor="middle" class="sm">every hop emits a structured audit event (agent ID, session ID, correlation ID, verdict) -&gt; telemetry</text>
+  <text x="550" y="490" text-anchor="middle" class="sm" fill="#5a6a8a">Fail-closed: any unreachable policy/tool/audit dependency blocks the action (EE-06, TP-03).</text>
+</svg>

@@ -69,21 +69,22 @@ def arrow_head():
 # ── Diagram 1: Framework Architecture ──────────────────
 
 def diagram_architecture():
-    """Six pillars arranged bottom-to-top (MS foundation -> GRM top)."""
+    """Seven pillars arranged bottom-to-top (P7 EE foundation -> P6 GRM top)."""
     w, h = 660, 520
     cx = 330       # centre X
     bw = 260       # box width
-    bh = 55        # box height
+    bh = 45        # box height
     gap = 10       # gap between boxes
     arrow_gap = 8  # gap above arrowhead
 
     pillars = [
-        ("P6  GOVERNANCE &amp; RISK (GRM)",           "APRA CPS 234 | PSPF | Privacy Act | NIST AI RMF", "GRM-01 -> GRM-06"),
+        ("P7  EXECUTION ENVIRONMENT",          "ISM | E8 | ASD Container Security Guidance", "EE-01 -> EE-07"),
+        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               "MS-01 -> MS-08"),
+        ("P2  IDENTITY &amp; ACCESS",              "ISM | E8 | PSPF",                                  "IAM-01 -> IAM-09"),
+        ("P3  DATA SECURITY",                  "Privacy Act | PSPF",                               "DS-01 -> DS-06"),
+        ("P4  TOOL &amp; PIPELINE SECURITY",       "ISM | E8 | SOCI Act",                              "TP-01 -> TP-09"),
         ("P5  MONITORING &amp; INCIDENT RESPONSE",  "SOCI Act | APRA CPS 234 | Privacy NDB",           "MIR-01 -> MIR-06"),
-        ("P4  TOOL &amp; PIPELINE SECURITY",       "ISM | E8 | SOCI Act",                              "TP-01 -> TP-06"),
-        ("P3b DATA SECURITY",                  "Privacy Act | PSPF",                               "DS-01 -> DS-06"),
-        ("P2b IDENTITY &amp; ACCESS",              "ISM | E8 | PSPF",                                  "IAM-01 -> IAM-06"),
-        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               "MS-01 -> MS-06"),
+        ("P6  GOVERNANCE &amp; RISK (GRM)",           "APRA CPS 234 | PSPF | Privacy Act | NIST AI RMF", "GRM-01 -> GRM-06"),
     ]
 
     # Bottom-to-top placement
@@ -98,28 +99,14 @@ def diagram_architecture():
         body += box(cx - bw/2, y, bw, bh, WHITE, label, sub, cap)
         # Arrow to next (above)
         if i < len(pillars) - 1:
-            next_y = y - gap
-            this_top = y
-            next_bottom = start_y - (i+1) * (bh + gap + arrow_gap) + bh
-            mid = (this_top + next_bottom) / 2
-            # Don't draw arrow between P3 and P2/IAM - show they're parallel
-            if i == 2:  # After TP, draw to both DS and IAM
-                body += f'<line x1="{cx - 20}" y1="{y}" x2="{cx - 100}" y2="{next_bottom + bh + gap}" stroke="{BLUE}" stroke-width="1.5"/>'
-                body += f'<line x1="{cx + 20}" y1="{y}" x2="{cx + 100}" y2="{next_bottom + bh + gap}" stroke="{BLUE}" stroke-width="1.5"/>'
-            else:
-                body += f'<line x1="{cx}" y1="{y}" x2="{cx}" y2="{y - gap}" stroke="{BLUE}" stroke-width="1.5" marker-end="url(#a)"/>'
+            body += f'<line x1="{cx}" y1="{y}" x2="{cx}" y2="{y - gap}" stroke="{BLUE}" stroke-width="1.5" marker-end="url(#a)"/>'
 
     body += arrow(cx, start_y + bh + 10, cx, h - 20)
 
     body = arrow_head() + body
 
     # Key at bottom
-    body += f'''<text x="{cx}" y="{h - 8}" text-anchor="middle" class="sm" font-style="italic">Foundation (P1) {'>>'} Governance (P6) -- each pillar depends on those below it</text>'''
-
-    # P2/DS and P3/IAM parallel annotation
-    body += f'''<text x="{cx - 130}" y="{start_y - 2*(bh+gap+arrow_gap) + bh + 15}" text-anchor="middle" class="sm" fill="{NAVY}" font-weight="bold">Data</text>'''
-    body += f'''<text x="{cx + 130}" y="{start_y - 2*(bh+gap+arrow_gap) + bh + 15}" text-anchor="middle" class="sm" fill="{NAVY}" font-weight="bold">IAM</text>'''
-    body += f'''<text x="{cx}" y="{start_y - 2*(bh+gap+arrow_gap) + bh + 30}" text-anchor="middle" class="sm">(parallel pillars)</text>'''
+    body += f'''<text x="{cx}" y="{h - 8}" text-anchor="middle" class="sm" font-style="italic">Foundation (P7 EE) {'>>'} Oversight (P6 GRM) -- each pillar depends on those below it</text>'''
 
     return svg(w, h, textwrap.dedent(body))
 
@@ -127,12 +114,12 @@ def diagram_architecture():
 # ── Diagram 2: Threat Landscape ────────────────────────
 
 def diagram_threat():
-    """Six stacked layers: Model at bottom, Governance at top."""
-    w, h = 580, 480
+    """Seven stacked layers: Model + Execution at bottom, Governance at top."""
+    w, h = 580, 520
     cx = w / 2
     bw = 400
-    bh = 50
-    gap = 12
+    bh = 46
+    gap = 8
 
     layers = [
         ("GOVERNANCE", "[GOV]  Shadow AI | Missing audit trails | Incident reconstruction"),
@@ -140,18 +127,19 @@ def diagram_threat():
         ("IDENTITY",   "[ID]   Credential abuse | Session hijack | Escalation"),
         ("DATA",       "[DAT]  Cross-session aggregation | RAG poisoning | PII leak"),
         ("TOOLS",      "[TUL]  Tool output injection | Malicious registration | API abuse"),
+        ("EXECUTION",  "[EXE]  Sandbox escape | Host-file injection | Fail-open fallback"),
         ("MODEL",      "[MDL]  Prompt injection | Jailbreaking | Model inversion"),
     ]
 
     body = ""
     for i, (layer, content) in enumerate(layers):
         y = h - 70 - i * (bh + gap)
-        colour = [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE][i]
+        colour = WHITE
         body += box(cx - bw/2, y, bw, bh, colour, layer, content)
         if i < len(layers) - 1:
             body += f'<line x1="{cx}" y1="{y}" x2="{cx}" y2="{y - gap}" stroke="{BLUE}" stroke-width="1.5" marker-end="url(#a)"/>'
 
-    body += f'''<text x="{cx}" y="{h - 8}" text-anchor="middle" class="sm" font-style="italic">Risk compounds upward: a Model compromise enables Tool abuse, which enables Data exfiltration</text>'''
+    body += f'''<text x="{cx}" y="{h - 8}" text-anchor="middle" class="sm" font-style="italic">Risk compounds upward: an escaped sandbox invalidates every layer above it</text>'''
 
     return svg(w, h, arrow_head() + body)
 
@@ -254,17 +242,17 @@ def diagram_delivery():
             ay = y + bh / 2
             body += f'''<line x1="{ax}" y1="{ay}" x2="{ax + gap}" y2="{ay}" stroke="{BLUE}" stroke-width="2" marker-end="url(#a)"/>'''
 
-    # Tier indicators below
+    # Maturity scope below
     tier_y = y + bh + 55
-    body += f'''<text x="{start_x}" y="{tier_y}" class="sm" font-weight="bold">Tier coverage:</text>'''
-    tiers = [
-        ("Lite", "$25-45K", start_x + 100, NAVY),
-        ("Standard", "$120-250K", start_x + 250, BLUE),
-        ("Enterprise", "$400K+/yr", start_x + 420, GOLD),
+    body += f'''<text x="{start_x}" y="{tier_y}" class="sm" font-weight="bold">Scope by maturity:</text>'''
+    scopes = [
+        ("L1-L2: Phases 1-2", start_x + 110, NAVY),
+        ("L2-L3: Phases 1-4", start_x + 260, BLUE),
+        ("L3-L4: Phases 1-5", start_x + 410, GOLD),
     ]
-    for tname, tprice, tx, tcol in tiers:
-        body += f'''<rect x="{tx}" y="{tier_y - 12}" width="100" height="20" rx="10" fill="{tcol}" opacity="0.15"/>
-        <text x="{tx + 50}" y="{tier_y + 3}" text-anchor="middle" class="sm" fill="{tcol}" font-weight="bold">{tname}  {tprice}</text>'''
+    for sname, sx, scol in scopes:
+        body += f'''<rect x="{sx}" y="{tier_y - 12}" width="120" height="20" rx="10" fill="{scol}" opacity="0.15"/>
+        <text x="{sx + 60}" y="{tier_y + 3}" text-anchor="middle" class="sm" fill="{scol}" font-weight="bold">{sname}</text>'''
 
     # Arrow marker definition
     body = arrow_head() + body
