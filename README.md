@@ -20,6 +20,9 @@ shield-ai/
 |   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.5)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
 |   +-- shield-ai-gap-analysis.epub     #   Gap analysis EPUB
+|   +-- shield-ai-watchlist.md          #   Always-current watchlist (replaced monthly)
+|   +-- shield-ai-watchlist.pdf         #   Watchlist PDF
+|   +-- shield-ai-watchlist.epub        #   Watchlist EPUB
 +-- assessment-guide/                   # Consultant's field manual
 |   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 55 controls
 |   +-- shield-ai-assessment-guide.pdf  #   PDF
@@ -72,6 +75,12 @@ shield-ai/
   with a full set of SVG diagrams and explanatory text (reference architecture,
   policy decision points, request flows, telemetry pipeline, network boundaries,
   deployment topologies, maturity mapping)
+
+- **[Watchlist (Markdown)](framework/shield-ai-watchlist.md)** -- the always-current
+  watchlist of components under active monitoring (IETF A2A, Open Secure AI
+  Alliance/NOOA, time-based supply-chain defences, edge/on-device agents,
+  inbound MCP exposure, adversary-owned agents); rebuilt and REPLACED by each
+  monthly deep review cycle
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
   incident research driving framework evolution (v1.5, 25 incidents, 19 gaps)

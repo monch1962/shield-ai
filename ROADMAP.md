@@ -10,6 +10,7 @@
 |----------|--------|-------|
 | Framework document v1.5 | [OK] Complete | 7 pillars, 55 controls, 4 maturity levels |
 | Sandbox escape gap analysis v1.5 | [OK] Complete | 25 incidents, 19 gaps (deep review) |
+| Watchlist | [OK] Monthly | Canonical framework/shield-ai-watchlist.md, replaced each deep review |
 | Implementation architecture | [OK] Complete | Deployable components + full SVG diagram set |
 | Assessment guide | [OK] Complete | All 7 pillars x 55 controls |
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
