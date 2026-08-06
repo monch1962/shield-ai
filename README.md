@@ -38,7 +38,7 @@ shield-ai/
 |   |   +-- shield-ai-deck-bridge.html    #   Reveal.js HTML slides (7 slides)
 |   |   +-- shield-ai-deck-bridge.pdf     #   PDF version
 |   +-- shield-ai-deck-defence/         # Australian Defence Department briefing
-|       +-- shield-ai-deck-defence.pptx  #   PowerPoint, 23 slides, 7 pillars + SVG diagrams
+|       +-- shield-ai-deck-defence.pptx  #   PowerPoint, 24 slides, 7 pillars + SVG diagrams + watchlist summary
 +-- policies/                           # Policy-as-code control stubs (Rego/OPA)
 |   +-- shield_ai_*.rego               #   55 machine-readable control stubs
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
