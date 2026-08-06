@@ -1,0 +1,22 @@
+{
+  "deck": "shield-ai-deck-defence",
+  "title": "SHIELD-AI(TM)",
+  "audience": "Australian Defence Department",
+  "version": "1.2",
+  "date": "2026-08-06",
+  "framework_version": "v1.5",
+  "slides": 24,
+  "diagrams": [
+    "framework-architecture-updated",
+    "threat-landscape-updated",
+    "impl-reference-architecture",
+    "impl-policy-decision-points",
+    "impl-request-flow",
+    "maturity-journey",
+    "impl-network-boundaries",
+    "defence-alignment"
+  ],
+  "builder": "tools/build_defence_deck.py",
+  "commit": "d6aa25c",
+  "built_at": "2026-08-06T07:13:21+00:00"
+}

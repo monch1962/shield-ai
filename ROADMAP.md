@@ -16,6 +16,8 @@
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
 | Technical slide deck (27 slides) | [OK] Complete | For AI engineers, security architects |
 | Buyer's journey bridge (7 slides) | [OK] Complete | Connects both decks |
+| Defence briefing deck (24 slides) | [OK] Versioned | v1.2, manifest + VERSIONS.md |
+| Aware Super briefing deck (24 slides) | [OK] Versioned | v1.0, manifest + VERSIONS.md |
 | JSON control schema | [OK] v1.5 | 55 controls, machine-readable |
 | Rego policy stubs (55) | [OK] Complete | All 7 pillars; TODOs to assertions next |
 | GitHub repo | [OK] Complete | Private, all artifacts |
