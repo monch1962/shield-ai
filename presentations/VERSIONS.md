@@ -3,10 +3,12 @@
 Versioning convention: every change to a deck bumps its version and adds an
 entry here. The version is stamped in the deck footer, and the machine-readable
 deck-manifest.json (next to each .pptx) records the exact repo commit the deck
-was built from. Rebuild a deck with its builder script:
+was built from. Client-specific materials live under `client-specific/<client>/`,
+one directory per client, each self-contained (deck, manifest, client alignment
+diagram, builder script). Rebuild a client deck with its builder:
 
-- Defence briefing: `python3 tools/build_defence_deck.py`
-- Aware Super briefing: `python3 tools/build_super_deck.py`
+- Defence briefing: `python3 client-specific/defence/build_deck.py`
+- Aware Super briefing: `python3 client-specific/aware-super/build_deck.py`
 
 The deck version is independent of the framework version (v1.5); a framework
 update that changes deck content bumps the deck version, not the framework

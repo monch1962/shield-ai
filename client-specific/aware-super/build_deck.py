@@ -12,6 +12,7 @@ import os
 import os, sys, subprocess, json, datetime
 
 REPO = "/home/davidm/Projects/shield-ai"
+CLIENT_DIR = "/home/davidm/Projects/shield-ai/client-specific/aware-super"
 IMG = "/tmp/deck-imgs"
 os.makedirs(IMG, exist_ok=True)
 
@@ -22,7 +23,9 @@ def render_png(name):
     png = os.path.join(IMG, base + ".png")
     if os.path.exists(png):
         return png
-    svg = os.path.join(REPO, "assets", "diagrams", base + ".svg")
+    svg = next((p for p in (os.path.join(CLIENT_DIR, base + ".svg"), os.path.join(REPO, "assets", "diagrams", base + ".svg")) if os.path.exists(p)), None)
+    if svg is None:
+        raise SystemExit("missing svg for " + base)
     code = "import cairosvg; cairosvg.svg2png(url='%s', write_to='%s', output_width=1600)" % (svg, png)
     for py in (sys.executable, "/tmp/svgvenv/bin/python"):
         try:
@@ -34,8 +37,8 @@ def render_png(name):
 
 DECK_VERSION = "1.0"
 AUDIENCE = "Aware Super"
-OUT = "/home/davidm/Projects/shield-ai/presentations/shield-ai-deck-aware-super/shield-ai-deck-aware-super.pptx"
-MANIFEST = "/home/davidm/Projects/shield-ai/presentations/shield-ai-deck-aware-super/deck-manifest.json"
+OUT = "/home/davidm/Projects/shield-ai/client-specific/aware-super/shield-ai-deck-aware-super.pptx"
+MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/aware-super/deck-manifest.json"
 
 NAVY = RGBColor(0x0A, 0x1E, 0x3D)
 NAVY2 = RGBColor(0x1A, 0x3A, 0x6B)

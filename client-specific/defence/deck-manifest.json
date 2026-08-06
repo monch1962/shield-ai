@@ -1,8 +1,8 @@
 {
-  "deck": "shield-ai-deck-aware-super",
+  "deck": "shield-ai-deck-defence",
   "title": "SHIELD-AI(TM)",
-  "audience": "Aware Super",
-  "version": "1.0",
+  "audience": "Australian Defence Department",
+  "version": "1.2",
   "date": "2026-08-06",
   "framework_version": "v1.5",
   "slides": 24,
@@ -13,9 +13,10 @@
     "impl-policy-decision-points",
     "impl-request-flow",
     "maturity-journey",
-    "aware-super-alignment"
+    "impl-network-boundaries",
+    "defence-alignment"
   ],
-  "builder": "tools/build_super_deck.py",
-  "commit": "c7885a4",
-  "built_at": "2026-08-06T07:14:17+00:00"
+  "builder": "client-specific/defence/build_deck.py",
+  "commit": "f01310b",
+  "built_at": "2026-08-06T07:15:51+00:00"
 }
