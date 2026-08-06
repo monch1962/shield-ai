@@ -66,6 +66,8 @@ build_doc framework/shield-ai-deep-review-2026-08.md \
   "SHIELD-AI(TM) Monthly Deep Review -- August 2026"
 build_doc framework/shield-ai-watchlist.md \
   "SHIELD-AI(TM) Watchlist Report"
+build_doc framework/shield-ai-tooling-map.md \
+  "SHIELD-AI(TM) Tooling and Process Map"
 
 rm -f "$TMP"
 echo ""

@@ -97,6 +97,10 @@ shield-ai/
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
   incident research driving framework evolution (v1.5, 25 incidents, 19 gaps)
 
+- **[Tooling and Process Map (Markdown)](framework/shield-ai-tooling-map.md)** --
+  tools and processes addressing all 55 controls, each assessed with the Six
+  Thinking Hats; coverage analysis and an L1-L4 adoption roadmap (PDF/EPUB available)
+
 - **[Assessment Guide (Markdown)](assessment-guide/shield-ai-assessment-guide.md)** --
   consultant's field manual with per-control assessment questions, artifacts to
   examine, maturity indicators, progression paths, and regulatory cross-reference
