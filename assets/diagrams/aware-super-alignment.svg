@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 18px; font-weight: bold; fill: #0a1e3d; }
+    .hdr { font-size: 12px; font-weight: bold; fill: #0a1e3d; }
+    .pillar { font-size: 11.5px; font-weight: bold; fill: #1a1a2e; }
+    .cap { font-size: 9.5px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+    .note { font-size: 10.5px; fill: #5a6a8a; }
+    .gold { fill: #d4a017; }
+    .navy { fill: #1a3a6b; }
+    .red { fill: #ef4444; }
+    .white { fill: #ffffff; }
+  </style>
+
+  <rect x="0" y="0" width="960" height="620" fill="#ffffff"/>
+  <rect x="0" y="0" width="960" height="6" fill="#0a1e3d"/>
+
+  <text x="30" y="40" class="title">SHIELD-AI(TM) alignment with APRA and Australian regulation</text>
+  <text x="30" y="58" class="note">Seven pillars mapped to the obligations an APRA-regulated superannuation trustee must meet. Solid = direct control mapping. Gold = supporting contribution.</text>
+
+  <!-- column headers -->
+  <text x="255" y="95" class="hdr" text-anchor="middle">CPS 234</text>
+  <text x="395" y="95" class="hdr" text-anchor="middle">CPG 230</text>
+  <text x="535" y="95" class="hdr" text-anchor="middle">Privacy Act</text>
+  <text x="695" y="95" class="hdr" text-anchor="middle">ASIC</text>
+  <text x="845" y="95" class="hdr" text-anchor="middle">AU Guardrails</text>
+  <text x="255" y="107" class="cap" text-anchor="middle">Info Security / 72h</text>
+  <text x="395" y="107" class="cap" text-anchor="middle">Outsourcing</text>
+  <text x="535" y="107" class="cap" text-anchor="middle">APP 11 member data</text>
+  <text x="695" y="107" class="cap" text-anchor="middle">Member outcomes</text>
+  <text x="845" y="107" class="cap" text-anchor="middle">High-risk AI</text>
+  <line x1="30" y1="118" x2="930" y2="118" stroke="#1a3a6b" stroke-width="1.5"/>
+
+  <!-- 1 MS -->
+  <text x="30" y="168" class="pillar">1  Model Security</text>
+  <text x="30" y="182" class="cap">MS-01 .. MS-09</text>
+  <circle cx="255" cy="166" r="8" fill="#1a3a6b"/><circle cx="395" cy="166" r="8" fill="#d4a017"/><circle cx="535" cy="166" r="8" fill="#1a3a6b"/><circle cx="695" cy="166" r="8" fill="#d4a017"/><circle cx="845" cy="166" r="8" fill="#1a3a6b"/>
+
+  <!-- 2 IAM -->
+  <text x="30" y="234" class="pillar">2  Identity &amp; Access</text>
+  <text x="30" y="248" class="cap">IAM-01 .. IAM-09</text>
+  <circle cx="255" cy="232" r="8" fill="#1a3a6b"/><circle cx="395" cy="232" r="8" fill="#d4a017"/><circle cx="535" cy="232" r="8" fill="#1a3a6b"/><circle cx="695" cy="232" r="8" fill="#d4a017"/><circle cx="845" cy="232" r="8" fill="#d4a017"/>
+
+  <!-- 3 DS -->
+  <text x="30" y="300" class="pillar">3  Data Security</text>
+  <text x="30" y="314" class="cap">DS-01 .. DS-07</text>
+  <circle cx="255" cy="298" r="8" fill="#1a3a6b"/><circle cx="395" cy="298" r="8" fill="#d4a017"/><circle cx="535" cy="298" r="8" fill="#1a3a6b"/><circle cx="695" cy="298" r="8" fill="#d4a017"/><circle cx="845" cy="298" r="8" fill="#1a3a6b"/>
+
+  <!-- 4 TP -->
+  <text x="30" y="366" class="pillar">4  Tool &amp; Pipeline Security</text>
+  <text x="30" y="380" class="cap">TP-01 .. TP-10</text>
+  <circle cx="255" cy="364" r="8" fill="#1a3a6b"/><circle cx="395" cy="364" r="8" fill="#1a3a6b"/><circle cx="535" cy="364" r="8" fill="#d4a017"/><circle cx="695" cy="364" r="8" fill="#d4a017"/><circle cx="845" cy="364" r="8" fill="#d4a017"/>
+
+  <!-- 5 MIR -->
+  <text x="30" y="432" class="pillar">5  Monitoring &amp; IR</text>
+  <text x="30" y="446" class="cap">MIR-01 .. MIR-06</text>
+  <circle cx="255" cy="430" r="8" fill="#ef4444"/><circle cx="395" cy="430" r="8" fill="#1a3a6b"/><circle cx="535" cy="430" r="8" fill="#1a3a6b"/><circle cx="695" cy="430" r="8" fill="#d4a017"/><circle cx="845" cy="430" r="8" fill="#d4a017"/>
+
+  <!-- 6 GRM -->
+  <text x="30" y="498" class="pillar">6  Governance &amp; Risk</text>
+  <text x="30" y="512" class="cap">GRM-01 .. GRM-06</text>
+  <circle cx="255" cy="496" r="8" fill="#ef4444"/><circle cx="395" cy="496" r="8" fill="#1a3a6b"/><circle cx="535" cy="496" r="8" fill="#1a3a6b"/><circle cx="695" cy="496" r="8" fill="#ef4444"/><circle cx="845" cy="496" r="8" fill="#1a3a6b"/>
+
+  <!-- 7 EE -->
+  <text x="30" y="564" class="pillar">7  Execution Environment</text>
+  <text x="30" y="578" class="cap">EE-01 .. EE-08</text>
+  <circle cx="255" cy="562" r="8" fill="#1a3a6b"/><circle cx="395" cy="562" r="8" fill="#d4a017"/><circle cx="535" cy="562" r="8" fill="#1a3a6b"/><circle cx="695" cy="562" r="8" fill="#d4a017"/><circle cx="845" cy="562" r="8" fill="#d4a017"/>
+
+  <line x1="30" y1="592" x2="930" y2="592" stroke="#1a3a6b" stroke-width="1.5"/>
+  <text x="30" y="610" class="note">CPS 234: security capability, incident detection and 72-hour APRA notification (MIR-05). CPG 230: AI vendors are material outsourced service providers (GRM-04, TP-01). Privacy Act APP 11: member data in prompts and training (DS, MS). ASIC: member outcomes and advice quality (DS-06, MS-05). AU Mandatory Guardrails (proposed): high-risk AI transparency and governance (GRM-05).</text>
+</svg>
