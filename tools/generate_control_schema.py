@@ -1347,6 +1347,30 @@ reg("MS-09", "Perception-Fidelity Enforcement for Human-in-the-Loop Approvals", 
     {"OWASP": "LLM01 (Prompt Injection, multimodal variants)", "NIST AI RMF": "MEASURE (ME.AD)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Web Content Filtering"},
     ["perception-fidelity", "hidden-content", "hitl"])
 
+reg("MS-10", "Agent Memory-Store Integrity", "MS",
+    "Persistent agent memory stores -- vector databases, learning/pattern stores, conversation histories, and retrieval contexts that influence future model behaviour -- are security-critical data stores whose integrity must be monitored and enforced. Poisoned memories steer model responses for every future user of the platform and survive software patches: remediation requires auditing and cleaning the memory store itself, not just updating code. Addresses the memory-poisoning persistence class (Ruflo/RufRoot CVE-2026-59726, CVSS 10.0 -- an unauthenticated attacker used a default-exposed MCP bridge to obtain RCE, read LLM provider API keys, spawn attacker-controlled agent swarms on the victim's keys, and write malicious patterns into the AgentDB learning store that steer future AI outputs long after the intrusion ended; Noma Security: patching the bridge did not undo the poisoning -- operators were instructed to audit the pattern store and rebuild containers). Memory writes must be authenticated, tamper-evident, and auditable; retrieval must be able to detect and exclude poisoned entries; and memory stores must be treated as compromised -- audited, cleaned, and rebuilt -- whenever the agent platform or the memory store itself has been accessed by an attacker.",
+    "Ensure agent persistent memory cannot be silently poisoned to steer future behaviour.",
+    [
+        "Memory persisted without integrity controls; no tamper awareness.",
+        "Memory-store access authenticated; write logging; basic integrity checks.",
+        "Tamper-evident memory (append-only or immutable snapshots); anomaly detection on memory writes via MIR-02; retrieval-layer filtering of flagged entries; documented post-incident memory audit-and-clean procedure.",
+        "Continuous memory integrity attestation; automated quarantine of poisoned entries; red-team testing of memory-poisoning persistence and recovery.",
+    ],
+    [
+        "Is persistent agent memory protected against unauthorised writes?",
+        "Can poisoned memory entries be detected and excluded from retrieval?",
+        "Is the memory store audited and cleaned after any platform compromise, rather than trusting a code patch alone?",
+        "Are memory writes logged with agent identity for forensic reconstruction?",
+    ],
+    [
+        "Memory-store access control configuration",
+        "Memory write audit logs",
+        "Tamper-detection and quarantine configuration",
+        "Post-incident memory audit and clean reports",
+    ],
+    {"OWASP": "LLM03 (Training Data Poisoning, runtime variant)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 10 (Data Governance)", "ISM": "Guidelines for System Monitoring"},
+    ["memory-integrity", "poisoning", "retrieval"])
+
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)
 # ============================================
@@ -1518,6 +1542,31 @@ reg("TP-10", "Agent Platform Inbound Control-Plane Protection", "TP",
     ],
     {"ISM": "Web Application Hardening, Network Segmentation", "OWASP": "LLM09 (Misuse of System Access)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 14"},
     ["inbound-surface", "gateway", "cswsh"])
+
+reg("TP-11", "Agent Browser and Content-Rendering Isolation", "TP",
+    "Agent browser runtimes and any component that renders and interprets untrusted content -- agentic browsers, document processors in AI assistants, rendered web pages -- must preserve origin and content isolation. Agentic browsers that dismantle the Same-Origin Policy to act across sites on the user's behalf convert every page the agent reads into a potential command source: invisible instructions (white-on-white text, zero-opacity overlays, CSS-hidden elements) embedded in any content the agent perceives are executed as if they were user commands, enabling zero-click account takeover, cross-tab token theft, email exfiltration, and unauthorised financial transfers. Addresses the agentic-browser content-injection class (Zenity Labs Intent Collision, Black Hat USA 2026 -- zero-click takeover demonstrated across Claude in Chrome, Gemini, Perplexity Comet, ChatGPT Atlas, and Copilot Edge, with several vendors characterising the attack as intended functionality because cross-origin agent capability is the product; the ChatMate/Rubrik Zero Labs Remote Prompt Execution chain on Microsoft 365 Copilot -- a poisoned document upload bypassing LLM guardrails, escaping the assistant sandbox via a container-runtime path traversal (CVE-2026-32193) plus LD_PRELOAD, and handing the attacker a bidirectional shell inheriting the victim's identity; and the AISI cross-agent injection -- invisible HTML-comment instructions in GitHub issues addressed to AI triage agents). Rendered content must be classified as untrusted input and stripped of imperceptible instruction vectors before agent action; cross-origin privileged actions (token access, credential use, financial operations) must be gated by the same approval and isolation rules as any other high-risk tool action; the browser/session layer must be isolated from the agent's credential material; and document uploads must be sanitised before assistant processing.",
+    "Prevent untrusted rendered content from commanding the agent.",
+    [
+        "Agent uses browser/document rendering as-is; no content classification.",
+        "Hidden-content scanning on rendered pages and uploaded documents; cross-origin actions flagged for review.",
+        "Origin isolation preserved in agent browser runtimes; no cross-origin token access; imperative action gating (approval required for financial and credential operations); document uploads sanitised before assistant processing.",
+        "Continuous adversarial testing of the rendering layer; origin-isolation attestation; red-team validation against zero-click chains (PleaseFix/Intent Collision class).",
+    ],
+    [
+        "Can content rendered by the agent's browser or a processed document execute privileged actions without approval?",
+        "Are imperceptible instruction vectors stripped from rendered content before agent action?",
+        "Is origin isolation preserved in agent browser runtimes (no cross-origin token access)?",
+        "Are document uploads sanitised before assistant processing (Remote Prompt Execution class)?",
+        "Is the browser/session layer isolated from the agent's credential material?",
+    ],
+    [
+        "Browser/session isolation configuration",
+        "Rendered-content sanitisation rules",
+        "Cross-origin action gating policy",
+        "Red-team results (Intent Collision / RPE class)",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15 (Transparency and Human Oversight)", "ISM": "Web Content Filtering"},
+    ["agentic-browser", "content-isolation", "zero-click"])
 
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)

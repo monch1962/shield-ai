@@ -2,9 +2,9 @@
   "deck": "shield-ai-deck-aware-super",
   "title": "SHIELD-AI(TM)",
   "audience": "Aware Super",
-  "version": "1.0",
+  "version": "1.1",
   "date": "2026-08-06",
-  "framework_version": "v1.5",
+  "framework_version": "v1.6",
   "slides": 24,
   "diagrams": [
     "framework-architecture-updated",
@@ -16,6 +16,6 @@
     "aware-super-alignment"
   ],
   "builder": "client-specific/aware-super/build_deck.py",
-  "commit": "2a0a12d",
-  "built_at": "2026-08-06T07:16:44+00:00"
+  "commit": "af9c372",
+  "built_at": "2026-08-12T01:12:57+00:00"
 }

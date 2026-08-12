@@ -1,22 +1,22 @@
 ---
 title: "SHIELD-AI(TM): Tooling and Process Map"
-subtitle: "Tools and Processes to Address All 55 Controls, Assessed with Six Thinking Hats"
+subtitle: "Tools and Processes to Address All 57 Controls, Assessed with Six Thinking Hats"
 author: "Security Architecture Practice"
 date: "August 6, 2026"
-abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.5, 55 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
+abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.6, 57 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
 ---
 
 # SHIELD-AI Tooling and Process Map
 
 ## 1. Executive Summary
 
-This document maps every one of the 55 SHIELD-AI controls to a concrete tool or process that can implement it, then evaluates each candidate with the Six Thinking Hats method. Three findings matter most:
+This document maps every one of the 57 SHIELD-AI controls to a concrete tool or process that can implement it, then evaluates each candidate with the Six Thinking Hats method. Three findings matter most:
 
 - **About two-thirds of the controls are addressable with mature, mainstream tooling.** Identity, policy, gateway, sandbox, logging, scanning, and governance controls map onto tools most security teams already run (OPA, Vault, SPIFFE, API gateways, Kubernetes policy engines, SIEM, SBOM scanners, HSM/KMS).
-- **Seven controls have no mature commercial tool** and require custom or emerging implementation: MS-07 (deployment-context obfuscation), MS-09 (perception-fidelity enforcement), DS-07 (artifact publication control), TP-07 (cross-tool dependency analysis), TP-10 (inbound control-plane protection), EE-07 (control-plane configuration integrity), and EE-08 (evaluation-harness isolation). The SHIELD-AI reference implementation exists precisely to cover these.
+- **Nine controls have no mature commercial tool** and require custom or emerging implementation: MS-07 (deployment-context obfuscation), MS-09 (perception-fidelity enforcement), MS-10 (agent memory-store integrity), DS-07 (artifact publication control), TP-07 (cross-tool dependency analysis), TP-10 (inbound control-plane protection), TP-11 (agent browser and content-rendering isolation), EE-07 (control-plane configuration integrity), and EE-08 (evaluation-harness isolation). The SHIELD-AI reference implementation exists precisely to cover these.
 - **The highest-leverage adoption sequence is L2-baseline first**: identity and policy (SPIFFE, Vault, OPA), sandboxing, gateway, and logging make every later control cheaper to add. Maturity-led adoption beats tool-led adoption.
 
-A control-to-tool mapping covering all 55 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
+A control-to-tool mapping covering all 57 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
 
 ## 2. Method: How the Tools Were Assessed
 
@@ -39,9 +39,9 @@ docs, and source repositories) and **Options** (commercial offerings, FSS
 across AWS, Azure, and GCP). Where a category has no mature option, that is
 stated explicitly rather than filled with a weak substitute.
 
-# Part A: Control-to-Tool Mapping (All 55 Controls)
+# Part A: Control-to-Tool Mapping (All 57 Controls)
 
-## A1. Model Security (MS-01 .. MS-09)
+## A1. Model Security (MS-01 .. MS-10)
 
 | Control | Tool / Process | Notes |
 |---------|----------------|-------|
@@ -54,6 +54,7 @@ stated explicitly rather than filled with a weak substitute.
 | MS-07 Deployment context obfuscation | P11 (custom process) | No commercial tool; custom environment-indistinguishability testing |
 | MS-08 MCP security | T12 MCP gateway + MCP Inspector; T1 OPA | Signed tool metadata, authenticated gateway, schema validation |
 | MS-09 Perception-fidelity enforcement | P12 (custom workflow) + T7 (partial) | Snapshot-binding of approvals; emerging; custom |
+| MS-10 Agent memory-store integrity | T15 vector DB access control + T18 observability + T20 audit | Memory-write audit, tamper-evident stores, retrieval filtering; mature via composition |
 
 ## A2. Identity and Access (IAM-01 .. IAM-09)
 
@@ -81,7 +82,7 @@ stated explicitly rather than filled with a weak substitute.
 | DS-06 Output validation (leak detection) | T17 DLP; T18 LLM observability | Automated scanning for PII/data leakage |
 | DS-07 Artifact publication control | P13 (workflow) + T9 Sigstore + T27 CI gates | Agent-authored artifacts through the third-party vetting pipeline; out-of-band approval |
 
-## A4. Tool and Pipeline Security (TP-01 .. TP-10)
+## A4. Tool and Pipeline Security (TP-01 .. TP-11)
 
 | Control | Tool / Process | Notes |
 |---------|----------------|-------|
@@ -95,6 +96,7 @@ stated explicitly rather than filled with a weak substitute.
 | TP-08 Gateway infrastructure-isolation mode | T11 (allow-list config) + T1 OPA | Block control-plane APIs by default |
 | TP-09 Explicit tool registration | T13 + T1; framework auto-registration disabled | No implicit exposure |
 | TP-10 Inbound control-plane protection | T26 IaC security + T11 + custom binding policy | Emerging; network-binding deny defaults |
+| TP-11 Browser/content-rendering isolation | T7 (partial) + custom rendering-layer controls | No mature tool; hidden-content scanning + origin-isolation policy, custom |
 
 ## A5. Monitoring, Logging, and Incident Response (MIR-01 .. MIR-06)
 
@@ -137,7 +139,7 @@ stated explicitly rather than filled with a weak substitute.
 
 | Hat | Assessment with respect to SHIELD-AI |
 |-----|--------------------------------------|
-| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 55 controls |
+| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 57 controls |
 | Black | Rego has a learning curve; policy drift is a standing risk if policies are not versioned and tested; a mis-scoped `allow` rule defaults to deny only if written that way; performance needs care at high request rates; not a data-access enforcer by itself |
 | Yellow | Directly implements the deny-override evaluation model the framework demands; every SHIELD-AI control can be expressed as a Rego assertion; testable (`opa test`), auditable, versionable; no vendor lock-in |
 | Red | The natural centre of gravity for this framework. Teams that adopt it early get the most leverage; teams that bolt it on late find it disruptive |
@@ -702,9 +704,9 @@ stated explicitly rather than filled with a weak substitute.
 
 | Coverage class | Controls | Tools |
 |----------------|----------|-------|
-| Mature mainstream tooling | 44 of 55 | OPA, SPIFFE, Vault, KMS, registries, scanners, gateways, FIM, sandboxes, SIEM, DLP, vector DBs, classification platforms, compliance platforms, IaC security |
+| Mature mainstream tooling | 45 of 57 | OPA, SPIFFE, Vault, KMS, registries, scanners, gateways, FIM, sandboxes, SIEM, DLP, vector DBs, classification platforms, compliance platforms, IaC security |
 | Emerging but usable | 4 | MS-08 (MCP gateway), TP-10 (binding policies), MS-04 (imperceptible-content scanning partial), MS-09 (rendering snapshot partial) |
-| Custom / process-only | 7 | MS-07, MS-09, DS-07 (workflow), TP-07, TP-10, EE-07, EE-08 |
+| Custom / process-only | 8 | MS-07, MS-09, DS-07 (workflow), TP-07, TP-10, TP-11, EE-07, EE-08 |
 
 ## D2. Controls That Need Custom or Emerging Implementation
 
@@ -715,8 +717,9 @@ stated explicitly rather than filled with a weak substitute.
 - **TP-10 Inbound control-plane protection**: emerging; network-binding deny policy + gateway token hygiene (T26/T11 + custom)
 - **EE-07 Control-plane configuration integrity**: FIM + read-only mounts + MCP-registry monitoring (T23 + custom)
 - **EE-08 Evaluation-harness isolation**: attestation + active egress verification, fail-closed (P10 + T25)
+- **TP-11 Agent browser/content-rendering isolation**: hidden-content scanning on rendered pages and documents (T7 partial) plus custom origin-isolation policy; no mature tool
 
-These seven are exactly the controls the framework's reference implementation and Rego policy set ship as code, and they are the strongest argument for adopting the reference implementation rather than assembling purely from commercial tools.
+These eight are exactly the controls the framework's reference implementation and Rego policy set ship as code, and they are the strongest argument for adopting the reference implementation rather than assembling purely from commercial tools.
 
 # Part E: Adoption Roadmap (L1-L4)
 

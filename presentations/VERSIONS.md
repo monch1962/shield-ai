@@ -10,7 +10,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - Defence briefing: `python3 client-specific/defence/build_deck.py`
 - Aware Super briefing: `python3 client-specific/aware-super/build_deck.py`
 
-The deck version is independent of the framework version (v1.5); a framework
+The deck version is independent of the framework version (v1.6); a framework
 update that changes deck content bumps the deck version, not the framework
 version.
 
@@ -18,6 +18,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.3 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.2 | 2026-08-06 | Added future-threats watchlist summary slide (single-page table of the six watchlist components with decision gates and September promotion candidates); 24 slides; builders moved into repo with manifest + version stamping |
 | 1.1 | 2026-08-06 | Humanised copy across all slides and speaker notes (plain professional voice, AI tells stripped) |
 | 1.0 | 2026-08-06 | Initial 23-slide briefing for the Australian Defence Department: threat framing, seven pillars (one slide each), reference implementation, policy as code, maturity, PSPF/ISM/E8/SOCI/Five Eyes alignment, deployment, evidence base |
@@ -26,6 +27,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.1 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.0 | 2026-08-06 | Initial 24-slide briefing for Aware Super: member-data threat framing, where AI touches a super fund, seven pillars, reference implementation, policy as code, maturity (L2 floor / L3 target), APRA alignment (CPS 234 / CPG 230 / Privacy Act / ASIC / AU Guardrails), five-step practical starting point, watchlist summary |
 
 ## Diagram Set
