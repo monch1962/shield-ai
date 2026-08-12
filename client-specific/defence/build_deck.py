@@ -116,7 +116,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI(TM)  |  Defence Briefing  |  Deck v%s  |  Framework v1.6  |  Aug 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Defence Briefing  |  Deck v%s  |  Framework v1.6  |  Aug 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -275,7 +275,7 @@ rect(s, 0, 0, SW, SH, fill=NAVY)
 rect(s, 0, 4.62, SW, 0.06, fill=GOLD)
 tf = box(s, 1.0, 1.7, 11.3, 1.6)
 p = tf.paragraphs[0]
-r = p.add_run(); r.text = "SHIELD-AI(TM)"
+r = p.add_run(); r.text = "SHIELD-AI"
 r.font.size = Pt(54); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name = FONT
 p2 = tf.add_paragraph()
 r2 = p2.add_run(); r2.text = "Securing Agentic AI for the Australian Defence Department"
@@ -494,7 +494,7 @@ r.font.size = Pt(44); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 4.6, 11.3, 1.8)
 para(tf2, "Where would an agentic-AI capability first touch your environment?", size=17, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "A useful next step: a posture assessment against the framework (L1-L4, all seven pillars), then a pilot of the reference implementation.", size=15, color=GOLD, space_after=10)
-para(tf2, "SHIELD-AI(TM) v1.6  |  7 pillars  |  57 controls  |  policy as code  |  August 2026", size=12, color=MUTED)
+para(tf2, "SHIELD-AI v1.6  |  7 pillars  |  57 controls  |  policy as code  |  August 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Two minutes. The question on the slide is the honest conversation starter. Offer the maturity assessment and the open-source "
     "reference implementation as concrete next steps; keep it in maturity terms, no commercial pitch.")
 
