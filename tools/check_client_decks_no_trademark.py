@@ -9,7 +9,10 @@ and no (R), (SM), or (RTM) either.
 Scans:
   1. Builder sources (client-specific/*/build_deck.py) for the mark in any
      string literal.
-  2. Built decks (client-specific/*/shield-ai-deck-*.pptx) for the mark in
+  2. Client SVG diagram sources (client-specific/*/*-alignment.svg) — these
+     embed into decks as rasterised PNGs, so a mark there is invisible to
+     PPTX text scans but ships in the deck image.
+  3. Built decks (client-specific/*/shield-ai-deck-*.pptx) for the mark in
      visible text, speaker notes, table cells, AND raw slide XML.
 
 Usage:
@@ -29,6 +32,19 @@ MARK_RE = re.compile(r"\(\s*(?:TM|R|SM|RTM)\s*\)", re.IGNORECASE)
 
 
 def scan_builder(path: Path) -> list[str]:
+    hits = []
+    try:
+        src = path.read_text()
+    except OSError as exc:
+        hits.append(f"cannot read {path}: {exc}")
+        return hits
+    for i, line in enumerate(src.splitlines(), 1):
+        if MARK_RE.search(line):
+            hits.append(f"{path}:{i}: {line.strip()[:100]}")
+    return hits
+
+
+def scan_svg(path: Path) -> list[str]:
     hits = []
     try:
         src = path.read_text()
@@ -96,6 +112,10 @@ def main() -> int:
         builder = client_dir / "build_deck.py"
         if builder.exists():
             for hit in scan_builder(builder):
+                print(hit)
+                total += 1
+        for svg in sorted(client_dir.glob("*-alignment.svg")):
+            for hit in scan_svg(svg):
                 print(hit)
                 total += 1
         for pptx in sorted(client_dir.glob("shield-ai-deck-*.pptx")):

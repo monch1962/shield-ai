@@ -15,7 +15,7 @@
   <rect x="0" y="0" width="960" height="620" fill="#ffffff"/>
   <rect x="0" y="0" width="960" height="6" fill="#0a1e3d"/>
 
-  <text x="30" y="40" class="title">SHIELD-AI(TM) alignment with Australian Defence security frameworks</text>
+  <text x="30" y="40" class="title">SHIELD-AI alignment with Australian Defence security frameworks</text>
   <text x="30" y="58" class="note">Seven pillars mapped to the frameworks a Defence program must satisfy. Solid = direct control mapping. Gold = supporting contribution.</text>
 
   <!-- column headers -->
