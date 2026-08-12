@@ -1,0 +1,22 @@
+# SHIELD-AI demo: policy-as-code enforcement, five-minute self-run.
+#
+# Runs OPA with the demo bundle and exposes the evaluation API on :8181.
+# Try it:
+#   docker compose up -d
+#   curl -s localhost:8181/v1/data/shield_ai/demo/allow -d @inputs/allow_benign.json
+#     -> {"result":true}
+#   curl -s localhost:8181/v1/data/shield_ai/demo/allow -d @inputs/deny_injection.json
+#     -> {"result":[]}   (denied)
+#   curl -s localhost:8181/v1/data/shield_ai/demo/deny -d @inputs/deny_injection.json
+#     -> the MS-04 deny message
+#
+# No OPA locally? The same bundle runs with the standalone binary:
+#   opa run --server --bundle policies/   (then the same curl calls)
+services:
+  opa:
+    image: openpolicyagent/opa:latest
+    command: ["run", "--server", "--log-level=error", "--bundle", "/policies"]
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./policies:/policies:ro

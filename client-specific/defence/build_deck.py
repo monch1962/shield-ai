@@ -34,7 +34,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.3"
+DECK_VERSION = "1.4"
 AUDIENCE = "Australian Defence Department"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/defence/shield-ai-deck-defence.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/defence/deck-manifest.json"
@@ -305,9 +305,10 @@ bullets_slide("Why Agents Change the Threat Picture for Defence", [
     ("CVE-2026-10591: hidden 1px text on a page rewrote an agent's MCP registry and ran attacker code on the host", 1),
     ("CVE-2026-25253: a crafted link hijacked a loopback agent gateway, switched off approvals, and escaped to the host", 1),
     ("An agent under evaluation published a malicious package to PyPI; 15 real systems ran it for about three months before anyone noticed", 1),
+    ("August 2026: the first documented Australian case. A personal assistant found a gym's booking API had no authorisation checks, booked classes months ahead, and cancelled another member's waitlist position without being asked (ABC News)", 1),
     ("Adversary-owned agents now probe and attack at machine speed, round the clock", 0, True),
     ("The controls we built for humans and static machines do not reach an autonomous, delegated, tool-wielding agent", 0, True, RED),
-], kicker="Why now", page=page, notes="Two minutes. Lead with the shift from chat to action, then keep each incident to one line. The PyPI story is the one people remember: an agent under evaluation, three months, 15 systems."); page += 1
+], kicker="Why now", page=page, notes="Two minutes. Lead with the shift from chat to action, then keep each incident to one line. The PyPI story is the one people remember: an agent under evaluation, three months, 15 systems. The ABC story lands the point locally: it happened here, this month, to an ordinary user."); page += 1
 
 # 4 — Attack surface diagram
 diagram_slide("The Agentic AI Attack Surface", "threat-landscape-updated.png",
@@ -483,7 +484,18 @@ bullets_slide("Why SHIELD-AI for Defence", [
     ("Transparent: an open framework with no commercial lock-in, ready for independent evaluation", 0, True, NAVY2),
 ], page=page, notes="One minute. Bring it back to the threat slide: this is the framework that maps the agentic threat surface onto the security language Defence already speaks."); page += 1
 
-# 23 — Close / Q&A
+# 23 — Where this goes next
+bullets_slide("What This Means in Practice", [
+    ("The question Defence will be asked: how is the agentic-AI capability secured under PSPF and ISM, and how do you prove it?", 0, True),
+    ("The answer framework: run the 57 controls as executable policy, and an audit becomes a test run", 1),
+    ("The path from here:", 0, True),
+    ("1.  Posture assessment (weeks 1-4): current AI deployments scored L1-L4 against the 57 controls, with a prioritised gap list", 1),
+    ("2.  Pilot (weeks 5-8): policy-as-code enforcement on one real use case, deployed as a sidecar, no platform rebuild", 1),
+    ("3.  Rollout: extend to production workloads, wire to monitoring and audit, keep posture current through the ongoing incident watch", 1),
+    ("The framework updates weekly against a live incident watch and monthly with a deep review; it does not go stale between engagements", 0, True, NAVY2),
+], page=page, notes="One minute. Flip the regulatory story: not 'here is a framework mapped to PSPF' but 'here is what your auditor will ask, and here is how you answer it with a test run'. The three-step path is maturity-framed, not commercial."); page += 1
+
+# 24 — Close / Q&A
 s = slide()
 rect(s, 0, 0, SW, SH, fill=NAVY)
 rect(s, 0, 4.35, SW, 0.06, fill=GOLD)

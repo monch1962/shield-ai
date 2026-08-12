@@ -1,0 +1,5 @@
+{
+  "agent": {"id": "agent-1", "sandboxed": true},
+  "action": {"tool": "summarise_thread"},
+  "context": {"content": ["the meeting notes are attached"]}
+}

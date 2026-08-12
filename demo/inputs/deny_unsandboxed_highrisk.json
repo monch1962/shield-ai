@@ -1,0 +1,5 @@
+{
+  "agent": {"id": "agent-2", "sandboxed": false},
+  "action": {"tool": "transfer_funds"},
+  "context": {"content": []}
+}

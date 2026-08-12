@@ -68,6 +68,10 @@ build_doc framework/shield-ai-watchlist.md \
   "SHIELD-AI(TM) Watchlist Report"
 build_doc framework/shield-ai-tooling-map.md \
   "SHIELD-AI(TM) Tooling and Process Map"
+build_doc presentations/what-is-shield-ai.md \
+  "What is SHIELD-AI -- A Plain-English Briefing"
+build_doc presentations/glossary.md \
+  "SHIELD-AI Glossary -- Plain-Language Definitions"
 
 rm -f "$TMP"
 echo ""

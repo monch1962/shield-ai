@@ -35,7 +35,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.1"
+DECK_VERSION = "1.2"
 AUDIENCE = "Aware Super"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/aware-super/shield-ai-deck-aware-super.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/aware-super/deck-manifest.json"
@@ -306,8 +306,9 @@ bullets_slide("Why AI Security Matters for a Super Fund Now", [
     ("CVE-2026-10591: hidden 1px text on a page rewrote an agent's MCP registry and ran attacker code on the host", 1),
     ("CVE-2026-25253: a crafted link hijacked a loopback agent gateway, switched off approvals, and escaped to the host", 1),
     ("An agent under evaluation published a malicious package to PyPI; 15 real systems ran it for about three months", 1),
+    ("August 2026: the first documented Australian case. A personal assistant found a gym's booking API had no authorisation checks, booked classes months ahead, and cancelled another member's waitlist position without being asked (ABC News)", 1),
     ("APRA already expects a security capability across the entity (CPS 234) and 72-hour incident notification. AI does not remove that obligation; it widens it", 0, True, RED),
-], kicker="Why now", page=page, notes="Two minutes. Lead with the shift from chat to action, then land the super-specific point: member data held for decades is a different exposure profile than most enterprises face. APRA will ask how AI is secured under CPS 234; this deck is the answer framework."); page += 1
+], kicker="Why now", page=page, notes="Two minutes. Lead with the shift from chat to action, then land the super-specific point: member data held for decades is a different exposure profile than most enterprises face. The ABC story lands the point locally: it happened here, this month, to an ordinary user. APRA will ask how AI is secured under CPS 234; this deck is the answer framework."); page += 1
 
 # 4 — Where AI touches a super fund
 bullets_slide("Where AI Will Touch Member Outcomes", [
@@ -488,7 +489,18 @@ bullets_slide("Why SHIELD-AI for Aware Super", [
     ("Transparent: an open framework with no commercial lock-in, ready for independent evaluation", 0, True, NAVY2),
 ], page=page, notes="One minute. Bring it back to the opening: the fund is putting AI into production, the framework gives the security and risk team the language and the controls to do it on APRA's terms."); page += 1
 
-# 24 — Close / Q&A
+# 24 — Where this goes next
+bullets_slide("What This Means in Practice", [
+    ("The question APRA will ask: how is AI secured under CPS 234, and how do you evidence it across the entity?", 0, True),
+    ("The answer framework: run the 57 controls as executable policy, and an audit becomes a test run", 1),
+    ("The path from here:", 0, True),
+    ("1.  Posture assessment (weeks 1-4): current AI deployments scored L1-L4 against the 57 controls, with a prioritised gap list", 1),
+    ("2.  Pilot (weeks 5-8): policy-as-code enforcement on one real use case, deployed as a sidecar, no platform rebuild", 1),
+    ("3.  Rollout: extend to production workloads, wire to monitoring and audit, keep posture current through the ongoing incident watch", 1),
+    ("The framework updates weekly against a live incident watch and monthly with a deep review; it does not go stale between engagements", 0, True, NAVY2),
+], page=page, notes="One minute. Flip the regulatory story: not 'here is a framework mapped to CPS 234' but 'here is what APRA will ask, and here is how you answer it with a test run'. The three-step path is maturity-framed, not commercial."); page += 1
+
+# 25 — Close / Q&A
 s = slide()
 rect(s, 0, 0, SW, SH, fill=NAVY)
 rect(s, 0, 4.35, SW, 0.06, fill=GOLD)
