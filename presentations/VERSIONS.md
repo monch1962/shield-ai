@@ -9,6 +9,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 
 - Defence briefing: `python3 client-specific/defence/build_deck.py`
 - Aware Super briefing: `python3 client-specific/aware-super/build_deck.py`
+- NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
 
 The deck version is independent of the framework version (v1.6); a framework
 update that changes deck content bumps the deck version, not the framework
@@ -32,10 +33,17 @@ version.
 | 1.1 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.0 | 2026-08-06 | Initial 24-slide briefing for Aware Super: member-data threat framing, where AI touches a super fund, seven pillars, reference implementation, policy as code, maturity (L2 floor / L3 target), APRA alignment (CPS 234 / CPG 230 / Privacy Act / ASIC / AU Guardrails), five-step practical starting point, watchlist summary |
 
+## Shield-AI Deck: NBN Co
+
+| Version | Date | Change |
+|---------|------|--------|
+| 1.0 | 2026-08-13 | Initial 25-slide briefing for NBN Co: national-infrastructure threat framing (SOCI 12-hour reporting, agentic AI strategy May 2026, AI incident-report drafting Jul 2026, ASTRID lab with RMIT), seven pillars (one slide each, network-focused), reference implementation, policy as code, maturity, SOCI Act / TSSR / Privacy Act / ISM-E8 / AU Guardrails alignment, five-step practical starting point, watchlist summary |
+
 ## Diagram Set
 
 The SVG diagrams used by both decks live in assets/diagrams/ and are shared
 with the framework documents. Deck-specific alignment diagrams:
 
-- assets/diagrams/defence-alignment.svg (Defence deck slide 19)
-- assets/diagrams/aware-super-alignment.svg (Aware Super deck slide 20)
+- client-specific/defence/defence-alignment.svg (Defence deck slide 19)
+- client-specific/aware-super/aware-super-alignment.svg (Aware Super deck slide 20)
+- client-specific/nbn/nbn-alignment.svg (NBN Co deck slide 20)

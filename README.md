@@ -49,6 +49,11 @@ shield-ai/
 |       +-- deck-manifest.json              #  Version + build metadata
 |       +-- aware-super-alignment.svg       #  CPS 234/CPG 230/APP 11/ASIC map
 |       +-- build_deck.py                   #  Builder (regenerates the deck)
+|   +-- nbn/                            # NBN Co national-infrastructure briefing
+|       +-- shield-ai-deck-nbn.pptx         #  PowerPoint, 25 slides (deck v1.0)
+|       +-- deck-manifest.json              #  Version + build metadata
+|       +-- nbn-alignment.svg               #  SOCI Act/TSSR/APP 11/ISM-E8 map
+|       +-- build_deck.py                   #  Builder (regenerates the deck)
 +-- policies/                           # Policy-as-code control stubs (Rego/OPA)
 |   +-- shield_ai_*.rego               #   57 machine-readable control stubs
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
