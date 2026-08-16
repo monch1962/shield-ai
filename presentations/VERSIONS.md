@@ -11,7 +11,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - Aware Super briefing: `python3 client-specific/aware-super/build_deck.py`
 - NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
 
-The deck version is independent of the framework version (v1.6); a framework
+The deck version is independent of the framework version (v1.7); a framework
 update that changes deck content bumps the deck version, not the framework
 version.
 
@@ -19,6 +19,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.5 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps, G22/G23 added), footer version bumped |
 | 1.4 | 2026-08-12 | Client communication refresh: ABC News Australian agent incident added to threat slide, new "What This Means in Practice" engagement-path slide (posture assessment → pilot → rollout, auditor-question framing), speaker notes updated |
 | 1.3 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.2 | 2026-08-06 | Added future-threats watchlist summary slide (single-page table of the six watchlist components with decision gates and September promotion candidates); 24 slides; builders moved into repo with manifest + version stamping |
@@ -29,6 +30,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.3 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps), footer version bumped |
 | 1.2 | 2026-08-12 | Client communication refresh: ABC News Australian agent incident added to threat slide, new "What This Means in Practice" engagement-path slide (posture assessment → pilot → rollout, APRA-question framing), speaker notes updated |
 | 1.1 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.0 | 2026-08-06 | Initial 24-slide briefing for Aware Super: member-data threat framing, where AI touches a super fund, seven pillars, reference implementation, policy as code, maturity (L2 floor / L3 target), APRA alignment (CPS 234 / CPG 230 / Privacy Act / ASIC / AU Guardrails), five-step practical starting point, watchlist summary |
@@ -37,6 +39,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.1 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps), footer version bumped |
 | 1.0 | 2026-08-13 | Initial 25-slide briefing for NBN Co: national-infrastructure threat framing (SOCI 12-hour reporting, agentic AI strategy May 2026, AI incident-report drafting Jul 2026, ASTRID lab with RMIT), seven pillars (one slide each, network-focused), reference implementation, policy as code, maturity, SOCI Act / TSSR / Privacy Act / ISM-E8 / AU Guardrails alignment, five-step practical starting point, watchlist summary |
 
 ## Diagram Set

@@ -10,21 +10,21 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework documents
-|   +-- shield-ai-framework.md          #   Full framework (v1.6)
+|   +-- shield-ai-framework.md          #   Full framework (v1.7)
 |   +-- shield-ai-framework.pdf         #   PDF
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
 |   +-- shield-ai-implementation-architecture.md   #   Deployable components, reference
 |   |                                          #   architecture, full diagram set (NEW)
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
-|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.6)
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.7)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
 |   +-- shield-ai-gap-analysis.epub     #   Gap analysis EPUB
 |   +-- shield-ai-watchlist.md          #   Always-current watchlist (replaced monthly)
 |   +-- shield-ai-watchlist.pdf         #   Watchlist PDF
 |   +-- shield-ai-watchlist.epub        #   Watchlist EPUB
 +-- assessment-guide/                   # Consultant's field manual
-|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 57 controls
+|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 59 controls
 |   +-- shield-ai-assessment-guide.pdf  #   PDF
 |   +-- shield-ai-assessment-guide.epub #   EPUB for field use
 +-- presentations/
@@ -59,7 +59,7 @@ shield-ai/
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
-|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.6)
+|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.7)
 |   +-- logo*.svg                       # Brand assets
 |   +-- style.css                       # Document styling (Markdown/HTML/PDF/EPUB)
 +-- tools/
@@ -73,7 +73,7 @@ shield-ai/
   Tool & Pipeline Security (TP), Monitoring & Incident Response (MIR),
   Governance & Risk Management (GRM), Execution Environment (EE)
 
-- **57 Controls** across all pillars, each with implementation guidance,
+- **59 Controls** across all pillars, each with implementation guidance,
   maturity indicators, and regulatory mappings
 
 - **4 Maturity Levels**: L1 (Initial) -> L2 (Managed) -> L3 (Defined) -> L4 (Optimised)
@@ -100,10 +100,10 @@ shield-ai/
   monthly deep review cycle
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
-  incident research driving framework evolution (v1.6, 32 incidents, 21 gaps)
+  incident research driving framework evolution (v1.7, 36 incidents, 23 gaps)
 
 - **[Tooling and Process Map (Markdown)](framework/shield-ai-tooling-map.md)** --
-  tools and processes addressing all 57 controls, each assessed with the Six
+  tools and processes addressing all 59 controls, each assessed with the Six
   Thinking Hats; coverage analysis and an L1-L4 adoption roadmap (PDF/EPUB available)
 
 - **[Assessment Guide (Markdown)](assessment-guide/shield-ai-assessment-guide.md)** --
@@ -135,6 +135,8 @@ Each deck ships with a `deck-manifest.json` recording version, slide count,
 diagrams, builder script, and the exact git commit it was built from.
 
 ## Framework Version
+
+**v1.7** -- August 17, 2026 (weekly monitoring cycle: added operational data-stream integrity MS-11 and tool-call provenance and dispatch verification TP-12; extended MIR-02/IAM-03/TP-09/GRM-02; addressed GhostJacking observability-stream poisoning (Tenet, DEFCON 34), CoreBreak tool-dispatch provenance failures (AWS/Google/Vercel), the first autonomous multi-agent attack on critical infrastructure (Taiwan nuclear safety agency), and the AI-assisted exploit-development cluster (SharePoint chain, Zoomsday); G19 escalated to Critical; 59 controls)
 
 **v1.5** -- August 3, 2026 (monthly deep review: added perception-fidelity enforcement MS-09, agent-originated artifact publication control DS-07, agent platform inbound control-plane protection TP-10, and evaluation-harness isolation and integrity EE-08; extended MS-04/MS-08/IAM-03/EE-07/MIR-02/GRM-02/GRM-04; addressed the Anthropic evaluation-breach cluster, AWS Kiro, OpenClaw, Azure DevOps MCP, Unit 42 autonomous-attacker campaign, Metasploit/Wiz MCP research, and Android on-device agent incidents; 55 controls)
 

@@ -8,27 +8,27 @@
 
 | Artifact | Status | Notes |
 |----------|--------|-------|
-| Framework document v1.6 | [OK] Complete | 7 pillars, 57 controls, 4 maturity levels |
-| Sandbox escape gap analysis v1.6 | [OK] Complete | 32 incidents, 21 gaps |
+| Framework document v1.7 | [OK] Complete | 7 pillars, 59 controls, 4 maturity levels |
+| Sandbox escape gap analysis v1.7 | [OK] Complete | 36 incidents, 23 gaps |
 | Watchlist | [OK] Monthly | Canonical framework/shield-ai-watchlist.md, replaced each deep review |
-| Tooling and process map | [OK] Complete | All 57 controls mapped, six-hat assessment, L1-L4 roadmap |
+| Tooling and process map | [OK] Complete | All 59 controls mapped, six-hat assessment, L1-L4 roadmap |
 | Implementation architecture | [OK] Complete | Deployable components + full SVG diagram set |
-| Assessment guide | [OK] Complete | All 7 pillars x 57 controls |
+| Assessment guide | [OK] Complete | All 7 pillars x 59 controls |
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
 | Technical slide deck (27 slides) | [OK] Complete | For AI engineers, security architects |
 | Buyer's journey bridge (7 slides) | [OK] Complete | Connects both decks |
 | Defence briefing deck (24 slides) | [OK] Versioned | v1.2, client-specific/defence/ |
 | Aware Super briefing deck (24 slides) | [OK] Versioned | v1.0, client-specific/aware-super/ |
-| JSON control schema | [OK] v1.6 | 57 controls, machine-readable |
-| Rego policy stubs (57) | [OK] Complete | All 7 pillars; TODOs to assertions next |
+| JSON control schema | [OK] v1.7 | 59 controls, machine-readable |
+| Rego policy stubs (59) | [OK] Complete | All 7 pillars; TODOs to assertions next |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
 
 | Pri | Item | Verdict | Effort | Impact |
 |-----|------|---------|--------|--------|
-| [X] | Rego policy stubs for all 57 controls | Complete (v1.6) | Per-control | Automated control testing per GRM-05/06 |
-| [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.6) | 1-2 days | Closed the largest stub gap |
+| [X] | Rego policy stubs for all 59 controls | Complete (v1.7) | Per-control | Automated control testing per GRM-05/06 |
+| [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.7) | 1-2 days | Closed the largest stub gap |
 | P1 | Reference implementation (deployable tooling from the implementation architecture doc) | Next milestone | Multi-week | Validates the component model against real environments |
 | P2 | Public release | After field validation | 1 day | Community adoption |
 | P3 | Partner enablement programme | After P2 | Ongoing | Scale via partners |

@@ -3,12 +3,12 @@ title: "SHIELD-AI(TM): Implementation Architecture"
 subtitle: "Deployable Components for a SHIELD-AI Implementation"
 author: "Security Architecture Practice"
 date: "August 2026"
-abstract: "The deployable component model for implementing the SHIELD-AI framework: what to build, deploy, and configure to realise the 57 controls across 7 pillars, presented with a complete set of diagrams and explanatory text. Covers the component inventory, reference architecture, policy decision points, request flows, telemetry and incident response pipeline, network boundary model, deployment topologies, the component-to-control mapping matrix, and the L1-L4 maturity mapping."
+abstract: "The deployable component model for implementing the SHIELD-AI framework: what to build, deploy, and configure to realise the 59 controls across 7 pillars, presented with a complete set of diagrams and explanatory text. Covers the component inventory, reference architecture, policy decision points, request flows, telemetry and incident response pipeline, network boundary model, deployment topologies, the component-to-control mapping matrix, and the L1-L4 maturity mapping."
 ---
 
 # Introduction
 
-The SHIELD-AI framework (see `framework/shield-ai-framework.md`) defines seven security pillars and 57 controls. Controls must be realised as **deployable components** -- concrete infrastructure, services, and policy artifacts that an organisation builds and runs. This document is the full reference for that component model: it names each component, explains what it does, which controls it implements, and how it deploys, and it provides a complete set of diagrams.
+The SHIELD-AI framework (see `framework/shield-ai-framework.md`) defines seven security pillars and 59 controls. Controls must be realised as **deployable components** -- concrete infrastructure, services, and policy artifacts that an organisation builds and runs. This document is the full reference for that component model: it names each component, explains what it does, which controls it implements, and how it deploys, and it provides a complete set of diagrams.
 
 This document is written for:
 
@@ -22,7 +22,7 @@ This document is written for:
 - **Section 1** -- the component inventory (what exists and what each component does)
 - **Sections 2-6** -- the reference architecture, policy decision points, request flows, telemetry pipeline, and network boundaries (the "how it fits together" view)
 - **Section 7** -- deployment topologies and the container-orchestration hardening baseline
-- **Section 8** -- the component-to-control mapping matrix for all 57 controls
+- **Section 8** -- the component-to-control mapping matrix for all 59 controls
 - **Section 9** -- the maturity mapping (which components deploy at L1-L4)
 - **Section 10** -- the delivery methodology (the phases used to implement the model)
 - **Appendix A** -- the policy-as-code stub inventory shipped in this repository
@@ -33,15 +33,15 @@ The diagrams are maintained as SVG files in `assets/diagrams/` and regenerated b
 
 # 1. Component Inventory
 
-An implementation of SHIELD-AI is composed of eight deployable component groups. Each group realises a defined subset of the 57 controls and maps to one or more zones of the reference architecture (Section 2).
+An implementation of SHIELD-AI is composed of eight deployable component groups. Each group realises a defined subset of the 59 controls and maps to one or more zones of the reference architecture (Section 2).
 
 | # | Component Group | What it Deploys | Primary Controls |
 |---|-----------------|-----------------|------------------|
 | 1 | Agent runtime and sandbox | Container/VM execution environment: read-only rootfs, seccomp/AppArmor, NetworkPolicy, resource quotas, fail-closed sandbox attestation | EE-01..EE-08 |
-| 2 | Model gateway and guardrails | Inference proxy with output guardrails, redaction, adversarial test harness, model registry integration | MS-01..MS-10 |
+| 2 | Model gateway and guardrails | Inference proxy with output guardrails, redaction, adversarial test harness, model registry integration | MS-01..MS-11 |
 | 3 | Identity plane | Agent identities (SPIFFE/SPIRE or service accounts), just-in-time credentials, delegation chain enforcement | IAM-01..IAM-09 |
 | 4 | Data and RAG security layer | Classification pipeline, attribute-based access control at retrieval, field-level redaction, memory sanitisation | DS-01..DS-07 |
-| 5 | Tool gateway / sidecar proxy | Tool registry, MCP gateway, schema validation, rate limiting, tool output validation | TP-01..TP-11 |
+| 5 | Tool gateway / sidecar proxy | Tool registry, MCP gateway, schema validation, rate limiting, tool output validation, dispatch provenance verification | TP-01..TP-12 |
 | 6 | Policy decision points (OPA) | Policy-as-code engine evaluating Rego assertions on every agent action | IAM, DS, TP, GRM |
 | 7 | Telemetry and SIEM pipeline | Structured agent events (OTLP), behavioural anomaly detection, prompt audit log, forensic store | MIR-01..MIR-06 |
 | 8 | Compliance and governance console | Continuous control testing, regulatory mapping, board dashboard, AI risk register | GRM-01..GRM-06 |
@@ -128,7 +128,7 @@ The reference architecture is organised into five zones:
 
 **Zone 4 - Data Plane.** The RAG security layer classifies, redacts, and applies ABAC at retrieval. Memory stores are per-agent scoped with retention and sanitisation. Training data governance tracks lineage and consent.
 
-**Zone 5 - Observability and Governance.** Agent telemetry flows to the SIEM with anomaly detection, then to incident response and reporting triggers (SOCI/APRA/NDB), and to the compliance console that continuously tests the 57 controls.
+**Zone 5 - Observability and Governance.** Agent telemetry flows to the SIEM with anomaly detection, then to incident response and reporting triggers (SOCI/APRA/NDB), and to the compliance console that continuously tests the 59 controls.
 
 ---
 
@@ -226,7 +226,7 @@ The pipeline has three stages:
 - SOC dashboards show live posture and agent activity
 - IR playbooks cover prompt-injection containment, model rollback, and tool revocation (MIR-04)
 - Mandatory reporting triggers pre-populate SOCI 12-hour, APRA 72-hour, and NDB notifications (MIR-05)
-- The compliance dashboard maps findings to all 57 controls with per-pillar maturity (GRM-06)
+- The compliance dashboard maps findings to all 59 controls with per-pillar maturity (GRM-06)
 
 The correlation ID ties every event to the originating user session, giving investigators a single reconstructable audit trail per request chain.
 
@@ -362,17 +362,17 @@ The repository ships per-control Rego policy stubs in `policies/`, generated by 
 
 | Pillar | Stubs shipped | Coverage |
 |--------|---------------|----------|
-| MS | MS-01..MS-10 | Model security controls (incl. perception-fidelity MS-09, memory-store integrity MS-10) |
+| MS | MS-01..MS-11 | Model security controls (incl. perception-fidelity MS-09, memory-store integrity MS-10, operational data-stream integrity MS-11) |
 | IAM | IAM-01..IAM-09 | Identity and access controls (incl. multi-tenant isolation IAM-09) |
 | DS | DS-01..DS-07 | Data security controls (incl. artifact publication control DS-07) |
-| TP | TP-01..TP-11 | Tool and pipeline controls (incl. inbound control-plane protection TP-10, browser/content-rendering isolation TP-11) |
+| TP | TP-01..TP-12 | Tool and pipeline controls (incl. inbound control-plane protection TP-10, browser/content-rendering isolation TP-11, dispatch provenance verification TP-12) |
 | MIR | MIR-01..MIR-06 | Core monitoring controls |
 | GRM | GRM-01..GRM-06 | Core governance controls |
 | EE | EE-01..EE-08 | Execution Environment controls (incl. evaluation-harness isolation EE-08) |
 
-**Status:** all 57 controls have shipped stubs (v1.6), generated by `tools/generate_control_schema.py --rego`. The decision points in Section 3 define the interfaces these stubs must satisfy.
+**Status:** all 59 controls have shipped stubs (v1.7), generated by `tools/generate_control_schema.py --rego`. The decision points in Section 3 define the interfaces these stubs must satisfy.
 
 ---
 
-*SHIELD-AI v1.5 -- August 3, 2026*
+*SHIELD-AI v1.7 -- August 17, 2026*
 *Authored by the Security Architecture Practice*

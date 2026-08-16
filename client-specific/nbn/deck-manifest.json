@@ -2,9 +2,9 @@
   "deck": "shield-ai-deck-nbn",
   "title": "SHIELD-AI",
   "audience": "NBN Co",
-  "version": "1.0",
+  "version": "1.1",
   "date": "2026-08-13",
-  "framework_version": "v1.6",
+  "framework_version": "v1.7",
   "slides": 25,
   "diagrams": [
     "framework-architecture-updated",
@@ -16,6 +16,6 @@
     "nbn-alignment"
   ],
   "builder": "client-specific/nbn/build_deck.py",
-  "commit": "6f617fd",
-  "built_at": "2026-08-13T06:24:45+00:00"
+  "commit": "cccc66e",
+  "built_at": "2026-08-16T23:47:35+00:00"
 }

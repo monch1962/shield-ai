@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# v1.6 sweep: implementation-architecture count/range updates
+# v1.6 sweep (HISTORICAL, superseded by the v1.7 cycle): implementation-architecture count/range updates
+# The v1.7 cycle applied its changes directly; patterns below are inert (old strings no longer present).
 path = 'framework/shield-ai-implementation-architecture.md'
 with open(path) as f:
     data = f.read()

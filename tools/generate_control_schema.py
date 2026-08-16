@@ -25,7 +25,7 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.5"
+FRAMEWORK_VERSION = "1.7"
 FRAMEWORK_DATE = "2026-08"
 
 PILLARS = {
@@ -1371,6 +1371,30 @@ reg("MS-10", "Agent Memory-Store Integrity", "MS",
     {"OWASP": "LLM03 (Training Data Poisoning, runtime variant)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 10 (Data Governance)", "ISM": "Guidelines for System Monitoring"},
     ["memory-integrity", "poisoning", "retrieval"])
 
+reg("MS-11", "Operational Data-Stream Integrity", "MS",
+    "Any data stream an agent consumes in the course of its operational duties -- application and error logs, security alerts, observability feeds, SIEM/SOAR queues, incident ticketing -- must be treated as untrusted input with instruction/data separation. Agents must never execute an action whose trigger originated from log or alert content without an independent, non-log verification step and, for high-impact actions, human approval. Log and alert ingestion pipelines must authenticate their producers so forged or spoofed entries cannot inject instructions, and MIR-02 must flag any agent action whose proximate cause traces to a log or alert entry. Addresses the observability-stream poisoning class (Tenet Security GhostJacking, DEFCON 34, August 2026 -- attackers poisoned the observability streams of Cloudflare, Datadog, and Sentry with malicious instructions that AI agents, including Claude Code, treat as trusted operational input, achieving a 90% success rate against Claude Code under Cloudflare default configuration and executing DNS changes, arbitrary code, and credential theft with no EDR, WAF, or IAM alerting; an estimated 15,000+ organisations exposed through vulnerable Cloudflare configurations and 2,700+ publicly exposed Datadog API keys; the class cascades across platforms because a compromised agent monitoring one feed compromises agents on other platforms). Agent-visible operational content must be sanitised for instruction-bearing payloads before the agent reasons over it or acts on it.",
+    "Prevent poisoned logs, alerts, and observability feeds from commanding the agent.",
+    [
+        "Agents consume logs/alerts as-is; operational content treated as trusted.",
+        "Log/alert content flagged as untrusted; agent actions from log triggers require review.",
+        "Agent-visible operational content sanitised for instruction-bearing payloads before reasoning; independent non-log verification for log-triggered actions; ingestion pipelines authenticate producers; MIR-02 flags log-origin agent actions.",
+        "Continuous red-team testing of the observability stream (GhostJacking class); provenance attestation on all agent-consumed feeds; fail-closed on stream integrity doubt.",
+    ],
+    [
+        "Do agents treat log/alert/observability content as trusted instructions?",
+        "Can an agent execute an action triggered solely by log or alert content without independent verification?",
+        "Are log and alert ingestion pipelines authenticated at the producer level?",
+        "Does MIR-02 detect and flag agent actions whose proximate cause is a log or alert entry?",
+    ],
+    [
+        "Operational data-stream sanitisation rules",
+        "Log/alert producer authentication configuration",
+        "Log-triggered action verification policy",
+        "MIR-02 log-origin action detection rules",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
+    ["observability", "log-poisoning", "data-stream-integrity"])
+
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)
 # ============================================
@@ -1567,6 +1591,31 @@ reg("TP-11", "Agent Browser and Content-Rendering Isolation", "TP",
     ],
     {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15 (Transparency and Human Oversight)", "ISM": "Web Content Filtering"},
     ["agentic-browser", "content-isolation", "zero-click"])
+
+reg("TP-12", "Tool-Call Provenance and Dispatch Verification", "TP",
+    "Every tool execution must verify that the tool-call instruction originated from an authorised model turn or an explicitly authorised caller. The dispatch layer must not treat data shaped like a model-generated tool call as authoritative without provenance verification: tool calls carry cryptographically bound provenance (session, turn, model signature) that is verified before dispatch; session history and event streams are authenticated so attacker-injected events cannot fabricate tool calls or approval confirmations; approval records bind to the exact tool call (tool name and arguments) they authorise and are verified against the human approver channel, never against session history the agent can write; and the inspection-execution gap fails closed -- no provenance, no dispatch. Addresses the dispatch-provenance class (Stealth CoreBreak, Black Hat USA 2026 -- AWS Bedrock AgentCore CVE-2026-18830 CVSSv4 8.6: an authenticated remote caller injected a tool-use content block into an InvokeHarness request and the event loop dispatched the tool without model authorisation; Google ADK CVE-2026-18236 CVSSv4 9.3: attacker-controlled session events forged a human-approval confirmation because the confirmation processor never verified tool ownership or argument matches; Vercel @ai-sdk/harness-codex/opencode CVE-2026-64650/64651 CVSSv4 6.3: a process-path check trusted any process whose command line contained an approved helper path). The class is distinct from prompt injection: the model is bypassed altogether at the dispatch layer, so system prompts, refusal training, and content filters cannot help.",
+    "Ensure no tool executes without verified provenance from an authorised model turn or caller.",
+    [
+        "Dispatch executes any data shaped like a tool call; no provenance checks.",
+        "Tool calls carry basic session identifiers; dispatch verifies call structure only.",
+        "Tool calls carry cryptographically bound provenance (session, turn, model signature) verified before dispatch; session/event history authenticated; approval records bind to tool name and arguments and verify against the human approver channel; fail closed on unverifiable provenance.",
+        "Continuous provenance attestation on all dispatches; red-team testing of the dispatch layer (CoreBreak class); automated blocking of provenance-less tool calls across all harnesses and MCP servers.",
+    ],
+    [
+        "Can a tool execute without a verified, authorised model turn?",
+        "Can attacker-injected session or event history fabricate a tool call or an approval confirmation?",
+        "Do approval records bind to the exact tool call (name and arguments) they authorise?",
+        "Is approval evidence verified against the human approver channel, never against agent-writable session history?",
+        "Does dispatch fail closed when tool-call provenance cannot be verified?",
+    ],
+    [
+        "Dispatch-layer provenance verification configuration",
+        "Session/event history authentication controls",
+        "Approval-record binding policy",
+        "Red-team results (CoreBreak class)",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 14(b)", "ISM": "Guidelines for Gateways"},
+    ["dispatch", "provenance", "inspection-execution-gap"])
 
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
