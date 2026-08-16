@@ -16,6 +16,6 @@
     "nbn-alignment"
   ],
   "builder": "client-specific/nbn/build_deck.py",
-  "commit": "cccc66e",
-  "built_at": "2026-08-16T23:47:35+00:00"
+  "commit": "e71defe",
+  "built_at": "2026-08-16T23:51:21+00:00"
 }
