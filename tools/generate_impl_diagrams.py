@@ -120,7 +120,7 @@ def d1_reference():
     b.append(box(60, 55, 170, 60, WHITE, "Users & Business Apps", "web / API / IDE"))
     b.append(box(270, 55, 190, 60, WHITE, "Agent Orchestrator", "LangGraph, CrewAI, Semantic Kernel"))
     b.append(box(500, 55, 170, 60, LTBL, "AI Gateway", "authN, WAF, intent filter", cap="INGRESS"))
-    b.append(box(710, 55, 190, 60, WHITE, "Model Gateway & Guardrails", "output guardrails, redaction", cap="MS-01..09"))
+    b.append(box(710, 55, 190, 60, WHITE, "Model Gateway & Guardrails", "output guardrails, redaction", cap="MS-01..11"))
     b.append(box(940, 55, 160, 60, WHITE, "LLM Provider(s)", "cloud / self-hosted"))
     b.append(arrow(230, 85, 270, 85))
     b.append(arrow(460, 85, 500, 85))
@@ -137,7 +137,7 @@ def d1_reference():
 
     # ---- Row 3: policy, tool & model plane ----
     b.append(box(620, 195, 230, 100, LTBL, "Policy Decision Points (OPA)", "Rego: IAM, DS, TP, GRM", cap="POLICY-AS-CODE"))
-    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..10"))
+    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..12"))
     b.append(arrow(540, 245, 620, 245))
     b.append(arrow(850, 245, 880, 245))
     b.append(box(620, 330, 230, 90, WHITE, "Identity Plane", "SPIFFE/SPIRE, JIT creds, delegation", cap="IAM-01..09"))
@@ -250,7 +250,7 @@ def d4_telemetry():
     b.append(box(710, 70, 320, 55, WHITE, "SOC Dashboards", "live posture, agent activity"))
     b.append(box(710, 140, 320, 55, WHITE, "IR Playbooks", "containment, tool revocation", cap="MIR-04"))
     b.append(box(710, 210, 320, 55, LTBL, "Mandatory Reporting Triggers", "SOCI 12h | APRA 72h | NDB", cap="MIR-05"))
-    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "51 controls, per-pillar maturity", cap="GRM-06"))
+    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "59 controls, per-pillar maturity", cap="GRM-06"))
     for y in (97, 167, 237):
         b.append(arrow(290, y, 370, y))
     b.append(varrow(500, 125, 140))
@@ -280,7 +280,7 @@ def d5_network():
     b.append(box(410, 330, 230, 90, WHITE, "Tool Gateway / MCP", "allow-listed endpoints only", cap="TP-03/08"))
     b.append(box(725, 70, 300, 70, WHITE, "Registered Tools & APIs", "explicitly registered", cap="TP-01"))
     b.append(box(725, 170, 300, 70, WHITE, "Model Providers (egress)", "signed certs, IP allow-list"))
-    b.append(box(725, 270, 300, 70, WHITE, "Data Stores (RAG, memory)", "ABAC + encryption", cap="DS-01..06"))
+    b.append(box(725, 270, 300, 70, WHITE, "Data Stores (RAG, memory)", "ABAC + encryption", cap="DS-01..07"))
     b.append(box(725, 380, 300, 80, "#fdf0f0", "CLOUD CONTROL PLANES - BLOCKED", "EC2, IAM, Lambda, KMS, Azure RM, GCP CRM", cap="EE-02 / TP-08", stroke=RED))
     b.append(arrow(310, 100, 410, 115))
     b.append(arrow(310, 190, 410, 245))

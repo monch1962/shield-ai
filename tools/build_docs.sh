@@ -64,6 +64,15 @@ build_doc framework/shield-ai-implementation-architecture.md \
   "SHIELD-AI(TM) Implementation Architecture"
 build_doc framework/shield-ai-deep-review-2026-08.md \
   "SHIELD-AI(TM) Monthly Deep Review -- August 2026"
+# Any other deep-review editions (glob keeps this working as editions accrue;
+# each monthly cycle adds framework/shield-ai-deep-review-YYYY-MM.md)
+for review in framework/shield-ai-deep-review-*.md; do
+  [ -e "$review" ] || continue
+  case "$review" in
+    *2026-08*) ;; # already built above
+    *) build_doc "$review" "SHIELD-AI(TM) Monthly Deep Review" ;;
+  esac
+done
 build_doc framework/shield-ai-watchlist.md \
   "SHIELD-AI(TM) Watchlist Report"
 build_doc framework/shield-ai-tooling-map.md \

@@ -17,8 +17,10 @@
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
 | Technical slide deck (27 slides) | [OK] Complete | For AI engineers, security architects |
 | Buyer's journey bridge (7 slides) | [OK] Complete | Connects both decks |
-| Defence briefing deck (24 slides) | [OK] Versioned | v1.2, client-specific/defence/ |
-| Aware Super briefing deck (24 slides) | [OK] Versioned | v1.0, client-specific/aware-super/ |
+| Defence briefing deck (24 slides) | [OK] Versioned | v1.5, client-specific/defence/ |
+| Aware Super briefing deck (24 slides) | [OK] Versioned | v1.3, client-specific/aware-super/ |
+| NBN Co briefing deck (25 slides) | [OK] Versioned | v1.1, client-specific/nbn/ |
+| Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.7 | 59 controls, machine-readable |
 | Rego policy stubs (59) | [OK] Complete | All 7 pillars; TODOs to assertions next |
 | GitHub repo | [OK] Complete | Private, all artifacts |
@@ -39,7 +41,7 @@
 ## Next Milestones
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
-- Convert the 57 shipped stubs from TODO bodies to evaluable assertions with test vectors
+- Convert the 59 shipped stubs from TODO bodies to evaluable assertions with test vectors
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components
@@ -50,13 +52,13 @@
 
 ### Milestone 3: Field validation
 - Exercise the assessment guide against real agent deployments
-- Feed findings back into the framework (v1.6 cycle)
+- Feed findings back into the framework (next cycle)
 - Generate case study material (sanitised)
 
 ## Key Decisions
 
 ### What stays unchanged
-- Framework v1.6 -- frozen pending field feedback
+- Framework v1.7 -- frozen pending field feedback
 - Assessment guide -- will be tested and refined in first field use
 - Three slide decks -- use them in outreach and enablement
 - JSON schema + Rego stubs -- good enough for tooling baseline

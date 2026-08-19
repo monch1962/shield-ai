@@ -46,9 +46,9 @@ body { font-family: 'Inter', sans-serif; }
 .story-box { background: white; border-radius: 10px; padding: 18px 24px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); text-align: left; margin: 1em 0; }
 .story-box p { margin: 0.5em 0; font-size: 0.95em; }
 
-.ask-box { background: var(--navy); color: white; border-radius: 10px; padding: 20px 28px; margin: 1.2em auto; max-width: 720px; text-align: left; }
-.ask-box h4 { margin: 0 0 8px 0; color: var(--au-gold); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85em; }
-.ask-box p { margin: 0.4em 0; font-size: 0.95em; }
+.ask-box { background: var(--navy); color: white; border-radius: 10px; padding: 12px 20px; margin: 0.8em auto; max-width: 680px; text-align: left; }
+.ask-box h4 { margin: 0 0 6px 0; color: var(--au-gold); text-transform: uppercase; letter-spacing: 1px; font-size: 0.75em; }
+.ask-box p { margin: 0.25em 0; font-size: 0.82em; line-height: 1.4; }
 
 .footer-logo { position: fixed; bottom: 12px; left: 12px; font-size: 0.6em; color: var(--muted); }
 </style>
@@ -100,7 +100,7 @@ body { font-family: 'Inter', sans-serif; }
 </section>
 
 <!-- ============================================================ -->
-<!-- SLIDE 3: THE ASK -->
+<!-- SLIDE 3: THE RECOMMENDATION -->
 <!-- ============================================================ -->
 <section data-background="#e8eef6">
   <h2 style="border:none;">The recommendation</h2>
@@ -108,15 +108,23 @@ body { font-family: 'Inter', sans-serif; }
     <h4>Proposal</h4>
     <p><strong>1. Posture assessment (weeks 1-4).</strong> A structured review of current AI deployments against the 59 controls, producing a maturity profile and prioritised gap list.</p>
     <p><strong>2. Pilot (weeks 5-8).</strong> Policy-as-code enforcement on one real use case, deployed as a sidecar. No platform rebuild.</p>
-    <p><strong>3. Rollout.</strong> Extend to production workloads, wire to monitoring and audit, keep posture current through the ongoing incident watch.</p>
+    <p><strong>3. Rollout.</strong> Extend to production, wire to monitoring and audit, keep posture current.</p>
   </div>
-  <p style="font-size:1.05em;font-weight:600;color:var(--navy);margin-top:1em;">The question before the board: <span style="color:var(--au-blue);">authorise the 4-week posture assessment</span> so we know our current exposure before the next audit cycle.</p>
-  <p style="color:var(--muted);font-size:0.85em;margin-top:0.6em;">Security Architecture Practice &bull; August 2026 &bull; SHIELD-AI v1.7</p>
+  <p style="color:var(--muted);font-size:0.85em;margin-top:0.8em;">Security Architecture Practice &bull; August 2026 &bull; SHIELD-AI v1.7</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: THE ASK -->
+<!-- ============================================================ -->
+<section data-background="#e8eef6">
+  <h2 style="border:none;">The question before the board</h2>
+  <p style="font-size:1.3em;font-weight:600;color:var(--navy);margin-top:1.2em;">Authorise the 4-week posture assessment <span style="color:var(--au-blue);">so we know our current exposure</span> before the next audit cycle.</p>
+  <p style="color:var(--muted);font-size:0.85em;margin-top:2.5em;">Security Architecture Practice &bull; August 2026 &bull; SHIELD-AI v1.7</p>
 </section>
 
 </div></div>
 <div class="footer-logo">SHIELD-AI &bull; Security Architecture Practice</div>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
-<script>Reveal.initialize({hash:true, slideNumber:true});</script>
+<script>Reveal.initialize({hash:true, slideNumber:true, width:960, height:800});</script>
 </body>
 </html>
