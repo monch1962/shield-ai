@@ -1,0 +1,21 @@
+{
+  "deck": "shield-ai-deck-retailer",
+  "title": "SHIELD-AI",
+  "audience": "Major Australian Retailer",
+  "version": "1.0",
+  "date": "2026-08-20",
+  "framework_version": "v1.7",
+  "slides": 25,
+  "diagrams": [
+    "framework-architecture-updated",
+    "threat-landscape-updated",
+    "impl-reference-architecture",
+    "impl-policy-decision-points",
+    "impl-request-flow",
+    "maturity-journey",
+    "retailer-alignment"
+  ],
+  "builder": "client-specific/retailer/build_deck.py",
+  "commit": "4a74709",
+  "built_at": "2026-08-20T07:48:20+00:00"
+}

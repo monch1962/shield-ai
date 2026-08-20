@@ -10,6 +10,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - Defence briefing: `python3 client-specific/defence/build_deck.py`
 - Aware Super briefing: `python3 client-specific/aware-super/build_deck.py`
 - NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
+- Major Australian Retailer briefing: `python3 client-specific/retailer/build_deck.py`
 
 The deck version is independent of the framework version (v1.7); a framework
 update that changes deck content bumps the deck version, not the framework
@@ -34,6 +35,12 @@ version.
 | 1.2 | 2026-08-12 | Client communication refresh: ABC News Australian agent incident added to threat slide, new "What This Means in Practice" engagement-path slide (posture assessment → pilot → rollout, APRA-question framing), speaker notes updated |
 | 1.1 | 2026-08-12 | Updated to framework v1.6 (57 controls): added MS-10 and TP-11 to pillar slides, evidence slide refreshed (32 incidents, 21 gaps), footer version bumped |
 | 1.0 | 2026-08-06 | Initial 24-slide briefing for Aware Super: member-data threat framing, where AI touches a super fund, seven pillars, reference implementation, policy as code, maturity (L2 floor / L3 target), APRA alignment (CPS 234 / CPG 230 / Privacy Act / ASIC / AU Guardrails), five-step practical starting point, watchlist summary |
+
+## Shield-AI Deck: Major Australian Retailer
+
+| Version | Date | Change |
+|---------|------|--------|
+| 1.0 | 2026-08-20 | Initial 25-slide briefing for a major Australian retailer (client unnamed in deck): retail threat framing (customer PII, loyalty data, cardholder data, supply chain), seven pillars (one slide each, retail-focused), reference implementation, policy as code, maturity, alignment to Privacy Act/APPs + NDB, PCI DSS, Cyber Security Act 2024, SOCI Act, ISM/E8, AU Guardrails, five-step practical starting point, watchlist summary |
 
 ## Shield-AI Deck: NBN Co
 
