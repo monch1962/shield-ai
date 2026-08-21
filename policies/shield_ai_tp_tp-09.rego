@@ -1,5 +1,7 @@
 package shield_ai.tp.explicit_tool_registration
 
+import rego.v1
+
 # SHIELD-AI(TM) TP-09: Explicit Tool Registration
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -14,16 +16,24 @@ package shield_ai.tp.explicit_tool_registration
 # Regulatory mappings:
 #   OWASP: LLM08 (Excessive Agency)
 #   NIST AI RMF: IDENTIFY (ID.AM)
-#   EU AI Act: Art. 15(b)
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_09
-#     msg := sprintf("TP-09 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (Semantic Kernel /
+# .NET SDK implicit exposure, INC-17).
+# Input model: input.action.kind in {"tool_call","dispatch"};
+# input.action.registration ("explicit" | "auto"); input.action.tool.
+# Fail closed: a tool invocation without explicit registration is denied.
+
+deny contains msg if {
+    input.action.kind in {"tool_call", "dispatch"}
+    not (input.action.registration == "explicit")
+    msg := sprintf("TP-09 deny: tool %q was not explicitly registered (implicit exposure class)", [input.action.tool])
+}
+
+deny contains msg if {
+    input.action.registration == "auto"
+    msg := sprintf("TP-09 deny: tool %q auto-registered by framework mechanism; explicit registration required", [input.action.tool])
+}
+
+allow if {
+    count(deny) == 0
+}

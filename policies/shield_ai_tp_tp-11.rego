@@ -1,5 +1,7 @@
 package shield_ai.tp.agent_browser_and_content_rend
 
+import rego.v1
+
 # SHIELD-AI(TM) TP-11: Agent Browser and Content-Rendering Isolation
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -14,17 +16,32 @@ package shield_ai.tp.agent_browser_and_content_rend
 # Regulatory mappings:
 #   OWASP: LLM01 (Prompt Injection)
 #   NIST AI RMF: PROTECT (PR.AC)
-#   EU AI Act: Art. 15 (Transparency and Human Oversight)
-#   ISM: Web Content Filtering
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_11
-#     msg := sprintf("TP-11 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (Zenity Intent
+# Collision INC-30, ChatMate RPE INC-29, AISI INC-27).
+# Input model: input.action.cross_origin (bool), input.action.privileged (bool),
+# input.action.kind == "document_render", input.action.document_sanitized (bool),
+# input.approval.present (bool). Fail closed on missing flags.
+
+deny contains msg if {
+    input.action.cross_origin == true
+    input.action.privileged == true
+    not input.approval.present
+    msg := sprintf("TP-11 deny: cross-origin privileged action %q from rendered content without approval", [input.action.tool])
+}
+
+deny contains msg if {
+    input.action.kind == "document_render"
+    not input.action.document_sanitized
+    msg := "TP-11 deny: document upload rendered without sanitisation before assistant processing"
+}
+
+deny contains msg if {
+    input.action.token_access == true
+    not input.approval.present
+    msg := "TP-11 deny: token access from rendered content without approval (credential-layer isolation)"
+}
+
+allow if {
+    count(deny) == 0
+}

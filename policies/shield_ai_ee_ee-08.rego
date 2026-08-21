@@ -1,5 +1,7 @@
 package shield_ai.ee.evaluation_harness_isolation_a
 
+import rego.v1
+
 # SHIELD-AI(TM) EE-08: Evaluation-Harness Isolation and Integrity
 # Pillar: EE -- Execution Environment
 #
@@ -14,17 +16,31 @@ package shield_ai.ee.evaluation_harness_isolation_a
 # Regulatory mappings:
 #   ISM: Isolation, Monitoring
 #   NIST AI RMF: MEASURE (ME.AD)
-#   EU AI Act: Art. 15(a)
-#   Five Eyes: Careful Adoption of Agentic AI Services
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ee_ee_08
-#     msg := sprintf("EE-08 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (Anthropic INC-19,
+# Meta/Irregular INC-26, AISI INC-27, Kimi K3 INC-28).
+# Input model: input.action.kind == "evaluation_run";
+# input.harness = {"egress_block_verified": bool, "target_collision_checked": bool,
+# "run_isolated": bool}. Fail closed: no verified egress block, no evaluation.
+
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.harness.egress_block_verified
+    msg := "EE-08 deny: evaluation run without a verified egress block (isolation asserted, not enforced)"
+}
+
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.harness.target_collision_checked
+    msg := "EE-08 deny: evaluation run without target collision-checking against real domains and assets"
+}
+
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.harness.run_isolated
+    msg := "EE-08 deny: evaluation run without cross-run separation (contamination risk)"
+}
+
+allow if {
+    count(deny) == 0
+}

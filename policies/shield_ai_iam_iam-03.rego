@@ -1,5 +1,7 @@
 package shield_ai.iam.human_oversight_controls
 
+import rego.v1
+
 # SHIELD-AI(TM) IAM-03: Human Oversight Controls
 # Pillar: IAM -- Identity and Access
 #
@@ -14,16 +16,34 @@ package shield_ai.iam.human_oversight_controls
 # Regulatory mappings:
 #   EU AI Act: Art. 14 -- Human Oversight
 #   NIST AI RMF: MANAGE (MG.DE)
-#   APRA CPS 234: s.2 -- Board accountability for controls
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.iam_iam_03
-#     msg := sprintf("IAM-03 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (OpenClaw approval
+# disable INC-21, AISI sockpuppet INC-27, CoreBreak forged approval INC-34).
+# Input model: input.action.high_risk_class ("financial" | "data_write" |
+# "impersonation" | "publication" | other); input.approval = {"present": bool,
+# "channel": "human_console" | "agent" | "session_history" | ...}.
+# Approval evidence from session/event history is never valid (forged-approval
+# class); agent-invoked approvals never cover financial actions.
+
+deny contains msg if {
+    input.action.high_risk_class
+    not input.approval.present
+    msg := sprintf("IAM-03 deny: %s action by agent %q without human approval", [input.action.high_risk_class, input.agent.id])
+}
+
+deny contains msg if {
+    input.approval.present == true
+    input.approval.channel == "session_history"
+    msg := "IAM-03 deny: approval evidence from session history is not human approval (forged-approval class)"
+}
+
+deny contains msg if {
+    input.action.high_risk_class == "financial"
+    input.approval.present == true
+    input.approval.channel == "agent"
+    msg := "IAM-03 deny: financial action approved on the agent channel; human-console approval required"
+}
+
+allow if {
+    count(deny) == 0
+}

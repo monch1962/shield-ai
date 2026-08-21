@@ -1,5 +1,7 @@
 package shield_ai.ee.infrastructure_api_access_cont
 
+import rego.v1
+
 # SHIELD-AI(TM) EE-02: Infrastructure API Access Control
 # Pillar: EE -- Execution Environment
 #
@@ -14,16 +16,36 @@ package shield_ai.ee.infrastructure_api_access_cont
 # Regulatory mappings:
 #   ISM: Guidelines for Gateways
 #   NIST AI RMF: PROTECT (PR.AC)
-#   EU AI Act: Art. 15(b)
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ee_ee_02
-#     msg := sprintf("EE-02 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (AWS AgentCore
+# implicit IAM abuse, INC-04).
+# Input model: input.action.tool = the API being called;
+# input.action.registered_as_tool (bool) = explicitly registered via TP-01.
+# Fail closed: no registration claim on an infrastructure API = deny.
+
+# Cloud infrastructure control-plane APIs the agent must never reach
+# implicitly. Deployment-defined; add the organisation's platform surface.
+infrastructure_apis := {
+    "ec2",
+    "iam",
+    "lambda",
+    "s3",
+    "kms",
+    "cloudformation",
+    "azure_vm",
+    "azure_rbac",
+    "azure_resource_manager",
+    "gcp_compute",
+    "gcp_iam",
+    "gcp_cloud_resource_manager",
+}
+
+deny contains msg if {
+    input.action.tool in infrastructure_apis
+    not input.action.registered_as_tool
+    msg := sprintf("EE-02 deny: agent call to infrastructure API %q without explicit tool registration", [input.action.tool])
+}
+
+allow if {
+    count(deny) == 0
+}

@@ -12,17 +12,25 @@ Implemented (assertions + test vectors):
 | Control | Package | Covers |
 |---------|---------|--------|
 | MS-04 | `shield_ai.ms.adversarial_robustness` | Prompt-injection and imperceptible-content markers (INC-20/25/30) |
+| MS-08 | `shield_ai.ms.mcp_security_controls` | MCP signed tool definitions, trusted registry (INC-12/20) |
+| MS-09 | `shield_ai.ms.perception_fidelity_enforcemen` | Approval fidelity snapshots, sockpuppet attestations (INC-20/22/25/27/30) |
 | MS-10 | `shield_ai.ms.agent_memory_store_integrity` | Memory-store write integrity, tamper evidence (INC-31) |
 | MS-11 | `shield_ai.ms.operational_data_stream_integr` | Log/alert-triggered actions, producer verification (INC-33) |
 | TP-01 | `shield_ai.tp.tool_inventory_and_registry` | Approved tool registry (explicit registration) |
+| TP-09 | `shield_ai.tp.explicit_tool_registration` | Auto-registration denial, explicit-registration fail-closed (INC-17) |
 | TP-10 | `shield_ai.tp.agent_platform_inbound_control` | Default-deny bindings, origin validation (INC-21/31) |
+| TP-11 | `shield_ai.tp.agent_browser_and_content_rend` | Cross-origin privileged gating, document sanitisation (INC-29/30/27) |
 | TP-12 | `shield_ai.tp.tool_call_provenance_and_dispa` | Dispatch provenance, forged-approval binding (INC-34) |
+| IAM-03 | `shield_ai.iam.human_oversight_controls` | High-risk approval gates, session-history forged approvals (INC-21/27/34) |
 | EE-01 | `shield_ai.ee.execution_environment_boundary` | High-risk tool sandbox requirement, fail closed |
+| EE-02 | `shield_ai.ee.infrastructure_api_access_cont` | Implicit infrastructure API access (INC-04) |
+| EE-05 | `shield_ai.ee.host_trusted_configuration_fil` | Host-trusted file injection, write-path allowlist (INC-11) |
 | EE-06 | `shield_ai.ee.fail_closed_sandbox_operation` | Sandbox attestation, no silent fallback (INC-13) |
 | EE-07 | `shield_ai.ee.agent_control_plane_configurat` | Control-plane write denial, world-writable loads (INC-14/15) |
+| EE-08 | `shield_ai.ee.evaluation_harness_isolation_a` | Verified egress block, collision checks, run isolation (INC-19/26/27/28) |
 | DS-07 | `shield_ai.ds.agent_originated_artifact_publ` | Publication out-of-band approval (INC-19/20) |
 
-49 controls remain stubs (`# TODO: Implement control test logic`). Convert
+41 controls remain stubs (`# TODO: Implement control test logic`). Convert
 per-pillar batches following the pattern below.
 
 ## Shared input model

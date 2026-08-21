@@ -1,5 +1,7 @@
 package shield_ai.ms.mcp_security_controls
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-08: MCP Security Controls
 # Pillar: MS -- Model Security
 #
@@ -14,17 +16,31 @@ package shield_ai.ms.mcp_security_controls
 # Regulatory mappings:
 #   OWASP: LLM02 (Insecure Output Handling)
 #   NIST AI RMF: PROTECT (PR.AC)
-#   EU AI Act: Art. 15(b)
-#   ISO 42001: Clause 8.4
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_08
-#     msg := sprintf("MS-08 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (AutoJack, TrustFall,
+# OX Security supply chain INC-12; Kiro MCP registry INC-20).
+# Input model: input.action.kind == "mcp_connect";
+# input.action.tool_def_signed (bool); input.action.server_registry
+# ("trusted" | "untrusted"). Fail closed on missing claims.
+
+deny contains msg if {
+    input.action.kind == "mcp_connect"
+    not input.action.tool_def_signed
+    msg := sprintf("MS-08 deny: MCP tool definitions from %q are not cryptographically signed", [input.action.server])
+}
+
+deny contains msg if {
+    input.action.kind == "mcp_connect"
+    not (input.action.server_registry == "trusted")
+    msg := sprintf("MS-08 deny: MCP server %q is not from a trusted registry", [input.action.server])
+}
+
+deny contains msg if {
+    input.action.kind == "mcp_connect"
+    input.action.writes_execution_bearing == true
+    msg := sprintf("MS-08 deny: MCP connection %q can write execution-bearing locations (registry launch-command class)", [input.action.server])
+}
+
+allow if {
+    count(deny) == 0
+}
