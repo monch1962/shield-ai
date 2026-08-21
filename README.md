@@ -54,8 +54,14 @@ shield-ai/
 |       +-- deck-manifest.json              #  Version + build metadata
 |       +-- nbn-alignment.svg               #  SOCI Act/TSSR/APP 11/ISM-E8 map
 |       +-- build_deck.py                   #  Builder (regenerates the deck)
++-- exploits/                           # Novel AI exploit catalog (per-type entries)
+|   +-- README.md                       #   Index + coverage table (23 classes, v1.7)
+|   +-- g01-..g23-*.md                  #   One entry per exploit type (G1-G23)
+|   +-- _TEMPLATE.md                    #   Entry format for the monitoring cycles
+|   +-- exploit-catalog.pdf             #   Combined PDF (README + all entries)
+|   +-- exploit-catalog.epub            #   Combined EPUB
 +-- policies/                           # Policy-as-code control stubs (Rego/OPA)
-|   +-- shield_ai_*.rego               #   57 machine-readable control stubs
+|   +-- shield_ai_*.rego               #   59 machine-readable control stubs
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
@@ -65,6 +71,7 @@ shield-ai/
 +-- tools/
     +-- generate_control_schema.py      # Regenerates control schema JSON + Rego stubs
     +-- generate_diagrams.py            # Regenerates SVG diagrams
+    +-- check_exploit_catalog.py        # Catalog integrity gate (links + coverage)
 ```
 
 ## Framework at a Glance
@@ -101,6 +108,11 @@ shield-ai/
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
   incident research driving framework evolution (v1.7, 36 incidents, 23 gaps)
+
+- **[Novel AI Exploit Catalog (Markdown)](exploits/README.md)** -- one entry per
+  identified exploit type (G1-G23), with the nature of each exploit and the
+  framework controls that cover it; maintained by the weekly and monthly
+  monitoring cycles (PDF/EPUB available)
 
 - **[Tooling and Process Map (Markdown)](framework/shield-ai-tooling-map.md)** --
   tools and processes addressing all 59 controls, each assessed with the Six

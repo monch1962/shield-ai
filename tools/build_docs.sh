@@ -84,6 +84,28 @@ build_doc presentations/what-is-shield-ai.md \
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 
+# --- Exploit catalog: README index + all gNN entries, one combined document ---
+# The catalog is a directory of per-type entries; the combined PDF/EPUB is the
+# reading copy. Order is stable: README first, then g01..g23 alphabetically.
+echo "== exploits/ (combined catalog) =="
+CATALOG_DOCS=()
+for f in exploits/README.md exploits/g*.md; do
+  [ -e "$f" ] && CATALOG_DOCS+=("$f")
+done
+pandoc "${CATALOG_DOCS[@]}" -f markdown+yaml_metadata_block+smart -t html5 \
+  --standalone --resource-path="$REPO:$DIAGRAMS" -c "$CSS" -o "$TMP"
+weasyprint "$TMP" exploits/exploit-catalog.pdf
+pandoc "${CATALOG_DOCS[@]}" -f markdown+yaml_metadata_block+smart -t epub3 \
+  --resource-path="$REPO:$DIAGRAMS" --css "$CSS" \
+  --metadata title="SHIELD-AI(TM) Novel AI Exploit Catalog" \
+  -o exploits/exploit-catalog.epub
+echo "  -> exploit-catalog.pdf  ($(stat -c%s exploits/exploit-catalog.pdf) bytes)"
+echo "  -> exploit-catalog.epub ($(stat -c%s exploits/exploit-catalog.epub) bytes)"
+
+# Catalog integrity gate: every G-ID has an entry, every link resolves.
+# Stdlib-only checker: any python3 works (PY may be set by update_all.sh).
+"${PY:-python3}" tools/check_exploit_catalog.py
+
 rm -f "$TMP"
 echo ""
 echo "All documents rebuilt."
