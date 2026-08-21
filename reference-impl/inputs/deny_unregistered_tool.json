@@ -1,0 +1,5 @@
+{
+  "agent": {"id": "agent-billing"},
+  "action": {"kind": "tool_call", "tool": "drop_database", "args": {}},
+  "context": {"content": []}
+}

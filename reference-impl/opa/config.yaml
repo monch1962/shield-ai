@@ -1,0 +1,5 @@
+# Decision logging to console: every policy verdict is emitted as a structured
+# log line (the OPA-side view of MIR-01). The sidecar emits its own audit
+# events to the SIEM pipeline.
+decision_logs:
+  console: true

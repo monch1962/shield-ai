@@ -1,0 +1,16 @@
+{
+  "agent": {
+    "id": "agent-billing",
+    "sandboxed": true,
+    "ephemeral": false,
+    "tenant_id": "acme-billing",
+    "allowlist": ["search_documents", "summarise_thread", "read_calendar", "create_meeting", "send_email_draft", "transfer_funds", "write_file"],
+    "path_writable": ["/workspace"],
+    "resource_usage": {"cpu_pct": 30, "network_mbps": 2, "api_rate": 40},
+    "identity": {"unique": true, "auditable": true},
+    "delegation": {"scoped": true, "wildcard": false, "hops": 2, "max_hops": 2, "chain_reconstructable": true},
+    "credentials": {"isolated": true, "per_tool_scope": true, "short_lived": true, "ephemeral": true, "broad_role": false, "rotation_triggered": true},
+    "session": {"independent_context": true, "shared_credentials": false},
+    "memory": {"persists_classified": false, "wiped_between_sessions": true, "write_auth": "jwt", "tamper_evidence": false}
+  }
+}

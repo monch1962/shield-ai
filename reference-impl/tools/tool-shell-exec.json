@@ -1,0 +1,1 @@
+{"tool_id": "shell_exec", "endpoint": "http://mock:8091/tool/shell-exec", "high_risk": true, "high_impact": true, "schema_fields": ["command"]}

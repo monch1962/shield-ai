@@ -52,6 +52,14 @@
 - Deploy the OPA policy layer with the full Rego set
 - Instrument the telemetry pipeline (OTLP -> SIEM) per MIR-01..06
 - Validate against real agent frameworks (LangGraph, CrewAI, Semantic Kernel, etc.)
+- **COMPLETE (Aug 2026):** `reference-impl/` -- Go sidecar (stdlib only) with
+  input enrichment, deny-override aggregation across all 59 policies, JSONL
+  audit events + SIEM forward (MIR-01/03/06), tenant scoping (IAM-09) and
+  provenance minting (TP-12); OPA bundle from `policies/`; docker-compose with
+  mock tool/SIEM; `make e2e` asserts a six-verdict matrix (positive control,
+  unregistered tool, unsandboxed high-risk, injection, infra API) plus
+  telemetry delivery. Real-framework validation (last bullet) is field work
+  tracked under Milestone 3.
 
 ### Milestone 3: Field validation
 - Exercise the assessment guide against real agent deployments

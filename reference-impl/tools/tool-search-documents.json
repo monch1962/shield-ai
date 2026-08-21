@@ -1,0 +1,1 @@
+{"tool_id": "search_documents", "endpoint": "http://mock:8091/tool/search-docs", "schema_fields": ["query"]}

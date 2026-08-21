@@ -1,0 +1,43 @@
+services:
+  # Zone 3 policy decision point: OPA serving the full 59-policy bundle.
+  opa:
+    build:
+      context: ..
+      dockerfile: reference-impl/opa/Dockerfile
+    ports:
+      - "8181:8181"
+
+  # Zone 2 sidecar: tool gateway + policy enricher + telemetry exporter.
+  sidecar:
+    build:
+      context: ./sidecar
+    depends_on:
+      - opa
+    ports:
+      - "8080:8080"
+    entrypoint: ["/usr/local/bin/sidecar"]
+    command:
+      - "-opa"
+      - "http://opa:8181"
+      - "-addr"
+      - "0.0.0.0:8080"
+      - "-agents"
+      - "/cfg/agents"
+      - "-tools"
+      - "/cfg/tools"
+      - "-deployment"
+      - "/cfg/deployment.json"
+      - "-siem"
+      - "http://mock:8091/siem"
+    volumes:
+      - ./agents:/cfg/agents:ro
+      - ./tools:/cfg/tools:ro
+      - ./deployment.json:/cfg/deployment.json:ro
+
+  # Registered tool endpoints + SIEM sink (reference stand-ins).
+  mock:
+    build:
+      context: ./sidecar
+    entrypoint: ["/usr/local/bin/mocktool"]
+    ports:
+      - "8091:8091"

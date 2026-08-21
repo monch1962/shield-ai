@@ -94,7 +94,7 @@ All model inference passes through a proxy that:
 
 ## 1.6 Policy Decision Points (Group 6)
 
-The policy-as-code layer is the enforcement heart of the model. Every agent action is evaluated against Rego assertions before it is permitted, and every verdict is an audit event. Section 3 details the decision points; the repository ships per-control Rego stubs in `policies/` (see Appendix A).
+The policy-as-code layer is the enforcement heart of the model. Every agent action is evaluated against Rego assertions before it is permitted, and every verdict is an audit event. Section 3 details the decision points; the repository ships the full implemented policy set in `policies/` (see Appendix A) with a runnable reference implementation in `reference-impl/`.
 
 ## 1.7 Telemetry and SIEM Pipeline (Group 7)
 

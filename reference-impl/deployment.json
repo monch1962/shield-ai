@@ -1,0 +1,43 @@
+{
+  "governance": {
+    "body": {"chartered": true, "cross_functional": true, "decision_authority": true},
+    "risk": {"registered": true, "kill_switch_tested": true},
+    "policy": {"hitl_by_risk": true},
+    "compliance": {"mapped": true, "quarterly_reported": true},
+    "reporting": {"dashboard": true, "risk_acceptance_logged": true},
+    "risk_acceptance": false
+  },
+  "data": {
+    "classified": true,
+    "label": "official",
+    "access": {"bulk": false, "field_filtered": true, "abac_enforced": true},
+    "inference": {"encrypted_e2e": true, "tls13_min": true, "sensitive": false, "endpoint_in_trust_boundary": true}
+  },
+  "model": {
+    "id": "m1",
+    "weights_encrypted": true,
+    "key_management": "hsm",
+    "inventory": {"registered": true, "lineage_tracked": true, "versioned": true},
+    "supply_chain": {"sbom": true, "signature_verified": true, "checkpoint_signed": true}
+  },
+  "training": {
+    "provenance_tracked": true,
+    "sanitised": true,
+    "poison_scan": "clean",
+    "personal_data": false,
+    "consent_verified": true,
+    "governance": {"lineage": true, "retention_limited": true, "unlearning": true}
+  },
+  "harness": {
+    "isolation_verified": true,
+    "production_network_path": false,
+    "can_modify_production": false,
+    "egress_block_verified": true,
+    "target_collision_checked": true,
+    "run_isolated": true
+  },
+  "evaluation": {"env_indistinguishable": true, "behaviour_matches_production": true},
+  "pipeline": {"run_signed": true, "attested": true, "security_gate_passed": true, "artifact_registry_immutable": true},
+  "dependencies": {"scanned": true, "critical_finding": false, "sandbox_library": false, "alternative_approved": false},
+  "tools": {"chain_analysed": true, "escape_chain": false, "risk_accepted": false}
+}

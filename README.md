@@ -60,9 +60,13 @@ shield-ai/
 |   +-- _TEMPLATE.md                    #   Entry format for the monitoring cycles
 |   +-- exploit-catalog.pdf             #   Combined PDF (README + all entries)
 |   +-- exploit-catalog.epub            #   Combined EPUB
-+-- policies/                           # Policy-as-code control stubs (Rego/OPA)
-|   +-- shield_ai_*.rego               #   59 machine-readable control stubs
++-- policies/                           # Policy-as-code controls (Rego/OPA, 59/59 implemented)
+|   +-- shield_ai_*.rego               #   59 implemented machine-readable controls
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
++-- reference-impl/                    # Milestone 2: runnable sidecar + OPA + telemetry
+|   +-- sidecar/                       #   Go gateway: enrich -> decide -> audit (stdlib only)
+|   +-- scripts/e2e.sh                 #   End-to-end verdict matrix against the 59 policies
+|   +-- docker-compose.yml             #   OPA bundle + sidecar + mock tool/SIEM
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
 |   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.7)
@@ -132,8 +136,9 @@ shield-ai/
 - **[Control Schema (JSON)](assets/shield-ai-control-schema.json)** -- machine-readable
   control definitions for tooling and automation
 
-- **[Policy Stubs (Rego)](policies/)** -- per-control policy-as-code stubs for the
-  Open Policy Agent evaluation layer
+- **[Policy-as-Code (Rego)](policies/)** -- the 59 controls as executable,
+  deny-override policies with test vectors; the shared input model and
+  conversion conventions are documented in `policies/README.md`
 
 ## How to View Slides
 

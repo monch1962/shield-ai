@@ -1,0 +1,6 @@
+{
+  "agent": {"id": "agent-billing", "sandboxed": false},
+  "action": {"kind": "tool_call", "tool": "transfer_funds", "args": {"amount": 10000, "to_account": "acc-9"}},
+  "context": {"content": []},
+  "approval": {"present": true, "channel": "human_console"}
+}

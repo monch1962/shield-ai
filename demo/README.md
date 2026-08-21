@@ -3,7 +3,7 @@
 This is the self-run demo we hand to prospects. It shows the framework's
 core differentiator in practice: **59 controls, expressed as executable
 policy, evaluated deny-override**. The full control suite lives in
-`policies/` at the repo root (59 Rego stubs). This bundle is a reduced,
+`policies/` at the repo root (59 implemented Rego policies). This bundle is a reduced,
 runnable subset of three controls so you can see enforcement working in
 under five minutes.
 

@@ -1,0 +1,1 @@
+{"tool_id": "summarise_thread", "endpoint": "http://mock:8091/tool/summarise-thread", "schema_fields": ["thread_id"]}
