@@ -65,6 +65,15 @@
 - Exercise the assessment guide against real agent deployments
 - Feed findings back into the framework (next cycle)
 - Generate case study material (sanitised)
+- **PROGRESS (Aug 2026):** first field validation complete --
+  `case-studies/2026-08-reference-implementation.md` ran the full Section 8
+  methodology against the reference implementation (59-control evidence
+  matrix, weakest-link pillar scores, overall L1, 10 findings P0-P3,
+  remediation roadmap). Findings staged for the next cycle in
+  `framework/shield-ai-field-findings.md` (FF-01..FF-06, adopted by the
+  monthly deep-review cycle); sanitised case study material lives in
+  `case-studies/`. Remaining: real-client engagements, framework adoption
+  of staged findings.
 
 ## Key Decisions
 

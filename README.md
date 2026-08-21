@@ -18,6 +18,8 @@ shield-ai/
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
 |   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.7)
+|   +-- shield-ai-field-findings.md     #   Field validation findings, staged for the
+|                                      #   next framework cycle (FF-01..FF-06)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
 |   +-- shield-ai-gap-analysis.epub     #   Gap analysis EPUB
 |   +-- shield-ai-watchlist.md          #   Always-current watchlist (replaced monthly)
@@ -63,6 +65,8 @@ shield-ai/
 +-- policies/                           # Policy-as-code controls (Rego/OPA, 59/59 implemented)
 |   +-- shield_ai_*.rego               #   59 implemented machine-readable controls
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
++-- case-studies/                     # Sanitised field-validation records (M3)
+|   +-- 2026-08-reference-implementation.md  # First assessment (overall L1)
 +-- reference-impl/                    # Milestone 2: runnable sidecar + OPA + telemetry
 |   +-- sidecar/                       #   Go gateway: enrich -> decide -> audit (stdlib only)
 |   +-- scripts/e2e.sh                 #   End-to-end verdict matrix against the 59 policies
@@ -139,6 +143,11 @@ shield-ai/
 - **[Policy-as-Code (Rego)](policies/)** -- the 59 controls as executable,
   deny-override policies with test vectors; the shared input model and
   conversion conventions are documented in `policies/README.md`
+- **[Case Studies (Markdown)](case-studies/README.md)** -- sanitised field-validation
+  records; the first assessment (2026-08-reference-implementation) runs the full
+  methodology and scores the reference implementation at overall L1
+- **[Field Findings (Markdown)](framework/shield-ai-field-findings.md)** -- lessons
+  from field validation, staged for adoption by the next framework cycle
 
 ## How to View Slides
 
