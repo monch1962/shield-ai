@@ -146,6 +146,26 @@ stamped in the footer. Version history: [presentations/VERSIONS.md](presentation
 Each deck ships with a `deck-manifest.json` recording version, slide count,
 diagrams, builder script, and the exact git commit it was built from.
 
+## Local Gates
+
+Before committing, run the local gate suite: `make check` (regenerates the
+schema and Rego stubs non-destructively, then runs the list-spacing scan,
+artifact verification, exploit catalog gate, and all OPA policy tests).
+
+Git hooks are versioned in `.githooks/` and enforce the gates automatically:
+
+- `pre-commit` runs the cheap checks (list-spacing, catalog gate, OPA tests)
+- `pre-push` runs the full `make check` suite
+
+Enable them once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Bypass with `git commit --no-verify` / `git push --no-verify` only when you
+know the gates would pass (e.g. a mechanical manifest refresh).
+
 ## Framework Version
 
 **v1.7** -- August 17, 2026 (weekly monitoring cycle: added operational data-stream integrity MS-11 and tool-call provenance and dispatch verification TP-12; extended MIR-02/IAM-03/TP-09/GRM-02; addressed GhostJacking observability-stream poisoning (Tenet, DEFCON 34), CoreBreak tool-dispatch provenance failures (AWS/Google/Vercel), the first autonomous multi-agent attack on critical infrastructure (Taiwan nuclear safety agency), and the AI-assisted exploit-development cluster (SharePoint chain, Zoomsday); G19 escalated to Critical; 59 controls)

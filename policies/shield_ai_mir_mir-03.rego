@@ -1,5 +1,7 @@
 package shield_ai.mir.prompt_audit_log
 
+import rego.v1
+
 # SHIELD-AI(TM) MIR-03: Prompt Audit Log
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -11,19 +13,25 @@ package shield_ai.mir.prompt_audit_log
 #   L3: Automated redaction. Tiered retention (full -> redacted). SIEM integration.
 #   L4: Real-time prompt scanning for security events. Automated incident triggering from prompt analysis.
 #
-# Regulatory mappings:
-#   OWASP LLM Top 10 v2: LLM01 (Prompt Injection -- detection)
-#   NIST AI RMF: DETECT (DE.AE)
-#   EU AI Act: Art. 12 -- Transparency
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.sensitive (bool) -- the action involves sensitive
+# prompt content; input.action.prompt_captured (bool);
+# input.action.prompt_redacted (bool). Sensitive prompt/response pairs must
+# be captured and redacted before SIEM ingestion.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.sensitive == true
+    not input.action.prompt_captured
+    msg := "MIR-03 deny: sensitive prompt/response pair not captured for the audit log"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.mir_mir_03
-#     msg := sprintf("MIR-03 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.sensitive == true
+    input.action.prompt_captured == true
+    not input.action.prompt_redacted
+    msg := "MIR-03 deny: captured prompt/response pair not redacted before SIEM ingestion"
+}
+
+allow if {
+    count(deny) == 0
+}

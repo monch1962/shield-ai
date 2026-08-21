@@ -24,13 +24,21 @@ Implemented (assertions + test vectors):
 | IAM-03 | `shield_ai.iam.human_oversight_controls` | High-risk approval gates, session-history forged approvals (INC-21/27/34) |
 | EE-01 | `shield_ai.ee.execution_environment_boundary` | High-risk tool sandbox requirement, fail closed |
 | EE-02 | `shield_ai.ee.infrastructure_api_access_cont` | Implicit infrastructure API access (INC-04) |
+| EE-03 | `shield_ai.ee.resource_usage_limiting` | CPU/network/API-rate limits (INC-10) |
+| EE-04 | `shield_ai.ee.evaluation_sandbox_integrity` | Evaluation-to-production isolation baseline (INC-01/06) |
 | EE-05 | `shield_ai.ee.host_trusted_configuration_fil` | Host-trusted file injection, write-path allowlist (INC-11) |
 | EE-06 | `shield_ai.ee.fail_closed_sandbox_operation` | Sandbox attestation, no silent fallback (INC-13) |
 | EE-07 | `shield_ai.ee.agent_control_plane_configurat` | Control-plane write denial, world-writable loads (INC-14/15) |
 | EE-08 | `shield_ai.ee.evaluation_harness_isolation_a` | Verified egress block, collision checks, run isolation (INC-19/26/27/28) |
+| DS-06 | `shield_ai.ds.output_validation` | Output leakage scanning, fail-closed delivery |
 | DS-07 | `shield_ai.ds.agent_originated_artifact_publ` | Publication out-of-band approval (INC-19/20) |
+| MIR-01 | `shield_ai.mir.agent_activity_logging` | Audit records, append-only storage |
+| MIR-02 | `shield_ai.mir.behavioural_anomaly_detection` | Baseline deviations, swarm-campaign correlation (INC-01/23/35) |
+| MIR-03 | `shield_ai.mir.prompt_audit_log` | Sensitive prompt capture + redaction |
+| MIR-05 | `shield_ai.mir.mandatory_reporting_integratio` | Regulatory reporting trigger (SOCI/APRA windows) |
+| MIR-06 | `shield_ai.mir.forensic_readiness` | High-impact action reconstruction from immutable logs |
 
-41 controls remain stubs (`# TODO: Implement control test logic`). Convert
+33 controls remain stubs (`# TODO: Implement control test logic`). Convert
 per-pillar batches following the pattern below.
 
 ## Shared input model

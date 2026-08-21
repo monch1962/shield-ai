@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# SHIELD-AI pre-push gate: full gate suite before any push.
+# Installed via `git config core.hooksPath .githooks` (see README "Local Gates").
+# Bypass with: git push --no-verify  (only when you know the gates would pass)
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO"
+
+if [ -d "$HOME/.hermes/profiles/sec-arch/skills/research/threat-informed-architecture-review/scripts" ]; then
+  echo "== pre-push: full gate suite (make check) =="
+  make check
+else
+  echo "pre-push: skill scripts not found; running self-contained gates" >&2
+  make verify catalog test
+fi
+
+echo "pre-push gates passed."

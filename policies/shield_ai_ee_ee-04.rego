@@ -1,5 +1,7 @@
 package shield_ai.ee.evaluation_sandbox_integrity
 
+import rego.v1
+
 # SHIELD-AI(TM) EE-04: Evaluation Sandbox Integrity
 # Pillar: EE -- Execution Environment
 #
@@ -11,19 +13,32 @@ package shield_ai.ee.evaluation_sandbox_integrity
 #   L3: No network path between evaluation and production; evaluation pipelines cannot modify production.
 #   L4: Continuous isolation verification; automated teardown; evaluation subversion detection per MS-07.
 #
-# Regulatory mappings:
-#   ISM: Guidelines for System Management
-#   NIST AI RMF: GOVERN (GV.OD)
-#   EU AI Act: Art. 15(a)
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (OpenAI INC-01,
+# Claude Mythos INC-06 evaluation containment).
+# Input model: input.action.kind == "evaluation_run";
+# input.harness = {"isolation_verified": bool, "production_network_path": bool,
+# "can_modify_production": bool}. Fail closed: unverified isolation = deny.
+# EE-08 (evaluation-harness isolation and integrity) adds egress-block
+# verification, collision checks, and run separation on top of this baseline.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.harness.isolation_verified
+    msg := "EE-04 deny: evaluation run with unverified evaluation-to-production isolation (fail closed)"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ee_ee_04
-#     msg := sprintf("EE-04 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    input.harness.production_network_path == true
+    msg := "EE-04 deny: evaluation run has a network path to production"
+}
+
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    input.harness.can_modify_production == true
+    msg := "EE-04 deny: evaluation pipeline can modify production systems or data"
+}
+
+allow if {
+    count(deny) == 0
+}

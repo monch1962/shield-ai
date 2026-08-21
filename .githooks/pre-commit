@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# SHIELD-AI pre-commit gate: cheap checks before every commit.
+# Installed via `git config core.hooksPath .githooks` (see README "Local Gates").
+# Bypass with: git commit --no-verify  (only when you know the gates would pass)
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO"
+
+PY="${PY:-python3}"
+OPA="$(command -v opa || echo "$HOME/.local/bin/opa")"
+SKILL_SCRIPTS="$HOME/.hermes/profiles/sec-arch/skills/research/threat-informed-architecture-review/scripts"
+
+if [ ! -d "$SKILL_SCRIPTS" ]; then
+  echo "pre-commit: SKILL_SCRIPTS not found at $SKILL_SCRIPTS -- skipping list-spacing scan" >&2
+else
+  echo "== pre-commit: list-spacing scan =="
+  "$PY" "$SKILL_SCRIPTS/list_spacing_scan.py" "$REPO"
+fi
+
+echo "== pre-commit: exploit catalog gate =="
+"$PY" tools/check_exploit_catalog.py
+
+echo "== pre-commit: OPA policy tests =="
+"$OPA" test policies policies/tests demo/policies demo/tests
+
+echo "pre-commit gates passed."

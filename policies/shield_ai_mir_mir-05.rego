@@ -1,5 +1,7 @@
 package shield_ai.mir.mandatory_reporting_integratio
 
+import rego.v1
+
 # SHIELD-AI(TM) MIR-05: Mandatory Reporting Integration
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -11,19 +13,17 @@ package shield_ai.mir.mandatory_reporting_integratio
 #   L3: Automated incident detection triggers pre-populated reports. Escalation workflows active.
 #   L4: Fully automated reporting lifecycle. Continuous compliance monitoring with regulator dashboards.
 #
-# Regulatory mappings:
-#   SOCI Act: s.30B -- mandatory incident reporting (12h critical, 72h other)
-#   APRA CPS 234: s.3(c) -- 72-hour notification
-#   Privacy Act 1988: Notifiable Data Breaches scheme
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.incident (bool); input.action.reporting_triggered
+# (bool). Any confirmed incident must trigger the regulatory reporting path
+# (SOCI 12-hour / APRA 72-hour windows); fail closed on a missing trigger.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.incident == true
+    not input.action.reporting_triggered
+    msg := sprintf("MIR-05 deny: incident reported by agent %q has no regulatory reporting trigger (SOCI 12h / APRA 72h windows)", [input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.mir_mir_05
-#     msg := sprintf("MIR-05 violation: agent %v does not meet control requirements", [agent.id])
-# }
+allow if {
+    count(deny) == 0
+}

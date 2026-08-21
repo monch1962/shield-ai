@@ -1,5 +1,7 @@
 package shield_ai.mir.forensic_readiness
 
+import rego.v1
+
 # SHIELD-AI(TM) MIR-06: Forensic Readiness
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -11,19 +13,18 @@ package shield_ai.mir.forensic_readiness
 #   L3: Immutable logs with integrity verification. Full session reconstruction capability. Multi-agent chain reconstruction.
 #   L4: Real-time forensic readiness verification. Automated forensic data extraction. Continuous integrity monitoring.
 #
-# Regulatory mappings:
-#   NIST AI RMF: RECOVER (RC.RP)
-#   ISM: Guidelines for Cyber Security Incidents -- forensic readiness
-#   SOCI Act: CIRMP -- record-keeping
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.high_impact (bool); input.action.reconstructible
+# (bool) -- the session/tool-call chain can be fully reconstructed from
+# immutable logs. High-impact actions that cannot be reconstructed fail
+# closed: no reconstruction, no execution.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.high_impact == true
+    not input.action.reconstructible
+    msg := sprintf("MIR-06 deny: high-impact action %q by agent %q is not reconstructible from immutable logs", [input.action.tool, input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.mir_mir_06
-#     msg := sprintf("MIR-06 violation: agent %v does not meet control requirements", [agent.id])
-# }
+allow if {
+    count(deny) == 0
+}
