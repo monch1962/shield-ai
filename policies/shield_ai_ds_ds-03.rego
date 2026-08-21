@@ -1,29 +1,30 @@
 package shield_ai.ds.memory_sanitisation
 
+import rego.v1
+
 # SHIELD-AI(TM) DS-03: Memory Sanitisation
 # Pillar: DS -- Data Security
 #
 # Prevent persistence of sensitive data across sessions through automated purging, encryption, per-agent scoping, and cross-session aggregation detection.
 #
-# Maturity indicators:
-#   L1: Session-bound only. No persistent memory.
-#   L2: Persistent memory with basic retention policy. Manual purging.
-#   L3: Automated memory purging. Per-agent memory scoping. Encryption at rest. Access logging.
-#   L4: Real-time memory access monitoring. Cross-session aggregation detection. Automated DSAR response.
-#
-# Regulatory mappings:
-#   OWASP LLM Top 10 v2: LLM06 (Sensitive Information Disclosure)
-#   Privacy Act 1988: APP 11 -- data security, Notifiable Data Breaches
-#   ISM: Guidelines for Media -- data sanitisation
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.agent.memory = {"persists_classified": bool,
+# "wiped_between_sessions": bool}; input.action.kind == "session_end".
+# MS-10 (memory-store integrity) covers tamper-evidence; this control covers
+# the privacy surface: sensitive data must not persist across sessions.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.agent.memory.persists_classified == true
+    msg := sprintf("DS-03 deny: agent %q persists classified or sensitive data beyond session lifetime", [input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ds_ds_03
-#     msg := sprintf("DS-03 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "session_end"
+    not input.agent.memory.wiped_between_sessions
+    msg := sprintf("DS-03 deny: agent %q session ended without memory wipe (cross-session leakage risk)", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

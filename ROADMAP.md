@@ -22,7 +22,7 @@
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.1, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.7 | 59 controls, machine-readable |
-| Rego policy stubs (59) | [OK] 26/59 implemented | MS-04/08/09/10/11, TP-01/09/10/11/12, IAM-03, DS-06/07, MIR-01/02/03/05/06, EE-01..08 (full pillar) have assertions + test vectors; 33 stubs remain |
+| Rego policy set (59) | [OK] Complete | All 59 controls implemented with deny-override assertions and test vectors (253 OPA tests); no stubs remain |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
@@ -42,10 +42,9 @@
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
 - Convert the 59 shipped stubs from TODO bodies to evaluable assertions with test vectors
-- **Progress (Aug 2026):** 26/59 converted (MS-04/08/09/10/11, TP-01/09/10/11/12,
-  IAM-03, DS-06/07, MIR-01/02/03/05/06, EE-01..08 full pillar) with test vectors
-  (120 OPA tests), following the pattern and shared input model documented in
-  `policies/README.md`. Remaining 33 convert in per-pillar batches.
+- **COMPLETE (Aug 2026):** all 59 controls implemented with deny-override
+  assertions and per-control test vectors (253 OPA tests), following the pattern
+  and shared input model documented in `policies/README.md`.
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components

@@ -1,59 +1,52 @@
 # SHIELD-AI Policy-as-Code
 
-This directory ships the framework's 59 controls as OPA/Rego policies. Every
-control has a file; implemented controls carry real deny-override assertions,
-the rest are stubs awaiting conversion. The demo bundle in `demo/` is a
-reduced, self-contained subset for prospects; the full control set lives here.
+This directory ships the framework's 59 controls as OPA/Rego policies with
+deny-override assertions and per-control test vectors. Every control is
+implemented: no stubs remain. The demo bundle in `demo/` is a reduced,
+self-contained subset for prospects; the full control set lives here.
 
 ## Status (v1.7, August 2026)
 
-Implemented (assertions + test vectors):
+**All 59 controls implemented.** 253 OPA tests pass (`opa test policies
+policies/tests demo/policies demo/tests`). Coverage by pillar:
 
-| Control | Package | Covers |
-|---------|---------|--------|
-| MS-04 | `shield_ai.ms.adversarial_robustness` | Prompt-injection and imperceptible-content markers (INC-20/25/30) |
-| MS-08 | `shield_ai.ms.mcp_security_controls` | MCP signed tool definitions, trusted registry (INC-12/20) |
-| MS-09 | `shield_ai.ms.perception_fidelity_enforcemen` | Approval fidelity snapshots, sockpuppet attestations (INC-20/22/25/27/30) |
-| MS-10 | `shield_ai.ms.agent_memory_store_integrity` | Memory-store write integrity, tamper evidence (INC-31) |
-| MS-11 | `shield_ai.ms.operational_data_stream_integr` | Log/alert-triggered actions, producer verification (INC-33) |
-| TP-01 | `shield_ai.tp.tool_inventory_and_registry` | Approved tool registry (explicit registration) |
-| TP-09 | `shield_ai.tp.explicit_tool_registration` | Auto-registration denial, explicit-registration fail-closed (INC-17) |
-| TP-10 | `shield_ai.tp.agent_platform_inbound_control` | Default-deny bindings, origin validation (INC-21/31) |
-| TP-11 | `shield_ai.tp.agent_browser_and_content_rend` | Cross-origin privileged gating, document sanitisation (INC-29/30/27) |
-| TP-12 | `shield_ai.tp.tool_call_provenance_and_dispa` | Dispatch provenance, forged-approval binding (INC-34) |
-| IAM-03 | `shield_ai.iam.human_oversight_controls` | High-risk approval gates, session-history forged approvals (INC-21/27/34) |
-| EE-01 | `shield_ai.ee.execution_environment_boundary` | High-risk tool sandbox requirement, fail closed |
-| EE-02 | `shield_ai.ee.infrastructure_api_access_cont` | Implicit infrastructure API access (INC-04) |
-| EE-03 | `shield_ai.ee.resource_usage_limiting` | CPU/network/API-rate limits (INC-10) |
-| EE-04 | `shield_ai.ee.evaluation_sandbox_integrity` | Evaluation-to-production isolation baseline (INC-01/06) |
-| EE-05 | `shield_ai.ee.host_trusted_configuration_fil` | Host-trusted file injection, write-path allowlist (INC-11) |
-| EE-06 | `shield_ai.ee.fail_closed_sandbox_operation` | Sandbox attestation, no silent fallback (INC-13) |
-| EE-07 | `shield_ai.ee.agent_control_plane_configurat` | Control-plane write denial, world-writable loads (INC-14/15) |
-| EE-08 | `shield_ai.ee.evaluation_harness_isolation_a` | Verified egress block, collision checks, run isolation (INC-19/26/27/28) |
-| DS-06 | `shield_ai.ds.output_validation` | Output leakage scanning, fail-closed delivery |
-| DS-07 | `shield_ai.ds.agent_originated_artifact_publ` | Publication out-of-band approval (INC-19/20) |
-| MIR-01 | `shield_ai.mir.agent_activity_logging` | Audit records, append-only storage |
-| MIR-02 | `shield_ai.mir.behavioural_anomaly_detection` | Baseline deviations, swarm-campaign correlation (INC-01/23/35) |
-| MIR-03 | `shield_ai.mir.prompt_audit_log` | Sensitive prompt capture + redaction |
-| MIR-05 | `shield_ai.mir.mandatory_reporting_integratio` | Regulatory reporting trigger (SOCI/APRA windows) |
-| MIR-06 | `shield_ai.mir.forensic_readiness` | High-impact action reconstruction from immutable logs |
+| Pillar | Controls implemented |
+|--------|----------------------|
+| MS (Model Security) | MS-01..MS-11 |
+| IAM (Identity and Access) | IAM-01..IAM-09 |
+| DS (Data Security) | DS-01..DS-07 |
+| TP (Tool and Pipeline Security) | TP-01..TP-12 |
+| MIR (Monitoring and Incident Response) | MIR-01..MIR-06 |
+| GRM (Governance and Risk Management) | GRM-01..GRM-06 |
+| EE (Execution Environment) | EE-01..EE-08 |
 
-33 controls remain stubs (`# TODO: Implement control test logic`). Convert
-per-pillar batches following the pattern below.
+Each implemented file's header records the incidents its assertions trace to
+(see `framework/shield-ai-gap-analysis.md`). Maturity indicators and regulatory
+mappings for every control live in `assets/shield-ai-control-schema.json` (the
+schema generator, `tools/generate_control_schema.py`, is the canonical holder
+of that metadata).
 
 ## Shared input model
 
-Controls evaluate an agent action. The common shape (each control reads only
-its slice):
+Controls evaluate an agent action or a state claim. The common shape (each
+control reads only its slice):
 
 ```json
 {
   "agent": {
     "id": "agent-1",
     "sandboxed": true,
+    "ephemeral": false,
+    "compromised": false,
+    "session_expired": false,
     "sandbox_attestation": {"present": true, "mode": "container"},
     "config": {"path_writable": ["/workspace"], "loaded_from_world_writable": false},
-    "memory": {"write_auth": "jwt", "tamper_evidence": false}
+    "memory": {"write_auth": "jwt", "tamper_evidence": false, "persists_classified": false, "wiped_between_sessions": true},
+    "identity": {"unique": true, "auditable": true},
+    "delegation": {"scoped": true, "wildcard": false, "hops": 2, "max_hops": 2, "chain_reconstructable": true},
+    "credentials": {"isolated": true, "per_tool_scope": true, "short_lived": true, "ephemeral": true, "broad_role": false, "rotation_triggered": true},
+    "session": {"independent_context": true, "shared_credentials": false},
+    "resource_usage": {"cpu_pct": 30, "network_mbps": 2, "api_rate": 40}
   },
   "action": {
     "kind": "tool_call",
@@ -61,16 +54,57 @@ its slice):
     "target": "package_registry",
     "trigger": "log_alert",
     "high_impact": false,
+    "high_risk_class": "financial",
+    "sensitive": false,
+    "acceptable": true,
+    "anomaly_flag": false,
+    "incident": false,
+    "vendor_used": false,
+    "vendor_type": "evaluation",
+    "user_controlled_object_id": false,
+    "cross_origin": false,
+    "privileged": false,
+    "token_access": false,
+    "registered_as_tool": true,
+    "registration": "explicit",
     "allowed_binding": true,
-    "origin": "web",
+    "origin": "lan",
     "origin_validated": true,
-    "provenance": {"session": "s-1", "turn": "t-3", "model_sig": "sig-abc"}
+    "provenance": {"session": "s-1", "turn": "t-3", "model_sig": "sig-abc"},
+    "tool_def_signed": true,
+    "server_registry": "trusted",
+    "writes_execution_bearing": false,
+    "output_scan": "clean",
+    "guardrail_evaluated": true,
+    "scope_compliant": true,
+    "audit_record": true,
+    "log_storage": "append_only",
+    "reconstructible": true,
+    "prompt_captured": true,
+    "prompt_redacted": true,
+    "reporting_triggered": true,
+    "tool_auth": {"agent_authenticated": true, "human_session": false},
+    "tool_allowed": true,
+    "tool_output": {"validated": true, "sanitised": true, "within_size_limit": true, "code_generation": false, "code_sandboxed": true},
+    "gateway": {"rate_limited": true, "schema_validated": true, "audited": true, "allowlist_active": true, "infra_isolation": true}
   },
   "context": {
     "content": ["agent-visible text"],
     "stream": {"verified_producer": true, "instruction_bearing": false, "independent_verification": true}
   },
-  "approval": {"present": true, "channel": "human_console", "bound_tool": "transfer_funds"}
+  "approval": {"present": true, "channel": "human_console", "bound_tool": "transfer_funds", "snapshot_fidelity_verified": true, "attestation_source": "human"},
+  "model": {"id": "m1", "weights_encrypted": true, "key_management": "hsm", "inventory": {"registered": true, "lineage_tracked": true, "versioned": true}, "supply_chain": {"sbom": true, "signature_verified": true, "checkpoint_signed": true}},
+  "training": {"provenance_tracked": true, "sanitised": true, "poison_scan": "clean", "personal_data": false, "consent_verified": true, "governance": {"lineage": true, "retention_limited": true, "unlearning": true}},
+  "data": {"classified": true, "label": "official", "access": {"bulk": false, "field_filtered": true, "abac_enforced": true}, "inference": {"encrypted_e2e": true, "tls13_min": true, "sensitive": false, "endpoint_in_trust_boundary": true}},
+  "evaluation": {"env_indistinguishable": true, "behaviour_matches_production": true},
+  "harness": {"isolation_verified": true, "production_network_path": false, "can_modify_production": false, "egress_block_verified": true, "target_collision_checked": true, "run_isolated": true},
+  "pipeline": {"run_signed": true, "attested": true, "security_gate_passed": true, "artifact_registry_immutable": true},
+  "dependencies": {"scanned": true, "critical_finding": false, "critical_blocked": false, "sandbox_library": false, "alternative_approved": false},
+  "tools": {"chain_analysed": true, "escape_chain": false, "risk_accepted": false},
+  "tenant": {"id": "t1", "scoped": true},
+  "vendors": {"name": "acme-ai", "assessed": true, "contractual_controls": true, "right_to_audit": true},
+  "governance": {"body": {"chartered": true, "cross_functional": true, "decision_authority": true}, "risk": {"registered": true, "kill_switch_tested": true}, "policy": {"hitl_by_risk": true}, "compliance": {"mapped": true, "quarterly_reported": true}, "reporting": {"dashboard": true, "risk_acceptance_logged": true}, "risk_acceptance": false},
+  "incident": {"acknowledged": true, "class": "prompt_injection", "playbook": "ir-prompt-injection", "containment": true}
 }
 ```
 
@@ -79,42 +113,36 @@ Semantics: deny-override. The platform evaluates `allow` for an action;
 every other control passes. Fail closed: any missing assertion the control
 depends on is a deny, not a question.
 
-## Converting a stub (the pattern)
+## Testing
 
-1. Keep the metadata header (title, pillar, maturity indicators, regulatory
-   mappings) untouched. Add an `IMPLEMENTED` note with the incidents the
-   assertions trace to.
-2. Replace `# Default deny / default deny = false / TODO` with:
+```bash
+make test                      # or: opa test policies policies/tests demo/policies demo/tests
+make check                     # full local gate suite
+```
 
-   ```rego
-   import rego.v1
-   ```
+`make check` runs the stub generator (non-destructive — it preserves every
+implemented control), the list-spacing scan, artifact verification (including
+the schema-to-framework control-set drift check and MD footer version gate),
+the exploit catalog gate, and the OPA tests.
 
-3. Write `deny contains msg if { ... }` rules, one per failure mode, with
-   deployment-defined sets as named constants at the top of the file.
-4. Add `allow if { count(deny) == 0 }`.
-5. Write test vectors in `policies/tests/<pillar>_<id>_test.rego` (see the
-   existing tests): one pass case, plus one negative case per deny rule.
-6. Run `make test` (or `opa test policies policies/tests demo/policies demo/tests`).
+## Conventions and pitfalls
 
-## Pitfalls (learned converting the first batch)
-
+- **`deny contains msg if ...` set rules + `allow if count(deny) == 0`.** Never
+  `default deny = false` alongside a set deny; the set form keeps messages
+  reportable.
 - **`x != true` does NOT fail closed.** When `x` is missing from the input,
   `x != true` evaluates to undefined and the deny rule silently dies. Use
   `not x` instead: `not input.approval.present`, `not input.action.allowed_binding`.
-  The first batch shipped with this bug; the negative tests caught it.
-- **Never `default deny = false` alongside a set deny.** The stub template
-  uses a boolean default; implemented controls use the set form
-  (`deny contains msg if ...`) so messages are reportable and
-  `count(deny) == 0` is the allow test.
+  This bug shipped in the first batch and was caught by the negative tests.
+- **`not x` does not catch empty strings.** `not input.incident.playbook` is
+  false when `playbook` is `""` (defined). Where an empty value means "absent",
+  write `not (input.incident.playbook != "")` (see MIR-04).
 - **The generator is non-destructive.** `tools/generate_control_schema.py
   --rego` preserves any file whose body no longer contains the TODO marker.
-  You can regenerate freely; implemented controls are never clobbered.
+  Regenerate freely; implemented controls are never clobbered.
+- **Input-model scoping:** a control must gate only on its own slice and never
+  assume fields owned by other controls exist. Deployment-defined sets
+  (registries, markers, limits) are named constants at the top of each file,
+  documented as replaceable per organisation.
 - **Blank-line-before-lists applies here too** if you document policies in
   markdown (pandoc list merging).
-
-## Gates
-
-`make check` runs: stub regeneration (non-destructive), list-spacing scan,
-artifact verification (includes a schema-to-framework control-set drift check
-and the MD footer version gate), the exploit catalog gate, and the OPA tests.

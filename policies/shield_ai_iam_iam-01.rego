@@ -1,29 +1,27 @@
 package shield_ai.iam.agent_identity_management
 
+import rego.v1
+
 # SHIELD-AI(TM) IAM-01: Agent Identity Management
 # Pillar: IAM -- Identity and Access
 #
 # Ensure every agent has a unique, lifecycle-managed digital identity distinct from human user identities, integrated with the organisation's identity provider.
 #
-# Maturity indicators:
-#   L1: Agents use shared human credentials or no credentials. No agent identity exists.
-#   L2: Per-agent service accounts created. Manual lifecycle management.
-#   L3: Automated agent identity lifecycle. Integrated with IDP. Agent identities flagged in monitoring.
-#   L4: SPIFFE/SPIRE workload identity for every agent. Automated credential rotation. Cross-platform identity federation.
-#
-# Regulatory mappings:
-#   ISM: Guidelines for System Management -- identification and authentication
-#   Essential Eight: Restrict Administrative Privileges
-#   NIST AI RMF: IDENTIFY (ID.AM)
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.agent.identity = {"unique": bool, "auditable": bool}.
+# Fail closed: shared or unauditable identity denies the action.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    not input.agent.identity.unique
+    msg := sprintf("IAM-01 deny: agent %q has no unique identity (sharing human credentials)", [input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.iam_iam_01
-#     msg := sprintf("IAM-01 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    not input.agent.identity.auditable
+    msg := sprintf("IAM-01 deny: agent %q identity is not auditable", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

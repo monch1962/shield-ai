@@ -1,30 +1,33 @@
 package shield_ai.iam.credential_scope_narrowing
 
+import rego.v1
+
 # SHIELD-AI(TM) IAM-08: Credential Scope Narrowing
 # Pillar: IAM -- Identity and Access
 #
 # Ensure credentials in agent environments are minimal, short-lived, and revocable.
 #
-# Maturity indicators:
-#   L1: Broad shared credentials in agent environments.
-#   L2: Per-agent credentials; scope aligned to tool inventory.
-#   L3: Per-tool scoped short-lived tokens; no environment-wide credentials; automated rotation.
-#   L4: Continuous scope verification; cascade revocation on compromise; per-tool scope attestation.
-#
-# Regulatory mappings:
-#   ISM: Guidelines for System Management
-#   NIST AI RMF: PROTECT (PR.AC)
-#   EU AI Act: Art. 15(b)
-#   Essential Eight: Restrict Administrative Privileges
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.agent.credentials = {"per_tool_scope": bool,
+# "broad_role": bool, "short_lived": bool}. Broad service roles are denied;
+# credentials without per-tool scope or short lifetimes fail closed.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.agent.credentials.broad_role == true
+    msg := sprintf("IAM-08 deny: agent %q holds a broad service role instead of per-tool scoped credentials", [input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.iam_iam_08
-#     msg := sprintf("IAM-08 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    not input.agent.credentials.per_tool_scope
+    msg := sprintf("IAM-08 deny: agent %q credentials are not scoped per registered tool", [input.agent.id])
+}
+
+deny contains msg if {
+    not input.agent.credentials.short_lived
+    msg := sprintf("IAM-08 deny: agent %q credentials are not short-lived", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

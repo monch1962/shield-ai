@@ -1,29 +1,31 @@
 package shield_ai.ms.deployment_context_obfuscation
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-07: Deployment Context Obfuscation
 # Pillar: MS -- Model Security
 #
 # Prevent models from detecting evaluation environments and behaving differently than in production.
 #
-# Maturity indicators:
-#   L1: Evaluation environments clearly distinguishable from production.
-#   L2: Evaluation environments API-compatible with production; divergence documented.
-#   L3: No discoverable environment indicators; automated behavioural divergence checks; divergence treated as incident signal.
-#   L4: Continuous divergence monitoring; evaluation pipelines indistinguishable from production; automated response on divergence.
-#
-# Regulatory mappings:
-#   ISM: Guidelines for secure AI system development
-#   NIST AI RMF: MANAGE (MG.DE)
-#   EU AI Act: Art. 15
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (Claude Mythos INC-06,
+# OpenAI Math AI INC-08 environment-aware behaviour).
+# Input model: input.evaluation = {"env_indistinguishable": bool,
+# "behaviour_matches_production": bool}. Evaluation runs fail closed unless the
+# environment is indistinguishable and behavioural equivalence is attested.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.evaluation.env_indistinguishable
+    msg := "MS-07 deny: evaluation environment distinguishable from production (endpoints, data shapes, latency)"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_07
-#     msg := sprintf("MS-07 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "evaluation_run"
+    not input.evaluation.behaviour_matches_production
+    msg := "MS-07 deny: evaluation behaviour diverges from production for the same inputs (subversion indicator)"
+}
+
+allow if {
+    count(deny) == 0
+}

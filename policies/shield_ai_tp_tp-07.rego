@@ -1,29 +1,31 @@
 package shield_ai.tp.cross_tool_dependency_analysis
 
+import rego.v1
+
 # SHIELD-AI(TM) TP-07: Cross-Tool Dependency Analysis
 # Pillar: TP -- Tool and Pipeline Security
 #
 # Detect and gate escape-class tool combinations before deployment.
 #
-# Maturity indicators:
-#   L1: No cross-tool analysis; tools assessed in isolation.
-#   L2: Manual review of tool combinations for critical agents.
-#   L3: Automated risk scoring of combinations; escape-class chains blocked or risk-accepted via GRM-02.
-#   L4: Continuous chain analysis on every tool change; automated blocking of new escape-class combinations.
-#
-# Regulatory mappings:
-#   OWASP: LLM08 (Excessive Agency)
-#   NIST AI RMF: MANAGE (MG.DE)
-#   EU AI Act: Art. 9(4)
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (tool-chain
+# escalation INC-01/04).
+# Input model: input.tools = {"chain_analysed": bool, "escape_chain": bool,
+# "risk_accepted": bool}. Tool combinations that enable a multi-step escape
+# chain are denied unless explicitly risk-accepted via GRM-02.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.tools.chain_analysed
+    msg := "TP-07 deny: deployment without cross-tool dependency (transitive risk) analysis"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_07
-#     msg := sprintf("TP-07 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.tools.escape_chain == true
+    not input.tools.risk_accepted
+    msg := "TP-07 deny: tool combination enables an escape-class chain without explicit risk acceptance (GRM-02)"
+}
+
+allow if {
+    count(deny) == 0
+}

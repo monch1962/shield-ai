@@ -1,29 +1,31 @@
 package shield_ai.grm.ai_risk_register
 
+import rego.v1
+
 # SHIELD-AI(TM) GRM-02: AI Risk Register
 # Pillar: GRM -- Governance and Risk Management
 #
 # Maintain a dedicated AI risk register using a threat taxonomy that covers model, tool, data, identity, and pipeline risks, with defined owners, assessment methodology, and review cadence.
 #
-# Maturity indicators:
-#   L1: No AI risk register. AI risks captured informally or not at all.
-#   L2: Basic AI risk register with manual entries. Siloed from enterprise risk register.
-#   L3: AI-specific risk taxonomy in enterprise risk register. Regular review cycle. Formal risk acceptance.
-#   L4: Continuous AI risk assessment. Automated risk scoring from control monitoring. Integrated with ERM.
-#
-# Regulatory mappings:
-#   NIST AI RMF: GOVERN (GV.RM)
-#   SOCI Act: CIRMP -- risk management
-#   APRA CPS 234: s.3(a) -- risk assessment
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (G19 escalation:
+# AI-speed campaign response and the exercised kill-switch are evidenced
+# requirements, INC-23/35/36).
+# Input model: input.governance.risk = {"registered": bool,
+# "kill_switch_tested": bool}; input.action.high_risk_class (string).
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.high_risk_class
+    not input.governance.risk.registered
+    msg := sprintf("GRM-02 deny: %s action not registered in the AI risk register", [input.action.high_risk_class])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.grm_grm_02
-#     msg := sprintf("GRM-02 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.high_risk_class
+    not input.governance.risk.kill_switch_tested
+    msg := "GRM-02 deny: kill-switch capability not exercised (AI-speed response requires one rehearsed red button)"
+}
+
+allow if {
+    count(deny) == 0
+}

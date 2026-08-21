@@ -1,29 +1,36 @@
 package shield_ai.grm.ai_governance_body
 
+import rego.v1
+
 # SHIELD-AI(TM) GRM-01: AI Governance Body
 # Pillar: GRM -- Governance and Risk Management
 #
 # Establish and charter an AI governance body with cross-functional membership (CISO, CRO, GC, data owner, AI lead) and defined decision authority over agentic AI deployments.
 #
-# Maturity indicators:
-#   L1: No AI governance body. AI decisions made by individual teams.
-#   L2: Informal AI governance group meets ad-hoc. No formal charter.
-#   L3: Chartered AI governance body with defined terms of reference. Regular meetings. Documented decisions.
-#   L4: AI governance body with delegated authority. Independent audit of decisions. Cross-entity governance.
-#
-# Regulatory mappings:
-#   APRA CPS 234: s.2 -- Board accountability
-#   PSPF: Security Governance -- Policy 1
-#   Privacy Act 1988: APP 1 -- accountability
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.governance.body = {"chartered": bool, "cross_functional":
+# bool, "decision_authority": bool}. High-risk deployments require an active,
+# chartered governance body.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.governance.body.chartered
+    msg := "GRM-01 deny: deployment without a chartered AI governance body"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.grm_grm_01
-#     msg := sprintf("GRM-01 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.governance.body.cross_functional
+    msg := "GRM-01 deny: AI governance body lacks cross-functional membership (CISO, CRO, GC, data owner, AI lead)"
+}
+
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.governance.body.decision_authority
+    msg := "GRM-01 deny: AI governance body has no defined decision authority over agentic AI deployments"
+}
+
+allow if {
+    count(deny) == 0
+}

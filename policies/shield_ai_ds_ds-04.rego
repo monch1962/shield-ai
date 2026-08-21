@@ -1,29 +1,35 @@
 package shield_ai.ds.data_minimisation
 
+import rego.v1
+
 # SHIELD-AI(TM) DS-04: Data Minimisation
 # Pillar: DS -- Data Security
 #
 # Filter data at the retrieval layer (field-level, not document-level) and enforce attribute-based access control at query time to ensure agents receive only the minimum data required.
 #
-# Maturity indicators:
-#   L1: Full documents passed to model context. No data filtering at retrieval.
-#   L2: Basic excerpt extraction. Tool response limits configured.
-#   L3: Field-level filtering. ABAC at retrieval. Tool response minimisation enforced.
-#   L4: Dynamic minimisation based on task context and sensitivity. Continuous monitoring of effectiveness.
-#
-# Regulatory mappings:
-#   Privacy Act 1988: APP 3 -- Collection of solicited personal information, APP 11
-#   NIST AI RMF: IDENTIFY (ID.DA)
-#   EU AI Act: Art. 10(2) -- Data Governance
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.data.access = {"bulk": bool, "field_filtered": bool,
+# "abac_enforced": bool}. Bulk data access is denied; retrieval without
+# field-level filtering or ABAC fails closed.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.data.access.bulk == true
+    msg := "DS-04 deny: bulk data access by agent (field-level filtering required)"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ds_ds_04
-#     msg := sprintf("DS-04 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "retrieval"
+    not input.data.access.field_filtered
+    msg := "DS-04 deny: retrieval without field-level filtering (document-level only)"
+}
+
+deny contains msg if {
+    input.action.kind == "retrieval"
+    not input.data.access.abac_enforced
+    msg := "DS-04 deny: retrieval without attribute-based access control at query time"
+}
+
+allow if {
+    count(deny) == 0
+}

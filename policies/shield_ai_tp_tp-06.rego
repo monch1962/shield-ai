@@ -1,29 +1,39 @@
 package shield_ai.tp.dependency_scanning
 
+import rego.v1
+
 # SHIELD-AI(TM) TP-06: Dependency Scanning
 # Pillar: TP -- Tool and Pipeline Security
 #
 # Continuously scan all ML libraries, model dependencies, tool SDKs, and container images for vulnerabilities with automated blocking of critical-severity findings.
 #
-# Maturity indicators:
-#   L1: No dependency scanning. Dependencies updated ad-hoc.
-#   L2: Basic scanning at build time. Manual review of critical findings.
-#   L3: Continuous scanning. Automated blocking for critical findings. Automated patch deployment.
-#   L4: AI-specific dependency scanning (ML libraries, model registries). Predictive vulnerability assessment.
-#
-# Regulatory mappings:
-#   OWASP LLM Top 10 v2: LLM10 (Supply Chain)
-#   ISM: Guidelines for System Management -- vulnerability management
-#   Essential Eight: Patch Applications, Patch Operating Systems
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (DeepSeek python_exec
+# INC-18, Langflow validate_code INC-16).
+# Input model: input.dependencies = {"scanned": bool, "critical_finding": bool,
+# "critical_blocked": bool, "sandbox_library": bool, "alternative_approved": bool}.
+# Interpreter isolation flags are never security boundaries; code-validation
+# endpoints are code-execution surfaces (see EE-06 and TP-04 respectively).
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.dependencies.scanned
+    msg := "TP-06 deny: deployment with unscanned dependencies"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_06
-#     msg := sprintf("TP-06 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.dependencies.critical_finding == true
+    not input.dependencies.critical_blocked
+    msg := "TP-06 deny: critical-severity dependency finding not blocked"
+}
+
+deny contains msg if {
+    input.dependencies.sandbox_library == true
+    input.dependencies.critical_finding == true
+    not input.dependencies.alternative_approved
+    msg := "TP-06 deny: HIGH-RISK sandbox library (vm2/n8n/Pyodide/Wasmtime class) with critical finding and no approved alternative"
+}
+
+allow if {
+    count(deny) == 0
+}

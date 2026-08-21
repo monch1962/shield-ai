@@ -1,29 +1,29 @@
 package shield_ai.grm.regulatory_mapping_and_complia
 
+import rego.v1
+
 # SHIELD-AI(TM) GRM-05: Regulatory Mapping and Compliance Reporting
 # Pillar: GRM -- Governance and Risk Management
 #
 # Maintain an automated mapping of SHIELD-AI controls to applicable regulatory frameworks with continuous compliance monitoring and regular reporting.
 #
-# Maturity indicators:
-#   L1: No regulatory mapping. Compliance assessed informally.
-#   L2: Manual mapping to primary regulatory frameworks. Periodic compliance reports.
-#   L3: Automated regulatory mapping. Continuous compliance monitoring. Quarterly reporting.
-#   L4: Real-time compliance dashboard. Automated impact assessment of regulatory changes. Continuous audit readiness.
-#
-# Regulatory mappings:
-#   APRA CPS 234: s.2 -- Board reporting
-#   NIST AI RMF: GOVERN (GV.OV)
-#   ISM: Guidelines for Cyber Security Documentation
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.governance.compliance = {"mapped": bool,
+# "quarterly_reported": bool}. Compliance posture must be machine-mapped and
+# reported on the framework's cadence.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "deployment"
+    not input.governance.compliance.mapped
+    msg := "GRM-05 deny: deployment without an automated regulatory mapping (ISM, E8, SOCI, CPS 234, PSPF, Privacy Act)"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.grm_grm_05
-#     msg := sprintf("GRM-05 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    not input.governance.compliance.quarterly_reported
+    msg := "GRM-05 deny: compliance posture not reported on the quarterly cadence"
+}
+
+allow if {
+    count(deny) == 0
+}

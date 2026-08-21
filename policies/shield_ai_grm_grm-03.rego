@@ -1,29 +1,29 @@
 package shield_ai.grm.ethical_use_policy
 
+import rego.v1
+
 # SHIELD-AI(TM) GRM-03: Ethical Use Policy
 # Pillar: GRM -- Governance and Risk Management
 #
 # Document and enforce an ethical use policy that classifies agents by risk tier, defines autonomy boundaries per tier, and specifies transparency obligations.
 #
-# Maturity indicators:
-#   L1: No ethical use policy. Agents deployed without defined boundaries.
-#   L2: Draft policy document. Basic risk classification. Manual compliance monitoring.
-#   L3: Approved policy with risk-tiered autonomy. Automated compliance monitoring. Regular policy review.
-#   L4: Continuous compliance verification. Automated enforcement at tool gateway. Policy improvement from experience.
-#
-# Regulatory mappings:
-#   EU AI Act: Art. 14 -- Human Oversight
-#   NIST AI RMF: GOVERN (GV.OC)
-#   Privacy Act 1988: APP 1 -- accountability
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.acceptable (bool) -- the action is inside the
+# documented acceptable-use boundary for the agent's risk tier;
+# input.governance.policy = {"hitl_by_risk": bool}; input.action.high_risk_class.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.acceptable == false
+    msg := sprintf("GRM-03 deny: action %q outside the documented acceptable-use boundary for agent %q", [input.action.tool, input.agent.id])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.grm_grm_03
-#     msg := sprintf("GRM-03 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.high_risk_class
+    not input.governance.policy.hitl_by_risk
+    msg := "GRM-03 deny: high-risk tier agent deployed without human-in-the-loop requirement per risk tier"
+}
+
+allow if {
+    count(deny) == 0
+}

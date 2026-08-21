@@ -1,29 +1,37 @@
 package shield_ai.ds.training_data_governance
 
+import rego.v1
+
 # SHIELD-AI(TM) DS-05: Training Data Governance
 # Pillar: DS -- Data Security
 #
 # Track training data lineage from source to model, verify consent for personal data, enforce retention limits, and provide machine unlearning capability.
 #
-# Maturity indicators:
-#   L1: No training data governance. Data collected without tracking or consent verification.
-#   L2: Basic data lineage for critical models. Manual consent verification.
-#   L3: Automated lineage tracking. Consent verification pipeline. Retention enforcement.
-#   L4: Machine unlearning capability. Continuous training data audit. Third-party governance automatically assessed.
-#
-# Regulatory mappings:
-#   Privacy Act 1988: APP 3 -- Collection, APP 5 -- Notification, APP 6 -- Use/Disclosure
-#   EU AI Act: Art. 10 -- Data Governance
-#   NIST AI RMF: IDENTIFY (ID.DA)
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.training.governance = {"lineage": bool, "retention_limited":
+# bool, "unlearning": bool}; input.training.personal_data (bool);
+# input.training.consent_verified (bool).
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    input.action.kind == "training_run"
+    not input.training.governance.lineage
+    msg := "DS-05 deny: training run without dataset lineage tracking"
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ds_ds_05
-#     msg := sprintf("DS-05 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "training_run"
+    input.training.personal_data == true
+    not input.training.consent_verified
+    msg := "DS-05 deny: training run on personal data without verified consent"
+}
+
+deny contains msg if {
+    input.action.kind == "training_run"
+    not input.training.governance.retention_limited
+    msg := "DS-05 deny: training run without retention limits on source datasets"
+}
+
+allow if {
+    count(deny) == 0
+}

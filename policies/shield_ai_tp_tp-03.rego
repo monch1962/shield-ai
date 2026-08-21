@@ -1,28 +1,33 @@
 package shield_ai.tp.api_gateway_security
 
+import rego.v1
+
 # SHIELD-AI(TM) TP-03: API Gateway Security
 # Pillar: TP -- Tool and Pipeline Security
 #
 # Deploy a gateway between agents and tools that enforces rate limiting, schema validation, audit logging, and MCP protocol awareness where applicable.
 #
-# Maturity indicators:
-#   L1: No gateway. Agents call tools directly.
-#   L2: Basic reverse proxy between agents and tools. Rate limiting configured.
-#   L3: Gateway with schema validation, rate limiting, and audit logging. MCP-aware. Fail-closed tested.
-#   L4: Intelligent gateway with dynamic rate limiting, anomaly-based blocking, and auto-discovery.
-#
-# Regulatory mappings:
-#   ISM: Guidelines for Gateways, Guidelines for Networking
-#   Essential Eight: Application Control
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.gateway = {"rate_limited": bool,
+# "schema_validated": bool, "audited": bool}. Tool calls that bypass the
+# gateway's controls fail closed.
+# Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
-# Default deny
-default deny = false
+deny contains msg if {
+    not input.action.gateway.rate_limited
+    msg := sprintf("TP-03 deny: tool %q call not rate-limited by the gateway", [input.action.tool])
+}
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_03
-#     msg := sprintf("TP-03 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    not input.action.gateway.schema_validated
+    msg := sprintf("TP-03 deny: tool %q call payload not schema-validated by the gateway", [input.action.tool])
+}
+
+deny contains msg if {
+    not input.action.gateway.audited
+    msg := sprintf("TP-03 deny: tool %q call not audit-logged by the gateway", [input.action.tool])
+}
+
+allow if {
+    count(deny) == 0
+}
