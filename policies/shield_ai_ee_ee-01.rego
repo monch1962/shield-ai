@@ -1,5 +1,7 @@
 package shield_ai.ee.execution_environment_boundary
 
+import rego.v1
+
 # SHIELD-AI(TM) EE-01: Execution Environment Boundary Enforcement
 # Pillar: EE -- Execution Environment
 #
@@ -15,15 +17,26 @@ package shield_ai.ee.execution_environment_boundary
 #   ISM: Guidelines for System Hardening
 #   Essential Eight: Application Control
 #   ASD: Container Security Guidance
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ee_ee_01
-#     msg := sprintf("EE-01 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.action.tool, input.agent.sandboxed (bool).
+# Fail closed: a missing sandboxed flag is treated as not sandboxed.
+
+# High-risk tools that must only ever run from inside the execution boundary.
+high_risk_tools := {
+    "shell_exec",
+    "write_file",
+    "install_package",
+    "transfer_funds",
+    "delete_objects",
+}
+
+deny contains msg if {
+    input.action.tool in high_risk_tools
+    not input.agent.sandboxed
+    msg := sprintf("EE-01 deny: tool %q is high-risk and agent %q is not sandboxed (fail closed)", [input.action.tool, input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

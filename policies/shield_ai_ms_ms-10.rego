@@ -1,5 +1,7 @@
 package shield_ai.ms.agent_memory_store_integrity
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-10: Agent Memory-Store Integrity
 # Pillar: MS -- Model Security
 #
@@ -16,15 +18,26 @@ package shield_ai.ms.agent_memory_store_integrity
 #   NIST AI RMF: PROTECT (PR.DS)
 #   EU AI Act: Art. 10 (Data Governance)
 #   ISM: Guidelines for System Monitoring
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_10
-#     msg := sprintf("MS-10 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (Ruflo/RufRoot
+# CVE-2026-59726 memory poisoning, INC-31).
+# Input model: input.action.kind == "memory_write";
+# input.agent.memory = {"write_auth": string, "tamper_evidence": bool}.
+# Writes must be authenticated and tamper-evident; a store with tamper evidence
+# is treated as compromised.
+
+deny contains msg if {
+    input.action.kind == "memory_write"
+    not input.agent.memory.write_auth
+    msg := sprintf("MS-10 deny: memory-store write by agent %q is unauthenticated", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "memory_write"
+    input.agent.memory.tamper_evidence == true
+    msg := sprintf("MS-10 deny: memory-store write by agent %q carries tamper evidence; store must be treated as compromised", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

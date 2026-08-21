@@ -1,5 +1,7 @@
 package shield_ai.ms.adversarial_robustness
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-04: Adversarial Robustness
 # Pillar: MS -- Model Security
 #
@@ -16,15 +18,33 @@ package shield_ai.ms.adversarial_robustness
 #   NIST AI RMF: MEASURE (ME.AD)
 #   EU AI Act: Art. 15 -- Accuracy
 #   MITRE ATLAS: AML.T0051, AML.T0059
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_04
-#     msg := sprintf("MS-04 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
+# Input model: input.context.content[] = agent-visible content the action is
+# driven by. Deny-override semantics: allow == (count(deny) == 0), fail closed.
+
+# Deployment-defined marker set. Extend per organisation; covers the documented
+# prompt-injection primitives (INC-03/09/13/29) and the imperceptible-content
+# primitives that defeat human-in-the-loop perception (INC-20/25/30).
+injection_markers := {
+    "ignore previous instructions",
+    "ignore all prior instructions",
+    "disregard your instructions",
+    "you are now",
+    "system prompt:",
+    "new system prompt",
+    "color:#fff;font-size:1px",
+    "font-size:0px",
+    "opacity:0",
+}
+
+deny contains msg if {
+    some item in input.context.content
+    some marker in injection_markers
+    contains(item, marker)
+    msg := sprintf("MS-04 deny: prompt-injection or imperceptible-content marker %q found in agent-visible content", [marker])
+}
+
+allow if {
+    count(deny) == 0
+}

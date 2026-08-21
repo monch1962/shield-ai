@@ -81,3 +81,5 @@ Terms are grouped the way you will meet them in a briefing. Definitions are writ
 ---
 
 *Plain-language definitions are for briefings. Where a definition differs from the technical meaning, the framework document is authoritative.*
+
+*SHIELD-AI Glossary -- v1.7 edition, August 17, 2026*

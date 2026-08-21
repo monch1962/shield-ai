@@ -2530,6 +2530,7 @@ Use this quick-reference during the assessment to ensure all 59 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.0 -- July 2026*
+*SHIELD-AI Assessment Guide v1.7 -- August 17, 2026 (aligned to framework v1.7)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.7 August 2026 (59 controls)*
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

@@ -406,7 +406,7 @@ The weekly sandbox-escape watch cycle should carry the following tracking hooks,
 
 ### 10.3 Longer-Term Positioning
 
-The four threads in Section 9 should inform the framework's v1.6 direction regardless of individual promotions: an explicit inbound-surface treatment in the reference architecture, automated-first response layers in the monitoring pillar, producer-side controls in the data and pipeline pillars, and a maintained external-framework mapping layer. None of these require the watchlist items to resolve first; they are evolutionary directions the watchlist is already pointing at.
+The four threads in Section 9 should inform the framework's ongoing direction regardless of individual promotions: an explicit inbound-surface treatment in the reference architecture, automated-first response layers in the monitoring pillar, producer-side controls in the data and pipeline pillars, and a maintained external-framework mapping layer. None of these require the watchlist items to resolve first; they are evolutionary directions the watchlist is already pointing at.
 
 ---
 

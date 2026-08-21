@@ -1867,12 +1867,23 @@ def generate_rego_stubs(output_dir=None):
 
     os.makedirs(output_dir, exist_ok=True)
     count = 0
+    preserved = 0
 
     for cid in sorted(CONTROLS.keys()):
         ctrl = CONTROLS[cid]
         safe_name = ctrl["title"].lower().replace(" ", "_").replace("-", "_").replace(",", "").replace("(", "").replace(")", "").replace("&", "and")
         filename = f"shield_ai_{ctrl['pillar'].lower()}_{cid.lower()}.rego"
         filepath = os.path.join(output_dir, filename)
+
+        # Non-destructive regeneration: a control that has been IMPLEMENTED
+        # (its stub body replaced with real assertions, i.e. no TODO marker)
+        # is preserved exactly. Only TODO stubs are (re)generated.
+        if os.path.exists(filepath):
+            with open(filepath, encoding="utf-8") as f:
+                existing = f.read()
+            if "# TODO: Implement control test logic" not in existing:
+                preserved += 1
+                continue
 
         package_name = f"shield_ai.{ctrl['pillar'].lower()}.{safe_name[:30]}"
 
@@ -1909,7 +1920,7 @@ default deny = false
             f.write(rego_code)
         count += 1
 
-    print(f"Generated: {count} Rego policy stubs in {output_dir}/")
+    print(f"Generated: {count} Rego policy stubs, preserved {preserved} implemented control(s) in {output_dir}/")
     return output_dir
 
 

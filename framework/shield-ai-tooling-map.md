@@ -805,5 +805,5 @@ Adopt in this order: **identity and policy first (L2 floor), then enforcement (L
 
 ---
 
-*SHIELD-AI Tooling and Process Map -- August 6, 2026*
+*SHIELD-AI Tooling and Process Map v1.7 -- August 17, 2026*
 *Authored by the Security Architecture Practice*

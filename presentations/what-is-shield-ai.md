@@ -47,3 +47,5 @@ Most AI security offerings are documents. SHIELD-AI ships as executable policy: 
 Australian organisations are deploying agents that can act. The first documented harm has already happened here. SHIELD-AI gives you a way to know, test, and demonstrate what your agents are allowed to do, in terms your regulator will accept.
 
 Security Architecture Practice, Sydney, Australia.
+
+*Framework edition: SHIELD-AI v1.7, August 17, 2026*

@@ -102,6 +102,27 @@ def main():
     schema = schema_doc.get("controls", schema_doc)
     check(f"schema JSON count == {EXPECTED_COUNT} (found {len(schema)})", len(schema) == EXPECTED_COUNT)
 
+    # 5b. Schema <-> framework control-set drift (1:1, not just counts)
+    fw_text = open("framework/shield-ai-framework.md", encoding="utf-8").read()
+    ctrl_bullet = re.compile(r"^\- ((?:MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+):")
+    fw_ids = {m.group(1) for ln in fw_text.split("\n") if (m := ctrl_bullet.match(ln))}
+    schema_ids = set(schema)
+    check(f"framework.md control IDs == schema control_ids "
+          f"(missing in schema: {sorted(fw_ids - schema_ids)}, "
+          f"extra in schema: {sorted(schema_ids - fw_ids)})",
+          fw_ids == schema_ids)
+
+    # 5c. Rego implementation status (informational; non-stub controls)
+    implemented = sorted(
+        f for f in os.listdir("policies")
+        if f.endswith(".rego")
+        and "# TODO: Implement control test logic"
+        not in open(os.path.join("policies", f), encoding="utf-8").read()
+    )
+    print(f"  [info] {len(implemented)}/{EXPECTED_COUNT} controls implemented (non-stub):")
+    for f in implemented:
+        print(f"         {f}")
+
     # 6. Client deck manifests record the current framework version
     for c in ["client-specific/defence", "client-specific/aware-super", "client-specific/nbn",
               "presentations/reference-architecture-walkthrough"]:
@@ -129,6 +150,28 @@ def main():
         slides = " ".join(z.read(n).decode("utf-8", "ignore") for n in z.namelist()
                           if n.startswith("ppt/slides/") and n.endswith(".xml"))
         check(f"{os.path.basename(pptx)} has {ids}", all(i in slides for i in ids))
+
+    # 8. Markdown source footers carry the current version (drift guard:
+    #    catches the class of staleness the count sweep misses, e.g. a footer
+    #    left at "v1.6" while the document content is v1.7).
+    for doc, markers in [
+        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.7"]),
+        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.7", "August 17, 2026"]),
+        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.7", "August 17, 2026"]),
+        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.7"]),
+        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.7", "August 17, 2026"]),
+        ("presentations/what-is-shield-ai.md", ["SHIELD-AI v1.7, August 17, 2026"]),
+        ("presentations/glossary.md", ["v1.7 edition, August 17, 2026"]),
+    ]:
+        if not os.path.exists(doc):
+            check(f"{doc} exists", False)
+            continue
+        txt = open(doc, encoding="utf-8").read()
+        check(f"{os.path.basename(doc)} source footer carries {markers}",
+              all(m in txt for m in markers))
+    wl_md = open("framework/shield-ai-watchlist.md", encoding="utf-8").read()
+    check("watchlist.md edition line is current (August 17, 2026)",
+          "August 17, 2026" in wl_md)
 
     print()
     if failures:

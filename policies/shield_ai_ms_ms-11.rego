@@ -1,5 +1,7 @@
 package shield_ai.ms.operational_data_stream_integr
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-11: Operational Data-Stream Integrity
 # Pillar: MS -- Model Security
 #
@@ -16,15 +18,37 @@ package shield_ai.ms.operational_data_stream_integr
 #   NIST AI RMF: PROTECT (PR.DS)
 #   EU AI Act: Art. 14 (Human Oversight)
 #   ISM: Guidelines for System Monitoring
-
-# Default deny
-default deny = false
-
-# TODO: Implement control test logic
-# Example structure:
 #
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_11
-#     msg := sprintf("MS-11 violation: agent %v does not meet control requirements", [agent.id])
-# }
+# IMPLEMENTED (v1.7, Aug 2026) -- reference implementation (GhostJacking
+# observability-stream poisoning, INC-33).
+# Input model: input.action.trigger == "log_alert" when the action's proximate
+# cause is log/alert content; input.context.stream = {"verified_producer": bool,
+# "instruction_bearing": bool, "independent_verification": bool};
+# input.action.high_impact (bool); input.approval.present (bool).
+# Three gates: producer authenticated, no instruction-bearing payload acted on
+# without independent non-log verification, high-impact log-triggered actions
+# require human approval.
+
+deny contains msg if {
+    input.action.trigger == "log_alert"
+    not input.context.stream.verified_producer
+    msg := "MS-11 deny: agent action triggered by log/alert content from an unverified producer"
+}
+
+deny contains msg if {
+    input.action.trigger == "log_alert"
+    input.context.stream.instruction_bearing == true
+    not input.context.stream.independent_verification
+    msg := "MS-11 deny: instruction-bearing operational content acted on without independent non-log verification"
+}
+
+deny contains msg if {
+    input.action.trigger == "log_alert"
+    input.action.high_impact == true
+    not input.approval.present
+    msg := "MS-11 deny: high-impact agent action triggered by log/alert content without human approval"
+}
+
+allow if {
+    count(deny) == 0
+}

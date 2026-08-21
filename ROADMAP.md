@@ -22,7 +22,7 @@
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.1, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.7 | 59 controls, machine-readable |
-| Rego policy stubs (59) | [OK] Complete | All 7 pillars; TODOs to assertions next |
+| Rego policy stubs (59) | [OK] 10/59 implemented | MS-04/10/11, TP-01/10/12, EE-01/06/07, DS-07 have assertions + test vectors; 49 stubs remain |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
@@ -42,6 +42,9 @@
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
 - Convert the 59 shipped stubs from TODO bodies to evaluable assertions with test vectors
+- **Progress (Aug 2026):** 10/59 converted (MS-04/10/11, TP-01/10/12, EE-01/06/07, DS-07)
+  with test vectors, following the pattern and shared input model documented in
+  `policies/README.md`. Remaining 49 convert in per-pillar batches.
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components
