@@ -92,6 +92,21 @@ when drafting the next cycle.
   enforcement boundary must be independently verifiable, not merely
   asserted by the component itself.
 
+## FF-07: Validation coverage maps catch config-schema drift
+
+- **Status:** pending
+- **Source:** case-studies/2026-08-reference-implementation.md, finding F11
+- **Finding:** the coverage expansion only succeeded by asserting per-control
+  deny markers, and that assertion immediately exposed a config-schema drift
+  (agent configs declared `path_writable` at the agent root while EE-05/EE-07
+  evaluate `agent.config.path_writable`), which had silently disabled a
+  control's enforcement branch in the reference deployment. A claim-based
+  test would have kept passing; a marker-asserting test could not.
+- **Proposed delta:** the assessment guide's Phase 2 evidence collection
+  should include a schema-drift check between deployment configuration and
+  the policy input model, and validation suites should assert the deny
+  message of every control they claim to exercise.
+
 ---
 
 *First compiled: August 22, 2026 (Milestone 3 field validation, case study

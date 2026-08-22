@@ -1,0 +1,11 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "publication",
+    "tool": "search_documents",
+    "target": "public_blog",
+    "args": {}
+  }
+}

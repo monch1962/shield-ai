@@ -1,0 +1,11 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "code_execution",
+    "tool": "write_file",
+    "path": "/tmp/patch.sh",
+    "args": {}
+  }
+}

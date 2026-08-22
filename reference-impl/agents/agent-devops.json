@@ -4,13 +4,51 @@
     "sandboxed": true,
     "ephemeral": true,
     "tenant_id": "acme-devops",
-    "allowlist": ["search_documents", "summarise_thread", "write_file", "shell_exec"],
-    "path_writable": ["/workspace"],
-    "resource_usage": {"cpu_pct": 40, "network_mbps": 3, "api_rate": 60},
-    "identity": {"unique": true, "auditable": true},
-    "delegation": {"scoped": true, "wildcard": false, "hops": 2, "max_hops": 2, "chain_reconstructable": true},
-    "credentials": {"isolated": true, "per_tool_scope": true, "short_lived": true, "ephemeral": true, "broad_role": false, "rotation_triggered": true},
-    "session": {"independent_context": true, "shared_credentials": false},
-    "memory": {"persists_classified": false, "wiped_between_sessions": true, "write_auth": "jwt", "tamper_evidence": false}
+    "allowlist": [
+      "search_documents",
+      "summarise_thread",
+      "write_file",
+      "shell_exec"
+    ],
+    "resource_usage": {
+      "cpu_pct": 40,
+      "network_mbps": 3,
+      "api_rate": 60
+    },
+    "identity": {
+      "unique": true,
+      "auditable": true
+    },
+    "delegation": {
+      "scoped": true,
+      "wildcard": false,
+      "hops": 2,
+      "max_hops": 2,
+      "chain_reconstructable": true
+    },
+    "credentials": {
+      "isolated": true,
+      "per_tool_scope": true,
+      "short_lived": true,
+      "ephemeral": true,
+      "broad_role": false,
+      "rotation_triggered": true
+    },
+    "session": {
+      "independent_context": true,
+      "shared_credentials": false
+    },
+    "memory": {
+      "persists_classified": false,
+      "wiped_between_sessions": true,
+      "write_auth": "jwt",
+      "tamper_evidence": false
+    },
+    "config": {
+      "path_writable": [
+        "/workspace"
+      ],
+      "loaded_from_world_writable": false
+    }
   }
 }

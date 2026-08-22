@@ -1,0 +1,17 @@
+{
+  "agent": {
+    "id": "agent-billing",
+    "resource_usage": {
+      "cpu_pct": 99,
+      "network_mbps": 999,
+      "api_rate": 999
+    }
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "search_documents",
+    "args": {
+      "q": "x"
+    }
+  }
+}

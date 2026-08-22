@@ -1,0 +1,14 @@
+{
+  "agent": {
+    "id": "agent-billing",
+    "memory": {
+      "persists_classified": true,
+      "tamper_evidence": true
+    }
+  },
+  "action": {
+    "kind": "memory_write",
+    "tool": "search_documents",
+    "args": {}
+  }
+}

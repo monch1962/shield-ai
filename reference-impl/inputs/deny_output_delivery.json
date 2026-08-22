@@ -1,0 +1,11 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "output_delivery",
+    "tool": "search_documents",
+    "output_scan": "leak",
+    "args": {}
+  }
+}

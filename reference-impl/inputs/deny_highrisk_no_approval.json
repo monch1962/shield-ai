@@ -1,0 +1,14 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "transfer_funds",
+    "acceptable": false,
+    "args": {
+      "amount": 1000,
+      "to_account": "acc-2"
+    }
+  }
+}

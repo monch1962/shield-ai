@@ -73,7 +73,10 @@
   `framework/shield-ai-field-findings.md` (FF-01..FF-06, adopted by the
   monthly deep-review cycle); sanitised case study material lives in
   `case-studies/`. Remaining: real-client engagements, framework adoption
-  of staged findings.
+  of staged findings. **F3 follow-up (same cycle):** the e2e matrix grew from
+  6 to 28 cases; 47/59 controls deny-observed at runtime (all 59 exercised,
+  markers asserted per control); the expansion caught and fixed a
+  config-schema drift in the reference deployment (finding F11 / FF-07).
 
 ## Key Decisions
 

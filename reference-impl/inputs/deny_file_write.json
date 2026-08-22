@@ -1,0 +1,58 @@
+{
+  "agent": {
+    "id": "agent-filetool",
+    "sandboxed": true,
+    "ephemeral": false,
+    "tenant_id": "acme-devops",
+    "allowlist": [
+      "write_file"
+    ],
+    "config": {
+      "path_writable": [
+        "/home/dev/.bashrc",
+        "/workspace/.mcp.json"
+      ],
+      "loaded_from_world_writable": false
+    },
+    "memory": {
+      "write_auth": "jwt",
+      "tamper_evidence": false,
+      "persists_classified": false,
+      "wiped_between_sessions": true
+    },
+    "identity": {
+      "unique": true,
+      "auditable": true
+    },
+    "delegation": {
+      "scoped": true,
+      "wildcard": false,
+      "hops": 2,
+      "max_hops": 2,
+      "chain_reconstructable": true
+    },
+    "credentials": {
+      "isolated": true,
+      "per_tool_scope": true,
+      "short_lived": true,
+      "ephemeral": true,
+      "broad_role": false,
+      "rotation_triggered": true
+    },
+    "session": {
+      "independent_context": true,
+      "shared_credentials": false
+    },
+    "resource_usage": {
+      "cpu_pct": 10,
+      "network_mbps": 1,
+      "api_rate": 5
+    }
+  },
+  "action": {
+    "kind": "file_write",
+    "tool": "write_file",
+    "path": "/home/dev/.bashrc",
+    "args": {}
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "model_deploy",
+    "tool": "search_documents",
+    "args": {}
+  },
+  "model": {
+    "id": "m-unverified",
+    "weights_encrypted": false,
+    "key_management": "none",
+    "supply_chain": {
+      "sbom": false,
+      "signature_verified": false,
+      "checkpoint_signed": false
+    },
+    "inventory": {
+      "registered": false,
+      "lineage_tracked": false,
+      "versioned": false
+    }
+  }
+}

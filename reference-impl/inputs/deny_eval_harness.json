@@ -1,0 +1,12 @@
+{
+  "agent": {
+    "id": "agent-devops"
+  },
+  "action": {
+    "kind": "evaluation_run",
+    "tool": "search_documents",
+    "args": {}
+  },
+  "harness": null,
+  "evaluation": null
+}

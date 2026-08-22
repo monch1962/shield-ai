@@ -56,7 +56,7 @@ docker compose up -d --build     # podman: podman-compose up -d --build
 ### Option B: local processes (no containers)
 
 ```bash
-make e2e     # builds, starts OPA + mock + sidecar, asserts all six verdicts
+make e2e     # builds, starts OPA + mock + sidecar, asserts the 28-case matrix
 ```
 
 ## Evaluate actions
@@ -69,7 +69,10 @@ curl -s -X POST localhost:8080/v1/decide -d @inputs/deny_unregistered_tool.json
 # 403 {"allowed":false,"denies":["TP-01 deny: tool \"drop_database\" is not in the approved tool registry", ...]}
 ```
 
-Sample matrix (asserted by `scripts/e2e.sh`):
+Sample matrix (asserted by `scripts/e2e.sh`, 28 cases): the two allow
+controls, then one deny case per action kind the policy set can gate. Every
+deny case asserts the deny message of each control it must exercise, so a
+control that stops firing fails the run:
 
 | Input | Expected | Denies demonstrate |
 |-------|----------|--------------------|
@@ -79,6 +82,33 @@ Sample matrix (asserted by `scripts/e2e.sh`):
 | `deny_unsandboxed_highrisk.json` | 403 | EE-01 (high-risk tool, unsandboxed) |
 | `deny_injection.json` | 403 | MS-04 + MS-09 (imperceptible content, no fidelity snapshot) |
 | `deny_infra_api.json` | 403 | EE-02 + TP-01 (infrastructure control plane) |
+| `deny_code_execution.json` | 403 | EE-06 (fail-closed sandbox attestation) |
+| `deny_resource_exhaustion.json` | 403 | EE-03 (resource limits) |
+| `deny_eval_harness.json` | 403 | EE-04 + EE-08 + MS-07 (evaluation run, no harness evidence) |
+| `deny_model_deploy.json` | 403 | MS-01 + MS-03 + MS-06 (model deploy, unverified model) |
+| `deny_training_run.json` | 403 | MS-02 + DS-05 (training run, no provenance) |
+| `deny_ingestion.json` | 403 | DS-01 + DS-02 (ingestion, no classification/inference claims) |
+| `deny_retrieval.json` | 403 | DS-04 (bulk retrieval) |
+| `deny_output_delivery.json` | 403 | DS-06 + MS-05 (leaking output, no guardrails) |
+| `deny_publication.json` | 403 | DS-07 (public publication, no approval) |
+| `deny_mcp_connect.json` | 403 | MS-08 (untrusted MCP server) |
+| `deny_binding.json` | 403 | TP-10 (unapproved listener binding) |
+| `deny_document_render.json` | 403 | TP-11 (unsanitised privileged render) |
+| `deny_log_alert.json` | 403 | MS-11 (acting on unverified log-alert stream) |
+| `deny_deployment.json` | 403 | TP-05 + TP-06 + TP-07 (deployment, no pipeline evidence) |
+| `deny_session_end.json` | 403 | DS-03 + MIR-02 (memory not wiped, anomaly flagged) |
+| `deny_incident_unhandled.json` | 403 | MIR-04 (incident without playbook/containment; MIR-05 reporting trigger verified) |
+| `deny_memory_write.json` | 403 | MS-10 + DS-03 (tampered/classified memory write) |
+| `deny_broken_identity.json` | 403 | IAM-01..08 (broken agent identity profile) |
+| `deny_highrisk_no_approval.json` | 403 | IAM-03 + GRM-03 (financial action, no human approval) |
+| `deny_untrusted_vendor.json` | 403 | GRM-04 (unassessed third-party vendor) |
+| `deny_bad_schema_args.json` | 403 | TP-03 (gateway schema validation) |
+| `deny_file_write.json` | 403 | EE-05 + EE-07 (host-trusted/control-plane write path) |
+
+47 of the 59 controls are deny-observed at runtime; the remaining 12 are
+positively exercised (telemetry, gateway attestation, provenance, tenant
+scoping, governance posture) on the same requests. Every run re-asserts all
+of them.
 
 ## Configuration
 

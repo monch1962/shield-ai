@@ -1,0 +1,14 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "transfer_funds",
+    "args": {
+      "amount": 100,
+      "to_account": "acc-1",
+      "memo": "bonus"
+    }
+  }
+}

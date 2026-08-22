@@ -1,0 +1,12 @@
+{
+  "agent": {
+    "id": "agent-devops"
+  },
+  "action": {
+    "kind": "mcp_connect",
+    "tool": "search_documents",
+    "server": "mcp://fileshare",
+    "writes_execution_bearing": true,
+    "args": {}
+  }
+}

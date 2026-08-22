@@ -1,0 +1,12 @@
+{
+  "agent": {
+    "id": "agent-devops",
+    "memory": null
+  },
+  "action": {
+    "kind": "session_end",
+    "tool": "write_file",
+    "anomaly_flag": true,
+    "args": {}
+  }
+}

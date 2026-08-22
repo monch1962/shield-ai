@@ -1,0 +1,11 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "training_run",
+    "tool": "search_documents",
+    "args": {}
+  },
+  "training": null
+}

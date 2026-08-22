@@ -141,9 +141,9 @@ tool-call path the reference exercises.
 | EE-02 Infrastructure API access control | 5 | L4 | deny observed in e2e (deny_infra_api) |
 | EE-03 Resource usage limiting | 3 | L2 | resource limits in agent config, enforced per call |
 | EE-04 Evaluation sandbox integrity | 2 | L1 | harness claims asserted; evaluation_run never exercised |
-| EE-05 Host-trusted file injection | 3 | L2 | path_writable allowlist enforced per call |
+| EE-05 Host-trusted file injection | 3 | L2 | host-trusted path detection + fail-closed allowlist; config-schema drift found and fixed in the coverage expansion (see F11) |
 | EE-06 Fail-closed sandbox operation | 2 | L1 | code_execution kind never exercised; policy + tests exist |
-| EE-07 Control-plane configuration integrity | 3 | L2 | control-plane write gating active for tool_call flows |
+| EE-07 Control-plane configuration integrity | 3 | L2 | control-plane write gating live for file_write flows after the config fix (see F11) |
 | EE-08 Evaluation-harness isolation | 2 | L1 | harness claims asserted; evaluation_run never exercised |
 
 ## 4. Findings and priorities
@@ -160,10 +160,39 @@ tool-call path the reference exercises.
 | F8 | P3 | No TLS between sidecar and OPA; production topology requires mTLS on the decision path | docker-compose.yml, sidecar config |
 | F9 | P3 | agent-billing allowlist includes transfer_funds and write_file; demo least-privilege posture is broad by design | agents/agent-billing.json |
 | F10 | P3 | Tenant scoping is demonstrated but only one tenant is configured; no cross-tenant test exists | agents/ tenant_id config |
+| F11 | P1 | **Config-schema drift (found and fixed by the F3 coverage expansion, Aug 2026):** agent configs declared `path_writable` at the agent root, but EE-05/EE-07 evaluate `agent.config.path_writable` (the canonical input model in `policies/README.md`). The control-plane write-gating branch of EE-07 was therefore dead in the reference deployment, and EE-05's host-trusted detection could never fire | EE-05/EE-07 regos vs agents/*.json; caught when the expansion tried to deny-observe EE-07 |
+
+## 4.1 Follow-up: F3 coverage expansion (August 2026)
+
+Immediately after this assessment, the F3 finding was actioned: the e2e
+matrix was expanded from 6 to 28 cases covering every action kind the policy
+set can gate (tool_call, code_execution, file_write, memory_write, retrieval,
+output_delivery, publication, mcp_connect, binding, document_render,
+evaluation_run, model_deploy, training_run, ingestion, deployment,
+session_end, log-alert triggers, incident flow).
+
+- **47 of 59 controls now deny-observed at runtime**, each with its deny
+  message asserted case by case (no marker, no pass).
+- The remaining 12 are positively exercised: their claims are satisfied and
+  evaluated on real requests (MIR-01/03/06 telemetry and attestation,
+  TP-04/08 gateway claims, TP-12 provenance, IAM-09 tenant scoping,
+  GRM-01/02/05/06 governance posture). **All 59 controls are exercised at
+  runtime on every request.**
+- Telemetry assertions are now computed from the matrix (26 deny audits,
+  28 SIEM exports), so under-reporting fails the run.
+- The expansion caught a real bug (F11): the `path_writable` config-schema
+  drift that had silently disabled EE-07's control-plane branch and
+  EE-05's host-trusted detection in the reference deployment. Both agent
+  configs were corrected to the canonical input model, and the e2e now
+  asserts EE-05/EE-07 deny markers so the drift cannot return unnoticed.
+
+F3 is **resolved**: the exercised-control gap is closed, and the coverage map
+for the matrix is the marker list in `reference-impl/scripts/e2e.sh` itself.
 
 ## 5. Remediation roadmap
 
-Sequence by critical path, then risk:
+Sequence by critical path, then risk. Item 1 completed by the follow-up above
+(F3 resolved, August 2026):
 
 1. **Close the exercised-control gap (F3).** Extend the e2e matrix with
    deny-observation cases for code_execution (EE-06), retrieval (DS-04),

@@ -1,0 +1,15 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "search_documents",
+    "vendor_used": true,
+    "vendor_type": "ai_inference",
+    "args": {}
+  },
+  "vendors": {
+    "name": "external-inference-svc"
+  }
+}

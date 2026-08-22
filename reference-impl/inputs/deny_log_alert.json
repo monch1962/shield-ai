@@ -1,0 +1,17 @@
+{
+  "agent": {
+    "id": "agent-devops"
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "shell_exec",
+    "trigger": "log_alert",
+    "high_impact": true,
+    "args": {}
+  },
+  "context": {
+    "stream": {
+      "instruction_bearing": true
+    }
+  }
+}

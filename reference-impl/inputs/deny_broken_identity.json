@@ -1,0 +1,39 @@
+{
+  "agent": {
+    "id": "agent-compromised",
+    "sandboxed": true,
+    "ephemeral": true,
+    "tenant_id": "acme-devops",
+    "allowlist": [
+      "search_documents",
+      "write_file"
+    ],
+    "path_writable": [
+      "/workspace"
+    ],
+    "identity": {
+      "unique": false,
+      "auditable": false
+    },
+    "delegation": {
+      "wildcard": true,
+      "hops": 3,
+      "max_hops": 2
+    },
+    "credentials": {
+      "compromised": true,
+      "broad_role": true,
+      "session_expired": true
+    },
+    "session": {
+      "shared_credentials": true
+    }
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "search_documents",
+    "args": {
+      "q": "x"
+    }
+  }
+}

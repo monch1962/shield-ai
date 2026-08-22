@@ -1,0 +1,15 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "retrieval",
+    "tool": "search_documents",
+    "args": {}
+  },
+  "data": {
+    "access": {
+      "bulk": true
+    }
+  }
+}

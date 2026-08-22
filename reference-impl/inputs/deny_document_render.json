@@ -1,0 +1,12 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "document_render",
+    "tool": "search_documents",
+    "cross_origin": true,
+    "privileged": true,
+    "args": {}
+  }
+}

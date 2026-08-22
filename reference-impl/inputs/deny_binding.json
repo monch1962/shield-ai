@@ -1,0 +1,12 @@
+{
+  "agent": {
+    "id": "agent-devops"
+  },
+  "action": {
+    "kind": "binding",
+    "tool": "search_documents",
+    "target": "0.0.0.0:8080",
+    "origin": "web",
+    "args": {}
+  }
+}

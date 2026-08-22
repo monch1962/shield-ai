@@ -1,0 +1,15 @@
+{
+  "agent": {
+    "id": "agent-billing"
+  },
+  "action": {
+    "kind": "tool_call",
+    "tool": "search_documents",
+    "incident": true,
+    "args": {}
+  },
+  "incident": {
+    "class": "prompt_injection",
+    "acknowledged": true
+  }
+}
