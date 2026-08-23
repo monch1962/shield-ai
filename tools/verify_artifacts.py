@@ -125,7 +125,7 @@ def main():
 
     # 6. Client deck manifests record the current framework version
     for c in ["client-specific/defence", "client-specific/aware-super", "client-specific/nbn",
-              "presentations/reference-architecture-walkthrough"]:
+              "client-specific/retailer", "presentations/reference-architecture-walkthrough"]:
         mf = os.path.join(c, "deck-manifest.json")
         if not os.path.exists(mf):
             check(f"{mf} exists", False)
@@ -138,7 +138,8 @@ def main():
     # 7. Client deck PPTX contain the v1.8 controls
     for c, ids in [("client-specific/defence", ["MS-12", "TP-12"]),
                    ("client-specific/aware-super", ["MS-12", "TP-12"]),
-                   ("client-specific/nbn", ["MS-12", "TP-12"])]:
+                   ("client-specific/nbn", ["MS-12", "TP-12"]),
+                   ("client-specific/retailer", ["MS-12", "TP-12"])]:
         pptx = None
         for f in os.listdir(c):
             if f.endswith(".pptx"):

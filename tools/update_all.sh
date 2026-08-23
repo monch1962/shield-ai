@@ -12,7 +12,7 @@
 #   3. Implementation diagrams            (tools/generate_impl_diagrams.py)
 #   4. Core docs -> PDF + EPUB            (tools/build_docs.sh)
 #   5. HTML deck PDFs via decktape        (board, business, bridge, technical)
-#   6. Client decks + walkthrough PPTX    (build_deck.py x4)
+#   6. Client decks + walkthrough PPTX    (build_deck.py x5)
 #   7. NBN deck PDF via LibreOffice container (podman lo-deck)
 #   8. Gates: list-spacing, trademark, ai-tell
 #   9. Count/version sweep report
@@ -85,7 +85,8 @@ fi
 # --- 6. Client decks + walkthrough PPTX ---
 step "6/10  Client decks + walkthrough (python-pptx builders)"
 for b in client-specific/defence/build_deck.py client-specific/aware-super/build_deck.py \
-         client-specific/nbn/build_deck.py presentations/reference-architecture-walkthrough/build_deck.py; do
+         client-specific/nbn/build_deck.py client-specific/retailer/build_deck.py \
+         presentations/reference-architecture-walkthrough/build_deck.py; do
   echo "  build: $b"
   "$PY" "$b" || FAILED+=("deck-build-$b")
 done
@@ -116,10 +117,12 @@ echo "  -- trademark marks in client decks"
 echo "  -- AI-tell scan on deck builders (report only; prose review is the agent's call)"
 if [ -f tools/ai_tell_scan.py ]; then
   "$PY" tools/ai_tell_scan.py client-specific/defence/build_deck.py client-specific/aware-super/build_deck.py \
-      client-specific/nbn/build_deck.py presentations/reference-architecture-walkthrough/build_deck.py || true
+      client-specific/nbn/build_deck.py client-specific/retailer/build_deck.py \
+      presentations/reference-architecture-walkthrough/build_deck.py || true
 else
   "$PY" "$SKILL_SCRIPTS/ai_tell_scan.py" client-specific/defence/build_deck.py client-specific/aware-super/build_deck.py \
-      client-specific/nbn/build_deck.py presentations/reference-architecture-walkthrough/build_deck.py || true
+      client-specific/nbn/build_deck.py client-specific/retailer/build_deck.py \
+      presentations/reference-architecture-walkthrough/build_deck.py || true
 fi
 
 # --- 9. Count/version sweep report ---
