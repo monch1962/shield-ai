@@ -8,12 +8,12 @@
 
 | Artifact | Status | Notes |
 |----------|--------|-------|
-| Framework document v1.7 | [OK] Complete | 7 pillars, 59 controls, 4 maturity levels |
+| Framework document v1.7 | [OK] Complete | 7 pillars, 60 controls, 4 maturity levels |
 | Sandbox escape gap analysis v1.7 | [OK] Complete | 36 incidents, 23 gaps |
 | Watchlist | [OK] Monthly | Canonical framework/shield-ai-watchlist.md, replaced each deep review |
-| Tooling and process map | [OK] Complete | All 59 controls mapped, six-hat assessment, L1-L4 roadmap |
+| Tooling and process map | [OK] Complete | All 60 controls mapped, six-hat assessment, L1-L4 roadmap |
 | Implementation architecture | [OK] Complete | Deployable components + full SVG diagram set |
-| Assessment guide | [OK] Complete | All 7 pillars x 59 controls |
+| Assessment guide | [OK] Complete | All 7 pillars x 60 controls |
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
 | Technical slide deck (27 slides) | [OK] Complete | For AI engineers, security architects |
 | Buyer's journey bridge (7 slides) | [OK] Complete | Connects both decks |
@@ -21,15 +21,15 @@
 | Aware Super briefing deck (24 slides) | [OK] Versioned | v1.3, client-specific/aware-super/ |
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.1, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
-| JSON control schema | [OK] v1.7 | 59 controls, machine-readable |
-| Rego policy set (59) | [OK] Complete | All 59 controls implemented with deny-override assertions and test vectors (253 OPA tests); no stubs remain |
+| JSON control schema | [OK] v1.7 | 60 controls, machine-readable |
+| Rego policy set (60) | [OK] Complete | All 60 controls implemented with deny-override assertions and test vectors (253 OPA tests); no stubs remain |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
 
 | Pri | Item | Verdict | Effort | Impact |
 |-----|------|---------|--------|--------|
-| [X] | Rego policy stubs for all 59 controls | Complete (v1.7) | Per-control | Automated control testing per GRM-05/06 |
+| [X] | Rego policy stubs for all 60 controls | Complete (v1.7) | Per-control | Automated control testing per GRM-05/06 |
 | [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.7) | 1-2 days | Closed the largest stub gap |
 | P1 | Reference implementation (deployable tooling from the implementation architecture doc) | Next milestone | Multi-week | Validates the component model against real environments |
 | P2 | Public release | After field validation | 1 day | Community adoption |
@@ -41,8 +41,8 @@
 ## Next Milestones
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
-- Convert the 59 shipped stubs from TODO bodies to evaluable assertions with test vectors
-- **COMPLETE (Aug 2026):** all 59 controls implemented with deny-override
+- Convert the 60 shipped stubs from TODO bodies to evaluable assertions with test vectors
+- **COMPLETE (Aug 2026):** all 60 controls implemented with deny-override
   assertions and per-control test vectors (253 OPA tests), following the pattern
   and shared input model documented in `policies/README.md`.
 - Wire the policy set into the reference architecture's policy decision points
@@ -53,7 +53,7 @@
 - Instrument the telemetry pipeline (OTLP -> SIEM) per MIR-01..06
 - Validate against real agent frameworks (LangGraph, CrewAI, Semantic Kernel, etc.)
 - **COMPLETE (Aug 2026):** `reference-impl/` -- Go sidecar (stdlib only) with
-  input enrichment, deny-override aggregation across all 59 policies, JSONL
+  input enrichment, deny-override aggregation across all 60 policies, JSONL
   audit events + SIEM forward (MIR-01/03/06), tenant scoping (IAM-09) and
   provenance minting (TP-12); OPA bundle from `policies/`; docker-compose with
   mock tool/SIEM; `make e2e` asserts a six-verdict matrix (positive control,
@@ -67,14 +67,14 @@
 - Generate case study material (sanitised)
 - **PROGRESS (Aug 2026):** first field validation complete --
   `case-studies/2026-08-reference-implementation.md` ran the full Section 8
-  methodology against the reference implementation (59-control evidence
+  methodology against the reference implementation (60-control evidence
   matrix, weakest-link pillar scores, overall L1, 10 findings P0-P3,
   remediation roadmap). Findings staged for the next cycle in
   `framework/shield-ai-field-findings.md` (FF-01..FF-06, adopted by the
   monthly deep-review cycle); sanitised case study material lives in
   `case-studies/`. Remaining: real-client engagements, framework adoption
   of staged findings. **F3 follow-up (same cycle):** the e2e matrix grew from
-  6 to 28 cases; 47/59 controls deny-observed at runtime (all 59 exercised,
+  6 to 28 cases; 47/60 controls deny-observed at runtime (all 60 exercised,
   markers asserted per control); the expansion caught and fixed a
   config-schema drift in the reference deployment (finding F11 / FF-07).
 

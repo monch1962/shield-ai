@@ -1,18 +1,18 @@
 # SHIELD-AI Policy-as-Code
 
-This directory ships the framework's 59 controls as OPA/Rego policies with
-deny-override assertions and per-control test vectors. Every control is
-implemented: no stubs remain. The demo bundle in `demo/` is a reduced,
+This directory ships the framework's 60 controls as OPA/Rego policies with
+deny-override assertions and per-control test vectors. Every control through v1.7 is
+implemented; the v1.8 addition (MS-12) ships as a generated stub pending deny-override assertions. The demo bundle in `demo/` is a reduced,
 self-contained subset for prospects; the full control set lives here.
 
-## Status (v1.7, August 2026)
+## Status (v1.8, August 2026)
 
-**All 59 controls implemented.** 253 OPA tests pass (`opa test policies
+**59 controls implemented, MS-12 stub pending.** 253 OPA tests pass (`opa test policies
 policies/tests demo/policies demo/tests`). Coverage by pillar:
 
 | Pillar | Controls implemented |
 |--------|----------------------|
-| MS (Model Security) | MS-01..MS-11 |
+| MS (Model Security) | MS-01..MS-12 |
 | IAM (Identity and Access) | IAM-01..IAM-09 |
 | DS (Data Security) | DS-01..DS-07 |
 | TP (Tool and Pipeline Security) | TP-01..TP-12 |

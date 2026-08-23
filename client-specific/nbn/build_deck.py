@@ -35,7 +35,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.1"
+DECK_VERSION = "1.2"
 AUDIENCE = "NBN Co"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/nbn/shield-ai-deck-nbn.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/nbn/deck-manifest.json"
@@ -117,7 +117,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  NBN Co Briefing  |  Deck v%s  |  Framework v1.7  |  Aug 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  NBN Co Briefing  |  Deck v%s  |  Framework v1.8  |  Aug 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -282,7 +282,7 @@ r2 = p2.add_run(); r2.text = "Securing Production AI for NBN Co"
 r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
-para(tf2, "An Australian framework for critical infrastructure: 7 pillars, 59 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
+para(tf2, "An Australian framework for critical infrastructure: 7 pillars, 60 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
 para(tf2, "Briefing  |  Framework v1.7  |  August 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. NBN Co is putting AI into operations, and the honest position is "
     "that the security playbook for agentic AI is young. SHIELD-AI is an Australian framework built for agents that act, structured so a "
@@ -291,7 +291,7 @@ s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. NBN Co is
 # 2 — Agenda
 bullets_slide("Presentation Overview", [
     ("1.  Why AI security matters for national infrastructure now", 0, True),
-    ("2.  The framework: seven pillars and 59 controls", 0, True),
+    ("2.  The framework: seven pillars and 60 controls", 0, True),
     ("3.  How it works: reference implementation, policy as code, request flow", 0, True),
     ("4.  Applying it at NBN Co: regulation, maturity, a practical starting point", 0, True),
     ("A note up front: every claim in this deck is tied to a documented incident", 0, True),
@@ -346,13 +346,13 @@ bullets_slide("Where Current Controls Come Up Short", [
 bullets_slide("SHIELD-AI at a Glance", [
     ("Seven security pillars across the whole agentic-AI stack", 0, True),
     ("Model Security, Identity and Access, Data Security, Tool and Pipeline Security, Monitoring and IR, Governance and Risk, Execution Environment", 1),
-    ("59 controls, each with implementation guidance and a maturity progression", 0, True),
+    ("60 controls, each with implementation guidance and a maturity progression", 0, True),
     ("Four maturity levels, consistent with ISM and the Essential Eight: L1 Initial, L2 Managed, L3 Defined, L4 Optimised", 0, True),
     ("Policy as code: 59 executable Rego controls, evaluated deny-override", 0, True),
     ("A deployable reference implementation: gateway, policy engine, identity plane, observability", 0, True),
     ("Evidence driven: 36 documented incidents, 23 identified gaps, monthly deep review, a live watchlist", 0, True),
     ("Aligned to what a carrier must answer to: SOCI Act, TSSR, the Privacy Act, ISM/E8, and the proposed AU Guardrails", 0, True, NAVY2),
-], page=page, notes="One minute. The thirty second version: seven pillars, 59 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
+], page=page, notes="One minute. The thirty second version: seven pillars, 60 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
 
 # 8 — Seven pillars diagram
 diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
@@ -361,7 +361,7 @@ diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
               caption="Each pillar depends on all pillars below it."); page += 1
 
 # 9-15 — Pillars
-pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-11  |  11 controls",
+pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-12  |  12 controls",
     "The model is a data asset too",
     [
     ("Models trained or used on network or customer data need the same protection as any information asset", 0, True),
@@ -372,7 +372,8 @@ pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-11  |
     ("MS-09  Perception-fidelity: approvals bind to what the human can actually see", 1),
     ("MS-10  Memory-store integrity: agent memory writes authenticated and tamper-evident; poisoned stores detected and rebuilt (Ruflo/RufRoot)", 1),
     ("MS-11  Operational data-stream integrity: logs, alerts, and observability feeds treated as untrusted input (GhostJacking)", 1),
-], notes="Ninety seconds. The key mental shift: a model is an information asset under the SOCI Act and the Privacy Act. MS-09 exists because hidden text defeated a human approval step in a real incident. MS-10 (v1.6) is the Ruflo response: poisoned agent memory survives code patches and steers every future user. MS-11 is the newest (v1.7): Tenet's GhostJacking showed poisoned logs and observability feeds commanding monitoring agents -- Claude Code -- at a 90% success rate.", page=page); page += 1
+    ("MS-12  MCP discovery-metadata and shared-cache integrity: server instructions isolated from the system prompt, cacheScope claims verified (MCP-2026-008/015, Context7)", 1),
+], notes="Ninety seconds. The key mental shift: a model is an information asset under the SOCI Act and the Privacy Act. MS-09 exists because hidden text defeated a human approval step in a real incident. MS-10 (v1.6) is the Ruflo response: poisoned agent memory survives code patches and steers every future user. MS-11 (v1.7) is Tenet's GhostJacking: poisoned logs and observability feeds commanded monitoring agents -- Claude Code -- at a 90% success rate. MS-12 is the newest (v1.8): MCP discovery metadata and shared caches became an injection channel -- a server's instructions field lands in the system prompt, and an attacker-set cache scope spreads one poisoned response across an entire gateway.", page=page); page += 1
 
 pillar_slide("Pillar 2: Identity and Access", 2, "Identity & Access", "IAM-01 .. IAM-09  |  9 controls",
     "Network access, scoped tightly",
@@ -408,7 +409,7 @@ pillar_slide("Pillar 4: Tool and Pipeline Security", 4, "Tool & Pipeline Securit
     ("TP-10  Inbound control-plane protection: network bindings default to deny, gateway tokens stay out of web context (OpenClaw CVE-2026-25253)", 1),
     ("TP-11  Agent browser isolation: rendered content treated as untrusted input, cross-origin privileged actions gated (Zenity Intent Collision)", 1),
     ("TP-12  Dispatch provenance: no tool executes without a verified model turn; approvals bind to the exact call (CoreBreak)", 1),
-], notes="Ninety seconds. For NBN Co, TP-01 starts with the network management systems and the wholesale APIs. An agent registered against a network tool is a network operator with a badge, and it needs the same controls as one. TP-11 (v1.6) is the Zenity response: agentic browsers that dismantle the Same-Origin Policy turn every page the agent reads into a command source. TP-12 is the newest (v1.7): CoreBreak showed tools dispatching without a model turn across AWS, Google, and Vercel, with forged approvals at the plumbing layer.", page=page); page += 1
+], notes="Ninety seconds. For NBN Co, TP-01 starts with the network management systems and the wholesale APIs. An agent registered against a network tool is a network operator with a badge, and it needs the same controls as one. TP-11 (v1.6) is the Zenity response: agentic browsers that dismantle the Same-Origin Policy turn every page the agent reads into a command source. TP-12 (v1.7) is CoreBreak: tools dispatched without a model turn across AWS, Google, and Vercel, with forged approvals at the plumbing layer.", page=page); page += 1
 
 pillar_slide("Pillar 5: Monitoring and Incident Response", 5, "Monitoring, Logging & IR", "MIR-01 .. MIR-06  |  6 controls",
     "Every action logged, replayable later",
@@ -451,12 +452,12 @@ diagram_slide("From Framework to Deployment", "impl-reference-architecture.png",
 # 17 — Policy as code
 diagram_slide("Policy as Code: 59 Controls You Can Run", "impl-policy-decision-points.png",
               kicker="Deny-override evaluation at every decision point", page=page,
-              notes="Ninety seconds. Each of the 59 controls is expressed as executable policy in Rego. Evaluation is deny-override: a deny verdict wins over any allow rule. That is how the framework becomes enforcement rather than a document, and how an audit becomes a test run."); page += 1
+              notes="Ninety seconds. Each of the 60 controls is expressed as executable policy in Rego. Evaluation is deny-override: a deny verdict wins over any allow rule. That is how the framework becomes enforcement rather than a document, and how an audit becomes a test run."); page += 1
 
 # 18 — Request flow
 diagram_slide("Every Request Through the Gate", "impl-request-flow.png",
               kicker="Parse, evaluate, decide, log, then the agent acts", page=page,
-              notes="Ninety seconds. Walk the flow: request, parse, policy evaluation across the 59 controls, allow or deny, audit. The sidecar topology means this applies to existing platforms without rewriting them."); page += 1
+              notes="Ninety seconds. Walk the flow: request, parse, policy evaluation across the 60 controls, allow or deny, audit. The sidecar topology means this applies to existing platforms without rewriting them."); page += 1
 
 # 19 — Maturity
 diagram_slide("Maturity: L1 to L4", "maturity-journey.png",
@@ -497,7 +498,7 @@ bullets_slide("Why SHIELD-AI for NBN Co", [
 # 24 — Where this goes next
 bullets_slide("What This Means in Practice", [
     ("The question regulators will ask: how is AI secured under the SOCI Act and TSSR, and how do you evidence it across the entity?", 0, True),
-    ("The answer framework: run the 59 controls as executable policy, and an audit becomes a test run", 1),
+    ("The answer framework: run the 60 controls as executable policy, and an audit becomes a test run", 1),
     ("The path from here:", 0, True),
     ("1.  Posture assessment (weeks 1-4): current AI deployments scored L1-L4 against the 59 controls, with a prioritised gap list", 1),
     ("2.  Pilot (weeks 5-8): policy-as-code enforcement on one real use case, deployed as a sidecar, no platform rebuild", 1),
@@ -530,7 +531,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-13",
-    "framework_version": "v1.7",
+    "framework_version": "v1.8",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

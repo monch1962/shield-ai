@@ -36,7 +36,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.0"
+DECK_VERSION = "1.1"
 AUDIENCE = "Major Australian Retailer"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/retailer/shield-ai-deck-retailer.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/retailer/deck-manifest.json"
@@ -118,7 +118,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Major Australian Retailer Briefing  |  Deck v%s  |  Framework v1.7  |  Aug 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Major Australian Retailer Briefing  |  Deck v%s  |  Framework v1.8  |  Aug 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -283,7 +283,7 @@ r2 = p2.add_run(); r2.text = "Securing Production AI for a Major Australian Reta
 r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
-para(tf2, "An Australian framework for retail: 7 pillars, 59 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
+para(tf2, "An Australian framework for retail: 7 pillars, 60 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
 para(tf2, "Briefing  |  Framework v1.7  |  August 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Retail is putting AI into customer service, merchandising, and "
     "supply chain, and the honest position is that the security playbook for agentic AI is young. SHIELD-AI is an Australian "
@@ -293,7 +293,7 @@ s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Retail is
 # 2 — Agenda
 bullets_slide("Presentation Overview", [
     ("1.  Why AI security matters for retail now", 0, True),
-    ("2.  The framework: seven pillars and 59 controls", 0, True),
+    ("2.  The framework: seven pillars and 60 controls", 0, True),
     ("3.  How it works: reference implementation, policy as code, request flow", 0, True),
     ("4.  Applying it here: regulation, maturity, a practical starting point", 0, True),
     ("A note up front: every claim in this deck is tied to a documented incident", 0, True),
@@ -346,13 +346,13 @@ bullets_slide("Where Current Controls Come Up Short", [
 bullets_slide("SHIELD-AI at a Glance", [
     ("Seven security pillars across the whole agentic-AI stack", 0, True),
     ("Model Security, Identity and Access, Data Security, Tool and Pipeline Security, Monitoring and IR, Governance and Risk, Execution Environment", 1),
-    ("59 controls, each with implementation guidance and a maturity progression", 0, True),
+    ("60 controls, each with implementation guidance and a maturity progression", 0, True),
     ("Four maturity levels, consistent with ISM and the Essential Eight: L1 Initial, L2 Managed, L3 Defined, L4 Optimised", 0, True),
-    ("Policy as code: 59 executable Rego controls, evaluated deny-override", 0, True),
+    ("Policy as code: 60 executable Rego controls, evaluated deny-override", 0, True),
     ("A deployable reference implementation: gateway, policy engine, identity plane, observability", 0, True),
     ("Evidence driven: 36 documented incidents, 23 identified gaps, monthly deep review, a live watchlist", 0, True),
     ("Aligned to what a retailer must answer to: the Privacy Act, PCI DSS, the Cyber Security Act 2024, and the AU Guardrails", 0, True, NAVY2),
-], page=page, notes="One minute. The thirty second version: seven pillars, 59 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
+], page=page, notes="One minute. The thirty second version: seven pillars, 60 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
 
 # 8 — Seven pillars diagram
 diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
@@ -361,7 +361,7 @@ diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
               caption="Each pillar depends on all pillars below it."); page += 1
 
 # 9-15 — Pillars
-pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-11  |  11 controls",
+pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-12  |  12 controls",
     "The model is a data asset too",
     [
     ("Models trained or used on customer, loyalty, or card data need the same protection as any information asset", 0, True),
@@ -372,7 +372,8 @@ pillar_slide("Pillar 1: Model Security", 1, "Model Security", "MS-01 .. MS-11  |
     ("MS-09  Perception-fidelity: approvals bind to what the human can actually see", 1),
     ("MS-10  Memory-store integrity: agent memory writes authenticated and tamper-evident; poisoned stores detected and rebuilt (Ruflo/RufRoot)", 1),
     ("MS-11  Operational data-stream integrity: logs, alerts, and observability feeds treated as untrusted input (GhostJacking)", 1),
-], notes="Ninety seconds. The key mental shift: a model is an information asset under the Privacy Act and PCI DSS. MS-09 exists because hidden text defeated a human approval step in a real incident. MS-10 (v1.6) is the Ruflo response: poisoned agent memory survives code patches and steers every future user. MS-11 is the newest (v1.7): Tenet's GhostJacking showed poisoned logs and observability feeds commanding monitoring agents at a 90% success rate.", page=page); page += 1
+    ("MS-12  MCP discovery-metadata and shared-cache integrity: server instructions isolated from the system prompt, cacheScope claims verified (MCP-2026-008/015, Context7)", 1),
+], notes="Ninety seconds. The key mental shift: a model is an information asset under the Privacy Act and PCI DSS. MS-09 exists because hidden text defeated a human approval step in a real incident. MS-10 (v1.6) is the Ruflo response: poisoned agent memory survives code patches and steers every future user. MS-11 (v1.7) is Tenet's GhostJacking: poisoned logs and observability feeds commanded monitoring agents at a 90% success rate. MS-12 is the newest (v1.8): MCP discovery metadata and shared caches became an injection channel -- a server's instructions field lands in the system prompt, and an attacker-set cache scope spreads one poisoned response across an entire gateway.", page=page); page += 1
 
 pillar_slide("Pillar 2: Identity and Access", 2, "Identity & Access", "IAM-01 .. IAM-09  |  9 controls",
     "Customer data, scoped tightly",
@@ -487,7 +488,7 @@ watchlist_slide(page); page += 1
 # 23 — Why SHIELD-AI
 bullets_slide("Why SHIELD-AI for This Business", [
     ("Aligned: mapped to the Privacy Act, PCI DSS, the Cyber Security Act 2024, SOCI, ISM/E8, and the AU Guardrails the retailer already operates under", 0, True),
-    ("Evidence driven: 36 incidents, a monthly deep review, a live watchlist; the controls track what attackers are actually doing", 0, True),
+    ("Evidence driven: 41 incidents, a monthly deep review, a live watchlist; the controls track what attackers are actually doing", 0, True),
     ("Deployable: a reference implementation with policy as code, ready to run beside existing platforms", 0, True),
     ("Built for regulated customer data: the NDB 30-day clock and PCI DSS scope are design inputs, not afterthoughts", 0, True),
     ("Measurable: the L1-L4 maturity model gives the board a repeatable posture picture, quarter to quarter", 0, True),
@@ -530,7 +531,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-20",
-    "framework_version": "v1.7",
+    "framework_version": "v1.8",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

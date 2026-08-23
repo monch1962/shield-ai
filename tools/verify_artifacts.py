@@ -23,8 +23,8 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.7"
-EXPECTED_COUNT = 59
+EXPECTED_VERSION = "v1.8"
+EXPECTED_COUNT = 60
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -59,9 +59,9 @@ def main():
     actual = count_controls()
     check(f"framework.md control count == {EXPECTED_COUNT} (found {actual})", actual == EXPECTED_COUNT)
     for doc, markers in [
-        ("framework/shield-ai-framework.pdf", ["MS-11", "TP-12", f"{EXPECTED_COUNT} controls"]),
-        ("framework/shield-ai-gap-analysis.pdf", ["INC-36", "MS-11", "TP-12"]),
-        ("framework/shield-ai-implementation-architecture.pdf", ["MS-01..MS-11", "TP-01..TP-12"]),
+        ("framework/shield-ai-framework.pdf", ["MS-12", "TP-12", f"{EXPECTED_COUNT} controls"]),
+        ("framework/shield-ai-gap-analysis.pdf", ["INC-41", "MS-12", "TP-12"]),
+        ("framework/shield-ai-implementation-architecture.pdf", ["MS-01..MS-12", "TP-01..TP-12"]),
         ("framework/shield-ai-tooling-map.pdf", [f"{EXPECTED_COUNT} controls"]),
         ("assessment-guide/shield-ai-assessment-guide.pdf", [f"{EXPECTED_COUNT} controls"]),
         ("presentations/what-is-shield-ai.pdf", [f"{EXPECTED_COUNT} controls"]),
@@ -75,8 +75,8 @@ def main():
 
     # 2. Watchlist current edition
     wl = pdf_text("framework/shield-ai-watchlist.pdf")
-    check("watchlist.pdf has 59 controls", f"{EXPECTED_COUNT} controls" in wl)
-    check("watchlist.pdf has current edition date", "August 17, 2026" in wl)
+    check("watchlist.pdf has 60 controls", f"{EXPECTED_COUNT} controls" in wl)
+    check("watchlist.pdf has current edition date", "August 24, 2026" in wl)
 
     # 3. HTML deck PDFs carry the current framework version
     for deck in ["board-brief/shield-ai-deck-board", "business-deck/shield-ai-deck-business",
@@ -90,10 +90,10 @@ def main():
 
     # 4. SVG ranges
     arch = open("assets/diagrams/framework-architecture.svg", encoding="utf-8").read()
-    for rng in ["MS-01 -> MS-11", "TP-01 -> TP-12", "DS-01 -> DS-07", "EE-01 -> EE-08", "IAM-01 -> IAM-09"]:
+    for rng in ["MS-01 -> MS-12", "TP-01 -> TP-12", "DS-01 -> DS-07", "EE-01 -> EE-08", "IAM-01 -> IAM-09"]:
         check(f"framework-architecture.svg has {rng}", rng in arch)
     tel = open("assets/diagrams/impl-telemetry-pipeline.svg", encoding="utf-8").read()
-    check("impl-telemetry-pipeline.svg has 59 controls", "59 controls" in tel)
+    check("impl-telemetry-pipeline.svg has 60 controls", "60 controls" in tel)
 
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
@@ -135,10 +135,10 @@ def main():
         check(f"{os.path.basename(c)} manifest framework_version == {EXPECTED_VERSION} (found {fv})",
               fv == EXPECTED_VERSION)
 
-    # 7. Client deck PPTX contain the v1.7 controls
-    for c, ids in [("client-specific/defence", ["MS-11", "TP-12"]),
-                   ("client-specific/aware-super", ["MS-11", "TP-12"]),
-                   ("client-specific/nbn", ["MS-11", "TP-12"])]:
+    # 7. Client deck PPTX contain the v1.8 controls
+    for c, ids in [("client-specific/defence", ["MS-12", "TP-12"]),
+                   ("client-specific/aware-super", ["MS-12", "TP-12"]),
+                   ("client-specific/nbn", ["MS-12", "TP-12"])]:
         pptx = None
         for f in os.listdir(c):
             if f.endswith(".pptx"):
@@ -155,13 +155,13 @@ def main():
     #    catches the class of staleness the count sweep misses, e.g. a footer
     #    left at "v1.6" while the document content is v1.7).
     for doc, markers in [
-        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.7"]),
-        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.7", "August 17, 2026"]),
-        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.7", "August 17, 2026"]),
-        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.7"]),
-        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.7", "August 17, 2026"]),
-        ("presentations/what-is-shield-ai.md", ["SHIELD-AI v1.7, August 17, 2026"]),
-        ("presentations/glossary.md", ["v1.7 edition, August 17, 2026"]),
+        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.8"]),
+        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.8", "August 24, 2026"]),
+        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.8", "August 24, 2026"]),
+        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.8"]),
+        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.8", "August 24, 2026"]),
+        ("presentations/what-is-shield-ai.md", ["SHIELD-AI v1.8, August 24, 2026"]),
+        ("presentations/glossary.md", ["v1.8 edition, August 24, 2026"]),
     ]:
         if not os.path.exists(doc):
             check(f"{doc} exists", False)
@@ -170,8 +170,8 @@ def main():
         check(f"{os.path.basename(doc)} source footer carries {markers}",
               all(m in txt for m in markers))
     wl_md = open("framework/shield-ai-watchlist.md", encoding="utf-8").read()
-    check("watchlist.md edition line is current (August 17, 2026)",
-          "August 17, 2026" in wl_md)
+    check("watchlist.md edition line is current (August 24, 2026)",
+          "August 24, 2026" in wl_md)
 
     print()
     if failures:

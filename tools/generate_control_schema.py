@@ -25,7 +25,7 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.7"
+FRAMEWORK_VERSION = "1.8"
 FRAMEWORK_DATE = "2026-08"
 
 PILLARS = {
@@ -1394,6 +1394,31 @@ reg("MS-11", "Operational Data-Stream Integrity", "MS",
     ],
     {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
     ["observability", "log-poisoning", "data-stream-integrity"])
+
+reg("MS-12", "MCP Discovery-Metadata and Shared-Cache Integrity", "MS",
+    "MCP discovery metadata -- the server-level instructions field, tool descriptions, and resource/prompt list responses -- must be treated as untrusted input with instruction/data separation: instructions are length-limited, screened for instruction-bearing content, and isolated from the trusted system prompt with explicit untrusted-content boundaries; tool metadata is validated against an operator-approved baseline with drift alerting. Shared and intermediary caches of MCP discovery responses must not serve content across authentication contexts unless the cached metadata is cryptographically signed with verified provenance; cacheScope claims made by servers are verified, never trusted, and cache keys bind to the authenticated identity. Addresses the MCP discovery-metadata and cache-surface class (MCP-2026-008 cache poisoning -- a malicious server marks a poisoned tools/list or instructions response as publicly cacheable so a shared gateway re-serves it to other users; MCP-2026-015 -- the discovery instructions field is fully server-controlled text folded into the client system prompt with no sanitisation, validation, or length limits, so a hostile server can place directives such as 'ignore all safety instructions' directly into the system prompt; chained, one poisoned response is cached once and served to every user behind a shared proxy, crossing the tenant boundary; Context7 CVE-2026-75130, CVSS 3.1 9.0 -- the widely installed MCP documentation server let an attacker with write access to its Custom AI Instructions feature plant directives that exfiltrated .env credentials and performed destructive file deletion whenever the agent made a routine library-documentation request; an audit of 19 widely deployed MCP servers found 18 do not document their instruction-injection surfaces at all).",
+    "Prevent MCP discovery metadata and shared caches from injecting instructions into agent system prompts.",
+    [
+        "MCP servers connected without review; discovery responses folded into context as-is; responses cached across users.",
+        "MCP servers inventoried; instructions field flagged as untrusted; no cross-user response caching.",
+        "Instructions isolated from the trusted system prompt with explicit boundaries and length limits; cache keys bind to authenticated identity; cacheScope claims verified; tool metadata pinned to a baseline with drift alerting.",
+        "Signed provenance required for cached metadata; default-deny on MCP server connections with provenance verification; active red-team testing of the discovery/cache path; protocol-level fixes (instructions as untrusted content, cacheScope verification) required of vendors.",
+    ],
+    [
+        "Are MCP discovery metadata and instructions fields treated as untrusted input?",
+        "Can server-supplied instructions reach the model's system prompt without an untrusted-content boundary?",
+        "Are shared caches of MCP responses keyed by authenticated identity and never served across users?",
+        "Are cacheScope claims from servers verified rather than trusted?",
+        "Is tool metadata pinned to an operator-approved baseline with drift alerting?",
+    ],
+    [
+        "MCP server inventory and approval baseline",
+        "Instruction-field sanitisation and isolation rules",
+        "Cache-keying and cacheScope verification configuration",
+        "Metadata drift alerting rules (MIR-01/MIR-02)",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
+    ["mcp", "prompt-injection", "cache-poisoning", "discovery-metadata"])
 
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)

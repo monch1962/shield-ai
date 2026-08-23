@@ -443,6 +443,39 @@ Any data stream an agent consumes in the course of its operational duties — ap
 
 ---
 
+### MS-12: MCP Discovery-Metadata and Shared-Cache Integrity
+
+**Explanation**
+MCP discovery metadata — the server-level instructions field, tool descriptions, and resource/prompt list responses — is untrusted input with instruction/data separation. Server-supplied instructions must be length-limited, screened for instruction-bearing content, and isolated from the trusted system prompt with explicit untrusted-content boundaries; tool metadata must be validated against an operator-approved baseline with drift alerting via MIR-01. Shared and intermediary caches of MCP discovery responses must not serve content across authentication contexts unless the cached metadata is cryptographically signed with verified provenance; cacheScope claims made by servers are verified, never trusted, and cache keys bind to the authenticated identity. The class is protocol-level: MCP-2026-008 lets a malicious server mark a poisoned discovery response as publicly cacheable so a shared gateway re-serves it to every user behind it (cross-tenant prompt injection), and MCP-2026-015 exposes the instructions field as fully server-controlled text folded into the client's system prompt with no sanitisation, validation, or length limits. Context7 CVE-2026-75130 (CVSS 3.1 9.0) demonstrated the class in the wild: an attacker with write access to its Custom AI Instructions feature planted directives that exfiltrated .env credentials and performed destructive file deletion whenever the agent made a routine documentation request, and an audit of 19 widely deployed MCP servers found 18 do not document their instruction-injection surfaces at all.
+
+**Key Assessment Questions**
+
+1. Are MCP discovery metadata and instructions fields treated as untrusted input?
+2. Can server-supplied instructions reach the model's system prompt without an untrusted-content boundary?
+3. Are shared caches of MCP responses keyed by authenticated identity and never served across users?
+4. Are cacheScope claims from servers verified rather than trusted?
+5. Is tool metadata pinned to an operator-approved baseline with drift alerting?
+
+**Artifacts to Examine**
+
+- MCP server inventory and approval baseline
+- Instruction-field sanitisation and isolation rules
+- Cache-keying and cacheScope verification configuration
+- Metadata drift alerting rules (MIR-01/MIR-02)
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | MCP servers connected without review; discovery responses folded into context as-is; responses cached across users. |
+| L2 | MCP servers inventoried; instructions field flagged as untrusted; no cross-user response caching. |
+| L3 | Instructions isolated from the trusted system prompt with explicit boundaries and length limits; cache keys bind to authenticated identity; cacheScope claims verified; tool metadata pinned to a baseline with drift alerting. |
+| L4 | Signed provenance required for cached metadata; default-deny on MCP server connections with provenance verification; active red-team testing of the discovery/cache path; protocol-level fixes required of vendors. |
+
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 Human Oversight), ISM (Guidelines for System Monitoring).
+
+---
+
 # Section 2: Identity and Access (IAM)
 
 ## Pillar Overview
@@ -2250,7 +2283,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 59 controls:
+For each of the 60 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2429,6 +2462,7 @@ For each of the 59 controls:
 | MS-09 | Web Content Filtering | - | - | - | - | - |
 | MS-10 | System Monitoring | - | - | - | - | - |
 | MS-11 | System Monitoring | - | - | - | - | - |
+| MS-12 | System Monitoring | - | - | - | - | - |
 | DS-07 | SW Dev (integrity) | - | CIRMP (supply chain) | - | - | APP 11 |
 | TP-10 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-11 | Web Content Filtering | App Control | - | - | - | - |
@@ -2438,21 +2472,21 @@ For each of the 59 controls:
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
 | Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, TP-11, TP-12, DS-02, EE-01, EE-03, EE-05, EE-08 |
 | SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, DS-07, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, EE-08, GRM-01, GRM-02, GRM-05 |
-| APRA CPS 234 | MS-01, MS-03, MS-09, MS-10, MS-11, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
+| APRA CPS 234 | MS-01, MS-03, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
 | PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
 | Privacy Act 1988 | DS-01, DS-02, DS-03, DS-04, DS-05, DS-06, DS-07, MS-09, MIR-01, MIR-05, GRM-01, GRM-03 |
-| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), MS-08 (LLM02), MS-09 (LLM01), MS-10 (LLM03), MS-11 (LLM01), DS-03 (LLM06), DS-07 (LLM09), IAM-02 (LLM08), IAM-07 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), TP-07 (LLM08), TP-09 (LLM08), TP-10 (LLM09), TP-11 (LLM01), TP-12 (LLM08), GRM-04 (LLM10) |
+| OWASP LLM Top 10 v2 | MS-02 (LLM04), MS-03 (LLM10), MS-04 (LLM01, LLM05), MS-05 (LLM02), MS-08 (LLM02), MS-09 (LLM01), MS-10 (LLM03), MS-11 (LLM01), MS-12 (LLM01), DS-03 (LLM06), DS-07 (LLM09), IAM-02 (LLM08), IAM-07 (LLM08), TP-02 (LLM08), TP-04 (LLM02), TP-06 (LLM10), TP-07 (LLM08), TP-09 (LLM08), TP-10 (LLM09), TP-11 (LLM01), TP-12 (LLM08), GRM-04 (LLM10) |
 | NIST AI RMF | All controls -- mapped to GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER, MANAGE |
-| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), MS-07 (Art. 15), MS-09 (Art. 14), MS-10 (Art. 10), MS-11 (Art. 14), DS-04 (Art. 10), DS-05 (Art. 10), DS-07 (Art. 15), IAM-07 (Art. 14), IAM-08 (Art. 15), IAM-09 (Art. 15), TP-07 (Art. 9), TP-08 (Art. 15), TP-09 (Art. 15), TP-10 (Art. 14), TP-11 (Art. 15), TP-12 (Art. 14), EE-01 (Art. 15), EE-02 (Art. 15), EE-03 (Art. 15), EE-04 (Art. 15), EE-06 (Art. 15), EE-07 (Art. 15), EE-08 (Art. 15), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
+| EU AI Act | MS-04 (Art. 15), MS-05 (Art. 14), MS-06 (Art. 11), MS-07 (Art. 15), MS-09 (Art. 14), MS-10 (Art. 10), MS-11 (Art. 14), MS-12 (Art. 14), DS-04 (Art. 10), DS-05 (Art. 10), DS-07 (Art. 15), IAM-07 (Art. 14), IAM-08 (Art. 15), IAM-09 (Art. 15), TP-07 (Art. 9), TP-08 (Art. 15), TP-09 (Art. 15), TP-10 (Art. 14), TP-11 (Art. 15), TP-12 (Art. 14), EE-01 (Art. 15), EE-02 (Art. 15), EE-03 (Art. 15), EE-04 (Art. 15), EE-06 (Art. 15), EE-07 (Art. 15), EE-08 (Art. 15), MIR-03 (Art. 12), MIR-04 (Art. 20), MIR-05 (Art. 20), GRM-01 (Art. 17), GRM-03 (Art. 14), GRM-04 (Art. 28) |
 
 ---
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 59 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 60 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2467,53 +2501,54 @@ Use this quick-reference during the assessment to ensure all 59 controls have be
 | 9 | MS-09: Perception-fidelity enforcement | ? | | | | |
 | 10 | MS-10: Agent memory-store integrity | ? | | | | |
 | 11 | MS-11: Operational data-stream integrity | ? | | | | |
-| 12 | IAM-01: Agent identity | ? | | | | |
-| 13 | IAM-02: Scope-bound delegation | ? | | | | |
-| 14 | IAM-03: Human oversight | ? | | | | |
-| 15 | IAM-04: Credential isolation | ? | | | | |
-| 16 | IAM-05: JIT access | ? | | | | |
-| 17 | IAM-06: Cross-session boundary | ? | | | | |
-| 18 | IAM-07: Delegation chain enforcement | ? | | | | |
-| 19 | IAM-08: Credential scope narrowing | ? | | | | |
-| 20 | IAM-09: Multi-tenant isolation | ? | | | | |
-| 21 | DS-01: Data classification | ? | | | | |
-| 22 | DS-02: Inference protection | ? | | | | |
-| 23 | DS-03: Memory sanitisation | ? | | | | |
-| 24 | DS-04: Data minimisation | ? | | | | |
-| 25 | DS-05: Training data governance | ? | | | | |
-| 26 | DS-06: Output validation | ? | | | | |
-| 27 | DS-07: Artifact publication control | ? | | | | |
-| 28 | TP-01: Tool inventory | ? | | | | |
-| 29 | TP-02: Tool access control | ? | | | | |
-| 30 | TP-03: API gateway security | ? | | | | |
-| 31 | TP-04: Tool output validation | ? | | | | |
-| 32 | TP-05: Pipeline integrity | ? | | | | |
-| 33 | TP-06: Dependency scanning | ? | | | | |
-| 34 | TP-07: Cross-tool dependency analysis | ? | | | | |
-| 35 | TP-08: Infrastructure-isolation mode | ? | | | | |
-| 36 | TP-09: Explicit tool registration | ? | | | | |
-| 37 | TP-10: Inbound control-plane protection | ? | | | | |
-| 38 | TP-11: Agent browser & content-rendering isolation | ? | | | | |
-| 39 | TP-12: Tool-call provenance & dispatch verification | ? | | | | |
-| 40 | MIR-01: Agent activity logging | ? | | | | |
-| 41 | MIR-02: Anomaly detection | ? | | | | |
-| 42 | MIR-03: Prompt audit log | ? | | | | |
-| 43 | MIR-04: IR playbooks | ? | | | | |
-| 44 | MIR-05: Reporting integration | ? | | | | |
-| 45 | MIR-06: Forensic readiness | ? | | | | |
-| 46 | GRM-01: AI governance body | ? | | | | |
-| 47 | GRM-02: AI risk register | ? | | | | |
-| 48 | GRM-03: Ethical use policy | ? | | | | |
-| 49 | GRM-04: Third-party AI risk | ? | | | | |
-| 50 | GRM-05: Regulatory mapping | ? | | | | |
-| 51 | GRM-06: Board reporting | ? | | | | |
-| 52 | EE-01: Execution boundary enforcement | ? | | | | |
-| 53 | EE-02: Infrastructure API access control | ? | | | | |
-| 54 | EE-03: Resource usage limiting | ? | | | | |
-| 55 | EE-04: Evaluation sandbox integrity | ? | | | | |
-| 56 | EE-05: Host-trusted file injection prevention | ? | | | | |
-| 57 | EE-06: Fail-closed sandbox operation | ? | | | | |
-| 58 | EE-07: Control-plane config integrity | ? | | | | |
+| 12 | MS-12: MCP discovery-metadata & shared-cache integrity | ? | | | | |
+| 13 | IAM-01: Agent identity | ? | | | | |
+| 14 | IAM-02: Scope-bound delegation | ? | | | | |
+| 15 | IAM-03: Human oversight | ? | | | | |
+| 16 | IAM-04: Credential isolation | ? | | | | |
+| 17 | IAM-05: JIT access | ? | | | | |
+| 18 | IAM-06: Cross-session boundary | ? | | | | |
+| 19 | IAM-07: Delegation chain enforcement | ? | | | | |
+| 20 | IAM-08: Credential scope narrowing | ? | | | | |
+| 21 | IAM-09: Multi-tenant isolation | ? | | | | |
+| 22 | DS-01: Data classification | ? | | | | |
+| 23 | DS-02: Inference protection | ? | | | | |
+| 24 | DS-03: Memory sanitisation | ? | | | | |
+| 25 | DS-04: Data minimisation | ? | | | | |
+| 26 | DS-05: Training data governance | ? | | | | |
+| 27 | DS-06: Output validation | ? | | | | |
+| 28 | DS-07: Artifact publication control | ? | | | | |
+| 29 | TP-01: Tool inventory | ? | | | | |
+| 30 | TP-02: Tool access control | ? | | | | |
+| 31 | TP-03: API gateway security | ? | | | | |
+| 32 | TP-04: Tool output validation | ? | | | | |
+| 33 | TP-05: Pipeline integrity | ? | | | | |
+| 34 | TP-06: Dependency scanning | ? | | | | |
+| 35 | TP-07: Cross-tool dependency analysis | ? | | | | |
+| 36 | TP-08: Infrastructure-isolation mode | ? | | | | |
+| 37 | TP-09: Explicit tool registration | ? | | | | |
+| 38 | TP-10: Inbound control-plane protection | ? | | | | |
+| 39 | TP-11: Agent browser & content-rendering isolation | ? | | | | |
+| 40 | TP-12: Tool-call provenance & dispatch verification | ? | | | | |
+| 41 | MIR-01: Agent activity logging | ? | | | | |
+| 42 | MIR-02: Anomaly detection | ? | | | | |
+| 43 | MIR-03: Prompt audit log | ? | | | | |
+| 44 | MIR-04: IR playbooks | ? | | | | |
+| 45 | MIR-05: Reporting integration | ? | | | | |
+| 46 | MIR-06: Forensic readiness | ? | | | | |
+| 47 | GRM-01: AI governance body | ? | | | | |
+| 48 | GRM-02: AI risk register | ? | | | | |
+| 49 | GRM-03: Ethical use policy | ? | | | | |
+| 50 | GRM-04: Third-party AI risk | ? | | | | |
+| 51 | GRM-05: Regulatory mapping | ? | | | | |
+| 52 | GRM-06: Board reporting | ? | | | | |
+| 53 | EE-01: Execution boundary enforcement | ? | | | | |
+| 54 | EE-02: Infrastructure API access control | ? | | | | |
+| 55 | EE-03: Resource usage limiting | ? | | | | |
+| 56 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 57 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 58 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 59 | EE-07: Control-plane config integrity | ? | | | | |
 | 59 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
 
 **Pillar Maturity Summary**
@@ -2530,7 +2565,7 @@ Use this quick-reference during the assessment to ensure all 59 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.7 -- August 17, 2026 (aligned to framework v1.7)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.7 August 2026 (59 controls)*
+*SHIELD-AI Assessment Guide v1.8 -- August 24, 2026 (aligned to framework v1.8)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls)*
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

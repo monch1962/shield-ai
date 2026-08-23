@@ -1,22 +1,22 @@
 ---
 title: "SHIELD-AI(TM): Tooling and Process Map"
-subtitle: "Tools and Processes to Address All 59 Controls, Assessed with Six Thinking Hats"
+subtitle: "Tools and Processes to Address All 60 Controls, Assessed with Six Thinking Hats"
 author: "Security Architecture Practice"
 date: "August 6, 2026"
-abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.7, 59 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
+abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.8, 60 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
 ---
 
 # SHIELD-AI Tooling and Process Map
 
 ## 1. Executive Summary
 
-This document maps every one of the 59 SHIELD-AI controls to a concrete tool or process that can implement it, then evaluates each candidate with the Six Thinking Hats method. Three findings matter most:
+This document maps every one of the 60 SHIELD-AI controls to a concrete tool or process that can implement it, then evaluates each candidate with the Six Thinking Hats method. Three findings matter most:
 
 - **About two-thirds of the controls are addressable with mature, mainstream tooling.** Identity, policy, gateway, sandbox, logging, scanning, and governance controls map onto tools most security teams already run (OPA, Vault, SPIFFE, API gateways, Kubernetes policy engines, SIEM, SBOM scanners, HSM/KMS).
-- **Eleven controls have no mature commercial tool** and require custom or emerging implementation: MS-07 (deployment-context obfuscation), MS-09 (perception-fidelity enforcement), MS-10 (agent memory-store integrity), MS-11 (operational data-stream integrity), DS-07 (artifact publication control), TP-07 (cross-tool dependency analysis), TP-10 (inbound control-plane protection), TP-11 (agent browser and content-rendering isolation), TP-12 (tool-call provenance and dispatch verification), EE-07 (control-plane configuration integrity), and EE-08 (evaluation-harness isolation). The SHIELD-AI reference implementation exists precisely to cover these.
+- **Twelve controls have no mature commercial tool** and require custom or emerging implementation: MS-07 (deployment-context obfuscation), MS-09 (perception-fidelity enforcement), MS-10 (agent memory-store integrity), MS-11 (operational data-stream integrity), MS-12 (MCP discovery-metadata integrity), DS-07 (artifact publication control), TP-07 (cross-tool dependency analysis), TP-10 (inbound control-plane protection), TP-11 (agent browser and content-rendering isolation), TP-12 (tool-call provenance and dispatch verification), EE-07 (control-plane configuration integrity), and EE-08 (evaluation-harness isolation). The SHIELD-AI reference implementation exists precisely to cover these.
 - **The highest-leverage adoption sequence is L2-baseline first**: identity and policy (SPIFFE, Vault, OPA), sandboxing, gateway, and logging make every later control cheaper to add. Maturity-led adoption beats tool-led adoption.
 
-A control-to-tool mapping covering all 59 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
+A control-to-tool mapping covering all 60 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
 
 ## 2. Method: How the Tools Were Assessed
 
@@ -39,9 +39,9 @@ docs, and source repositories) and **Options** (commercial offerings, FSS
 across AWS, Azure, and GCP). Where a category has no mature option, that is
 stated explicitly rather than filled with a weak substitute.
 
-# Part A: Control-to-Tool Mapping (All 59 Controls)
+# Part A: Control-to-Tool Mapping (All 60 Controls)
 
-## A1. Model Security (MS-01 .. MS-11)
+## A1. Model Security (MS-01 .. MS-12)
 
 | Control | Tool / Process | Notes |
 |---------|----------------|-------|
@@ -139,7 +139,7 @@ stated explicitly rather than filled with a weak substitute.
 
 | Hat | Assessment with respect to SHIELD-AI |
 |-----|--------------------------------------|
-| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 59 controls |
+| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 60 controls |
 | Black | Rego has a learning curve; policy drift is a standing risk if policies are not versioned and tested; a mis-scoped `allow` rule defaults to deny only if written that way; performance needs care at high request rates; not a data-access enforcer by itself |
 | Yellow | Directly implements the deny-override evaluation model the framework demands; every SHIELD-AI control can be expressed as a Rego assertion; testable (`opa test`), auditable, versionable; no vendor lock-in |
 | Red | The natural centre of gravity for this framework. Teams that adopt it early get the most leverage; teams that bolt it on late find it disruptive |
@@ -704,8 +704,8 @@ stated explicitly rather than filled with a weak substitute.
 
 | Coverage class | Controls | Tools |
 |----------------|----------|-------|
-| Mature mainstream tooling | 47 of 59 | OPA, SPIFFE, Vault, KMS, registries, scanners, gateways, FIM, sandboxes, SIEM, DLP, vector DBs, classification platforms, compliance platforms, IaC security |
-| Emerging but usable | 4 | MS-08 (MCP gateway), TP-10 (binding policies), MS-04 (imperceptible-content scanning partial), MS-09 (rendering snapshot partial) |
+| Mature mainstream tooling | 47 of 60 | OPA, SPIFFE, Vault, KMS, registries, scanners, gateways, FIM, sandboxes, SIEM, DLP, vector DBs, classification platforms, compliance platforms, IaC security |
+| Emerging but usable | 5 | MS-08 (MCP gateway), MS-12 (MCP discovery-metadata screening), TP-10 (binding policies), MS-04 (imperceptible-content scanning partial), MS-09 (rendering snapshot partial) |
 | Custom / process-only | 8 | MS-07, MS-09, DS-07 (workflow), TP-07, TP-10, TP-11, EE-07, EE-08 |
 
 ## D2. Controls That Need Custom or Emerging Implementation
@@ -805,5 +805,5 @@ Adopt in this order: **identity and policy first (L2 floor), then enforcement (L
 
 ---
 
-*SHIELD-AI Tooling and Process Map v1.7 -- August 17, 2026*
+*SHIELD-AI Tooling and Process Map v1.8 -- August 24, 2026*
 *Authored by the Security Architecture Practice*

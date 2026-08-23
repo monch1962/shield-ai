@@ -79,7 +79,7 @@ def diagram_architecture():
 
     pillars = [
         ("P7  EXECUTION ENVIRONMENT",          "ISM | E8 | ASD Container Security Guidance", "EE-01 -> EE-08"),
-        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               "MS-01 -> MS-11"),
+        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               "MS-01 -> MS-12"),
         ("P2  IDENTITY &amp; ACCESS",              "ISM | E8 | PSPF",                                  "IAM-01 -> IAM-09"),
         ("P3  DATA SECURITY",                  "Privacy Act | PSPF",                               "DS-01 -> DS-07"),
         ("P4  TOOL &amp; PIPELINE SECURITY",       "ISM | E8 | SOCI Act",                              "TP-01 -> TP-12"),

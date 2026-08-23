@@ -18,7 +18,7 @@
     <text x="330.0" y="469" text-anchor="middle" class="cap">EE-01 -> EE-08</text><line x1="330" y1="455" x2="330" y2="445" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="200.0" y="392" width="260" height="45" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="330.0" y="409.5" text-anchor="middle" class="label" font-weight="bold">P1  MODEL SECURITY</text>
     <text x="330.0" y="424.5" text-anchor="middle" class="sm">ISM | OWASP | NIST</text>
-    <text x="330.0" y="406" text-anchor="middle" class="cap">MS-01 -> MS-11</text><line x1="330" y1="392" x2="330" y2="382" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="200.0" y="329" width="260" height="45" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
+    <text x="330.0" y="406" text-anchor="middle" class="cap">MS-01 -> MS-12</text><line x1="330" y1="392" x2="330" y2="382" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="200.0" y="329" width="260" height="45" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="330.0" y="346.5" text-anchor="middle" class="label" font-weight="bold">P2  IDENTITY &amp; ACCESS</text>
     <text x="330.0" y="361.5" text-anchor="middle" class="sm">ISM | E8 | PSPF</text>
     <text x="330.0" y="343" text-anchor="middle" class="cap">IAM-01 -> IAM-09</text><line x1="330" y1="329" x2="330" y2="319" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/><rect x="200.0" y="266" width="260" height="45" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>

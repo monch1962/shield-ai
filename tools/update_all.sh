@@ -50,8 +50,8 @@ import json, os
 schema_doc = json.load(open("assets/shield-ai-control-schema.json", encoding="utf-8"))
 schema = schema_doc.get("controls", schema_doc)
 rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
-print(f"  schema={len(schema)} rego={rego} (expect 59)")
-if len(schema) != 59 or rego != 59:
+print(f"  schema={len(schema)} rego={rego} (expect 60)")
+if len(schema) != 60 or rego != 60:
     raise SystemExit(1)
 EOF
 
@@ -134,10 +134,10 @@ for root, dirs, files in os.walk("."):
             continue
         p = os.path.join(root, fn)
         for i, ln in enumerate(open(p, encoding="utf-8", errors="replace"), 1):
-            if re.search(r"(?<![\w/])(36|46|51|55|57)\s+controls", ln, re.I) and "v1." not in ln:
+            if re.search(r"(?<![\w/])(36|46|51|55|57|59)\s+controls", ln, re.I) and "v1." not in ln:
                 bad.append(f"{p}:{i}: {ln.strip()[:130]}")
             for m in re.finditer(r"SHIELD-AI v1\.[0-9]+", ln):
-                if m.group(0) != "SHIELD-AI v1.7":
+                if m.group(0) != "SHIELD-AI v1.8":
                     bad.append(f"{p}:{i}: {ln.strip()[:130]}")
 for b in bad:
     print("  STALE?", b)
