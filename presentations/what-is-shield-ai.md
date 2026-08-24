@@ -2,7 +2,7 @@
 title: "What is SHIELD-AI"
 subtitle: "A plain-English briefing for executives and boards"
 author: "Security Architecture Practice"
-date: "August 2026"
+date: "August 24, 2026"
 abstract: "What SHIELD-AI is, why it exists, and what it would mean for your organisation. Written for a 60-second read."
 ---
 

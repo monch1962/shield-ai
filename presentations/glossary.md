@@ -2,7 +2,7 @@
 title: "SHIELD-AI Glossary"
 subtitle: "Plain-language definitions of the terms used in our briefings"
 author: "Security Architecture Practice"
-date: "August 2026"
+date: "August 24, 2026"
 abstract: "A short glossary for executives, boards, and program managers meeting AI security vocabulary for the first time."
 ---
 

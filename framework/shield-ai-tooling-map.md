@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): Tooling and Process Map"
 subtitle: "Tools and Processes to Address All 60 Controls, Assessed with Six Thinking Hats"
 author: "Security Architecture Practice"
-date: "August 6, 2026"
+date: "August 24, 2026"
 abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.8, 60 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
 ---
 

@@ -25,6 +25,7 @@ os.chdir(ROOT)
 
 EXPECTED_VERSION = "v1.8"
 EXPECTED_COUNT = 60
+EXPECTED_EDITION = "August 24, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -52,6 +53,24 @@ def count_controls():
     return len(set(CONTROL_ID.match(ln) and ln[2:] for ln in t.split("\n") if CONTROL_ID.match(ln)))
 
 
+def frontmatter_date(path):
+    """First `date:` field in the YAML frontmatter (no YAML dependency)."""
+    with open(path, encoding="utf-8") as f:
+        in_fm = False
+        for ln in f:
+            s = ln.strip()
+            if s == "---":
+                if in_fm:
+                    break
+                in_fm = True
+                continue
+            if in_fm:
+                m = re.match(r'^date:\s*"?([^"]+)"?\s*$', s)
+                if m:
+                    return m.group(1).strip()
+    return None
+
+
 def main():
     print(f"== Artifact verification vs framework {EXPECTED_VERSION}, {EXPECTED_COUNT} controls ==")
 
@@ -76,7 +95,7 @@ def main():
     # 2. Watchlist current edition
     wl = pdf_text("framework/shield-ai-watchlist.pdf")
     check("watchlist.pdf has 60 controls", f"{EXPECTED_COUNT} controls" in wl)
-    check("watchlist.pdf has current edition date", "August 24, 2026" in wl)
+    check(f"watchlist.pdf has current edition date ({EXPECTED_EDITION})", EXPECTED_EDITION in wl)
 
     # 3. HTML deck PDFs carry the current framework version
     for deck in ["board-brief/shield-ai-deck-board", "business-deck/shield-ai-deck-business",
@@ -157,12 +176,12 @@ def main():
     #    left at "v1.6" while the document content is v1.7).
     for doc, markers in [
         ("framework/shield-ai-framework.md", ["SHIELD-AI v1.8"]),
-        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.8", "August 24, 2026"]),
-        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.8", "August 24, 2026"]),
+        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.8", EXPECTED_EDITION]),
+        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.8", EXPECTED_EDITION]),
         ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.8"]),
-        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.8", "August 24, 2026"]),
-        ("presentations/what-is-shield-ai.md", ["SHIELD-AI v1.8, August 24, 2026"]),
-        ("presentations/glossary.md", ["v1.8 edition, August 24, 2026"]),
+        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.8", EXPECTED_EDITION]),
+        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.8, {EXPECTED_EDITION}"]),
+        ("presentations/glossary.md", [f"v1.8 edition, {EXPECTED_EDITION}"]),
     ]:
         if not os.path.exists(doc):
             check(f"{doc} exists", False)
@@ -171,8 +190,33 @@ def main():
         check(f"{os.path.basename(doc)} source footer carries {markers}",
               all(m in txt for m in markers))
     wl_md = open("framework/shield-ai-watchlist.md", encoding="utf-8").read()
-    check("watchlist.md edition line is current (August 24, 2026)",
-          "August 24, 2026" in wl_md)
+    check(f"watchlist.md edition line is current ({EXPECTED_EDITION})",
+          EXPECTED_EDITION in wl_md)
+
+    # 8b. Frontmatter edition dates match the current edition (regression guard,
+    #     Aug 2026): the gap-analysis frontmatter drifted to the v1.7 date while
+    #     its footer was correct, and the PDF title page rendered the stale date.
+    #     Every doc carrying a current-state edition date must agree.
+    for doc in [
+        "framework/shield-ai-gap-analysis.md",
+        "framework/shield-ai-tooling-map.md",
+        "framework/shield-ai-framework.md",
+        "framework/shield-ai-implementation-architecture.md",
+        "presentations/what-is-shield-ai.md",
+        "presentations/glossary.md",
+        "assessment-guide/shield-ai-assessment-guide.md",
+        "framework/shield-ai-reference-architecture-walkthrough.md",
+        "framework/shield-ai-watchlist.md",
+    ]:
+        fd = frontmatter_date(doc)
+        check(f"{os.path.basename(doc)} frontmatter date == {EXPECTED_EDITION} (found {fd})",
+              fd == EXPECTED_EDITION)
+    ga_src = open("framework/shield-ai-gap-analysis.md", encoding="utf-8").read()
+    check(f"gap-analysis subtitle carries 'Updated {EXPECTED_EDITION}'",
+          f"Updated {EXPECTED_EDITION}" in ga_src)
+    ga_pdf = pdf_text("framework/shield-ai-gap-analysis.pdf")
+    check("gap-analysis.pdf carries no stale v1.7 edition date",
+          "August 17, 2026" not in ga_pdf)
 
     print()
     if failures:

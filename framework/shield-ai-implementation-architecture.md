@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): Implementation Architecture"
 subtitle: "Deployable Components for a SHIELD-AI Implementation"
 author: "Security Architecture Practice"
-date: "August 2026"
+date: "August 24, 2026"
 abstract: "The deployable component model for implementing the SHIELD-AI framework: what to build, deploy, and configure to realise the 60 controls across 7 pillars, presented with a complete set of diagrams and explanatory text. Covers the component inventory, reference architecture, policy decision points, request flows, telemetry and incident response pipeline, network boundary model, deployment topologies, the component-to-control mapping matrix, and the L1-L4 maturity mapping."
 ---
 
