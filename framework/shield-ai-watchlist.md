@@ -2,13 +2,13 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "August 24, 2026"
+date: "August 31, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** August 24, 2026 -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
+**Edition:** August 31, 2026 -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
 
 ## 1. Purpose and Method
 
@@ -112,7 +112,7 @@ The watchlist question is not "is NOOA a threat?" but "what does convergence mea
 ### 4.3 Implications for SHIELD-AI
 
 - **Mapping, not merging.** SHIELD-AI's value is its threat-informed, incident-driven control set. The correct response is a maintained mapping table (SHIELD-AI control to NOOA control), not adopting NOOA's structure wholesale.
-- **Validation opportunity.** An alliance framework is a chance to validate SHIELD-AI's incident lineage publicly: every control in v1.8 traces to a named incident or CVE. If NOOA's controls map cleanly onto SHIELD-AI's 60, the framework's coverage claim is strengthened; where NOOA covers something SHIELD-AI does not, that is a genuine signal to evaluate.
+- **Validation opportunity.** An alliance framework is a chance to validate SHIELD-AI's incident lineage publicly: every control in v1.9 traces to a named incident or CVE. If NOOA's controls map cleanly onto SHIELD-AI's 61, the framework's coverage claim is strengthened; where NOOA covers something SHIELD-AI does not, that is a genuine signal to evaluate.
 - **Differentiation risk.** If NOOA's framework is permissive on execution-environment isolation, SHIELD-AI's EE pillar -- its most incident-validated contribution -- becomes a differentiator to lead with in client conversations.
 
 ### 4.4 Decision Gate
@@ -447,7 +447,7 @@ This is the same evidence standard the framework has applied since v1.1: the C2 
 
 ### 11.4 Relationship to the Framework
 
-The watchlist is deliberately not part of the framework document. The framework's 60 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both -- controls would gain unvalidated entries, and watchlist items would lose their explicit "not yet a control" status. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
+The watchlist is deliberately not part of the framework document. The framework's 61 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both -- controls would gain unvalidated entries, and watchlist items would lose their explicit "not yet a control" status. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
 
 ---
 

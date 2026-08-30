@@ -50,8 +50,8 @@ import json, os
 schema_doc = json.load(open("assets/shield-ai-control-schema.json", encoding="utf-8"))
 schema = schema_doc.get("controls", schema_doc)
 rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
-print(f"  schema={len(schema)} rego={rego} (expect 60)")
-if len(schema) != 60 or rego != 60:
+print(f"  schema={len(schema)} rego={rego} (expect 61)")
+if len(schema) != 61 or rego != 61:
     raise SystemExit(1)
 EOF
 

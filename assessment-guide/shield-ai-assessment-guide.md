@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "August 24, 2026"
+date: "August 31, 2026"
 ---
 
 # Introduction
@@ -1510,6 +1510,38 @@ Every tool execution must verify that the tool-call instruction originated from 
 
 ---
 
+### TP-13: Agent Dependency-Install Provenance Verification
+
+**Explanation**
+Agents must not execute installation commands derived from ingested content — documentation pages, llms.txt/llms-full.txt files, setup guides, README instructions — without verifying the provenance of every package, domain, and command they reference. Package names are confirmed to exist in the intended registry and the namespace is verified to belong to the documented vendor (registry ownership checks, domain registration and expiry checks) before any pip/npm/npx/apt/go install or clone executes. Installation commands sourced from untrusted or ingested content are gated by an operator-maintained allowlist or human approval instead of being treated as authoritative setup steps. Dangling references — commands pointing to unregistered packages, unclaimed or expired domains, or namespaces that do not match the publisher — are treated as security findings that block the install, log via MIR-01, and surface for review. A documentation file is never treated as an authoritative install script. The llms.txt class (Ars Technica, August 27, 2026): 120 of 8,265 scanned llms.txt files referenced unregistered packages; registering the names produced code-execution phone-homes from Fortune 500 companies within an hour; Claude, Codex, and Hermes coding agents ran the installs, and the Clerk.com case had live malware hosted on an unclaimed npx slot.
+
+**Key Assessment Questions**
+
+1. Do agents execute installation commands from documentation without verifying package existence and namespace ownership?
+2. Are installs derived from untrusted content gated by an allowlist or human approval?
+3. Are dangling references (unregistered packages, unclaimed domains) blocked, logged, and surfaced as findings?
+4. Is a documentation file ever treated as an authoritative install script?
+
+**Artifacts to Examine**
+
+- Dependency-install provenance verification configuration
+- Registry namespace and domain-ownership check results
+- Install-command allowlist / approval policy
+- Dangling-reference findings and MIR-01 alerts
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agents execute install commands found in documentation or llms.txt verbatim with no namespace checks. |
+| L2 | Install commands from ingested content run, but package/domain existence is only checked post-hoc. |
+| L3 | Pre-install provenance verification: registry existence, namespace ownership, domain registration; installs from untrusted content gated by an allowlist or human approval; dangling references blocked and logged via MIR-01. |
+| L4 | Continuous verification against live registry state; automated blocking of dangling references; documentation files never treated as authoritative install scripts; red-team testing of the docs-to-install path. |
+
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 -- Human Oversight), ISM (Guidelines for Gateways).
+
+---
+
 # Section 5: Monitoring, Logging, and Incident Response (MIR)
 
 ## Pillar Overview
@@ -2283,7 +2315,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 60 controls:
+For each of the 61 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2467,12 +2499,13 @@ For each of the 60 controls:
 | TP-10 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-11 | Web Content Filtering | App Control | - | - | - | - |
 | TP-12 | Web App Hardening, Network Seg | App Control | - | - | - | - |
+| TP-13 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, TP-13, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
 | Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, TP-11, TP-12, DS-02, EE-01, EE-03, EE-05, EE-08 |
 | SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, DS-07, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, EE-08, GRM-01, GRM-02, GRM-05 |
 | APRA CPS 234 | MS-01, MS-03, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
@@ -2486,7 +2519,7 @@ For each of the 60 controls:
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 60 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 61 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2530,26 +2563,27 @@ Use this quick-reference during the assessment to ensure all 60 controls have be
 | 38 | TP-10: Inbound control-plane protection | ? | | | | |
 | 39 | TP-11: Agent browser & content-rendering isolation | ? | | | | |
 | 40 | TP-12: Tool-call provenance & dispatch verification | ? | | | | |
-| 41 | MIR-01: Agent activity logging | ? | | | | |
-| 42 | MIR-02: Anomaly detection | ? | | | | |
-| 43 | MIR-03: Prompt audit log | ? | | | | |
-| 44 | MIR-04: IR playbooks | ? | | | | |
-| 45 | MIR-05: Reporting integration | ? | | | | |
-| 46 | MIR-06: Forensic readiness | ? | | | | |
-| 47 | GRM-01: AI governance body | ? | | | | |
-| 48 | GRM-02: AI risk register | ? | | | | |
-| 49 | GRM-03: Ethical use policy | ? | | | | |
-| 50 | GRM-04: Third-party AI risk | ? | | | | |
-| 51 | GRM-05: Regulatory mapping | ? | | | | |
-| 52 | GRM-06: Board reporting | ? | | | | |
-| 53 | EE-01: Execution boundary enforcement | ? | | | | |
-| 54 | EE-02: Infrastructure API access control | ? | | | | |
-| 55 | EE-03: Resource usage limiting | ? | | | | |
-| 56 | EE-04: Evaluation sandbox integrity | ? | | | | |
-| 57 | EE-05: Host-trusted file injection prevention | ? | | | | |
-| 58 | EE-06: Fail-closed sandbox operation | ? | | | | |
-| 59 | EE-07: Control-plane config integrity | ? | | | | |
-| 59 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
+| 41 | TP-13: Dependency-install provenance verification | ? | | | | |
+| 42 | MIR-01: Agent activity logging | ? | | | | |
+| 43 | MIR-02: Anomaly detection | ? | | | | |
+| 44 | MIR-03: Prompt audit log | ? | | | | |
+| 45 | MIR-04: IR playbooks | ? | | | | |
+| 46 | MIR-05: Reporting integration | ? | | | | |
+| 47 | MIR-06: Forensic readiness | ? | | | | |
+| 48 | GRM-01: AI governance body | ? | | | | |
+| 49 | GRM-02: AI risk register | ? | | | | |
+| 50 | GRM-03: Ethical use policy | ? | | | | |
+| 51 | GRM-04: Third-party AI risk | ? | | | | |
+| 52 | GRM-05: Regulatory mapping | ? | | | | |
+| 53 | GRM-06: Board reporting | ? | | | | |
+| 54 | EE-01: Execution boundary enforcement | ? | | | | |
+| 55 | EE-02: Infrastructure API access control | ? | | | | |
+| 56 | EE-03: Resource usage limiting | ? | | | | |
+| 57 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 58 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 59 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 60 | EE-07: Control-plane config integrity | ? | | | | |
+| 61 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
 
 **Pillar Maturity Summary**
 
@@ -2565,7 +2599,7 @@ Use this quick-reference during the assessment to ensure all 60 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.8 -- August 24, 2026 (aligned to framework v1.8)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls)*
+*SHIELD-AI Assessment Guide v1.9 -- August 31, 2026 (aligned to framework v1.9)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13)*
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

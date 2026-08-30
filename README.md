@@ -10,14 +10,14 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework documents
-|   +-- shield-ai-framework.md          #   Full framework (v1.8)
+|   +-- shield-ai-framework.md          #   Full framework (v1.9)
 |   +-- shield-ai-framework.pdf         #   PDF
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
 |   +-- shield-ai-implementation-architecture.md   #   Deployable components, reference
 |   |                                          #   architecture, full diagram set (NEW)
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
-|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.8)
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.9)
 |   +-- shield-ai-field-findings.md     #   Field validation findings, staged for the
 |                                      #   next framework cycle (FF-01..FF-06)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
@@ -26,7 +26,7 @@ shield-ai/
 |   +-- shield-ai-watchlist.pdf         #   Watchlist PDF
 |   +-- shield-ai-watchlist.epub        #   Watchlist EPUB
 +-- assessment-guide/                   # Consultant's field manual
-|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 60 controls
+|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 61 controls
 |   +-- shield-ai-assessment-guide.pdf  #   PDF
 |   +-- shield-ai-assessment-guide.epub #   EPUB for field use
 +-- presentations/
@@ -57,13 +57,13 @@ shield-ai/
 |       +-- nbn-alignment.svg               #  SOCI Act/TSSR/APP 11/ISM-E8 map
 |       +-- build_deck.py                   #  Builder (regenerates the deck)
 +-- exploits/                           # Novel AI exploit catalog (per-type entries)
-|   +-- README.md                       #   Index + coverage table (24 classes, v1.8)
-|   +-- g01-..g23-*.md                  #   One entry per exploit type (G1-G23)
+|   +-- README.md                       #   Index + coverage table (25 classes, v1.9)
+|   +-- g01-..g25-*.md                  #   One entry per exploit type (G1-G25)
 |   +-- _TEMPLATE.md                    #   Entry format for the monitoring cycles
 |   +-- exploit-catalog.pdf             #   Combined PDF (README + all entries)
 |   +-- exploit-catalog.epub            #   Combined EPUB
-+-- policies/                           # Policy-as-code controls (Rego/OPA, 60/60 shipped)
-|   +-- shield_ai_*.rego               #   60 machine-readable controls (59 implemented + MS-12 stub)
++-- policies/                           # Policy-as-code controls (Rego/OPA, 61/61 shipped)
+|   +-- shield_ai_*.rego               #   61 machine-readable controls (59 implemented + MS-12, TP-13 stubs)
 |   +-- shield_ai_<pillar>_<id>.rego   #   (MS, IAM, DS, TP, MIR, GRM, EE)
 +-- case-studies/                     # Sanitised field-validation records (M3)
 |   +-- 2026-08-reference-implementation.md  # First assessment (overall L1)
@@ -73,7 +73,7 @@ shield-ai/
 |   +-- docker-compose.yml             #   OPA bundle + sidecar + mock tool/SIEM
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
-|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.8)
+|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.9)
 |   +-- logo*.svg                       # Brand assets
 |   +-- style.css                       # Document styling (Markdown/HTML/PDF/EPUB)
 +-- tools/
@@ -115,15 +115,15 @@ shield-ai/
   monthly deep review cycle
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
-  incident research driving framework evolution (v1.8, 41 incidents, 24 gaps)
+  incident research driving framework evolution (v1.9, 47 incidents, 25 gaps)
 
 - **[Novel AI Exploit Catalog (Markdown)](exploits/README.md)** -- one entry per
-  identified exploit type (G1-G23), with the nature of each exploit and the
+  identified exploit type (G1-G25), with the nature of each exploit and the
   framework controls that cover it; maintained by the weekly and monthly
   monitoring cycles (PDF/EPUB available)
 
 - **[Tooling and Process Map (Markdown)](framework/shield-ai-tooling-map.md)** --
-  tools and processes addressing all 60 controls, each assessed with the Six
+  tools and processes addressing all 61 controls, each assessed with the Six
   Thinking Hats; coverage analysis and an L1-L4 adoption roadmap (PDF/EPUB available)
 
 - **[Assessment Guide (Markdown)](assessment-guide/shield-ai-assessment-guide.md)** --
@@ -140,7 +140,7 @@ shield-ai/
 - **[Control Schema (JSON)](assets/shield-ai-control-schema.json)** -- machine-readable
   control definitions for tooling and automation
 
-- **[Policy-as-Code (Rego)](policies/)** -- the 60 controls as executable,
+- **[Policy-as-Code (Rego)](policies/)** -- the 61 controls as executable,
   deny-override policies with test vectors; the shared input model and
   conversion conventions are documented in `policies/README.md`
 - **[Case Studies (Markdown)](case-studies/README.md)** -- sanitised field-validation
@@ -182,8 +182,9 @@ know the gates would pass (e.g. a mechanical manifest refresh).
 
 ## Framework Version
 
-**v1.7** -- August 17, 2026 (weekly monitoring cycle: added operational data-stream integrity MS-11 and tool-call provenance and dispatch verification TP-12; extended MIR-02/IAM-03/TP-09/GRM-02; addressed GhostJacking observability-stream poisoning (Tenet, DEFCON 34), CoreBreak tool-dispatch provenance failures (AWS/Google/Vercel), the first autonomous multi-agent attack on critical infrastructure (Taiwan nuclear safety agency), and the AI-assisted exploit-development cluster (SharePoint chain, Zoomsday); G19 escalated to Critical; 59 controls)
+**v1.9** -- August 31, 2026 (weekly monitoring cycle: added agent dependency-install provenance verification TP-13 for gap G25 (the llms.txt dangling-install supply-chain class — unregistered-package installs executed by Claude, Codex, and Hermes in Fortune 500 environments, live malware at Clerk.com); extended MS-10 (model-definition/template-store integrity — NemoClaw CVE-2026-65105), TP-12 (provenance receipts at every trust boundary — Novee), and MS-12 (aggregate tool-surface screening — ShareLock); added INC-42..INC-47 (RovoBlast, ShareLock, llms.txt, NemoClaw, Novee trust-handoffs, Wiz Red Agent) plus the OpenAI full incident report and the HF technical timeline as INC-40 evidence; 61 controls)
 **v1.8** -- August 24, 2026 (weekly monitoring cycle: added MCP discovery-metadata and shared-cache integrity MS-12 for gap G24; extended TP-06 (sandbox binding layers are part of the trust boundary; eval-with-empty-locals is not a sandbox), MS-09 (approval dialogs bind to the canonicalised, resolved action target), and MS-08 (discovery/cache surfaces); added INC-37..INC-41 (MCP-2026-008/015 and Context7 CVE-2026-75130, isolated-vm GHSA-864f-rcv7-6rh4 and Langroid CVE-2026-54769, browser-tools-mcp / atomic-agents-stack / mcp-searxng, OpenAI evaluation-escape follow-up disclosures, Wiz GhostApproval); 60 controls)
+**v1.7** -- August 17, 2026 (weekly monitoring cycle: added operational data-stream integrity MS-11 and tool-call provenance and dispatch verification TP-12; extended MIR-02/IAM-03/TP-09/GRM-02; addressed GhostJacking observability-stream poisoning (Tenet, DEFCON 34), CoreBreak tool-dispatch provenance failures (AWS/Google/Vercel), the first autonomous multi-agent attack on critical infrastructure (Taiwan nuclear safety agency), and the AI-assisted exploit-development cluster (SharePoint chain, Zoomsday); G19 escalated to Critical; 59 controls)
 
 **v1.6** -- August 10, 2026 (weekly monitoring cycle: added agent memory-store integrity MS-10 and agent browser and content-rendering isolation TP-11; extended EE-08/EE-01/MS-04/MS-09/IAM-03/MIR-02/GRM-04; addressed the Meta/Irregular third-party evaluation containment failure, UK AISI incident report, Kimi K3 benchmark-cheat escape, ChatMate Remote Prompt Execution against Microsoft 365 Copilot, Zenity Intent Collision agentic-browser takeover, Ruflo/RufRoot MCP-bridge RCE with persistent memory poisoning, and the first documented Australian autonomous agent attack; Langflow CVE-2026-9198 CISA KEV escalation; 57 controls)
 

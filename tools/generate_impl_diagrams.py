@@ -137,7 +137,7 @@ def d1_reference():
 
     # ---- Row 3: policy, tool & model plane ----
     b.append(box(620, 195, 230, 100, LTBL, "Policy Decision Points (OPA)", "Rego: IAM, DS, TP, GRM", cap="POLICY-AS-CODE"))
-    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..12"))
+    b.append(box(880, 195, 220, 100, WHITE, "Tool Registry + MCP Gateway", "signed tool defs, schema validation", cap="TP-01..13"))
     b.append(arrow(540, 245, 620, 245))
     b.append(arrow(850, 245, 880, 245))
     b.append(box(620, 330, 230, 90, WHITE, "Identity Plane", "SPIFFE/SPIRE, JIT creds, delegation", cap="IAM-01..09"))
@@ -250,7 +250,7 @@ def d4_telemetry():
     b.append(box(710, 70, 320, 55, WHITE, "SOC Dashboards", "live posture, agent activity"))
     b.append(box(710, 140, 320, 55, WHITE, "IR Playbooks", "containment, tool revocation", cap="MIR-04"))
     b.append(box(710, 210, 320, 55, LTBL, "Mandatory Reporting Triggers", "SOCI 12h | APRA 72h | NDB", cap="MIR-05"))
-    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "60 controls, per-pillar maturity", cap="GRM-06"))
+    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "61 controls, per-pillar maturity", cap="GRM-06"))
     for y in (97, 167, 237):
         b.append(arrow(290, y, 370, y))
     b.append(varrow(500, 125, 140))

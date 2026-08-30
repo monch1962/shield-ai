@@ -8,28 +8,28 @@
 
 | Artifact | Status | Notes |
 |----------|--------|-------|
-| Framework document v1.7 | [OK] Complete | 7 pillars, 60 controls, 4 maturity levels |
-| Sandbox escape gap analysis v1.7 | [OK] Complete | 36 incidents, 23 gaps |
+| Framework document v1.9 | [OK] Complete | 7 pillars, 61 controls, 4 maturity levels |
+| Sandbox escape gap analysis v1.9 | [OK] Complete | 47 incidents, 25 gaps |
 | Watchlist | [OK] Monthly | Canonical framework/shield-ai-watchlist.md, replaced each deep review |
-| Tooling and process map | [OK] Complete | All 60 controls mapped, six-hat assessment, L1-L4 roadmap |
+| Tooling and process map | [OK] Complete | All 61 controls mapped, six-hat assessment, L1-L4 roadmap |
 | Implementation architecture | [OK] Complete | Deployable components + full SVG diagram set |
-| Assessment guide | [OK] Complete | All 7 pillars x 60 controls |
+| Assessment guide | [OK] Complete | All 7 pillars x 61 controls |
 | Business slide deck (14 slides) | [OK] Complete | For CISO/CRO/Board |
 | Technical slide deck (27 slides) | [OK] Complete | For AI engineers, security architects |
 | Buyer's journey bridge (7 slides) | [OK] Complete | Connects both decks |
-| Defence briefing deck (24 slides) | [OK] Versioned | v1.5, client-specific/defence/ |
-| Aware Super briefing deck (24 slides) | [OK] Versioned | v1.3, client-specific/aware-super/ |
-| NBN Co briefing deck (25 slides) | [OK] Versioned | v1.1, client-specific/nbn/ |
+| Defence briefing deck (24 slides) | [OK] Versioned | v1.7, client-specific/defence/ |
+| Aware Super briefing deck (24 slides) | [OK] Versioned | v1.5, client-specific/aware-super/ |
+| NBN Co briefing deck (25 slides) | [OK] Versioned | v1.3, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
-| JSON control schema | [OK] v1.7 | 60 controls, machine-readable |
-| Rego policy set (60) | [OK] Complete | All 60 controls implemented with deny-override assertions and test vectors (253 OPA tests); no stubs remain |
+| JSON control schema | [OK] v1.9 | 61 controls, machine-readable |
+| Rego policy set (61) | [OK] Complete | 61 controls as generated stubs (59 implemented with deny-override assertions and test vectors; MS-12 and TP-13 pending implementation); 253 OPA tests |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
 
 | Pri | Item | Verdict | Effort | Impact |
 |-----|------|---------|--------|--------|
-| [X] | Rego policy stubs for all 60 controls | Complete (v1.7) | Per-control | Automated control testing per GRM-05/06 |
+| [X] | Rego policy stubs for all 61 controls | Complete (v1.9) | Per-control | Automated control testing per GRM-05/06 |
 | [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.7) | 1-2 days | Closed the largest stub gap |
 | P1 | Reference implementation (deployable tooling from the implementation architecture doc) | Next milestone | Multi-week | Validates the component model against real environments |
 | P2 | Public release | After field validation | 1 day | Community adoption |
@@ -41,10 +41,11 @@
 ## Next Milestones
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
-- Convert the 60 shipped stubs from TODO bodies to evaluable assertions with test vectors
-- **COMPLETE (Aug 2026):** all 60 controls implemented with deny-override
+- Convert the 61 shipped stubs from TODO bodies to evaluable assertions with test vectors
+- **COMPLETE (Aug 2026):** 59 controls implemented with deny-override
   assertions and per-control test vectors (253 OPA tests), following the pattern
-  and shared input model documented in `policies/README.md`.
+  and shared input model documented in `policies/README.md`. MS-12 and TP-13
+  ship as generated stubs pending implementation in a subsequent cycle.
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components
@@ -74,7 +75,7 @@
   monthly deep-review cycle); sanitised case study material lives in
   `case-studies/`. Remaining: real-client engagements, framework adoption
   of staged findings. **F3 follow-up (same cycle):** the e2e matrix grew from
-  6 to 28 cases; 47/60 controls deny-observed at runtime (all 60 exercised,
+  6 to 28 cases; 47/61 controls deny-observed at runtime (all 61 exercised,
   markers asserted per control); the expansion caught and fixed a
   config-schema drift in the reference deployment (finding F11 / FF-07).
 

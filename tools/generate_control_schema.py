@@ -25,7 +25,7 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.8"
+FRAMEWORK_VERSION = "1.9"
 FRAMEWORK_DATE = "2026-08"
 
 PILLARS = {
@@ -1641,6 +1641,30 @@ reg("TP-12", "Tool-Call Provenance and Dispatch Verification", "TP",
     ],
     {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 14(b)", "ISM": "Guidelines for Gateways"},
     ["dispatch", "provenance", "inspection-execution-gap"])
+
+reg("TP-13", "Agent Dependency-Install Provenance Verification", "TP",
+    "Agents must not execute installation commands derived from ingested content (documentation pages, llms.txt/llms-full.txt files, setup guides, README instructions) without verifying the provenance of every package, domain, and command they reference. Package names are confirmed to exist in the intended registry and the namespace is verified to belong to the documented vendor (registry ownership checks, domain registration and expiry checks) before any pip/npm/npx/apt/go install or clone executes; installation commands sourced from untrusted or ingested content are gated by an operator-maintained allowlist or human approval instead of being treated as authoritative setup steps; dangling references (commands pointing to unregistered packages, unclaimed or expired domains, or mismatched namespaces) are treated as security findings that block the install, log via MIR-01, and surface for review; and a documentation file is never treated as an authoritative install script. Addresses the llms.txt dangling-install class (Ars Technica, August 27, 2026: 120 of 8,265 scanned llms.txt files referenced unregistered packages or unclaimed domains; code-execution phone-homes from Fortune 500 companies within an hour of name registration; live malware in the Clerk.com npx case; Claude, Codex, and Hermes coding agents executed the installs automatically).",
+    "Verify registry-namespace and domain-ownership provenance before any agent-executed install derived from ingested content.",
+    [
+        "Agents execute install commands found in documentation or llms.txt verbatim with no namespace checks.",
+        "Install commands from ingested content run, but package/domain existence is only checked post-hoc.",
+        "Pre-install provenance verification: registry existence, namespace ownership, domain registration; installs from untrusted content gated by an allowlist or human approval; dangling references blocked and logged via MIR-01.",
+        "Continuous verification against live registry state; automated blocking of dangling references; documentation files never treated as authoritative install scripts; red-team testing of the docs-to-install path.",
+    ],
+    [
+        "Do agents execute installation commands from documentation without verifying package existence and namespace ownership?",
+        "Are installs derived from untrusted content gated by an allowlist or human approval?",
+        "Are dangling references (unregistered packages, unclaimed domains) blocked, logged, and surfaced as findings?",
+        "Is a documentation file ever treated as an authoritative install script?",
+    ],
+    [
+        "Dependency-install provenance verification configuration",
+        "Registry namespace and domain-ownership check results",
+        "Install-command allowlist / approval policy",
+        "Dangling-reference findings and MIR-01 alerts",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Gateways"},
+    ["dependency", "install", "llms.txt", "provenance"])
 
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
