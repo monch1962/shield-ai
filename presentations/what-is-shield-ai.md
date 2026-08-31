@@ -2,7 +2,7 @@
 title: "What is SHIELD-AI"
 subtitle: "A plain-English briefing for executives and boards"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
+date: "September 1, 2026"
 abstract: "What SHIELD-AI is, why it exists, and what it would mean for your organisation. Written for a 60-second read."
 ---
 
@@ -18,7 +18,7 @@ That is the problem SHIELD-AI exists to solve.
 
 ## What SHIELD-AI is
 
-SHIELD-AI is an Australian security framework for organisations deploying autonomous AI agents: systems that act, not just chat. It is a set of 61 controls across 7 pillars, each with implementation guidance, a maturity path from L1 to L4, and a mapping to the regulatory frameworks Australian organisations already operate under: ISM, the Essential Eight, SOCI, APRA CPS 234 and CPG 230, the Privacy Act, PSPF, and ASIC expectations.
+SHIELD-AI is an Australian security framework for organisations deploying autonomous AI agents: systems that act, not just chat. It is a set of 62 controls across 7 pillars, each with implementation guidance, a maturity path from L1 to L4, and a mapping to the regulatory frameworks Australian organisations already operate under: ISM, the Essential Eight, SOCI, APRA CPS 234 and CPG 230, the Privacy Act, PSPF, and ASIC expectations.
 
 It is deliberately:
 
@@ -32,13 +32,13 @@ Most AI security offerings are documents. SHIELD-AI ships as executable policy: 
 
 ## What it would mean for your organisation
 
-- **Your auditor asks a question, you run a test.** The 61 controls are testable assertions, so evidence is produced, not argued.
+- **Your auditor asks a question, you run a test.** The 62 controls are testable assertions, so evidence is produced, not argued.
 - **Your AI deployment gets a defined posture.** L1 to L4 maturity, repeatable across projects and business units.
 - **Incidents stop being surprises.** The framework updates weekly against a live incident watch and monthly with a deep review. It does not go stale between engagements.
 
 ## How it would start
 
-1. **Posture assessment (weeks 1-4).** A structured review of your current AI deployments against the 61 controls, producing a maturity profile and a prioritised gap list.
+1. **Posture assessment (weeks 1-4).** A structured review of your current AI deployments against the 62 controls, producing a maturity profile and a prioritised gap list.
 2. **Pilot (weeks 5-8).** Policy-as-code enforcement on one real use case, in a sidecar, no platform rebuild required.
 3. **Rollout.** Extend to production AI workloads, wire to your monitoring and audit pipeline, and keep the posture current through the ongoing incident watch.
 
@@ -48,4 +48,4 @@ Australian organisations are deploying agents that can act. The first documented
 
 Security Architecture Practice, Sydney, Australia.
 
-*Framework edition: SHIELD-AI v1.9, August 31, 2026*
+*Framework edition: SHIELD-AI v1.10, September 1, 2026*

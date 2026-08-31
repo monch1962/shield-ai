@@ -2,7 +2,7 @@
 title: "SHIELD-AI Reference Architecture Walkthrough"
 subtitle: "A presenter's guide for technical audiences"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
+date: "September 1, 2026"
 abstract: "A detailed, presenter-ready walkthrough of the SHIELD-AI reference architecture for technical SMEs, refined through a Six Thinking Hats session. One coherent story: follow a single agent request through the five zones, four decision points, and the audit trail, anchored to real 2026 incidents. Includes the seven-act narrative, per-slide guidance, the fail-closed beat, the topology close, and handout guidance."
 ---
 

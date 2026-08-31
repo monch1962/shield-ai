@@ -18,6 +18,7 @@ Usage:
 
 import json
 import os
+import re
 import sys
 from datetime import date
 
@@ -25,8 +26,8 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.9"
-FRAMEWORK_DATE = "2026-08"
+FRAMEWORK_VERSION = "1.10"
+FRAMEWORK_DATE = "2026-09"
 
 PILLARS = {
     "MS":  "Model Security",
@@ -1666,6 +1667,30 @@ reg("TP-13", "Agent Dependency-Install Provenance Verification", "TP",
     {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Gateways"},
     ["dependency", "install", "llms.txt", "provenance"])
 
+reg("TP-14", "Skill/Plugin Payload Integrity and Instruction-Channel Isolation", "TP",
+    "Skills, plugins, and marketplace extensions must be distributed as cryptographically signed, immutable payloads whose instruction content is fixed at install time. Runtime-fetchable instruction channels (remote referral manifests, update feeds, operator-controlled configuration fetched after install) are prohibited and must be blocked at the network and runtime layers, because a post-install fetch channel is a command-and-control path invisible to monitoring (it is not a tool call). Skills execute with privileges scoped to their declared capability set, never the agent's full identity, and a post-install behavioural baseline must be established under MIR-02 before full capability is granted, with baseline drift quarantining the skill. Marketplace provenance must be attestable end-to-end (publisher to registry to artifact) with publisher identity attestation. On any signature, provenance, or baseline error the install is blocked and installed skills are suspended; runtime-fetch attempts terminate the skill and alert via MIR-01 — never unsigned execution. Addresses the ClawHavoc/ClawHub skill-marketplace class (Koi Security, February 2026; Antiy CERT: 1,184 malicious skills, ~20% of the registry; Unit 42, June 2026: evasive skills passing automated scanning, runtime affiliate injection, and agentic front-running).",
+    "Gate every agent extension install on signed, immutable payloads with no runtime-fetchable instruction channels and privilege-scoped execution.",
+    [
+        "Skills installed ad hoc from any marketplace with no signature or provenance checks; full agent privileges.",
+        "Signature verification at install; marketplaces restricted to an operator allowlist.",
+        "Immutable signed payloads; runtime-fetch channels blocked; privilege-scoped execution; post-install baseline with drift quarantine.",
+        "End-to-end provenance attestation at registry and runtime; cross-org telemetry sharing on malicious-skill signals; red-team testing of the install path.",
+    ],
+    [
+        "Are skills/plugins verified for signature and provenance before install?",
+        "Are runtime-fetchable instruction channels (remote manifests, update feeds) blocked?",
+        "Do skills execute with privileges scoped to their declared capability set, not the agent's full identity?",
+        "Is a post-install behavioural baseline established and drift-quarantined?",
+    ],
+    [
+        "Skill/plugin signature and provenance verification configuration",
+        "Runtime-fetch network-block policy and alerts",
+        "Skill privilege-scope declarations and execution audit",
+        "Post-install behavioural baseline records and drift alerts (MIR-02)",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Software Development, Application Control"},
+    ["skill", "plugin", "marketplace", "extension", "instruction-channel", "clawhavoc"])
+
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
 # ============================================
@@ -1920,7 +1945,7 @@ def generate_rego_stubs(output_dir=None):
 
     for cid in sorted(CONTROLS.keys()):
         ctrl = CONTROLS[cid]
-        safe_name = ctrl["title"].lower().replace(" ", "_").replace("-", "_").replace(",", "").replace("(", "").replace(")", "").replace("&", "and")
+        safe_name = re.sub(r"[^a-z0-9_]", "_", ctrl["title"].lower().replace(" ", "_").replace("-", "_").replace(",", "").replace("(", "").replace(")", "").replace("&", "and"))
         filename = f"shield_ai_{ctrl['pillar'].lower()}_{cid.lower()}.rego"
         filepath = os.path.join(output_dir, filename)
 

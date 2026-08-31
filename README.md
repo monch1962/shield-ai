@@ -10,14 +10,14 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework documents
-|   +-- shield-ai-framework.md          #   Full framework (v1.9)
+|   +-- shield-ai-framework.md          #   Full framework (v1.10)
 |   +-- shield-ai-framework.pdf         #   PDF
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
 |   +-- shield-ai-implementation-architecture.md   #   Deployable components, reference
 |   |                                          #   architecture, full diagram set (NEW)
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
-|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.9)
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.10)
 |   +-- shield-ai-field-findings.md     #   Field validation findings, staged for the
 |                                      #   next framework cycle (FF-01..FF-06)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
@@ -26,7 +26,7 @@ shield-ai/
 |   +-- shield-ai-watchlist.pdf         #   Watchlist PDF
 |   +-- shield-ai-watchlist.epub        #   Watchlist EPUB
 +-- assessment-guide/                   # Consultant's field manual
-|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 61 controls
+|   +-- shield-ai-assessment-guide.md   #   Full guide, all 7 pillars x 62 controls
 |   +-- shield-ai-assessment-guide.pdf  #   PDF
 |   +-- shield-ai-assessment-guide.epub #   EPUB for field use
 +-- presentations/
@@ -57,7 +57,7 @@ shield-ai/
 |       +-- nbn-alignment.svg               #  SOCI Act/TSSR/APP 11/ISM-E8 map
 |       +-- build_deck.py                   #  Builder (regenerates the deck)
 +-- exploits/                           # Novel AI exploit catalog (per-type entries)
-|   +-- README.md                       #   Index + coverage table (25 classes, v1.9)
+|   +-- README.md                       #   Index + coverage table (26 classes, v1.10)
 |   +-- g01-..g25-*.md                  #   One entry per exploit type (G1-G25)
 |   +-- _TEMPLATE.md                    #   Entry format for the monitoring cycles
 |   +-- exploit-catalog.pdf             #   Combined PDF (README + all entries)
@@ -73,7 +73,7 @@ shield-ai/
 |   +-- docker-compose.yml             #   OPA bundle + sidecar + mock tool/SIEM
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
-|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.9)
+|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.10)
 |   +-- logo*.svg                       # Brand assets
 |   +-- style.css                       # Document styling (Markdown/HTML/PDF/EPUB)
 +-- tools/
@@ -115,7 +115,7 @@ shield-ai/
   monthly deep review cycle
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
-  incident research driving framework evolution (v1.9, 47 incidents, 25 gaps)
+  incident research driving framework evolution (v1.10, 52 incidents, 26 gaps)
 
 - **[Novel AI Exploit Catalog (Markdown)](exploits/README.md)** -- one entry per
   identified exploit type (G1-G25), with the nature of each exploit and the
@@ -123,7 +123,7 @@ shield-ai/
   monitoring cycles (PDF/EPUB available)
 
 - **[Tooling and Process Map (Markdown)](framework/shield-ai-tooling-map.md)** --
-  tools and processes addressing all 61 controls, each assessed with the Six
+  tools and processes addressing all 62 controls, each assessed with the Six
   Thinking Hats; coverage analysis and an L1-L4 adoption roadmap (PDF/EPUB available)
 
 - **[Assessment Guide (Markdown)](assessment-guide/shield-ai-assessment-guide.md)** --
@@ -140,7 +140,7 @@ shield-ai/
 - **[Control Schema (JSON)](assets/shield-ai-control-schema.json)** -- machine-readable
   control definitions for tooling and automation
 
-- **[Policy-as-Code (Rego)](policies/)** -- the 61 controls as executable,
+- **[Policy-as-Code (Rego)](policies/)** -- the 62 controls as executable,
   deny-override policies with test vectors; the shared input model and
   conversion conventions are documented in `policies/README.md`
 - **[Case Studies (Markdown)](case-studies/README.md)** -- sanitised field-validation

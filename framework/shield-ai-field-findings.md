@@ -1,10 +1,11 @@
 # SHIELD-AI Field Findings
 
 Findings from Milestone 3 field validation, staged for the next framework
-cycle. Framework v1.7 is frozen pending field feedback; this document is the
-holding point where assessment engagements record what the framework's
-method and controls need. The monthly deep-review cron considers this file
-when drafting the next cycle.
+cycle. This document is the holding point where assessment engagements
+record what the framework's method and controls need. The monthly deep-review
+cron considers this file when drafting the next cycle. The v1.10 cycle
+(September 1, 2026) adopted FF-01, FF-06, and FF-07 into the assessment
+methodology (Section 8 and Phase 2 evidence collection).
 
 ## How to use this file
 
@@ -17,7 +18,7 @@ when drafting the next cycle.
 
 ## FF-01: The configuration-assertion trap
 
-- **Status:** pending
+- **Status:** adopted (v1.10, September 1, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, findings F4
 - **Finding:** a deployment can assert any posture in a configuration file
   (deployment.json in the reference implementation) and every decision then
@@ -27,6 +28,8 @@ when drafting the next cycle.
   require operational evidence (logs, attestation outputs, exercised runs)
   for any control scored at L3 or above, and explicitly downgrade
   configuration-claim-only evidence to L1/L2.
+- **Adoption note:** applied to the assessment guide Section 8 scoring
+  method and Phase 2 evidence collection (v1.10).
 
 ## FF-02: Weakest-link scoring conflates "not assessed" with "L1"
 
@@ -81,7 +84,7 @@ when drafting the next cycle.
 
 ## FF-06: Independent verification applies to first-party components too
 
-- **Status:** pending
+- **Status:** adopted (v1.10, September 1, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, finding F6
 - **Finding:** the sidecar self-attests its own gateway and audit claims.
   This mirrors the GRM-04 third-party lesson (the Irregular evaluation
@@ -91,10 +94,12 @@ when drafting the next cycle.
   GRM-04) to first-party enforcement components: claims about the
   enforcement boundary must be independently verifiable, not merely
   asserted by the component itself.
+- **Adoption note:** applied to the assessment guide Section 8 attestation
+  requirements and the EE-08/GRM-04 guidance cross-references (v1.10).
 
 ## FF-07: Validation coverage maps catch config-schema drift
 
-- **Status:** pending
+- **Status:** adopted (v1.10, September 1, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, finding F11
 - **Finding:** the coverage expansion only succeeded by asserting per-control
   deny markers, and that assertion immediately exposed a config-schema drift
@@ -106,6 +111,8 @@ when drafting the next cycle.
   should include a schema-drift check between deployment configuration and
   the policy input model, and validation suites should assert the deny
   message of every control they claim to exercise.
+- **Adoption note:** applied to the assessment guide Phase 2 evidence
+  collection and the reference-implementation validation guidance (v1.10).
 
 ---
 

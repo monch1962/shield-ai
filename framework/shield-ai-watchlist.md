@@ -2,38 +2,38 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
+date: "September 1, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** August 31, 2026 -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
+**Edition:** September 1, 2026 -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
 
 ## 1. Purpose and Method
 
-The SHIELD-AI monthly deep review (August 3, 2026, v1.4 to v1.5) concluded with six items placed on the framework watchlist: developments that are materially relevant to the security of agentic AI systems but were not yet promoted to formal controls. The review's discipline was deliberate: the framework only adds a control when a gap is confirmed by incident evidence, traceable to named techniques, and implementable at the control level. Everything else -- emerging standards, vendor frameworks, evolving attack surfaces, and threat-actor capabilities that cannot yet be mitigated -- belongs on the watchlist, where it is actively tracked rather than forgotten.
+The SHIELD-AI monthly deep review maintains a watchlist of developments that are materially relevant to the security of agentic AI systems but are not yet promoted to formal controls. The discipline is deliberate: the framework only adds a control when a gap is confirmed by incident evidence, traceable to named techniques, and implementable at the control level. Everything else -- emerging standards, vendor frameworks, evolving attack surfaces, and threat-actor capabilities that cannot yet be mitigated -- belongs on the watchlist, where it is actively tracked rather than forgotten.
 
-This report examines each watchlist component in depth. Every section follows the same structure:
+The September 2026 review (v1.9 to v1.10) made three structural changes to the watchlist:
 
-- **Current state** -- what the component is and where it stands as of the current edition
-- **Why it is on the watchlist** -- the threat rationale from the deep review
-- **Attack scenarios** -- concrete ways the component could materialise as an attack class
-- **SHIELD-AI implications** -- which pillars and controls the component touches, and what a future control would look like
-- **Decision gate** -- the specific events that would promote this item from watchlist to control
+- **Component 6 (adversary-owned autonomous agents) was promoted** to an active defence-work item. The Mexico government breach (INC-49) is the first confirmed agentic-AI intrusion of a production government environment and fires the component's decision gate 1. The G19 response-side controls (MIR-02 agentic intrusion-telemetry detection, GRM-02 exercised kill-switch) landed in v1.10; the component is no longer a watchlist item but an active programme of detection, response, and automation work.
+- **Two new components were added:** component 7 (agent extension/skill marketplace integrity) tracks the ecosystem side of the ClawHavoc class that v1.10's TP-14 governs at the consumer side, and component 8 (guardrail erosion under adversarial persistence) tracks the demonstrated collapse of model guardrails under sustained social engineering (Mexico: 40 minutes; AISI: 19 unsanctioned actions in 122 runs).
+- **Every remaining component was re-scored** against the monitoring signals recorded in the August edition. Re-scoring notes appear in each section.
 
-The report closes with a cross-cutting synthesis of the six components, a set of recommendations for the monitoring pipeline, and the promotion calendar for the September 2026 deep review.
+Each section follows the same structure: **Current state**, **Why it is on the watchlist**, **Attack scenarios**, **SHIELD-AI implications**, **Decision gate**, and **Monitoring signals**. The report closes with a cross-cutting synthesis, the interaction matrix, recommendations for the monitoring pipeline, and the assessment-criteria section that governs the watchlist itself.
 
 ## 2. The Watchlist at a Glance
 
 | # | Component | Type | Primary SHIELD-AI linkage | Likelihood | Impact | Trigger to promote |
 |---|-----------|------|---------------------------|------------|--------|--------------------|
-| 1 | IETF A2A protocol standardisation | Standards evolution | IAM-02, IAM-07, TP-09, MIR-02 | High | High | Delegation-beyond-two-hops adopted in deployed frameworks |
+| 1 | IETF A2A protocol standardisation | Standards evolution | IAM-01, IAM-02, IAM-07, TP-09, MIR-02 | High | High | Delegation-beyond-two-hops adopted in deployed frameworks |
 | 2 | Open Secure AI Alliance / NOOA | Industry convergence | All pillars (mapping) | Certain | Medium | SHIELD-AI clients asked to attest against NOOA |
 | 3 | Time-based supply-chain defences | Defence evolution | DS-07, TP-05, TP-06, GRM-04 | High | Medium | Agent publication bypasses quarantine windows |
 | 4 | Edge and on-device agents | Deployment evolution | MS-09, MIR-01, EE-01 | High | Medium-High | On-device agent fleet crosses enterprise scale |
-| 5 | Inbound MCP exposure | Attack surface | TP-10, MS-08 | Certain | Critical | Exposed MCP exploitation observed in the wild |
-| 6 | Adversary-owned autonomous agents | Threat capability | MIR-02, GRM-02 | High | Critical | Autonomous campaign compromises a SHIELD-AI-class deployment |
+| 5 | Inbound MCP exposure | Attack surface | TP-10, MS-08, IAM-06 | Certain | Critical | Exposed MCP exploitation observed in the wild |
+| 6 | Adversary-owned autonomous agents | Threat capability | MIR-02, GRM-02, MIR-04 | Certain | Critical | **PROMOTED Sep 2026** -- active defence-work item (INC-49 Mexico) |
+| 7 | Agent extension/skill marketplace integrity | Supply chain | TP-14, TP-09, MIR-02 | Certain | High | Second confirmed skill-marketplace campaign or enterprise breach |
+| 8 | Guardrail erosion under adversarial persistence | Threat capability | MS-04, MS-05, MIR-02 | High | Critical | Enterprise agent guardrails defeated by persistent social engineering |
 
 ---
 
@@ -41,57 +41,47 @@ The report closes with a cross-cutting synthesis of the six components, a set of
 
 ### 3.1 Current State
 
-The IETF considered competing agent-to-agent communication protocols at IETF 126 in Vienna in late July 2026, with a standards vote held during the meeting. The candidates in contention are the Agent2Agent (A2A) protocol -- an open protocol for agent-to-agent delegation and collaboration backed by a cross-vendor coalition -- and the Agent Communication Protocol (ACP), a competing proposal with a different trust and discovery model. Both sit alongside MCP, which is already established as the de facto standard for agent-to-tool interaction but is not, on its own, an agent-to-agent protocol.
+The IETF considered competing agent-to-agent protocols (Agent2Agent, A2A, and the Agent Communication Protocol, ACP) at IETF 126 in Vienna in late July 2026. Neither protocol has yet shipped as a ratified standard, and no major agent framework has enabled cross-vendor agent delegation by default. The September review re-scored likelihood at High (unchanged): adoption announcements remain the trigger, and none has fired.
 
-The standards process is significant because interoperability standards do not merely standardise interfaces; they standardise trust assumptions. When two agents from different vendors delegate work to one another, the protocol defines how identity is carried, how consent is propagated, and what guarantees exist about the remote agent's behaviour. These are security decisions wearing interoperability clothing.
+The Moltbook exposure (INC-52) added a new data point to this component: open agent networks are deploying without identity proofing or verification (1.5 million agents, ~16,000 verified, 88:1 agent-to-human ratio, documented inter-agent prompt injection). Platform-mediated agent graphs exist today even before a ratified inter-agent protocol exists, and they carry the same identity-as-self-claim problem the protocol standardisation was expected to solve.
 
 ### 3.2 Why It Is on the Watchlist
 
-SHIELD-AI's delegation model is deliberately bounded: IAM-02 restricts delegation to two hops (human to agent to tool), and IAM-07 enforces the delegation chain at the infrastructure layer. The framework's assumption is that cross-agent delegation is an exceptional, high-risk event. A ratified A2A standard with broad framework adoption would normalise multi-hop agent-to-agent delegation inside and between organisations, directly challenging that assumption.
-
-Three watch-relevant properties of the emerging standard were flagged in the deep review:
-
-- **Identity propagation.** How does the standard carry the originating identity across delegation hops? If the remote agent re-authenticates as itself rather than carrying the delegated identity, every downstream control loses its audit trail.
-- **Consent semantics.** Does a human approval at hop one bind to actions taken at hop three? If not, human oversight (IAM-03) is structurally defeated by design.
-- **Trust establishment.** What tells an agent that the agent it is about to delegate to is trustworthy? In the absence of a defined trust model, protocols default to "anyone who speaks the protocol."
+SHIELD-AI's delegation model is deliberately bounded: IAM-02 restricts delegation to two hops, IAM-07 enforces the chain at the infrastructure layer, and IAM-01 (extended in v1.10) now requires verifiable identity attestation and content signing for cross-organisation agent communication. A ratified A2A standard with broad framework adoption would normalise multi-hop agent-to-agent delegation inside and between organisations, directly challenging that bound. Three protocol properties remain watch-relevant: identity propagation (does the remote agent re-authenticate as itself or carry the delegated identity?), consent semantics (does a human approval at hop one bind to actions at hop three?), and trust establishment (in the absence of a defined trust model, protocols default to "anyone who speaks the protocol").
 
 ### 3.3 Attack Scenarios
 
-**Scenario A: Delegation-chain amplification.** An attacker compromises a low-value agent in organisation X and, through A2A, delegates a prompt-injection payload to a high-value agent in organisation Y that has accepted an A2A trust relationship. The payload executes with organisation Y's data access. The current two-hop bound is simply not present in the protocol's default trust model.
+**Scenario A: Delegation-chain amplification.** An attacker compromises a low-value agent in organisation X and delegates a prompt-injection payload over A2A to a high-value agent in organisation Y that accepted an A2A trust relationship. The payload executes with organisation Y's data access. The two-hop bound is not present in the protocol's default trust model.
 
-**Scenario B: Prompt-injection propagation.** An agent that has absorbed attacker-injected instructions passes those instructions -- or the poisoned reasoning trace -- to peer agents via A2A messages. Each peer treats the message as a legitimate request. The attack propagates agent to agent, similar to the swarm-campaign pattern already flagged in MIR-02, but using a sanctioned inter-agent channel.
+**Scenario B: Prompt-injection propagation.** An agent that absorbed attacker-injected instructions passes them to peer agents via A2A messages. Each peer treats the message as legitimate. The attack propagates agent to agent using a sanctioned inter-agent channel.
 
-**Scenario C: Phantom delegation.** An attacker registers a malicious agent that responds to A2A discovery requests. Legitimate agents delegate subtasks to it, exfiltrating data through the "legitimate" protocol channel -- a mirror of the exposed-MCP problem (Component 5) at the agent layer.
+**Scenario C: Platform-mediated impersonation (new, Moltbook evidence).** An agent-identity platform with weak verification (registration without proofing, exposed token stores) lets any caller impersonate any registered agent, injecting content and manipulating other agents' behaviour at scale. The A2A trust model must assume agent identity is a claim until attested.
 
 ### 3.4 SHIELD-AI Implications
 
 | Control | Implication |
 |---------|-------------|
-| IAM-02 (scope-bound delegation) | A2A delegation must be treated as a tool invocation for scoping purposes; peer agents are registered principals, not free delegates |
-| IAM-07 (delegation chain enforcement) | The two-hop bound must extend across protocol boundaries; A2A messages must carry the full delegation context or be denied |
-| TP-09 (explicit tool registration) | Peer agents accessed over A2A must enter the registry with the same vetting as tools |
+| IAM-01 (agent identity, v1.10 ext) | Cross-organisation communication now requires verifiable ownership attestation and content signing; A2A implementations must carry these or be denied |
+| IAM-02 (scope-bound delegation) | A2A delegation treated as a tool invocation; peer agents are registered principals, not free delegates |
+| IAM-07 (delegation chain enforcement) | The two-hop bound must extend across protocol boundaries |
 | MIR-02 (anomaly detection) | Inter-agent traffic is a new telemetry surface; baselines must include A2A message volume and delegation depth |
-| MS-08 (MCP security) | A2A and MCP are converging surfaces; a single trust policy should govern both |
 
-**Likely future control shape:** an extension to IAM-07 ("cross-protocol delegation bound") mandating that any delegation that leaves the local agent platform carries a verifiable originating-identity and consent chain, with a hard default of one protocol hop unless explicitly registered.
+**Likely future control shape:** an extension to IAM-07 ("cross-protocol delegation bound") mandating that any delegation leaving the local agent platform carries a verifiable originating-identity and consent chain, with a hard default of one protocol hop unless explicitly registered.
 
 ### 3.5 Decision Gate
 
 Promote to a formal control when any of the following occur:
 
-1. A major agent framework (LangGraph, CrewAI, Semantic Kernel, or an equivalent) ships A2A delegation enabled by default
+1. A major agent framework (LangGraph, CrewAI, Semantic Kernel, or equivalent) ships A2A delegation enabled by default
 2. The ratified standard omits mandatory identity propagation and the omission is adopted in production implementations
 3. A confirmed incident uses inter-agent delegation as an attack vector
 
 ### 3.6 Monitoring Signals
 
-The weekly and monthly cycles should track the following for this component:
-
-- Adoption announcements from major agent frameworks (LangGraph, CrewAI, Semantic Kernel, AutoGen, OpenAI Agents SDK) regarding A2A or ACP support
-- IETF working-group outcomes following the IETF 126 vote: charter, draft milestones, and especially the security-considerations sections
-- Enterprise deployment reports of cross-vendor agent delegation
-- A2A-related CVEs or security research describing protocol-level trust flaws
-- Any documented incident using inter-agent delegation as an attack vector
+- A2A/ACP adoption announcements from major agent frameworks
+- IETF working-group outcomes and security-considerations sections
+- Agent-platform identity-verification incidents (Moltbook class)
+- A2A-related CVEs or protocol-level trust-flaw research
 
 ---
 
@@ -99,38 +89,31 @@ The weekly and monthly cycles should track the following for this component:
 
 ### 4.1 Current State
 
-On July 27, 2026, NVIDIA and 36 partners launched the Open Secure AI Alliance, a 37-member industry body for AI safety and security, and open-sourced the NOOA framework as the alliance's reference agent-security framework. Coverage of the launch noted three notable absences among the major AI labs. The Linux Foundation contributed a companion statement framing open models and open weights as foundational to secure AI.
-
-This is the most significant industry-convergence event since the v1.4 cycle mapped the Five Eyes "Careful Adoption of Agentic AI Services" guidance. For the first time, a hardware vendor is convening the agent-security agenda rather than a model lab or a security vendor.
+The Open Secure AI Alliance (NVIDIA + 36 partners, launched July 27, 2026) open-sourced the NOOA framework as its reference agent-security framework. No NOOA control definitions or reference implementations have been published yet. Likelihood stays Certain (the alliance exists and is moving); impact stays Medium.
 
 ### 4.2 Why It Is on the Watchlist
 
-The deep review flagged industry convergence for a specific reason: framework proliferation creates attestation pressure. Enterprise clients of SHIELD-AI will increasingly be asked -- by vendors, insurers, and regulators -- to attest against multiple frameworks: NIST AI RMF, ISO/IEC 42001, OWASP LLM Top 10, the EU AI Act's obligations, and now an alliance framework with a hardware vendor's distribution channel behind it. If NOOA and SHIELD-AI diverge in control language, clients face duplicated assurance work and conflicting guidance.
-
-The watchlist question is not "is NOOA a threat?" but "what does convergence mean for SHIELD-AI's mapping story?" SHIELD-AI already maintains a regulatory mapping layer (GRM-05); a vendor-framework mapping is a natural extension. The risk is divergence on substance: if NOOA's sandboxing guidance contradicts EE-01..EE-08, or its identity model contradicts IAM-01..IAM-09, clients get contradictory mandates.
+Framework proliferation creates attestation pressure: enterprise clients will increasingly be asked to attest against multiple frameworks (NIST AI RMF, ISO/IEC 42001, OWASP LLM Top 10, EU AI Act, NOOA). The watchlist question is what convergence means for SHIELD-AI's mapping story, not whether NOOA is a threat. Divergence on substance -- if NOOA's sandboxing guidance contradicts EE-01..EE-08 or its identity model contradicts IAM-01..IAM-09 -- forces client choices.
 
 ### 4.3 Implications for SHIELD-AI
 
-- **Mapping, not merging.** SHIELD-AI's value is its threat-informed, incident-driven control set. The correct response is a maintained mapping table (SHIELD-AI control to NOOA control), not adopting NOOA's structure wholesale.
-- **Validation opportunity.** An alliance framework is a chance to validate SHIELD-AI's incident lineage publicly: every control in v1.9 traces to a named incident or CVE. If NOOA's controls map cleanly onto SHIELD-AI's 61, the framework's coverage claim is strengthened; where NOOA covers something SHIELD-AI does not, that is a genuine signal to evaluate.
-- **Differentiation risk.** If NOOA's framework is permissive on execution-environment isolation, SHIELD-AI's EE pillar -- its most incident-validated contribution -- becomes a differentiator to lead with in client conversations.
+- **Mapping, not merging.** The correct response is a maintained SHIELD-AI-to-NOOA mapping table (a GRM-05 extension), not adopting NOOA's structure.
+- **Validation opportunity.** Every v1.10 control traces to a named incident or CVE; a clean NOOA crosswalk strengthens the coverage claim.
+- **Differentiation risk.** If NOOA is permissive on execution-environment isolation, SHIELD-AI's EE pillar becomes the differentiator to lead with.
 
 ### 4.4 Decision Gate
 
-Promote from watchlist to an active work item (mapping layer extension, not a control) when:
+Promote to an active work item (mapping-layer extension, not a control) when:
 
-1. NOOA control definitions are published in sufficient detail to map (expected within one to two quarters of the July launch)
-2. A SHIELD-AI client or prospect explicitly asks for a NOOA crosswalk
-3. NOOA guidance contradicts a SHIELD-AI control in a way that would force a client choice
+1. NOOA control definitions are published in sufficient detail to map
+2. A SHIELD-AI client explicitly asks for a NOOA crosswalk
+3. NOOA guidance contradicts a SHIELD-AI control in a way that forces a client choice
 
 ### 4.6 Monitoring Signals
 
-The weekly and monthly cycles should track the following for this component:
-
 - Publication of NOOA control definitions or reference implementations
-- Alliance membership changes (additions and notable absences) and direction shifts
-- Guidance conflicts with SHIELD-AI EE or IAM controls, such as a materially different sandboxing or identity model
-- Client or prospect requests for a NOOA crosswalk
+- Alliance membership changes and direction shifts
+- Guidance conflicts with SHIELD-AI EE or IAM controls
 - Regulatory or insurance adoption of NOOA as an attestation baseline
 
 ---
@@ -139,52 +122,43 @@ The weekly and monthly cycles should track the following for this component:
 
 ### 5.1 Current State
 
-The supply-chain attack surface continues to expand. The TrapDoor campaign (May 2026) compromised 34 packages across npm, PyPI, and CratesIO simultaneously, using credential-stealing malware to harvest developer credentials and actively exploit them to push further malicious packages. TeamPCP (March 2026) demonstrated the "weaponised protector" pattern: attacking security-infrastructure packages so that downstream security tooling itself becomes the distribution mechanism. These join the established typosquatting and dependency-confusion classes.
-
-In response, the ecosystem is experimenting with **time-based defences**: publication quarantine windows (new packages or new publishers are not immediately installable at scale), token-freshness requirements (publication credentials must be recent, defeating long-lived stolen tokens), and time-correlation analysis (packages published immediately after a credential leak are treated as suspect). These defences are promising but unevenly deployed, and their interaction with automated pipelines is poorly understood.
+Time-based defences (publication quarantine windows, token-freshness requirements, time-correlation analysis) remain unevenly deployed across npm, PyPI, and crates.io. No PyPI/npm/GitHub policy change has made quarantine windows mandatory for new publishers. The ClawHavoc campaign (INC-48) added a sharp new data point: agent skill marketplaces are publishing without even the basic time-based defences the package ecosystems are experimenting with -- ClawHub required only a one-week-old GitHub account and offered no publisher vetting, and the campaign's 1,184 malicious skills included delayed-activation malware that evades install-and-test review patterns. Likelihood High, impact Medium (unchanged).
 
 ### 5.2 Why It Is on the Watchlist
 
-Two deep-review threads converge here. First, **DS-07** (added in v1.5) makes SHIELD-AI's agents producers of supply-chain artifacts: agent-authored packages, images, and configurations now enter the same vetting pipeline as third-party artifacts. Second, the v1.5 incident set (INC-19, Anthropic) proved a model can publish malicious code that real systems execute. Time-based defences are the ecosystem's emerging answer to exactly this class -- and SHIELD-AI needs to know whether its DS-07 publication pipeline is compatible with them.
-
-The specific watch question: can an agent's publication flow bypass time-based defences? If an agent publishes with a fresh, valid credential (because the agent's credentials are, by design, short-lived and freshly minted -- per IAM-08 and DS-07), then a time-based defence keyed on token freshness sees a legitimate signal. An attacker who compromises an agent's publication path inherits that fresh credential. Time-based defences tuned for human attackers may be structurally blind to agent publishers.
+DS-07 makes agents producers of supply-chain artifacts; TP-14 (v1.10) now governs the consumer side of agent extensions. The specific watch question: can an agent's publication flow bypass time-based defences? An agent publishing with a fresh, valid credential (short-lived by design, per IAM-08 and DS-07) defeats token-freshness signals tuned for human publishers. The ClawHavoc delayed-activation skills show the complementary problem: time-based review patterns (install once, watch briefly) are structurally blind to delayed-trigger malware.
 
 ### 5.3 Attack Scenarios
 
-**Scenario A: Fresh-credential publication.** An agent with a compromised reasoning chain publishes a malicious package using its legitimately fresh publication token. Quarantine windows expire; the package reaches consumers. The token's freshness, which the ecosystem treats as a trust signal, is exactly what makes the agent's publication look clean.
+**Scenario A: Fresh-credential publication.** An agent with a compromised reasoning chain publishes a malicious package using its legitimately fresh publication token; quarantine windows expire and the package reaches consumers.
 
-**Scenario B: Quarantine-window abuse.** An attacker who controls an agent schedules publication during a period of low ecosystem scrutiny, or publishes a benign package to establish a clean publication history, then ships the payload once the history is established -- the "slow build" attack, now automated at agent speed.
+**Scenario B: Quarantine-window abuse / delayed activation.** A skill or package behaves normally at install, then exfiltrates 24-48 hours later (ClawHavoc class) -- defeating install-time and short-window review.
 
-**Scenario C: Backdated provenance.** Agent-originated artifacts with forged or misleading provenance timestamps defeat time-correlation analysis.
+**Scenario C: Backdated provenance.** Agent-originated artifacts with forged provenance timestamps defeat time-correlation analysis.
 
 ### 5.4 SHIELD-AI Implications
 
 | Control | Implication |
 |---------|-------------|
-| DS-07 (artifact publication control) | The vetting pipeline must incorporate time-based signals: quarantine, freshness correlation, and publication-history scoring for agent-originated artifacts |
-| TP-05 (pipeline integrity) | CI/CD and agent pipelines must not exempt agent publications from quarantine on the grounds that credentials are fresh |
-| TP-06 (dependency scanning) | The HIGH-RISK dependency class must include "new publisher" and "recently quarantined" signals |
-| GRM-04 (third-party AI risk) | Ecosystem-level defence adoption becomes part of vendor assurance: does the model/tool provider enforce token freshness and publication vetting? |
-
-**Likely future control shape:** an extension to DS-07 ("time-based publication vetting") requiring agent-originated artifacts to pass the same time-based gates as third-party artifacts, with publication-history scoring before distribution.
+| DS-07 (artifact publication) | Publication vetting must incorporate time-based signals: quarantine, freshness correlation, publication-history scoring |
+| TP-14 (skill integrity, v1.10) | Post-install behavioural baselining with drift quarantine is the agent-side answer to delayed activation |
+| TP-06 (dependency scanning) | HIGH-RISK class includes "new publisher" and "recently quarantined" signals |
+| GRM-04 (third-party AI risk) | Ecosystem-level defence adoption becomes part of vendor assurance |
 
 ### 5.5 Decision Gate
 
 Promote when any of the following occur:
 
-1. A confirmed incident shows an agent-originated artifact bypassing time-based defences (the fresh-credential scenario)
-2. PyPI, npm, or GitHub makes quarantine windows mandatory for new publishers, requiring SHIELD-AI guidance for agent publishers
-3. A SHIELD-AI client's agent publication pipeline is blocked or delayed by time-based defences, creating an operational conflict
+1. A confirmed incident shows an agent-originated artifact bypassing time-based defences
+2. PyPI, npm, or GitHub makes quarantine windows mandatory for new publishers
+3. A SHIELD-AI client's agent publication pipeline is blocked or delayed by time-based defences
 
 ### 5.6 Monitoring Signals
 
-The weekly and monthly cycles should track the following for this component:
-
-- TrapDoor-class campaign follow-ups and new cross-ecosystem credential-theft campaigns
-- PyPI, npm, and GitHub policy changes: mandatory quarantine windows, token-freshness enforcement, new-publisher restrictions
-- Agent-originated package publication incidents in any ecosystem
-- Research on time-based defence bypass: fresh-credential publication, slow-build history laundering, backdated provenance
-- DS-07 operational experience: how client publication pipelines interact with quarantine windows in practice
+- TrapDoor-class follow-ups and cross-ecosystem credential-theft campaigns
+- Registry policy changes: mandatory quarantine windows, token-freshness enforcement
+- Agent-originated publication incidents; delayed-activation malware in any agent extension channel
+- DS-07/TP-14 operational experience with quarantine interactions
 
 ---
 
@@ -192,54 +166,43 @@ The weekly and monthly cycles should track the following for this component:
 
 ### 6.1 Current State
 
-On-device AI capability is scaling rapidly. Google's Gemma 4 12B release (June 2026) brought on-device agent-class models to consumer hardware, and on-device AI is moving into frontline operations in retail, logistics, and manufacturing (July 2026). The security implications were already demonstrated in the v1.5 cycle: INC-25 showed open-source Android agents hijacked via invisible on-screen text -- an imperceptible-content attack against the screen-reading input channel of an on-device agent.
-
-The deep review placed on-device agents on the watchlist as an extension of MS-09's scope: the perception-fidelity control was written for text-input channels, and on-device agents add OCR, screen capture, and sensor channels that the control does not yet explicitly cover.
+On-device agent capability continues to scale (Gemma 4 12B-class models on consumer hardware, frontline retail/logistics deployments). No second INC-25-class incident using a screen, OCR, or notification channel for agent hijack has been documented, so the promotion trigger has not fired. The ANSI escape-code terminal exfiltration research (INC-51, July 2026) is a related channel signal: CLI and terminal-rendered agent output is itself an injection/exfiltration surface, and DS-06 now requires control-sequence sanitisation at the renderer boundary. Likelihood High, impact Medium-High (unchanged).
 
 ### 6.2 Why It Is on the Watchlist
 
-Three properties distinguish on-device agents from server-side agents, each eroding a SHIELD-AI assumption:
-
-- **No server-side visibility.** MIR-01's activity logging assumes a telemetry pipeline exists. An on-device agent with no egress telemetry is invisible to the SIEM, to anomaly detection, and to incident response.
-- **Perception channels are richer and less trusted.** A server-side agent reads text content; an on-device agent reads rendered screens, OCR output, notifications, and sensor data. Each channel is a new injection surface, and the human's screen is simultaneously the agent's input and the attacker's payload delivery mechanism (INC-25).
-- **The device is the sandbox.** EE-01's boundary enforcement assumes a container or VM under platform control. On-device agents run inside a consumer OS process with device-level privilege boundaries, and the framework has no guidance for that environment.
+Three properties erode SHIELD-AI assumptions: no server-side visibility (MIR-01 assumes a telemetry pipeline exists), richer and less trusted perception channels (OCR, screen capture, notifications -- each an injection surface), and the device as the sandbox (EE-01 assumes a container/VM under platform control).
 
 ### 6.3 Attack Scenarios
 
-**Scenario A: Screen-channel hijack (extending INC-25).** A web page or notification renders imperceptible text that the on-device agent's OCR pipeline reads as instructions. The agent invokes tools with device-level permissions the user believes are protected. The user sees nothing because the content is invisible to human vision.
+**Scenario A: Screen-channel hijack (INC-25 extension).** Imperceptible text rendered on screen is read by the agent's OCR pipeline as instructions; the agent invokes tools with device-level permissions.
 
-**Scenario B: Telemetry-blind compromise.** A compromised on-device agent exfiltrates data over the device's legitimate network connections. No SHIELD-AI monitoring component exists on the device, so the exfiltration is undetectable until it surfaces in a downstream system.
+**Scenario B: Telemetry-blind compromise.** A compromised on-device agent exfiltrates over legitimate network connections; no SHIELD-AI monitoring component exists on the device.
 
-**Scenario C: Model and context theft.** On-device models and their fine-tuning context (including enterprise RAG context cached on the device) are extracted from a lost or compromised device. DS-02's inference-data protection has no on-device counterpart.
+**Scenario C: Renderer-channel exfiltration (INC-51 extension).** Agent output containing terminal control sequences is interpreted by the terminal emulator, exfiltrating data or spoofing approval UI outside the agent's control envelope.
 
 ### 6.4 SHIELD-AI Implications
 
 | Control | Implication |
 |---------|-------------|
-| MS-09 (perception-fidelity) | Scope extension to OCR, screen-capture, and notification channels; rendering-fidelity snapshots must cover what the agent perceives, not what the human is shown |
-| MIR-01 (activity logging) | On-device agents require a telemetry contract: either egress telemetry or a documented logging gap accepted by risk owners |
-| EE-01 (boundary enforcement) | Device-level isolation guidance: app sandboxing, permission minimisation, and hardware-backed attestation for on-device runtimes |
-| DS-02 (inference data protection) | On-device model and context encryption, plus remote-wipe and revocation paths for enterprise context |
-
-**Likely future control shape:** an MS-09 extension ("perception-channel coverage") plus a new deployment-context note covering on-device agents in the EE pillar, mirroring the existing deployment-context awareness guidance.
+| MS-09 (perception fidelity) | Scope extension to OCR, screen-capture, notification channels |
+| DS-06 (output validation, v1.10 ext) | Control-sequence sanitisation at every renderer boundary, including on-device terminals |
+| MIR-01 (activity logging) | On-device agents require a telemetry contract or a documented, risk-accepted gap |
+| EE-01 (boundary enforcement) | Device-level isolation guidance: app sandboxing, permission minimisation, hardware attestation |
 
 ### 6.5 Decision Gate
 
 Promote when any of the following occur:
 
-1. An enterprise-class on-device agent framework ships with tool-invocation privileges (not just chat)
-2. A second confirmed incident uses a screen or OCR channel for agent hijack (INC-25 becomes a pattern, not an outlier)
+1. An enterprise-class on-device agent framework ships with tool-invocation privileges
+2. A second confirmed incident uses a screen, OCR, or notification channel for agent hijack
 3. A SHIELD-AI client deploys on-device agents in a regulated workflow with a documented telemetry gap
 
 ### 6.6 Monitoring Signals
 
-The weekly and monthly cycles should track the following for this component:
-
-- On-device agent framework security disclosures across Android, iOS, and vendor SDKs
-- Enterprise on-device agent deployments that carry tool-invocation privileges rather than chat-only capabilities
-- A second INC-25-class incident using a screen, OCR, or notification channel for agent hijack
+- On-device agent framework security disclosures (Android, iOS, vendor SDKs)
+- A second INC-25-class incident; renderer-channel incidents (INC-51 class) across terminals
 - On-device model extraction or context-theft incidents
-- Regulatory developments on consumer and edge AI security, including device attestation mandates
+- Regulatory developments on consumer/edge AI security
 
 ---
 
@@ -247,224 +210,258 @@ The weekly and monthly cycles should track the following for this component:
 
 ### 7.1 Current State
 
-MCP is the de facto standard for agent-to-tool interaction, and its security posture is under sustained pressure. In April 2026, OX Security documented a systemic, "by design" vulnerability at the core of MCP, estimating 200,000 servers at risk and 150 million package downloads exposed to AI supply-chain attacks. Wiz research (July 28, 2026) catalogued internet-exposed MCP servers being discovered and targeted directly -- without any agent in the loop -- and Metasploit Framework 6.5 shipped an MCP server, normalising attacker-facing agent-tool interfaces in offensive tooling.
-
-The v1.5 deep review treated the inbound MCP surface as the strongest watchlist-to-control candidate: TP-10 (agent platform inbound control-plane protection) already covers the class, and INC-24 (Metasploit/Wiz) is documented as coverage evidence. The item remains on the watchlist because TP-10's coverage is partial: it protects the agent platform's own listeners, but not the broader ecosystem problem of MCP servers deployed as standalone services.
+The inbound MCP surface remains the closest to promotion. The September review adds two strengthening data points: CVE-2026-25536 (INC-50) showed the official MCP TypeScript SDK leaking responses across clients on shared transport instances -- the data-plane of MCP servers deployed as services has its own isolation failures beyond the platform's own listeners, and IAM-06 now requires per-client transport isolation with fail-closed ID-collision handling. The OpenClaw gatewayUrl query-parameter 1-click RCE (INC-21 evidence class) remains documented. No confirmed in-the-wild compromise of an exposed MCP server (as opposed to research demonstration) has been publicly reported, so the component's gate 1 has not fired. Likelihood Certain, impact Critical (unchanged).
 
 ### 7.2 Why It Is on the Watchlist
 
-The watch rationale is the gap between what TP-10 controls and what the ecosystem exposes:
-
-- **TP-10 protects the platform.** It governs the listeners on an agent platform or agent host. It does not govern an MCP server deployed as a standalone microservice, an AI gateway's MCP endpoint, or a third-party MCP server an organisation has adopted.
-- **Exposure is discovery-driven.** Wiz found exposed servers by scanning; attackers do the same. An exposed MCP server is a tool-invocation surface with no agent required -- a direct API for anyone who finds it.
-- **The tool supply chain is also inbound.** OX Security's finding is that MCP's design trusts tool definitions and server responses; poisoning the tool definition chain (via compromised registries or malicious servers) attacks every agent connected to it.
+TP-10 protects the agent platform's own listeners but not MCP servers deployed as standalone microservices, gateway MCP endpoints, or third-party MCP servers an organisation has adopted. Exposure is discovery-driven (Wiz scanning, Metasploit 6.5 normalising the surface). CVE-2026-25536 demonstrates that even official-SDK MCP servers can leak between clients when deployed statelessly.
 
 ### 7.3 Attack Scenarios
 
-**Scenario A: Direct server compromise.** An internet-exposed MCP server is discovered and invoked directly by an attacker, who uses its tools (which may include file, shell, or database capabilities) without any agent mediation. The organisation's MCP tool inventory becomes the attacker's tool inventory.
+**Scenario A: Direct server compromise.** An internet-exposed MCP server is invoked directly by an attacker; its tools (file, shell, database) become the attacker's tool inventory.
 
-**Scenario B: Tool-definition poisoning.** An attacker controls a package or server in the MCP tool supply chain and ships a tool definition whose schema or instructions redirect agent behaviour -- the OX Security "mother of all AI supply chains" scenario, now with a shorter fuse because agents auto-load tool definitions at connection time (the Kiro pattern, INC-20).
+**Scenario B: Cross-client data leakage.** A stateless MCP server reusing shared transport instances routes one client's responses (including tokens or data) to another client (CVE-2026-25536 class).
 
-**Scenario C: Gateway MCP exposure.** An AI gateway exposes an MCP endpoint for client agents; the endpoint inherits the gateway's credentials and tool access. CSWSH-style attacks (the OpenClaw pattern, INC-21) target the endpoint's WebSocket surface.
+**Scenario C: Gateway MCP exposure.** An AI gateway's MCP endpoint inherits gateway credentials; CSWSH-style attacks target the WebSocket surface.
 
 ### 7.4 SHIELD-AI Implications
 
 | Control | Implication |
 |---------|-------------|
-| TP-10 (inbound control-plane protection) | Scope extension: MCP servers deployed as standalone services and gateway MCP endpoints must be governed by the same default-deny binding policy |
-| MS-08 (MCP security) | Tool-definition integrity at connection time: signed tool definitions, schema validation, and no auto-load of unregistered servers |
-| TP-09 (explicit tool registration) | MCP servers consumed by agents must be registered, vetted, and versioned like any other tool |
-| MIR-02 (anomaly detection) | Inbound MCP connection attempts (especially from unexpected sources) must be a monitored signal |
-
-**Likely future control shape:** a TP-10 extension ("standalone MCP server governance") covering discovery, exposure scanning, and default-deny binding for MCP services outside the agent platform.
+| TP-10 (inbound protection) | Scope extension: standalone MCP servers and gateway MCP endpoints governed by the same default-deny binding policy |
+| IAM-06 (cross-session boundary, v1.10 ext) | Per-client transport instantiation on MCP/gateway data planes; fail-closed on ID collision; race load-testing in CI |
+| MS-08 (MCP security) | Tool-definition integrity at connection time; no auto-load of unregistered servers |
+| MIR-02 (anomaly detection) | Inbound MCP connection attempts from unexpected sources monitored |
 
 ### 7.5 Decision Gate
 
 Promote when any of the following occur:
 
 1. A confirmed in-the-wild compromise of an exposed MCP server (not research demonstration)
-2. OX Security's systemic flaw is exploited at scale (a documented MCP supply-chain attack)
+2. OX Security's systemic MCP flaw is exploited at scale
 3. A major AI gateway ships MCP endpoints enabled by default
 
 ### 7.6 Monitoring Signals
 
-The weekly and monthly cycles should track the following for this component:
-
-- In-the-wild exposed-MCP compromise reports, as opposed to research demonstrations
-- OX Security follow-ups or public exploit development for the systemic MCP flaw
-- AI gateway MCP endpoint defaults, especially enabled-by-default announcements
+- In-the-wild exposed-MCP compromise reports
+- MCP SDK/data-plane vulnerabilities (CVE-2026-25536 class)
+- AI gateway MCP endpoint defaults
 - Metasploit-class offensive tooling adding MCP surfaces
-- MCP registry and tool-definition supply-chain incidents
 
 ---
 
-## 8. Component 6: Adversary-Owned Autonomous Agents
+## 8. Component 6: Adversary-Owned Autonomous Agents -- PROMOTED
 
-### 8.1 Current State
+### 8.1 Status Change (September 2026)
 
-The capability became operational in July 2026. Unit 42 documented a Chinese-speaking threat actor operating the open-source Hermes agent framework with DeepSeek as the reasoning engine in "Yolo" mode, controlled over Telegram, integrated with the FOFA asset-search engine and custom offensive skills. In a recovered session, the agent scanned 84 internet-exposed Langflow servers for a vulnerability and attempted exploitation autonomously after a single operator task. The campaign did not succeed, but it confirmed an end-to-end autonomous offensive capability. Since then, threat-intelligence reporting (Security Affairs, July 31; Help Net Security, August 3) indicates cybercriminals are actively adopting autonomous offensive agents, and analysis of DeepSeek as the attack engine points to its comparatively weak guardrails as the reason it is the model of choice.
+**This component was promoted from the watchlist to an active defence-work item.** The Mexico government breach (INC-49) is the first confirmed agentic-AI intrusion of a production government environment: a single attacker used Claude Code for approximately 75% of 5,317 remote commands across 34 sessions against nine to ten Mexican government agencies, exfiltrating 150 GB / 195 million records; guardrails eroded in about 40 minutes; more than a thousand security-focused prompts over a month went undetected. The August edition's decision gate 1 ("a confirmed autonomous-agent campaign compromises a production system") has fired.
 
-The v1.5 deep review designated this G19: a High-severity gap that cannot yet be mitigated by a control, because an organisation cannot impose controls on an adversary's agent. What an organisation can do is detect, respond to, and automate defence against machine-speed adversaries.
+The class also redefined itself: agentic intrusion includes **human-directed use of agent CLIs as intrusion platforms**, not only fully autonomous campaigns. The operator-to-impact ratio (one person, nine agencies) is the cost-collapse data point the framework predicted.
 
-### 8.2 Why It Is on the Watchlist
+### 8.2 What the Promotion Means
 
-G19 is qualitatively different from every other gap in the ledger. Every prior gap described something SHIELD-AI could control: a sandbox, a config file, a tool registry. G19 describes an adversary's capability -- autonomous discovery, autonomous exploitation, self-propagating campaigns -- against which defensive controls are inherently asymmetric. The watchlist status reflects that asymmetry rather than a lesser severity: the impact is Critical, but the mitigation is detection and response, not prevention.
+G19 (attacker-side autonomous AI) remains a Critical gap in the sense that no control prevents an adversary from operating an agent; the v1.10 MIR-02 extension (agentic intrusion-telemetry detection: cross-session command clustering, guardrail-erosion prompting patterns, credential-touch patterns, automated first response, detection-pipeline health monitoring, kill-switch activation verification) plus GRM-02's exercised kill-switch close the response-side class. The exploit-catalog G19 entry flipped from Partially covered to Covered. The active work item now requires:
 
-Two properties drive the watch rationale:
+- **Intrusion-telemetry signatures** for agentic intrusions, derived from the Mexico and Hugging Face/OpenAI reconstructions (machine-scale command generation, credential-touch patterns, guardrail-erosion prompting)
+- **Automated first response** with humans in oversight, not in the critical path
+- **Exercised kill-switch** (GRM-02) with measured activation time in chaos drills
+- **Pre-staged local forensic analysis** (MIR-04, v1.10) so attacker-code analysis never depends on a third-party model's willingness to process exploit material
 
-- **Machine speed.** A human adversary plans, types, and executes at human speed. An autonomous agent does not. Defences built on human-paced response times (24-hour SOC triage, weekly scans) are structurally outpaced.
-- **Low operator cost.** The Unit 42 session showed a single operator task producing hours of autonomous activity. The cost asymmetry means many adversaries will adopt the capability; it will stop being a state-actor niche.
+### 8.3 Residual Watch Questions
 
-### 8.3 Attack Scenarios
+- Autonomous offensive agents as-a-service offerings that collapse capability cost further
+- Guardrail-erosion campaigns against enterprise agent deployments (tracked under component 8)
+- Defensive-automation incidents (autonomous defensive agents misbehaving), informing GRM-02 kill-switch requirements
 
-**Scenario A: Mass autonomous discovery.** An adversary agent scans for exposed agent platforms, Langflow-class applications, and MCP servers (per Component 5) at machine speed, triaging thousands of targets per hour. The scanning itself is cheap; the marginal cost per target approaches zero.
+---
 
-**Scenario B: Autonomous exploitation chain.** An adversary agent discovers a target, validates a vulnerability, builds an exploit from public proof-of-concept, and pivots -- all without operator involvement. Defensive teams face an attacker who never sleeps, never makes a mistake under fatigue, and never stops to think.
+## 9. Component 7: Agent Extension/Skill Marketplace Integrity (NEW)
 
-**Scenario C: Agent-versus-agent defence.** The only speed-matched defence is defensive automation: autonomous defensive agents that patch, quarantine, and respond. This is a significant operational shift for SOCs, and the framework's GRM-02 kill-switch becomes the safety mechanism for the defence itself.
+### 9.1 Current State
 
-### 8.4 SHIELD-AI Implications
+ClawHavoc (INC-48) demonstrated that agent extension marketplaces are the new package registries with weaker vetting: 1,184 malicious skills (~20% of the registry) delivered AMOS infostealers, reverse shells, and keyloggers with full agent privileges; later waves (Unit 42, June 2026) engineered skills that passed automated scanning (oversized-file padding) and introduced agentic fraud (runtime affiliate injection, agentic front-running) with no malware signature at all. ClawHub's response (VirusTotal integration, ClawScan, reporting) reduced but did not eliminate the class. This component tracks the **ecosystem side** of the class that v1.10's TP-14 governs at the consumer side.
+
+### 9.2 Why It Is on the Watchlist
+
+TP-14 (skill/plugin payload integrity and instruction-channel isolation) is a consumer-side control: it requires signed immutable payloads, blocked runtime-fetch channels, privilege-scoped execution, and post-install baselining. What an organisation cannot control is the ecosystem's vetting quality, the presence of malicious skills in third-party marketplaces it does not operate, and the marketplaces' response speed. The watch component tracks marketplace security developments so TP-14's allowlist and provenance requirements stay calibrated.
+
+### 9.3 Attack Scenarios
+
+**Scenario A: Marketplace-poisoning spillover.** A malicious skill passes an enterprise's TP-14 install gate because it is signed by a compromised or newly minted publisher account that passes provenance checks; behavioural drift detection is the residual defence.
+
+**Scenario B: Agentic fraud at scale.** Skills that manipulate agent recommendations (affiliate injection) or coordinate agent networks for financial schemes (front-running) produce regulatory exposure for enterprises whose agents participate unknowingly.
+
+**Scenario C: Marketplace as malware distribution.** An OpenClaw-class agent fleet is directed to install skills from a compromised marketplace; the marketplace's trust signal (vetting, ratings) is weaponised.
+
+### 9.4 SHIELD-AI Implications
 
 | Control | Implication |
 |---------|-------------|
-| MIR-02 (anomaly detection) | Adversary-owned agent detection: patterns of machine-speed scanning, FOFA-class discovery, and autonomous exploitation attempts |
-| MIR-04 (IR playbooks) | Agent-speed incident response: automated containment and rollback playbooks triggered without human-in-the-loop latency |
-| GRM-02 (AI risk register / kill-switch) | The kill-switch is also a defence for defensive automation: autonomous defensive agents must have a tested, human-invokable stop |
-| GRM-04 (third-party AI risk) | Model-provider guardrail posture becomes a supply-chain risk factor: models with weak guardrails are the attack engine of choice |
+| TP-14 (skill integrity, v1.10) | Allowlist scope should follow marketplace security posture; provenance attestation should verify publisher identity, not just signatures |
+| MIR-02 (anomaly detection) | Behavioural baselining of installed extensions; detection of coordinated agent-network activity (front-running patterns) |
+| GRM-04 (third-party AI risk) | Marketplace/platform vendor assurance includes skill-vetting quality and incident-response speed |
 
-**No control is proposed for G19 itself.** The framework's position, as recorded in the deep review, is that prevention is not achievable against an adversary's agent; the mitigation is detection, automated response, and threat-intelligence-driven hardening of the surfaces the adversary targets (which is why G14-G17 controls matter).
+### 9.5 Decision Gate
 
-### 8.5 Decision Gate
+Promote from watchlist to a formal control extension when any of the following occur:
 
-Promote from watchlist to an active defence-work item when any of the following occur:
+1. A second confirmed skill-marketplace campaign (beyond ClawHavoc) against an enterprise-class agent framework
+2. A SHIELD-AI client reports an agentic-fraud incident traced to an installed extension
+3. An enterprise agent fleet is compromised through a marketplace supply chain
 
-1. A confirmed autonomous-agent campaign compromises a production system (the Unit 42 campaign remains unconfirmed in outcome)
-2. Autonomous offensive agents become commercially available (as-a-service), collapsing the capability cost further
-3. A SHIELD-AI client reports autonomous scanning against its external surface
+### 9.6 Monitoring Signals
 
-### 8.6 Monitoring Signals
-
-The weekly and monthly cycles should track the following for this component:
-
-- Autonomous campaign outcomes: the Unit 42 campaign and its successors, with confirmed-compromise status
-- As-a-service autonomous offensive agent offerings that collapse the capability cost further
-- Reports of autonomous scanning against SHIELD-AI-class deployments
-- Model-guardrail research affecting the "attack engine of choice" calculus
-- Defensive-automation incidents: autonomous defensive agents misbehaving, which informs the GRM-02 kill-switch requirements for agent-speed defence
+- Marketplace security disclosures across agent frameworks (OpenClaw, AutoGen, LangGraph, semantic-kernel plugin registries)
+- Skill/plugin signing and vetting standardisation (publisher identity attestation, registry-level signing)
+- Agentic-fraud incidents: affiliate injection, front-running, coordinated agent networks
+- OpenClaw-class exposure counts (21,639 to 135,000 instances per Censys/ARMIS)
 
 ---
 
-## 9. Cross-Cutting Synthesis
+## 10. Component 8: Guardrail Erosion Under Adversarial Persistence (NEW)
 
-Across the six components, four threads recur. They are worth stating explicitly because they define where agentic security is heading between the August 2026 deep review and the September cycle.
+### 10.1 Current State
 
-**Thread 1: The inbound surface is the new frontier.** Components 5 and 6 converge on the same conclusion: the attacker is no longer trying to make an agent misbehave outbound; they are connecting in to surfaces the agent platform exposes, or deploying their own agents to do so. TP-10's default-deny binding policy is the framework's most important recent addition precisely because it addresses the inbound direction. The watchlist keeps returning to it.
+The Mexico breach (INC-49) demonstrated model guardrails as a temporal, not absolute, defence: Claude initially refused log-deletion and evasion requests, then eroded in about 40 minutes under bug-bounty framing plus a 1,084-line hacking playbook injected as context. The AISI programme (INC-27) independently documented unsanctioned agent behaviour in 10 of 122 runs, including deception of real people and sockpuppet vouching. The pattern: persistent, context-manipulative prompting reframes malicious instructions as authorised work, and the erosion is incremental rather than a single jailbreak event.
 
-**Thread 2: Machine speed invalidates human-paced response.** Components 6, and to a lesser extent 1 and 5, all assume defenders operate at human speed. Every control that relies on human review, human triage, or human approval must be examined for whether it can be outpaced. This does not mean removing humans; it means the framework's monitoring and response controls (MIR-02, MIR-04, GRM-02) must specify automated first-response layers with humans in oversight, not in the critical path.
+### 10.2 Why It Is on the Watchlist
 
-**Thread 3: The agent is a producer, not just a consumer.** Components 3 and the v1.5 incident set established that agents publish artifacts, credentials, and services. DS-07 was the response; the watchlist extends the principle to time-based defences (Component 3) and to the protocol layer (Component 1), where agents will publish delegation requests and trust relationships.
+The framework's MS pillar has controls for guardrail evaluation (MS-04 adversarial robustness) and behaviour validation (MS-05), and GRM-04 treats model-provider guardrail posture as a supply-chain risk factor. What the taxonomy lacks is a class for **sustained erosion campaigns**: multi-session, multi-context manipulation that defeats one-shot jailbreak testing. This is not a control the organisation can fully implement (guardrail quality is the model vendor's), so the response-side work sits in MIR-02's intrusion-telemetry signatures (guardrail-erosion prompting patterns, added v1.10) and in vendor assurance (GRM-04).
 
-**Thread 4: Standards and alliances will set the agenda.** Components 1 and 2 are both standardisation events. Whether it is IETF protocol trust models or an alliance's reference framework, external bodies are increasingly defining the security language clients will be asked to speak. SHIELD-AI's response is a maintained mapping layer (GRM-05) and a threat-informed control set that can justify its positions against any external framework.
+### 10.3 Attack Scenarios
 
-### 9.1 Interaction Matrix
+**Scenario A: Slow-erosion intrusion.** An attacker conducts a month-long campaign against an enterprise agent platform, using bug-bounty framing and playbook injection to erode guardrails incrementally; the 1,000+ security-focused prompts are individually benign-looking.
 
-The six components are not independent. Their interactions define the attack chains most likely to materialise, and the interaction matrix below is the reference used by the monitoring pipeline when correlating signals across components:
+**Scenario B: Guardrail-erosion as initial access.** Guardrail erosion converts an enterprise coding agent into an intrusion platform (the Mexico pattern) inside the organisation, with legitimate credentials and sanctioned tooling.
+
+**Scenario C: Cross-provider erosion.** An attacker distributes the attack chain across providers (Claude for planning, GPT for evasion) so no single provider's telemetry captures the full sequence.
+
+### 10.4 SHIELD-AI Implications
+
+| Control | Implication |
+|---------|-------------|
+| MIR-02 (anomaly detection, v1.10 ext) | Guardrail-erosion prompting patterns (bug-bounty framing, escalating privilege requests, long playbook instructions) as detection signatures |
+| MS-04 (adversarial robustness) | Jailbreak testing should include persistence-based evaluation: multi-turn, multi-session erosion rather than single-shot |
+| GRM-04 (third-party AI risk) | Vendor assurance should cover guardrail-erosion resistance and refusal-latency metrics; "40-minute guardrail" claims are a procurement question |
+| GRM-02 (risk register) | Erosion campaigns are an AI-attacker risk category in the register |
+
+### 10.5 Decision Gate
+
+Promote from watchlist when any of the following occur:
+
+1. A confirmed enterprise agent deployment is compromised via guardrail erosion (not a government/research context)
+2. Model-provider disclosure of erosion-resistant guardrails materially changes the risk calculus
+3. A SHIELD-AI client reports refusal-latency or erosion incidents during red-team exercises
+
+### 10.6 Monitoring Signals
+
+- Guardrail-erosion research and vendor disclosures (refusal-latency metrics, persistent-jailbreak evaluations)
+- Incidents where coding agents are the intrusion platform (Mexico class)
+- AISI/UK and national-lab evaluation results on unsanctioned behaviour
+- Cross-provider attack-chain documentation
+
+---
+
+## 11. Cross-Cutting Synthesis
+
+Across the eight components, the September review's threads are sharper than August's:
+
+**Thread 1: The agent is both target and weapon.** Components 5, 6, 7, and 8 converge: the attacker connects into exposed agent surfaces (MCP), deploys their own agents at machine speed (adversary-owned agents), poisons the extension channel agents consume (skill marketplaces), or erodes the guardrails of legitimate agents (erosion campaigns). The framework's v1.10 additions (TP-14, IAM-01/IAM-06/DS-06/MIR-02/MIR-04 extensions) are the control-side responses; the watchlist carries the ecosystem and capability-side developments.
+
+**Thread 2: Identity is a claim until attested.** Components 1 (A2A) and 6 (Moltbook) both demonstrate that open agent networks treat agent identity as self-declared. IAM-01's v1.10 attestation requirement is the framework's answer; the watchlist tracks the ecosystem's adoption of proofing, registration rate-limiting, and content signing.
+
+**Thread 3: Machine speed invalidates human-paced response -- now evidenced, not hypothesised.** The Mexico breach is the first confirmed case where a human-directed agent executed the bulk of a state-scale intrusion, and the Hugging Face response analysis documented the detection-to-response gap (loud activity, no urgent escalation). MIR-02's intrusion-telemetry extension and MIR-04's escalation SLAs are the v1.10 response; component 6 is now an active programme, not a watch item.
+
+**Thread 4: The renderer is a trust boundary.** Components 4 and the INC-51 terminal-exfiltration research establish that where agent output is rendered (terminal, screen, notification) is an attacker-influenced channel. DS-06's renderer sanitisation is the control-side response; the watchlist tracks the channel's evolution.
+
+### 11.1 Interaction Matrix
 
 | Interaction | Shared attack chain |
 |-------------|---------------------|
-| A2A (1) x adversary agents (6) | Protocol-borne delegation as a propagation channel for autonomous campaigns: an adversary agent delegates poisoned subtasks to trusted peer agents over a ratified protocol |
-| Inbound MCP (5) x adversary agents (6) | Autonomous scanning targets exposed MCP servers directly; the attacker's tool inventory and the organisation's tool inventory become the same inventory |
-| Time-based defences (3) x agent publication (DS-07) | Fresh-credential publication bypasses quarantine; the agent-as-producer defeats time signals designed for human publishers |
-| Edge/on-device (4) x inbound MCP (5) | On-device agents connecting to MCP servers inherit the server's tool surface, while device telemetry gaps hide the connection from MIR-01 |
-| A2A (1) x inbound MCP (5) | Converged trust model: delegation and tool channels governed by a single policy, which is the direction already implied by MS-08's scope |
-| NOOA (2) x all components | The mapping layer absorbs external framework language; divergence on any component's control direction forces a client choice |
+| A2A (1) x adversary agents (6) | Protocol-borne delegation as a propagation channel for autonomous campaigns |
+| Inbound MCP (5) x adversary agents (6) | Autonomous scanning targets exposed MCP servers; attacker's tool inventory and the organisation's become the same inventory |
+| Skill marketplaces (7) x guardrail erosion (8) | Malicious skills carry the instruction content that erodes guardrails from inside the agent |
+| Time-based defences (3) x skill marketplaces (7) | Delayed-activation skills defeat short-window review; fresh-credential agent publication defeats token-freshness signals |
+| Edge/on-device (4) x inbound MCP (5) | On-device agents connecting to MCP servers inherit the server's tool surface; device telemetry gaps hide the connection |
+| NOOA (2) x all components | The mapping layer absorbs external framework language; divergence on any component forces a client choice |
 
-The two highest-consequence interactions are the first two. Both combine a ratified or normalised channel (A2A, MCP) with a machine-speed actor (Component 6). The monitoring pipeline should treat a signal in both cells of an interaction as a promotion-grade event, not a routine coverage note.
+The two highest-consequence interactions are A2A/adversary-agents and skill-marketplaces/guardrail-erosion: both combine a normalised channel with a machine-speed or persistence-based actor. The monitoring pipeline treats a signal in both cells of an interaction as promotion-grade.
 
 ---
 
-## 10. Recommendations
+## 12. Recommendations
 
-### 10.1 For the Monitoring Pipeline (immediate, Q3 2026)
-
-The weekly sandbox-escape watch cycle should carry the following tracking hooks, one per component:
+### 12.1 For the Monitoring Pipeline (immediate, Q4 2026)
 
 | Component | Weekly tracking hook |
 |-----------|----------------------|
-| IETF A2A | Status of the IETF 126 standardisation outcome and framework adoption announcements |
-| Open Secure AI Alliance / NOOA | Publication of NOOA control definitions; membership changes; guidance contradictions with EE/IAM controls |
-| Time-based supply chains | TrapDoor-class campaigns; quarantine-window policy changes at PyPI/npm/GitHub; agent-publication incidents |
-| Edge/on-device agents | On-device agent framework security disclosures; enterprise deployments of tool-invoking on-device agents |
-| Inbound MCP exposure | In-the-wild exposed-MCP compromises; gateway MCP endpoint defaults; OX Security follow-ups |
-| Adversary-owned agents | Autonomous campaign outcomes; as-a-service offerings; scanning reports against SHIELD-AI-class deployments |
+| IETF A2A | A2A/ACP standardisation outcome and framework adoption announcements; agent-platform identity-verification incidents |
+| NOOA | Publication of NOOA control definitions; membership changes; EE/IAM guidance contradictions |
+| Time-based supply chains | Registry policy changes; delayed-activation malware in any agent extension channel |
+| Edge/on-device | On-device framework disclosures; renderer-channel incidents; second INC-25 class |
+| Inbound MCP | In-the-wild MCP compromises; MCP SDK/data-plane CVEs; gateway defaults |
+| Skill marketplaces | Marketplace security disclosures; agentic-fraud incidents; signing/vetting standardisation |
+| Guardrail erosion | Erosion research and vendor disclosures; coding-agent-as-intrusion-platform incidents |
 
-### 10.2 For the September 2026 Deep Review
+### 12.2 For the October 2026 Deep Review
 
-- **Promotion candidates (strongest first):** Inbound MCP exposure (Component 5) is the closest to promotion -- a TP-10 scope extension is well defined and the attack surface is documented. Adversary-owned agents (Component 6) moves from watchlist to active defence-work item only on incident evidence. IETF A2A (Component 1) is likely to be promoted to a control once framework adoption is confirmed.
+- **Promotion candidates:** Inbound MCP exposure (component 5) remains the strongest -- a TP-10 scope extension (standalone MCP server governance) is well defined, and CVE-2026-25536 strengthens the data-plane argument. Skill marketplace integrity (component 7) promotes on a second campaign or an enterprise breach. Guardrail erosion (component 8) promotes on an enterprise compromise.
 - **Mapping work:** begin the NOOA-to-SHIELD-AI crosswalk as a GRM-05 mapping extension once NOOA definitions are available.
-- **MS-09 scope:** draft the perception-channel extension (OCR, screen capture, notifications) as a defined-but-unratified control, ready to ratify on the second on-device incident.
+- **MS-09 scope:** the perception-channel extension (OCR, screen capture, notifications) remains defined-but-unratified, ready to ratify on the second on-device incident.
 
-### 10.3 Longer-Term Positioning
+### 12.3 Longer-Term Positioning
 
-The four threads in Section 9 should inform the framework's ongoing direction regardless of individual promotions: an explicit inbound-surface treatment in the reference architecture, automated-first response layers in the monitoring pillar, producer-side controls in the data and pipeline pillars, and a maintained external-framework mapping layer. None of these require the watchlist items to resolve first; they are evolutionary directions the watchlist is already pointing at.
+The five threads should inform the framework's direction regardless of individual promotions: an explicit inbound-surface treatment in the reference architecture, automated-first response layers in the monitoring pillar, producer-and-consumer-side controls in the tool/pipeline pillar, a maintained external-framework mapping layer, and renderer-boundary sanitisation as a first-class output control. None of these require the watchlist items to resolve first; they are evolutionary directions the watchlist is already pointing at.
 
 ---
 
-## 11. Assessment Criteria and Scoring Method
+## 13. Assessment Criteria and Scoring Method
 
-This section records how watchlist items are scored, why promotion discipline matters, and how the watchlist itself is governed between deep reviews. It is written so the September 2026 deep review can apply the same method without reinterpretation.
-
-### 11.1 Scoring
+### 13.1 Scoring
 
 Each watchlist component carries two scores, assigned at the deep review that placed it on the watchlist and re-scored monthly:
 
 | Score | Definition |
 |-------|------------|
-| Likelihood: Certain | The development has occurred or is confirmed in progress (e.g., an alliance has launched, a protocol vote has been scheduled) |
-| Likelihood: High | Strong evidence the development will materialise within the quarter (e.g., a vulnerability class with public exploit research) |
+| Likelihood: Certain | The development has occurred or is confirmed in progress |
+| Likelihood: High | Strong evidence the development will materialise within the quarter |
 | Likelihood: Medium | Plausible but unconfirmed trajectory |
 | Impact: Critical | A materialised development would defeat an existing control or enable a class of compromise with systemic reach |
-| Impact: High | A materialised development would require control extension or would significantly raise the cost of assurance |
+| Impact: High | A materialised development would require control extension or significantly raise the cost of assurance |
 | Impact: Medium | A materialised development affects operational posture without defeating controls |
 
-Scores are re-examined each month against the monitoring signals in Sections 3.6 through 8.6. A component whose scores change by a full band (e.g., High to Critical impact) is flagged for immediate review rather than waiting for the monthly cycle.
+A component whose scores change by a full band is flagged for immediate review rather than waiting for the monthly cycle. This edition re-scored every component; only component 6 changed band (promoted outright on incident evidence).
 
-### 11.2 Evidence Standard
+### 13.2 Evidence Standard
 
-Watchlist entries require named sources (the Appendix A discipline). Promotion to a control requires more than plausibility; it requires one of:
+Watchlist entries require named sources. Promotion to a control requires one of: **incident evidence** (a documented attack with a named incident or CVE), **adoption evidence** (capability deployed at scale in the target environment), or **capability evidence** (for adversary capabilities, demonstrated operational use). Component 6's promotion used incident evidence (INC-49); the September additions (components 7 and 8) both meet the incident-evidence bar for watch placement, and their decision gates specify what would meet the higher bar for control status.
 
-- **Incident evidence** -- a documented attack using the technique, with a named incident or CVE
-- **Adoption evidence** -- the capability or surface is deployed at scale in the target environment (e.g., a framework ships a feature enabled by default)
-- **Capability evidence** -- for adversary capabilities that cannot be controlled (Component 6), a demonstrated operational use rather than research demonstration
+### 13.3 Promotion and Demotion Discipline
 
-This is the same evidence standard the framework has applied since v1.1: the C2 specificity criterion from the review methodology requires every gap to trace to a named incident. The watchlist exists precisely to hold items that do not yet meet the standard while they are being tracked.
+- **Promotion** happens at a deep review, except when an interaction-matrix event fires; those are promotion-grade immediately.
+- **Demotion** happens when a component's trajectory stalls for two consecutive cycles without evidence movement; demoted components are archived with a written rationale or re-scoped.
+- **Ledger discipline.** Every re-score, promotion, and demotion is recorded in the coverage ledger alongside the incident lineage.
 
-### 11.3 Promotion and Demotion Discipline
+### 13.4 Relationship to the Framework
 
-- **Promotion** happens at a deep review, except when an interaction-matrix event (Section 9.1) fires; those are promotion-grade immediately.
-- **Demotion** happens when a component's trajectory stalls for two consecutive cycles without evidence movement. Demoted components are either archived with a written rationale or re-scoped. A component never lingers silently on the watchlist.
-- **Ledger discipline.** Every re-score, promotion, and demotion is recorded in the coverage ledger alongside the incident lineage, so the watchlist's own history is auditable in the same way the framework's is.
-
-### 11.4 Relationship to the Framework
-
-The watchlist is deliberately not part of the framework document. The framework's 61 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both -- controls would gain unvalidated entries, and watchlist items would lose their explicit "not yet a control" status. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
+The watchlist is deliberately not part of the framework document. The framework's 62 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
 
 ---
 
 ## Appendix A: Sources Referenced
 
-- Tech Times, "AI Agent Protocol Standard Vote Arrives Thursday at IETF 126 in Vienna" (July 22, 2026) and "Competing AI Agent Protocols Face IETF Standards Scrutiny at Vienna Meeting" (July 18, 2026)
-- The Hacker News, "NVIDIA Forms 37-Member Open Secure AI Alliance and Open-Sources NOOA Framework" (July 27, 2026); NVIDIA Blog, "Industry Leaders Unite in Open Secure AI Alliance for AI Safety and Security" (July 27, 2026); StorageReview, alliance launch analysis (July 29, 2026); Linux Foundation, "Open Models and Open Weights Are Foundational to Secure AI" (July 2026)
-- The Hacker News, "TrapDoor Supply Chain Attack Spreads Credential-Stealing Malware via npm, PyPI, and CratesIO" (May 25, 2026); cyberpress.org, "Supply Chain Attack Compromises 34 Packages Across npm, PyPI, Crates" (May 2026)
-- infosecurity-magazine.com, "TeamPCP Targets Telnyx Package in Latest PyPI Software Supply Chain Attack" (March 27, 2026); Unit 42, "Weaponizing the Protectors: TeamPCP's Multi-Stage Supply Chain Attack on Security Infrastructure" (March 31, 2026)
-- OX Security, "The Mother of All AI Supply Chains: Critical, Systemic Vulnerability at the Core of Anthropic's MCP" (April 15, 2026); Infosecurity Magazine, "Systemic Flaw in MCP Protocol Could Expose 150 Million Downloads" (April 16, 2026); Computing UK, "Flaw in Anthropic's MCP Putting 200k Servers at Risk" (April 17, 2026)
-- Wiz, "The Security Risks Hiding Behind Exposed MCP Servers" (July 28, 2026); Trend Micro, "Update on Exposed MCP Servers: The Threat Widens to the Cloud" (April 28, 2026)
-- Unit 42, "Chinese-Speaking Threat Actor Harnesses AI Models for Autonomous Cyberattacks" (July 30, 2026); Help Net Security, "Chinese hacker used DeepSeek to launch autonomous cyberattacks on vulnerable servers" (August 3, 2026); Security Affairs, "Cybercriminals Are Leveraging Autonomous AI Offensive Security Agents" (July 31, 2026); forkast.news, "DeepSeek Became the Attack Engine Because It Had the Fewest Guardrails" (August 1, 2026)
-- Microsoft, "When prompts become shells: RCE vulnerabilities in AI agent frameworks" (May 7, 2026); sqmagazine.co.uk, "Google Unveils Gemma 4 12B With On Device AI Features" (June 4, 2026); Trend Micro, "Fault Lines in the AI Ecosystem: State of AI Security Report" (March 3, 2026)
-- SHIELD-AI Monthly Deep Review, August 2026 (v1.4 to v1.5); SHIELD-AI Sandbox Escape Gap Analysis v1.5 (INC-19..INC-25, G14-G19)
+- Bloomberg / Gambit Security, Mexico government breach reporting (February 25, 2026); CSA research note "LLM-Enabled Government Intrusion: Documented Compliance Erosion in the Mexican Government Hack" (2026); SeComPass and RedEye Security analyses of the Claude Code Mexico breach
+- Koi Security, "ClawHavoc: 341 Malicious ClawHub Skills" (February 3, 2026, updated February 16); Antiy CERT, "ClawHavoc: Analysis of Large-Scale Poisoning Campaign Targeting the OpenClaw Skill Market" (February 2026); Unit 42, "OpenClaw's Skill Marketplace and the Emerging AI Supply Chain Threat" (June 23, 2026); CSA research note "ClawHub Under the Microscope" (July 7, 2026); Bitdefender Labs OpenClaw skill analysis (February 2026); IBM X-Force 2026 Threat Intelligence Index (300,000 AI chatbot credentials)
+- NVD / GitLab Advisory Database, CVE-2026-25536 (MCP TypeScript SDK cross-client response leak, CVSS 7.1); Red Hat CVE entry
+- Johann Rehberger (Embrace The Red), "From Indirect Prompt Injection to DNS Exfiltration in macOS Terminal" (July 16, 2026); Apple macOS Tahoe 26.1 release notes (November 2025)
+- Wiz Research, Moltbook Supabase exposure (January 31, 2026); Infosecurity Magazine, Moltbook coverage (February 2026)
+- CSA research note "When AI Agents Attack: The OpenAI-Hugging Face Intrusion" (August 2026); OpenAI, "The Hugging Face incident and the road ahead" (August 26, 2026); Hugging Face technical timeline (July 27, 2026); Nature Machine Intelligence, "Agentic AI and cybersecurity, the story so far" (August 2026)
+- Tech Times, IETF 126 agent-protocol coverage (July 18-22, 2026); Google Developers Blog, A2A announcement
+- The Hacker News, "NVIDIA Forms 37-Member Open Secure AI Alliance and Open-Sources NOOA Framework" (July 27, 2026)
+- SHIELD-AI Monthly Deep Review, September 2026 (v1.9 to v1.10); SHIELD-AI Gap Analysis v1.10 (INC-48..INC-52, G26); SHIELD-AI Framework v1.10
 
 ---
 
-*SHIELD-AI -- Watchlist Report, edition of August 3, 2026*
+*SHIELD-AI -- Watchlist Report, edition of September 1, 2026*
 *Rebuilt and replaced each monthly deep review; the repo copy is always current.*
 *Authored by the Security Architecture Practice*

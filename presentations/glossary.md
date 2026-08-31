@@ -2,7 +2,7 @@
 title: "SHIELD-AI Glossary"
 subtitle: "Plain-language definitions of the terms used in our briefings"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
+date: "September 1, 2026"
 abstract: "A short glossary for executives, boards, and program managers meeting AI security vocabulary for the first time."
 ---
 
@@ -30,7 +30,7 @@ Terms are grouped the way you will meet them in a briefing. Definitions are writ
 
 **Pillar.** One of the seven security domains of the framework: Model Security, Identity and Access, Data Security, Tool and Pipeline Security, Monitoring and Incident Response, Governance and Risk, Execution Environment.
 
-**Control.** A specific, testable security requirement, numbered within its pillar (for example MS-04, TP-10). SHIELD-AI has 61 controls. Each maps to one or more regulatory obligations and to documented incidents.
+**Control.** A specific, testable security requirement, numbered within its pillar (for example MS-04, TP-10). SHIELD-AI has 62 controls. Each maps to one or more regulatory obligations and to documented incidents.
 
 **Policy as code.** Expressing security rules as machine-readable code instead of prose. SHIELD-AI controls are written as Rego rules evaluated by an OPA policy engine. The advantage: rules can be tested, versioned, and enforced automatically, and an audit becomes a test run.
 
@@ -82,4 +82,4 @@ Terms are grouped the way you will meet them in a briefing. Definitions are writ
 
 *Plain-language definitions are for briefings. Where a definition differs from the technical meaning, the framework document is authoritative.*
 
-*SHIELD-AI Glossary -- v1.9 edition, August 31, 2026*
+*SHIELD-AI Glossary -- v1.10 edition, September 1, 2026*

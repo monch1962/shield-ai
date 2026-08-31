@@ -1,11 +1,11 @@
 {
   "meta": {
     "framework": "SHIELD-AI",
-    "version": "1.9",
-    "date": "2026-08",
+    "version": "1.10",
+    "date": "2026-09",
     "description": "Sovereign Australian Framework for Secure Agentic AI Deployment",
     "pillar_count": 7,
-    "control_count": 61
+    "control_count": 62
   },
   "pillars": {
     "MS": {
@@ -64,7 +64,7 @@
       "id": "TP",
       "name": "Tool and Pipeline Security",
       "order": 4,
-      "control_count": 13,
+      "control_count": 14,
       "control_ids": [
         "TP-01",
         "TP-02",
@@ -78,7 +78,8 @@
         "TP-10",
         "TP-11",
         "TP-12",
-        "TP-13"
+        "TP-13",
+        "TP-14"
       ]
     },
     "MIR": {
@@ -2407,6 +2408,46 @@
         "install",
         "llms.txt",
         "provenance"
+      ],
+      "pillar_name": "Tool and Pipeline Security"
+    },
+    "TP-14": {
+      "id": "TP-14",
+      "title": "Skill/Plugin Payload Integrity and Instruction-Channel Isolation",
+      "pillar": "TP",
+      "description": "Skills, plugins, and marketplace extensions must be distributed as cryptographically signed, immutable payloads whose instruction content is fixed at install time. Runtime-fetchable instruction channels (remote referral manifests, update feeds, operator-controlled configuration fetched after install) are prohibited and must be blocked at the network and runtime layers, because a post-install fetch channel is a command-and-control path invisible to monitoring (it is not a tool call). Skills execute with privileges scoped to their declared capability set, never the agent's full identity, and a post-install behavioural baseline must be established under MIR-02 before full capability is granted, with baseline drift quarantining the skill. Marketplace provenance must be attestable end-to-end (publisher to registry to artifact) with publisher identity attestation. On any signature, provenance, or baseline error the install is blocked and installed skills are suspended; runtime-fetch attempts terminate the skill and alert via MIR-01 \u2014 never unsigned execution. Addresses the ClawHavoc/ClawHub skill-marketplace class (Koi Security, February 2026; Antiy CERT: 1,184 malicious skills, ~20% of the registry; Unit 42, June 2026: evasive skills passing automated scanning, runtime affiliate injection, and agentic front-running).",
+      "objective": "Gate every agent extension install on signed, immutable payloads with no runtime-fetchable instruction channels and privilege-scoped execution.",
+      "maturity": {
+        "L1": "Skills installed ad hoc from any marketplace with no signature or provenance checks; full agent privileges.",
+        "L2": "Signature verification at install; marketplaces restricted to an operator allowlist.",
+        "L3": "Immutable signed payloads; runtime-fetch channels blocked; privilege-scoped execution; post-install baseline with drift quarantine.",
+        "L4": "End-to-end provenance attestation at registry and runtime; cross-org telemetry sharing on malicious-skill signals; red-team testing of the install path."
+      },
+      "assessment_questions": [
+        "Are skills/plugins verified for signature and provenance before install?",
+        "Are runtime-fetchable instruction channels (remote manifests, update feeds) blocked?",
+        "Do skills execute with privileges scoped to their declared capability set, not the agent's full identity?",
+        "Is a post-install behavioural baseline established and drift-quarantined?"
+      ],
+      "artifacts": [
+        "Skill/plugin signature and provenance verification configuration",
+        "Runtime-fetch network-block policy and alerts",
+        "Skill privilege-scope declarations and execution audit",
+        "Post-install behavioural baseline records and drift alerts (MIR-02)"
+      ],
+      "regulatory_mappings": {
+        "OWASP": "LLM08 (Excessive Agency)",
+        "NIST AI RMF": "PROTECT (PR.DS)",
+        "EU AI Act": "Art. 14 (Human Oversight)",
+        "ISM": "Guidelines for Software Development, Application Control"
+      },
+      "tags": [
+        "skill",
+        "plugin",
+        "marketplace",
+        "extension",
+        "instruction-channel",
+        "clawhavoc"
       ],
       "pillar_name": "Tool and Pipeline Security"
     }

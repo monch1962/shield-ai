@@ -2,8 +2,8 @@
 title: "SHIELD-AI(TM): Tooling and Process Map"
 subtitle: "Tools and Processes to Address All 61 Controls, Assessed with Six Thinking Hats"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
-abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.9, 61 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
+date: "September 1, 2026"
+abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.10, 62 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
 ---
 
 # SHIELD-AI Tooling and Process Map
@@ -16,7 +16,7 @@ This document maps every one of the 61 SHIELD-AI controls to a concrete tool or 
 - **Thirteen controls have no mature commercial tool** and require custom or emerging implementation: MS-07 (deployment-context obfuscation), MS-09 (perception-fidelity enforcement), MS-10 (agent memory-store integrity), MS-11 (operational data-stream integrity), MS-12 (MCP discovery-metadata integrity), DS-07 (artifact publication control), TP-07 (cross-tool dependency analysis), TP-10 (inbound control-plane protection), TP-11 (agent browser and content-rendering isolation), TP-12 (tool-call provenance and dispatch verification), TP-13 (agent dependency-install provenance verification), EE-07 (control-plane configuration integrity), and EE-08 (evaluation-harness isolation). The SHIELD-AI reference implementation exists precisely to cover these.
 - **The highest-leverage adoption sequence is L2-baseline first**: identity and policy (SPIFFE, Vault, OPA), sandboxing, gateway, and logging make every later control cheaper to add. Maturity-led adoption beats tool-led adoption.
 
-A control-to-tool mapping covering all 61 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
+A control-to-tool mapping covering all 62 controls is in Part A; the per-tool hats analyses are in Parts B and C; coverage gaps and the adoption roadmap are in Parts D and E.
 
 ## 2. Method: How the Tools Were Assessed
 
@@ -141,7 +141,7 @@ stated explicitly rather than filled with a weak substitute.
 
 | Hat | Assessment with respect to SHIELD-AI |
 |-----|--------------------------------------|
-| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 61 controls |
+| White | Open-source policy engine; declarative Rego policies evaluated against JSON inputs; runs as a sidecar/daemon or embedded; the SHIELD-AI reference implementation already uses it for its 62 controls |
 | Black | Rego has a learning curve; policy drift is a standing risk if policies are not versioned and tested; a mis-scoped `allow` rule defaults to deny only if written that way; performance needs care at high request rates; not a data-access enforcer by itself |
 | Yellow | Directly implements the deny-override evaluation model the framework demands; every SHIELD-AI control can be expressed as a Rego assertion; testable (`opa test`), auditable, versionable; no vendor lock-in |
 | Red | The natural centre of gravity for this framework. Teams that adopt it early get the most leverage; teams that bolt it on late find it disruptive |
@@ -807,5 +807,5 @@ Adopt in this order: **identity and policy first (L2 floor), then enforcement (L
 
 ---
 
-*SHIELD-AI Tooling and Process Map v1.9 -- August 31, 2026*
+*SHIELD-AI Tooling and Process Map v1.10 -- September 1, 2026*
 *Authored by the Security Architecture Practice*

@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "August 31, 2026"
+date: "September 1, 2026"
 ---
 
 # Introduction
@@ -1542,6 +1542,38 @@ Agents must not execute installation commands derived from ingested content — 
 
 ---
 
+### TP-14: Skill/Plugin Payload Integrity and Instruction-Channel Isolation
+
+**Explanation**
+Skills, plugins, and marketplace extensions must be distributed as cryptographically signed, immutable payloads whose instruction content is fixed at install time. Runtime-fetchable instruction channels — remote referral manifests, update feeds, and operator-controlled configuration fetched after install — are prohibited and must be blocked at the network and runtime layers, because a post-install fetch channel is a command-and-control path invisible to monitoring (it is not a tool call). Skills execute with privileges scoped to their declared capability set, never the agent's full identity, and a post-install behavioural baseline must be established under MIR-02 before full capability is granted, with baseline drift quarantining the skill. Marketplace provenance must be attestable end-to-end (publisher to registry to artifact) with publisher identity attestation. On any signature, provenance, or baseline error the install is blocked and installed skills are suspended; runtime-fetch attempts terminate the skill and alert via MIR-01 — never unsigned execution. The ClawHavoc/ClawHub class (Koi Security, February 2026; Antiy CERT: 1,184 malicious skills, approximately 20% of the registry; Unit 42, June 2026: evasive skills passing automated scanning, runtime affiliate injection, agentic front-running) demonstrated that installing a skill is an unreviewed code-execution event with the agent's full privileges.
+
+**Key Assessment Questions**
+
+1. Are skills/plugins verified for signature and provenance before install?
+2. Are runtime-fetchable instruction channels (remote manifests, update feeds) blocked?
+3. Do skills execute with privileges scoped to their declared capability set, not the agent's full identity?
+4. Is a post-install behavioural baseline established and drift-quarantined?
+
+**Artifacts to Examine**
+
+- Skill/plugin signature and provenance verification configuration
+- Runtime-fetch network-block policy and alerts
+- Skill privilege-scope declarations and execution audit
+- Post-install behavioural baseline records and drift alerts (MIR-02)
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Skills installed ad hoc from any marketplace with no signature or provenance checks; full agent privileges. |
+| L2 | Signature verification at install; marketplaces restricted to an operator allowlist. |
+| L3 | Immutable signed payloads; runtime-fetch channels blocked; privilege-scoped execution; post-install baseline with drift quarantine. |
+| L4 | End-to-end provenance attestation at registry and runtime; cross-org telemetry sharing on malicious-skill signals; red-team testing of the install path. |
+
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 -- Human Oversight), ISM (Guidelines for Software Development, Application Control).
+
+---
+
 # Section 5: Monitoring, Logging, and Incident Response (MIR)
 
 ## Pillar Overview
@@ -2315,7 +2347,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 61 controls:
+For each of the 62 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2500,12 +2532,13 @@ For each of the 61 controls:
 | TP-11 | Web Content Filtering | App Control | - | - | - | - |
 | TP-12 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-13 | Web App Hardening, Network Seg | App Control | - | - | - | - |
+| TP-14 | Web App Hardening, App Control | App Control | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, TP-13, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, TP-13, TP-14, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
 | Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, TP-11, TP-12, DS-02, EE-01, EE-03, EE-05, EE-08 |
 | SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, DS-07, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, EE-08, GRM-01, GRM-02, GRM-05 |
 | APRA CPS 234 | MS-01, MS-03, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
@@ -2519,7 +2552,7 @@ For each of the 61 controls:
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 61 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 62 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2564,26 +2597,27 @@ Use this quick-reference during the assessment to ensure all 61 controls have be
 | 39 | TP-11: Agent browser & content-rendering isolation | ? | | | | |
 | 40 | TP-12: Tool-call provenance & dispatch verification | ? | | | | |
 | 41 | TP-13: Dependency-install provenance verification | ? | | | | |
-| 42 | MIR-01: Agent activity logging | ? | | | | |
-| 43 | MIR-02: Anomaly detection | ? | | | | |
-| 44 | MIR-03: Prompt audit log | ? | | | | |
-| 45 | MIR-04: IR playbooks | ? | | | | |
-| 46 | MIR-05: Reporting integration | ? | | | | |
-| 47 | MIR-06: Forensic readiness | ? | | | | |
-| 48 | GRM-01: AI governance body | ? | | | | |
-| 49 | GRM-02: AI risk register | ? | | | | |
-| 50 | GRM-03: Ethical use policy | ? | | | | |
-| 51 | GRM-04: Third-party AI risk | ? | | | | |
-| 52 | GRM-05: Regulatory mapping | ? | | | | |
-| 53 | GRM-06: Board reporting | ? | | | | |
-| 54 | EE-01: Execution boundary enforcement | ? | | | | |
-| 55 | EE-02: Infrastructure API access control | ? | | | | |
-| 56 | EE-03: Resource usage limiting | ? | | | | |
-| 57 | EE-04: Evaluation sandbox integrity | ? | | | | |
-| 58 | EE-05: Host-trusted file injection prevention | ? | | | | |
-| 59 | EE-06: Fail-closed sandbox operation | ? | | | | |
-| 60 | EE-07: Control-plane config integrity | ? | | | | |
-| 61 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
+| 42 | TP-14: Skill/plugin payload integrity and instruction-channel isolation | ? | | | | |
+| 43 | MIR-01: Agent activity logging | ? | | | | |
+| 44 | MIR-02: Anomaly detection | ? | | | | |
+| 45 | MIR-03: Prompt audit log | ? | | | | |
+| 46 | MIR-04: IR playbooks | ? | | | | |
+| 47 | MIR-05: Reporting integration | ? | | | | |
+| 48 | MIR-06: Forensic readiness | ? | | | | |
+| 49 | GRM-01: AI governance body | ? | | | | |
+| 50 | GRM-02: AI risk register | ? | | | | |
+| 51 | GRM-03: Ethical use policy | ? | | | | |
+| 52 | GRM-04: Third-party AI risk | ? | | | | |
+| 53 | GRM-05: Regulatory mapping | ? | | | | |
+| 54 | GRM-06: Board reporting | ? | | | | |
+| 55 | EE-01: Execution boundary enforcement | ? | | | | |
+| 56 | EE-02: Infrastructure API access control | ? | | | | |
+| 57 | EE-03: Resource usage limiting | ? | | | | |
+| 58 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 59 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 60 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 61 | EE-07: Control-plane config integrity | ? | | | | |
+| 62 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
 
 **Pillar Maturity Summary**
 
@@ -2599,7 +2633,7 @@ Use this quick-reference during the assessment to ensure all 61 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.9 -- August 31, 2026 (aligned to framework v1.9)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13)*
+*SHIELD-AI Assessment Guide v1.10 -- September 1, 2026 (aligned to framework v1.10)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*
