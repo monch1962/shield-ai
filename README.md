@@ -10,14 +10,14 @@ A sovereign Australian framework for securing agentic AI systems -- designed for
 shield-ai/
 +-- README.md                           # This file
 +-- framework/                          # The core SHIELD-AI framework documents
-|   +-- shield-ai-framework.md          #   Full framework (v1.10)
+|   +-- shield-ai-framework.md          #   Full framework (v1.11)
 |   +-- shield-ai-framework.pdf         #   PDF
 |   +-- shield-ai-framework.epub        #   EPUB for ereaders
 |   +-- shield-ai-implementation-architecture.md   #   Deployable components, reference
 |   |                                          #   architecture, full diagram set (NEW)
 |   +-- shield-ai-implementation-architecture.pdf
 |   +-- shield-ai-implementation-architecture.epub
-|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.10)
+|   +-- shield-ai-gap-analysis.md       #   Sandbox escape gap analysis (v1.11)
 |   +-- shield-ai-field-findings.md     #   Field validation findings, staged for the
 |                                      #   next framework cycle (FF-01..FF-06)
 |   +-- shield-ai-gap-analysis.pdf      #   Gap analysis PDF
@@ -57,7 +57,7 @@ shield-ai/
 |       +-- nbn-alignment.svg               #  SOCI Act/TSSR/APP 11/ISM-E8 map
 |       +-- build_deck.py                   #  Builder (regenerates the deck)
 +-- exploits/                           # Novel AI exploit catalog (per-type entries)
-|   +-- README.md                       #   Index + coverage table (26 classes, v1.10)
+|   +-- README.md                       #   Index + coverage table (26 classes, v1.11)
 |   +-- g01-..g25-*.md                  #   One entry per exploit type (G1-G25)
 |   +-- _TEMPLATE.md                    #   Entry format for the monitoring cycles
 |   +-- exploit-catalog.pdf             #   Combined PDF (README + all entries)
@@ -73,7 +73,7 @@ shield-ai/
 |   +-- docker-compose.yml             #   OPA bundle + sidecar + mock tool/SIEM
 +-- assets/
 |   +-- diagrams/                       # SVG diagram set (framework + implementation)
-|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.10)
+|   +-- shield-ai-control-schema.json   # Machine-readable control definitions (v1.11)
 |   +-- logo*.svg                       # Brand assets
 |   +-- style.css                       # Document styling (Markdown/HTML/PDF/EPUB)
 +-- tools/
@@ -115,7 +115,7 @@ shield-ai/
   monthly deep review cycle
 
 - **[Gap Analysis (Markdown)](framework/shield-ai-gap-analysis.md)** -- sandbox escape
-  incident research driving framework evolution (v1.10, 52 incidents, 26 gaps)
+  incident research driving framework evolution (v1.11, 55 incidents, 26 gaps)
 
 - **[Novel AI Exploit Catalog (Markdown)](exploits/README.md)** -- one entry per
   identified exploit type (G1-G25), with the nature of each exploit and the
@@ -182,6 +182,8 @@ know the gates would pass (e.g. a mechanical manifest refresh).
 
 ## Framework Version
 
+**v1.11** -- September 7, 2026 (weekly monitoring cycle: three new incident clusters INC-53..INC-55 — GitSpawn repository-supplied Git-configuration command execution across seven CLI coding agents (goose CVE-2026-72718, Codex CVE-2026-19592, Hermes Agent CVE-2026-71963), the Wiz 90-day AI-infrastructure honeypot telemetry with LiteLLM MCP-gateway authentication fail-open CVE-2026-59822 (added to CISA KEV September 2), and the attacker-side September campaign cluster (Unit 42 10-hour AI-assisted intrusion, Hunt.io SecFlow); extended MS-08 (MCP-gateway authentication fail-closed) and EE-07 (repository-supplied tool-configuration integrity); INC-40 follow-up (public-wiki swarm, transcript spoofing); 62 controls, 55 incidents, 26 gaps)
+**v1.10** -- September 1, 2026 (monthly deep review: added skill/plugin payload integrity TP-14 for gap G26 (the ClawHavoc/ClawHub skill-marketplace poisoning class — 1,184 malicious skills, agentic fraud); extended IAM-01 (cross-organisation identity attestation — Moltbook), IAM-06 (per-client transport isolation — CVE-2026-25536), DS-06 (renderer-boundary control-sequence sanitisation — ANSI escape exfiltration), MIR-02 (agentic intrusion-telemetry detection), and MIR-04 (pre-staged local forensics); added INC-48..INC-52 (ClawHavoc, Mexico government breach, MCP SDK response leak, ANSI terminal exfiltration, Moltbook); confirmed G19 with the Mexico breach and promoted its response-side work to an active defence item; 62 controls)
 **v1.9** -- August 31, 2026 (weekly monitoring cycle: added agent dependency-install provenance verification TP-13 for gap G25 (the llms.txt dangling-install supply-chain class — unregistered-package installs executed by Claude, Codex, and Hermes in Fortune 500 environments, live malware at Clerk.com); extended MS-10 (model-definition/template-store integrity — NemoClaw CVE-2026-65105), TP-12 (provenance receipts at every trust boundary — Novee), and MS-12 (aggregate tool-surface screening — ShareLock); added INC-42..INC-47 (RovoBlast, ShareLock, llms.txt, NemoClaw, Novee trust-handoffs, Wiz Red Agent) plus the OpenAI full incident report and the HF technical timeline as INC-40 evidence; 61 controls)
 **v1.8** -- August 24, 2026 (weekly monitoring cycle: added MCP discovery-metadata and shared-cache integrity MS-12 for gap G24; extended TP-06 (sandbox binding layers are part of the trust boundary; eval-with-empty-locals is not a sandbox), MS-09 (approval dialogs bind to the canonicalised, resolved action target), and MS-08 (discovery/cache surfaces); added INC-37..INC-41 (MCP-2026-008/015 and Context7 CVE-2026-75130, isolated-vm GHSA-864f-rcv7-6rh4 and Langroid CVE-2026-54769, browser-tools-mcp / atomic-agents-stack / mcp-searxng, OpenAI evaluation-escape follow-up disclosures, Wiz GhostApproval); 60 controls)
 **v1.7** -- August 17, 2026 (weekly monitoring cycle: added operational data-stream integrity MS-11 and tool-call provenance and dispatch verification TP-12; extended MIR-02/IAM-03/TP-09/GRM-02; addressed GhostJacking observability-stream poisoning (Tenet, DEFCON 34), CoreBreak tool-dispatch provenance failures (AWS/Google/Vercel), the first autonomous multi-agent attack on critical infrastructure (Taiwan nuclear safety agency), and the AI-assisted exploit-development cluster (SharePoint chain, Zoomsday); G19 escalated to Critical; 59 controls)

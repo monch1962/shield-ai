@@ -2,13 +2,13 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "September 1, 2026"
+date: "September 7, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** September 1, 2026 -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
+**Edition:** September 7, 2026 (weekly mechanical refresh of the September 1 deep-review edition) -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
 
 ## 1. Purpose and Method
 
@@ -458,10 +458,10 @@ The watchlist is deliberately not part of the framework document. The framework'
 - CSA research note "When AI Agents Attack: The OpenAI-Hugging Face Intrusion" (August 2026); OpenAI, "The Hugging Face incident and the road ahead" (August 26, 2026); Hugging Face technical timeline (July 27, 2026); Nature Machine Intelligence, "Agentic AI and cybersecurity, the story so far" (August 2026)
 - Tech Times, IETF 126 agent-protocol coverage (July 18-22, 2026); Google Developers Blog, A2A announcement
 - The Hacker News, "NVIDIA Forms 37-Member Open Secure AI Alliance and Open-Sources NOOA Framework" (July 27, 2026)
-- SHIELD-AI Monthly Deep Review, September 2026 (v1.9 to v1.10); SHIELD-AI Gap Analysis v1.10 (INC-48..INC-52, G26); SHIELD-AI Framework v1.10
+- SHIELD-AI Monthly Deep Review, September 2026 (v1.9 to v1.10); SHIELD-AI Gap Analysis v1.10 (INC-48..INC-52, G26); SHIELD-AI Framework v1.10; SHIELD-AI Gap Analysis v1.11 (INC-53..INC-55, weekly cycle September 7, 2026)
 
 ---
 
-*SHIELD-AI -- Watchlist Report, edition of September 1, 2026*
+*SHIELD-AI -- Watchlist Report, edition of September 7, 2026 (weekly mechanical refresh)*
 *Rebuilt and replaced each monthly deep review; the repo copy is always current.*
 *Authored by the Security Architecture Practice*

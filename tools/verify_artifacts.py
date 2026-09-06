@@ -23,9 +23,9 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.10"
+EXPECTED_VERSION = "v1.11"
 EXPECTED_COUNT = 62
-EXPECTED_EDITION = "September 1, 2026"
+EXPECTED_EDITION = "September 7, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -94,7 +94,7 @@ def main():
 
     # 2. Watchlist current edition
     wl = pdf_text("framework/shield-ai-watchlist.pdf")
-    check("watchlist.pdf has 61 controls", f"{EXPECTED_COUNT} controls" in wl)
+    check("watchlist.pdf has 62 controls", f"{EXPECTED_COUNT} controls" in wl)
     check(f"watchlist.pdf has current edition date ({EXPECTED_EDITION})", EXPECTED_EDITION in wl)
 
     # 3. HTML deck PDFs carry the current framework version
@@ -175,13 +175,13 @@ def main():
     #    catches the class of staleness the count sweep misses, e.g. a footer
     #    left at "v1.6" while the document content is v1.7).
     for doc, markers in [
-        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.10"]),
-        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.10", EXPECTED_EDITION]),
-        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.10", EXPECTED_EDITION]),
-        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.10"]),
-        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.10", EXPECTED_EDITION]),
-        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.10, {EXPECTED_EDITION}"]),
-        ("presentations/glossary.md", [f"v1.10 edition, {EXPECTED_EDITION}"]),
+        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.11"]),
+        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.11", EXPECTED_EDITION]),
+        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.11", EXPECTED_EDITION]),
+        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.11"]),
+        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.11", EXPECTED_EDITION]),
+        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.11, {EXPECTED_EDITION}"]),
+        ("presentations/glossary.md", [f"v1.11 edition, {EXPECTED_EDITION}"]),
     ]:
         if not os.path.exists(doc):
             check(f"{doc} exists", False)

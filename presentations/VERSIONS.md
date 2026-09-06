@@ -12,7 +12,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
 - Major Australian Retailer briefing: `python3 client-specific/retailer/build_deck.py`
 
-The deck version is independent of the framework version (v1.10); a framework
+The deck version is independent of the framework version (v1.11); a framework
 update that changes deck content bumps the deck version, not the framework
 version.
 
@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.9 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.8 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 (skill/plugin payload integrity and instruction-channel isolation) to the evolution slide, evidence slide refreshed (52 incidents, 26 gaps, G26 added), footer version bumped |
 | 1.7 | 2026-08-31 | Updated to framework v1.9 (61 controls): added TP-13 (dependency-install provenance verification) to the evolution slide, evidence slide refreshed (47 incidents, 25 gaps, G25 added), footer version bumped |
 | 1.5 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps, G22/G23 added), footer version bumped |
@@ -34,6 +35,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.7 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.6 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |
 | 1.5 | 2026-08-31 | Updated to framework v1.9 (61 controls): added TP-13 to the tool/pipeline slide, evidence slide refreshed (47 incidents, 25 gaps), footer version bumped |
 | 1.3 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps), footer version bumped |
@@ -46,6 +48,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.4 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.3 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |
 | 1.2 | 2026-08-31 | Updated to framework v1.9 (61 controls): added TP-13 to the tool/pipeline slide, evidence slide refreshed (47 incidents, 25 gaps), footer version bumped |
 | 1.0 | 2026-08-20 | Initial 25-slide briefing for a major Australian retailer (client unnamed in deck): retail threat framing (customer PII, loyalty data, cardholder data, supply chain), seven pillars (one slide each, retail-focused), reference implementation, policy as code, maturity, alignment to Privacy Act/APPs + NDB, PCI DSS, Cyber Security Act 2024, SOCI Act, ISM/E8, AU Guardrails, five-step practical starting point, watchlist summary |
@@ -55,6 +58,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.5 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.4 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |
 | 1.3 | 2026-08-31 | Updated to framework v1.9 (61 controls): added TP-13 to the tool/pipeline slide, evidence slide refreshed (47 incidents, 25 gaps), footer version bumped |
 | 1.1 | 2026-08-17 | Updated to framework v1.7 (59 controls): added MS-11 and TP-12 to pillar slides, evidence slide refreshed (36 incidents, 23 gaps), footer version bumped |

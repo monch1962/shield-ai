@@ -1302,7 +1302,7 @@ reg("MS-07", "Deployment Context Obfuscation", "MS",
     ["evaluation-subversion", "deployment-context"])
 
 reg("MS-08", "MCP Security Controls", "MS",
-    "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain. Monitoring must cover model-originated writes to execution-bearing locations and publication channels (MCP registry self-write -- AWS Kiro CVE-2026-10591), with alerting on any write (a log without alerting is not a control) (v1.5).",
+    "Model Context Protocol (MCP) endpoints and tool definitions must be treated as attack surface with protocol-layer security: signed tool metadata, MCP gateway authentication, response validation against known-good schemas, and trusted-registry supply chain. Monitoring must cover model-originated writes to execution-bearing locations and publication channels (MCP registry self-write -- AWS Kiro CVE-2026-10591), with alerting on any write (a log without alerting is not a control) (v1.5). MCP gateway and model-gateway authentication must fail closed -- a failed local credential check never downgrades to an anonymous session, OAuth2-passthrough fallback only on verified target-server authentication mode, no default gateway credentials (LiteLLM CVE-2026-59822, CISA KEV September 2, 2026; INC-54).",
     "Secure the MCP protocol layer for agent-tool communication.",
     [
         "MCP used without gateway; no protocol-layer controls.",
@@ -1834,7 +1834,7 @@ reg("EE-06", "Fail-Closed Sandbox Operation", "EE",
     ["fail-closed", "sandbox-attestation"])
 
 reg("EE-07", "Agent Control-Plane Configuration Integrity", "EE",
-    "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603). Extends to any execution-bearing configuration the agent can self-write, including MCP server registries and launch configurations -- MCP registry entries are executable launch commands auto-run on reload (AWS Kiro CVE-2026-10591) -- and to external modification of control-plane configuration via gateway/API surfaces (OpenClaw CVE-2026-25253) (v1.5).",
+    "Agents must not modify the configuration governing their own security controls -- sandbox mode, approval policy, tool permissions, hooks -- and tooling must not load configuration from writable shared directories. Addresses self-configuration poisoning (Codex CLI) and config-trust failures (CVE-2026-35603). Extends to any execution-bearing configuration the agent can self-write, including MCP server registries and launch configurations -- MCP registry entries are executable launch commands auto-run on reload (AWS Kiro CVE-2026-10591) -- and to external modification of control-plane configuration via gateway/API surfaces (OpenClaw CVE-2026-25253) (v1.5). Agent-invoked tooling must not execute repository-supplied version-control configuration (command-bearing keys such as core.fsmonitor in a repository's own .git/config) before the workspace-trust boundary; config-isolated invocation of host tooling (GitSpawn, INC-53).",
     "Prevent agents from disabling their own security controls.",
     [
         "Agents can modify their own security configuration; tools load config from writable paths.",

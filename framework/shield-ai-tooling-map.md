@@ -2,8 +2,8 @@
 title: "SHIELD-AI(TM): Tooling and Process Map"
 subtitle: "Tools and Processes to Address All 61 Controls, Assessed with Six Thinking Hats"
 author: "Security Architecture Practice"
-date: "September 1, 2026"
-abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.10, 62 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
+date: "September 7, 2026"
+abstract: "A map of the tools and processes that can be implemented to address every control in the SHIELD-AI framework (v1.11, 62 controls across 7 pillars). Each identified tool or process is analysed with the Six Thinking Hats method for its strengths and weaknesses specifically with respect to SHIELD-AI. The report closes with a coverage analysis of controls that lack mature tooling and a maturity-aligned adoption roadmap (L1-L4)."
 ---
 
 # SHIELD-AI Tooling and Process Map
@@ -807,5 +807,5 @@ Adopt in this order: **identity and policy first (L2 floor), then enforcement (L
 
 ---
 
-*SHIELD-AI Tooling and Process Map v1.10 -- September 1, 2026*
+*SHIELD-AI Tooling and Process Map v1.11 -- September 7, 2026*
 *Authored by the Security Architecture Practice*

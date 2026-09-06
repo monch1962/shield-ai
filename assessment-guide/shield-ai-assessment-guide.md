@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "September 1, 2026"
+date: "September 7, 2026"
 ---
 
 # Introduction
@@ -322,6 +322,7 @@ Model Context Protocol (MCP) endpoints and tool definitions must be treated as a
 4. Are MCP servers and tool definitions sourced from a trusted registry with provenance verification?
 5. Are MCP-specific rate limits and audit logs in place per agent and per tool?
 6. Is tool discovery hardened against capability advertisement manipulation?
+7. Does MCP gateway authentication fail closed — a failed credential check never downgrades to an anonymous session, any OAuth2-passthrough fallback runs only when the target server's configured authentication mode is verified, and are default gateway credentials prohibited (LiteLLM CVE-2026-59822, INC-54)?
 
 **Artifacts to Examine**
 
@@ -2273,6 +2274,7 @@ Agents must not be able to modify the configuration that governs their own secur
 4. Is configuration from world-writable paths rejected?
 5. Are unexpected modifications to agent control-plane configuration monitored (MIR-01)?
 6. Have AI coding tools been assessed against CVE-2026-35603 (config-trust privilege escalation)?
+7. Is agent-invoked host tooling prevented from executing repository-supplied version-control configuration — command-bearing keys such as core.fsmonitor, core.hooksPath, attr.tree in a received repository's .git/config — before the workspace-trust boundary, and are received repositories audited for such keys before an agent operates on them (GitSpawn, INC-53)?
 
 **Artifacts to Examine**
 
@@ -2633,7 +2635,7 @@ Use this quick-reference during the assessment to ensure all 62 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.10 -- September 1, 2026 (aligned to framework v1.10)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*
+*SHIELD-AI Assessment Guide v1.11 -- September 7, 2026 (aligned to framework v1.11)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

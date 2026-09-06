@@ -8,8 +8,8 @@
 
 | Artifact | Status | Notes |
 |----------|--------|-------|
-| Framework document v1.10 | [OK] Complete | 7 pillars, 62 controls, 4 maturity levels |
-| Sandbox escape gap analysis v1.10 | [OK] Complete | 52 incidents, 26 gaps |
+| Framework document v1.11 | [OK] Complete | 7 pillars, 62 controls, 4 maturity levels |
+| Sandbox escape gap analysis v1.11 | [OK] Complete | 55 incidents, 26 gaps |
 | Watchlist | [OK] Monthly | Canonical framework/shield-ai-watchlist.md, replaced each deep review |
 | Tooling and process map | [OK] Complete | All 62 controls mapped, six-hat assessment, L1-L4 roadmap |
 | Implementation architecture | [OK] Complete | Deployable components + full SVG diagram set |
@@ -21,7 +21,7 @@
 | Aware Super briefing deck (24 slides) | [OK] Versioned | v1.5, client-specific/aware-super/ |
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.3, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
-| JSON control schema | [OK] v1.10 | 62 controls, machine-readable |
+| JSON control schema | [OK] v1.11 | 62 controls, machine-readable |
 | Rego policy set (62) | [OK] Complete | 62 controls as generated stubs (59 implemented with deny-override assertions and test vectors; MS-12, TP-13 and TP-14 pending implementation); 253 OPA tests |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
@@ -29,7 +29,7 @@
 
 | Pri | Item | Verdict | Effort | Impact |
 |-----|------|---------|--------|--------|
-| [X] | Rego policy stubs for all 62 controls | Complete (v1.10) | Per-control | Automated control testing per GRM-05/06 |
+| [X] | Rego policy stubs for all 62 controls | Complete (v1.11) | Per-control | Automated control testing per GRM-05/06 |
 | [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.7) | 1-2 days | Closed the largest stub gap |
 | P1 | Reference implementation (deployable tooling from the implementation architecture doc) | Next milestone | Multi-week | Validates the component model against real environments |
 | P2 | Public release | After field validation | 1 day | Community adoption |
