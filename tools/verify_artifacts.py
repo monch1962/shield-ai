@@ -218,6 +218,20 @@ def main():
     check("gap-analysis.pdf carries no stale v1.7 edition date",
           "August 17, 2026" not in ga_pdf)
 
+    # 9. README freshness (keeps the repo index tidy): current version present
+    #    and every relative markdown path in the README resolves to a file.
+    readme = open("README.md", encoding="utf-8").read()
+    check(f"README carries current version ({EXPECTED_VERSION})",
+          EXPECTED_VERSION in readme)
+    check(f"README carries current control count ({EXPECTED_COUNT} controls)",
+          f"{EXPECTED_COUNT} controls" in readme)
+    readme_links = re.findall(r"\]\(([^)#]+?)(?:#[^)]*)?\)", readme)
+    broken = sorted(
+        {p for p in readme_links
+         if p.startswith(("./", "../")) and not os.path.exists(p)}
+    )
+    check(f"README relative links all resolve (broken: {broken})", not broken)
+
     print()
     if failures:
         print(f"FAILURES ({len(failures)}):")
