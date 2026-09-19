@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "September 7, 2026"
+date: "September 19, 2026"
 ---
 
 # Introduction
@@ -1573,6 +1573,36 @@ Skills, plugins, and marketplace extensions must be distributed as cryptographic
 
 **Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 -- Human Oversight), ISM (Guidelines for Software Development, Application Control).
 
+### TP-15: In-Process Code-Execution Sandbox Sufficiency
+
+**Explanation**
+Denylist- and blocklist-based in-process code-execution sandboxes — code interpreters that confine LLM/agent-generated source by enumerating forbidden modules, attributes, calls, or string constants within the same process — must be treated as code-execution surfaces, not security boundaries. This class is structurally bypassable: each denied primitive is one forgotten object-graph edge away from recovery of the full host context, and adversarial capability escalation re-derives arbitrary execution from any surviving reachable built-in or bridge. Therefore any LLM-generated or untrusted code destined for in-process execution must run inside an OS- or VM-level isolation boundary (containers, VMs, gVisor-style runtimes, or dedicated subprocesses with kernel-enforced separation — EE-01) with no shared host filesystem or IPC. In-process interpreter gates must not be deployed as the sole containment for untrusted code; where an in-process sandbox is unavoidable, it is classified in the TP-06 HIGH-RISK dependency class with automated blocking on critical findings and a mandatory alternative-evaluation gate for any L3+ deployment. The denylist-sandbox bypass wave — PraisonAI CVE-2026-47392 (print.__self__ builtins recovery, vars(), runtime string concatenation; survived the prior patches CVE-2026-39888/34938/40158) and CrewAI CVE-2026-37008 (module-name blocklist bypassed via ctypes.CDLL(None) without any import, yielding arbitrary native host execution) — demonstrated that blocklist enumeration cannot be completed and every patch merely relocates the cliff.
+
+**Key Assessment Questions**
+
+1. Have all code-execution paths used by agents been audited to confirm they do not rely on an in-process denylist/blocklist gate as the sole boundary?
+2. Does every LLM-generated or untrusted code execution run inside an OS/VM-level isolation boundary (EE-01)?
+3. Are unavoidable in-process sandboxes tracked as a HIGH-RISK dependency class with automated blocking and an L3+ alternative-evaluation gate?
+4. Can object-graph bypass primitives (builtins recovery, ctypes, string-constructed names) reach host execution from any agent code path?
+
+**Artifacts to Examine**
+
+- Code-execution tool inventory and boundary classification
+- EE-sandbox routing policy for model-generated code
+- In-process sandbox HIGH-RISK dependency tracking and blocking alerts (TP-06)
+- Red-team object-graph bypass test results
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | Agent frameworks run LLM-generated code in an in-process denylist/blocklist sandbox as the sole containment; host code-execution primitives reachable. |
+| L2 | Code-execution tools identified and routed to an OS/VM-level sandbox (EE-01); in-process gates flagged and scheduled for replacement. |
+| L3 | In-process sandboxes locked in the HIGH-RISK dependency class (TP-06) with automated blocking on critical findings; model-generated code executes only in the EE sandbox. |
+| L4 | No in-process gate deployed for untrusted code; all model-generated execution is OS/VM-isolated with provenance receipts (TP-12); red-teamed object-graph bypass attempts in CI. |
+
+**Regulatory Mapping:** OWASP LLM08 (Excessive Agency), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 -- Human Oversight), ISM (Guidelines for Software Development and System Management).
+
 ---
 
 # Section 5: Monitoring, Logging, and Incident Response (MIR)
@@ -2349,7 +2379,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 62 controls:
+For each of the 63 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2535,13 +2565,14 @@ For each of the 62 controls:
 | TP-12 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-13 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-14 | Web App Hardening, App Control | App Control | - | - | - | - |
+| TP-15 | Web App Hardening, App Control | App Control | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
 | Framework | Most Relevant Controls |
 |-----------|----------------------|
-| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, TP-13, TP-14, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
-| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, TP-11, TP-12, DS-02, EE-01, EE-03, EE-05, EE-08 |
+| ISM (1,081 controls) | MS-01, MS-02, MS-03, MS-04, MS-06, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-02, IAM-04, IAM-05, IAM-07, IAM-08, DS-01, DS-02, DS-07, TP-01, TP-03, TP-05, TP-06, TP-08, TP-09, TP-10, TP-11, TP-12, TP-13, TP-14, TP-15, MIR-01, MIR-02, MIR-04, MIR-05, MIR-06, EE-01, EE-02, EE-03, EE-05, EE-06, EE-07, EE-08, GRM-01, GRM-05 |
+| Essential Eight | IAM-01, IAM-02, IAM-04, IAM-05, TP-02, TP-03, TP-05, TP-06, TP-10, TP-11, TP-12, TP-15, DS-02, EE-01, EE-03, EE-05, EE-08 |
 | SOCI Act (CIRMP) | MS-01, MS-03, IAM-02, IAM-09, TP-01, DS-07, MIR-01, MIR-04, MIR-05, MIR-06, EE-01, EE-08, GRM-01, GRM-02, GRM-05 |
 | APRA CPS 234 | MS-01, MS-03, MS-09, MS-10, MS-11, MS-12, IAM-01, IAM-03, DS-01, DS-07, TP-01, MIR-01, MIR-04, MIR-05, GRM-01, GRM-02, GRM-05, GRM-06 |
 | PSPF | MS-01, MS-03, MS-06, IAM-01, DS-01, DS-02, MIR-01, GRM-01, GRM-02, GRM-05, GRM-06 |
@@ -2554,7 +2585,7 @@ For each of the 62 controls:
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 62 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 63 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2600,26 +2631,27 @@ Use this quick-reference during the assessment to ensure all 62 controls have be
 | 40 | TP-12: Tool-call provenance & dispatch verification | ? | | | | |
 | 41 | TP-13: Dependency-install provenance verification | ? | | | | |
 | 42 | TP-14: Skill/plugin payload integrity and instruction-channel isolation | ? | | | | |
-| 43 | MIR-01: Agent activity logging | ? | | | | |
-| 44 | MIR-02: Anomaly detection | ? | | | | |
-| 45 | MIR-03: Prompt audit log | ? | | | | |
-| 46 | MIR-04: IR playbooks | ? | | | | |
-| 47 | MIR-05: Reporting integration | ? | | | | |
-| 48 | MIR-06: Forensic readiness | ? | | | | |
-| 49 | GRM-01: AI governance body | ? | | | | |
-| 50 | GRM-02: AI risk register | ? | | | | |
-| 51 | GRM-03: Ethical use policy | ? | | | | |
-| 52 | GRM-04: Third-party AI risk | ? | | | | |
-| 53 | GRM-05: Regulatory mapping | ? | | | | |
-| 54 | GRM-06: Board reporting | ? | | | | |
-| 55 | EE-01: Execution boundary enforcement | ? | | | | |
-| 56 | EE-02: Infrastructure API access control | ? | | | | |
-| 57 | EE-03: Resource usage limiting | ? | | | | |
-| 58 | EE-04: Evaluation sandbox integrity | ? | | | | |
-| 59 | EE-05: Host-trusted file injection prevention | ? | | | | |
-| 60 | EE-06: Fail-closed sandbox operation | ? | | | | |
-| 61 | EE-07: Control-plane config integrity | ? | | | | |
-| 62 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
+| 43 | TP-15: In-process code-execution sandbox sufficiency | ? | | | | |
+| 44 | MIR-01: Agent activity logging | ? | | | | |
+| 45 | MIR-02: Anomaly detection | ? | | | | |
+| 46 | MIR-03: Prompt audit log | ? | | | | |
+| 47 | MIR-04: IR playbooks | ? | | | | |
+| 48 | MIR-05: Reporting integration | ? | | | | |
+| 49 | MIR-06: Forensic readiness | ? | | | | |
+| 50 | GRM-01: AI governance body | ? | | | | |
+| 51 | GRM-02: AI risk register | ? | | | | |
+| 52 | GRM-03: Ethical use policy | ? | | | | |
+| 53 | GRM-04: Third-party AI risk | ? | | | | |
+| 54 | GRM-05: Regulatory mapping | ? | | | | |
+| 55 | GRM-06: Board reporting | ? | | | | |
+| 56 | EE-01: Execution boundary enforcement | ? | | | | |
+| 57 | EE-02: Infrastructure API access control | ? | | | | |
+| 58 | EE-03: Resource usage limiting | ? | | | | |
+| 59 | EE-04: Evaluation sandbox integrity | ? | | | | |
+| 60 | EE-05: Host-trusted file injection prevention | ? | | | | |
+| 61 | EE-06: Fail-closed sandbox operation | ? | | | | |
+| 62 | EE-07: Control-plane config integrity | ? | | | | |
+| 63 | EE-08: Evaluation-harness isolation & integrity | ? | | | | |
 
 **Pillar Maturity Summary**
 
@@ -2635,7 +2667,7 @@ Use this quick-reference during the assessment to ensure all 62 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.11 -- September 7, 2026 (aligned to framework v1.11)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions)
+*SHIELD-AI Assessment Guide v1.12 -- September 19, 2026 (aligned to framework v1.12)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

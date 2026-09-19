@@ -34,7 +34,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.9"
+DECK_VERSION = "1.10"
 AUDIENCE = "Australian Defence Department"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/defence/shield-ai-deck-defence.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/defence/deck-manifest.json"
@@ -116,7 +116,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Defence Briefing  |  Deck v%s  |  Framework v1.11  |  Sep 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Defence Briefing  |  Deck v%s  |  Framework v1.12  |  Sep 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -282,8 +282,8 @@ r2 = p2.add_run(); r2.text = "Securing Agentic AI for the Australian Defence Dep
 r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
-para(tf2, "An Australian framework: 7 pillars, 62 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
-para(tf2, "Briefing  |  Framework v1.11  |  September 2026", size=12, color=MUTED)
+para(tf2, "An Australian framework: 7 pillars, 63 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
+para(tf2, "Briefing  |  Framework v1.12  |  September 19, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. The point of this slide is simple: SHIELD-AI is an Australian framework built "
     "for agents that act, not chatbots that answer. It is structured so a security team can explain it to decision makers in under "
     "half an hour, which is what we are about to do.")
@@ -291,7 +291,7 @@ s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. The point
 # 2 — Agenda
 bullets_slide("Presentation Overview", [
     ("1.  Why agents change the threat picture for Defence", 0, True),
-    ("2.  The framework: seven pillars and 62 controls", 0, True),
+    ("2.  The framework: seven pillars and 63 controls", 0, True),
     ("3.  How it works: reference implementation, policy as code, request flow", 0, True),
     ("4.  Applying it to Defence: maturity model, regulatory alignment, deployment", 0, True),
     ("A note up front: every claim in this deck is tied to a documented incident", 0, True),
@@ -332,13 +332,13 @@ bullets_slide("Where Current Frameworks Come Up Short", [
 bullets_slide("SHIELD-AI at a Glance", [
     ("Seven security pillars across the whole agentic-AI stack", 0, True),
     ("Model Security, Identity and Access, Data Security, Tool and Pipeline Security, Monitoring and IR, Governance and Risk, Execution Environment", 1),
-    ("62 controls, each with implementation guidance and a maturity progression", 0, True),
+    ("63 controls, each with implementation guidance and a maturity progression", 0, True),
     ("Four maturity levels, consistent with ISM and the Essential Eight: L1 Initial, L2 Managed, L3 Defined, L4 Optimised", 0, True),
     ("Policy as code: 59 executable Rego controls, evaluated deny-override", 0, True),
     ("A deployable reference implementation: gateway, policy engine, identity plane, observability", 0, True),
     ("Evidence driven: 47 documented incidents, 25 identified gaps, monthly deep review, a live watchlist", 0, True),
     ("Sovereign by design: an Australian framework aligned to PSPF, ISM, Essential Eight, SOCI, and the Five Eyes guidance", 0, True, NAVY2),
-], page=page, notes="One minute. This is the thirty second version: seven pillars, 62 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
+], page=page, notes="One minute. This is the thirty second version: seven pillars, 63 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
 
 # 7 — Seven pillars diagram
 diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
@@ -383,7 +383,7 @@ pillar_slide("Pillar 3: Data Security", 3, "Data Security", "DS-01 .. DS-07  |  
     ("DS-07  Artifact publication control: agent-written packages and configs go through the same vetting as third-party artifacts, with approval the agent cannot invoke", 1),
 ], notes="Ninety seconds. DS-01 plugs straight into the classification schema Defence already runs. DS-07 exists because of the PyPI incident: the agent was a publisher, not just a reader.", page=page); page += 1
 
-pillar_slide("Pillar 4: Tool and Pipeline Security", 4, "Tool & Pipeline Security", "TP-01 .. TP-12  |  12 controls",
+pillar_slide("Pillar 4: Tool and Pipeline Security", 4, "Tool & Pipeline Security", "TP-01 .. TP-15  |  15 controls",
     "Registered tools, gated APIs",
     [
     ("A chatbot that talks is harmless; an agent that acts is only as safe as its tools", 0, True),
@@ -395,6 +395,7 @@ pillar_slide("Pillar 4: Tool and Pipeline Security", 4, "Tool & Pipeline Securit
     ("TP-10  Inbound control-plane protection: network bindings default to deny, gateway tokens stay out of web context (OpenClaw CVE-2026-25253)", 1),
     ("TP-11  Agent browser isolation: rendered content treated as untrusted input, cross-origin privileged actions gated (Zenity Intent Collision)", 1),
     ("TP-12  Dispatch provenance: no tool executes without a verified model turn; approvals bind to the exact call (CoreBreak)", 1),
+    ("TP-15  In-process code-execution sandbox sufficiency: denylist/blocklist interpreter gates are code-execution surfaces, not security boundaries — untrusted code runs only in an OS/VM isolation boundary (PraisonAI/CrewAI bypasses)", 1),
 ], notes="Ninety seconds. TP-10 is worth one extra beat: the platform itself is an inbound surface, not just an outbound actor. TP-11 (v1.6) is the Zenity response: agentic browsers that dismantle the Same-Origin Policy turn every page the agent reads into a command source. TP-12 (v1.7) is CoreBreak: tools dispatched without a model turn across AWS, Google, and Vercel, with forged approvals at the plumbing layer. Approved-application registers in Defence map naturally onto the tool registry idea.", page=page); page += 1
 
 pillar_slide("Pillar 5: Monitoring and Incident Response", 5, "Monitoring, Logging & IR", "MIR-01 .. MIR-06  |  6 controls",
@@ -438,12 +439,12 @@ diagram_slide("From Framework to Deployment", "impl-reference-architecture.png",
 # 16 — Policy as code
 diagram_slide("Policy as Code: 59 Controls You Can Run", "impl-policy-decision-points.png",
               kicker="Deny-override evaluation at every decision point", page=page,
-              notes="Ninety seconds. Each of the 62 controls is expressed as executable policy in Rego. Evaluation is deny-override: a deny verdict wins over any allow rule. That is how the framework becomes enforcement rather than a document."); page += 1
+              notes="Ninety seconds. Each of the 63 controls is expressed as executable policy in Rego. Evaluation is deny-override: a deny verdict wins over any allow rule. That is how the framework becomes enforcement rather than a document."); page += 1
 
 # 17 — Request flow
 diagram_slide("Every Request Through the Gate", "impl-request-flow.png",
               kicker="Parse, evaluate, decide, log, then the agent acts", page=page,
-              notes="Ninety seconds. Walk the flow: request, parse, policy evaluation across the 62 controls, allow or deny, audit. The sidecar topology means this applies to existing agent platforms without rewriting them."); page += 1
+              notes="Ninety seconds. Walk the flow: request, parse, policy evaluation across the 63 controls, allow or deny, audit. The sidecar topology means this applies to existing agent platforms without rewriting them."); page += 1
 
 # 18 — Maturity
 diagram_slide("Maturity: L1 to L4", "maturity-journey.png",
@@ -478,6 +479,7 @@ bullets_slide("The Evidence Behind the Framework", [
     ("v1.8 added one more: MS-12 (MCP discovery-metadata and shared-cache integrity)", 0, True),
     ("v1.9 added TP-13: agent dependency-install provenance verification (the llms.txt class)", 0, True),
     ("v1.10 added TP-14: skill/plugin payload integrity and instruction-channel isolation (the ClawHavoc/ClawHub skill-marketplace class)", 0, True),
+    ("v1.12 added TP-15: in-process code-execution sandbox sufficiency (the PraisonAI/CrewAI denylist-bypass class)", 0, True),
     ("A live watchlist tracks IETF agent-to-agent standardisation, MCP exposure, on-device agents, and adversary-owned agents", 0, True),
 ], page=page, notes="One minute. The framework updates monthly: a weekly incident watch and a monthly deep review keep the control set current. This is why it keeps pace with what attackers are actually doing instead of catching up after the fact."); page += 1
 
@@ -516,7 +518,7 @@ r.font.size = Pt(44); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 4.6, 11.3, 1.8)
 para(tf2, "Where would an agentic-AI capability first touch your environment?", size=17, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "A useful next step: a posture assessment against the framework (L1-L4, all seven pillars), then a pilot of the reference implementation.", size=15, color=GOLD, space_after=10)
-para(tf2, "SHIELD-AI v1.11  |  7 pillars  |  62 controls  |  policy as code  |  September 2026", size=12, color=MUTED)
+para(tf2, "SHIELD-AI v1.12  |  7 pillars  |  63 controls  |  policy as code  |  September 19, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Two minutes. The question on the slide is the honest conversation starter. Offer the maturity assessment and the open-source "
     "reference implementation as concrete next steps; keep it in maturity terms, no commercial pitch.")
 
@@ -530,7 +532,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-06",
-    "framework_version": "v1.11",
+    "framework_version": "v1.12",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

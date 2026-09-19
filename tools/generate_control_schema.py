@@ -1691,6 +1691,30 @@ reg("TP-14", "Skill/Plugin Payload Integrity and Instruction-Channel Isolation",
     {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Software Development, Application Control"},
     ["skill", "plugin", "marketplace", "extension", "instruction-channel", "clawhavoc"])
 
+reg("TP-15", "In-Process Code-Execution Sandbox Sufficiency", "TP",
+    "Denylist- and blocklist-based in-process code-execution sandboxes (code interpreters that confine LLM/agent-generated source by enumerating forbidden modules, attributes, calls, or string constants within the same process) must be treated as code-execution surfaces, not security boundaries. This class of sandbox is structurally bypassable: each denied primitive is one forgotten object-graph edge away from recovery of the full host context, and adversarial capability escalation re-derives arbitrary execution from any surviving reachable built-in or bridge. Therefore any LLM-generated or untrusted code destined for in-process execution must instead run inside an OS- or VM-level isolation boundary (containers, VMs, gVisor-style runtimes, or dedicated subprocesses with kernel-enforced separation — EE-01) with no shared host filesystem or IPC. In-process interpreter gates must not be deployed as the sole containment for untrusted code; where an in-process sandbox is unavoidable, it is classified in the TP-06 HIGH-RISK dependency class with automated blocking on critical findings and a mandatory alternative-evaluation gate for any L3+ deployment. Addresses the denylist-sandbox bypass wave: PraisonAI CVE-2026-47392 (print.__self__ builtins recovery, vars(), runtime string concatenation — survive prior patches CVE-2026-39888/34938/40158) and CrewAI CVE-2026-37008 (module-name blocklist bypassed via ctypes.CDLL(None) for arbitrary native host execution).",
+    "Route all LLM-generated or untrusted code execution to an OS/VM-isolated execution environment; never rely on an in-process denylist/blocklist interpreter gate as the boundary.",
+    [
+        "Agent frameworks run LLM-generated code in an in-process denylist/blocklist sandbox as the sole containment; host code-execution primitives reachable.",
+        "Code-execution tools identified and routed to an OS/VM-level sandbox (EE-01); in-process gates flagged and scheduled for replacement.",
+        "In-process sandboxes locked in the HIGH-RISK dependency class (TP-06) with automated blocking on critical findings; model-generated code executes only in the EE sandbox.",
+        "No in-process gate deployed for untrusted code; all model-generated execution is OS/VM-isolated with provenance receipts (TP-12); red-teamed object-graph bypass attempts in CI.",
+    ],
+    [
+        "Have all code-execution paths used by agents been audited to confirm they do not rely on an in-process denylist/blocklist gate as the sole boundary?",
+        "Does every LLM-generated or untrusted code execution run inside an OS/VM-level isolation boundary (EE-01)?",
+        "Are unavoidable in-process sandboxes tracked as a HIGH-RISK dependency class with automated blocking and an L3+ alternative-evaluation gate?",
+        "Can object-graph bypass primitives (builtins recovery, ctypes, string-constructed names) reach host execution from any agent code path?",
+    ],
+    [
+        "Code-execution tool inventory and boundary classification",
+        "EE-sandbox routing policy for model-generated code",
+        "In-process sandbox HIGH-RISK dependency tracking and blocking alerts (TP-06)",
+        "Red-team object-graph bypass test results",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Software Development, Application Control"},
+    ["code-execution", "in-process-sandbox", "denylist", "blocklist", "interpreter-gate", "praisonai", "crewai"])
+
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)
 # ============================================

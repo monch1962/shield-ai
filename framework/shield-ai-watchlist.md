@@ -2,13 +2,13 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "September 7, 2026"
+date: "September 19, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** September 7, 2026 (weekly mechanical refresh of the September 1 deep-review edition) -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
+**Edition:** September 19, 2026 (weekly mechanical refresh of the September 1 deep-review edition) -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
 
 ## 1. Purpose and Method
 
@@ -444,7 +444,7 @@ Watchlist entries require named sources. Promotion to a control requires one of:
 
 ### 13.4 Relationship to the Framework
 
-The watchlist is deliberately not part of the framework document. The framework's 62 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
+The watchlist is deliberately not part of the framework document. The framework's 63 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
 
 ---
 
@@ -462,6 +462,6 @@ The watchlist is deliberately not part of the framework document. The framework'
 
 ---
 
-*SHIELD-AI -- Watchlist Report, edition of September 7, 2026 (weekly mechanical refresh)*
+*SHIELD-AI -- Watchlist Report, edition of September 19, 2026 (weekly mechanical refresh)*
 *Rebuilt and replaced each monthly deep review; the repo copy is always current.*
 *Authored by the Security Architecture Practice*

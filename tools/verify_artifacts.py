@@ -23,9 +23,9 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.11"
-EXPECTED_COUNT = 62
-EXPECTED_EDITION = "September 7, 2026"
+EXPECTED_VERSION = "v1.12"
+EXPECTED_COUNT = 63
+EXPECTED_EDITION = "September 19, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -80,7 +80,7 @@ def main():
     for doc, markers in [
         ("framework/shield-ai-framework.pdf", ["MS-12", "TP-12", "TP-13", f"{EXPECTED_COUNT} controls"]),
         ("framework/shield-ai-gap-analysis.pdf", ["INC-44", "MS-12", "TP-13"]),
-        ("framework/shield-ai-implementation-architecture.pdf", ["MS-01..MS-12", "TP-01..TP-13"]),
+        ("framework/shield-ai-implementation-architecture.pdf", ["MS-01..MS-12", "TP-01..TP-15"]),
         ("framework/shield-ai-tooling-map.pdf", [f"{EXPECTED_COUNT} controls"]),
         ("assessment-guide/shield-ai-assessment-guide.pdf", [f"{EXPECTED_COUNT} controls"]),
         ("presentations/what-is-shield-ai.pdf", [f"{EXPECTED_COUNT} controls"]),
@@ -109,10 +109,10 @@ def main():
 
     # 4. SVG ranges
     arch = open("assets/diagrams/framework-architecture.svg", encoding="utf-8").read()
-    for rng in ["MS-01 -> MS-12", "TP-01 -> TP-14", "DS-01 -> DS-07", "EE-01 -> EE-08", "IAM-01 -> IAM-09"]:
+    for rng in ["MS-01 -> MS-12", "TP-01 -> TP-15", "DS-01 -> DS-07", "EE-01 -> EE-08", "IAM-01 -> IAM-09"]:
         check(f"framework-architecture.svg has {rng}", rng in arch)
     tel = open("assets/diagrams/impl-telemetry-pipeline.svg", encoding="utf-8").read()
-    check("impl-telemetry-pipeline.svg has 62 controls", "62 controls" in tel)
+    check("impl-telemetry-pipeline.svg has 63 controls", "63 controls" in tel)
 
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
@@ -175,13 +175,13 @@ def main():
     #    catches the class of staleness the count sweep misses, e.g. a footer
     #    left at "v1.6" while the document content is v1.7).
     for doc, markers in [
-        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.11"]),
-        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.11", EXPECTED_EDITION]),
-        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.11", EXPECTED_EDITION]),
-        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.11"]),
-        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.11", EXPECTED_EDITION]),
-        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.11, {EXPECTED_EDITION}"]),
-        ("presentations/glossary.md", [f"v1.11 edition, {EXPECTED_EDITION}"]),
+        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.12"]),
+        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.12", EXPECTED_EDITION]),
+        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.12", EXPECTED_EDITION]),
+        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.12"]),
+        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.12", EXPECTED_EDITION]),
+        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.12, {EXPECTED_EDITION}"]),
+        ("presentations/glossary.md", [f"v1.12 edition, {EXPECTED_EDITION}"]),
     ]:
         if not os.path.exists(doc):
             check(f"{doc} exists", False)
