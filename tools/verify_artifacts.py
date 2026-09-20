@@ -23,9 +23,9 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.12"
+EXPECTED_VERSION = "v1.13"
 EXPECTED_COUNT = 63
-EXPECTED_EDITION = "September 19, 2026"
+EXPECTED_EDITION = "September 21, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -175,13 +175,13 @@ def main():
     #    catches the class of staleness the count sweep misses, e.g. a footer
     #    left at "v1.6" while the document content is v1.7).
     for doc, markers in [
-        ("framework/shield-ai-framework.md", ["SHIELD-AI v1.12"]),
-        ("framework/shield-ai-gap-analysis.md", ["Gap Analysis v1.12", EXPECTED_EDITION]),
-        ("assessment-guide/shield-ai-assessment-guide.md", ["Assessment Guide v1.12", EXPECTED_EDITION]),
-        ("framework/shield-ai-implementation-architecture.md", ["SHIELD-AI v1.12"]),
-        ("framework/shield-ai-tooling-map.md", ["Tooling and Process Map v1.12", EXPECTED_EDITION]),
-        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI v1.12, {EXPECTED_EDITION}"]),
-        ("presentations/glossary.md", [f"v1.12 edition, {EXPECTED_EDITION}"]),
+        ("framework/shield-ai-framework.md", [f"SHIELD-AI {EXPECTED_VERSION}"]),
+        ("framework/shield-ai-gap-analysis.md", [f"Gap Analysis {EXPECTED_VERSION}", EXPECTED_EDITION]),
+        ("assessment-guide/shield-ai-assessment-guide.md", [f"Assessment Guide {EXPECTED_VERSION}", EXPECTED_EDITION]),
+        ("framework/shield-ai-implementation-architecture.md", [f"SHIELD-AI {EXPECTED_VERSION}"]),
+        ("framework/shield-ai-tooling-map.md", [f"Tooling and Process Map {EXPECTED_VERSION}", EXPECTED_EDITION]),
+        ("presentations/what-is-shield-ai.md", [f"SHIELD-AI {EXPECTED_VERSION}, {EXPECTED_EDITION}"]),
+        ("presentations/glossary.md", [f"{EXPECTED_VERSION} edition, {EXPECTED_EDITION}"]),
     ]:
         if not os.path.exists(doc):
             check(f"{doc} exists", False)

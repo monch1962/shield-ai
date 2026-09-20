@@ -12,7 +12,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
 - Major Australian Retailer briefing: `python3 client-specific/retailer/build_deck.py`
 
-The deck version is independent of the framework version (v1.12); a framework
+The deck version is independent of the framework version (v1.13); a framework
 update that changes deck content bumps the deck version, not the framework
 version.
 
@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.11 | 2026-09-21 | Updated to framework v1.13 (63 controls): MS-08 protocol-layer-identifier/credentials + fail-closed-auth and EE-08/GRM-04 harness-assurance guidance extensions (INC-60..INC-62), footer version bumped |
 | 1.10 | 2026-09-19 | Updated to framework v1.12 (63 controls): added TP-15 (in-process code-execution sandbox sufficiency) to the tool/pipeline slide and evidence slide, footer version bumped |
 | 1.9 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.8 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 (skill/plugin payload integrity and instruction-channel isolation) to the evolution slide, evidence slide refreshed (52 incidents, 26 gaps, G26 added), footer version bumped |
@@ -36,6 +37,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.9 | 2026-09-21 | Updated to framework v1.13 (63 controls): MS-08/EE-08/GRM-04 guidance extensions (INC-60..INC-62), footer version bumped |
 | 1.8 | 2026-09-19 | Updated to framework v1.12 (63 controls): added TP-15 to the tool/pipeline slide, footer version bumped |
 | 1.7 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.6 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |
@@ -50,6 +52,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.6 | 2026-09-21 | Updated to framework v1.13 (63 controls): MS-08/EE-08/GRM-04 guidance extensions (INC-60..INC-62), footer version bumped |
 | 1.5 | 2026-09-19 | Updated to framework v1.12 (63 controls): added TP-15 to the tool/pipeline slide, footer version bumped |
 | 1.4 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.3 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |
@@ -61,6 +64,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.7 | 2026-09-21 | Updated to framework v1.13 (63 controls): MS-08/EE-08/GRM-04 guidance extensions (INC-60..INC-62), footer version bumped |
 | 1.6 | 2026-09-19 | Updated to framework v1.12 (63 controls): added TP-15 to the tool/pipeline slide, footer version bumped |
 | 1.5 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |
 | 1.4 | 2026-09-01 | Updated to framework v1.10 (62 controls): added TP-14 to the tool/pipeline slide, evidence slide refreshed (52 incidents, 26 gaps), footer version bumped |

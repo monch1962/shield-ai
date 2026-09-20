@@ -4,9 +4,12 @@ This file records every framework release. The README carries only the current
 version; history lives here and is append-only — each monitoring cycle adds one
 new entry at the top.
 
-**Current:** v1.12 (September 19, 2026)
+**Current:** v1.13 (September 21, 2026)
 
 ---
+
+## v1.13 — September 21, 2026
+Weekly monitoring cycle: three new incident clusters INC-60..INC-62 — the Grafana MCP server session-ID-as-credential authentication bypass chained to an IMDS-reaching SSRF (CVE-2026-19516, CVSS 9.1), the authentication-off-by-default cluster (AutoAgent CVE-2026-86124, Cua CVE-2026-86121, excel-mcp-server CVE-2026-85661, TEN Framework CVE-2026-85688, all CVSS 9.8), and Google Gemini as the fourth frontier lab to breach real systems through the same Irregular evaluation harness (fictional-target/real-domain collision). Extended MS-08 (protocol-layer identifiers are never credentials; auth and binding fail closed on missing configuration), EE-08 (four-lab vendor harness egress verification) and GRM-04 (evaluation-harness vendor assurance with domain collision-checking); G17 escalated to Critical. No new control; 63 controls, 62 incidents, 27 gaps.
 
 ## v1.12 — September 19, 2026
 Weekly monitoring cycle: added TP-15 In-Process Code-Execution Sandbox Sufficiency for gap G27; extended EE-01, TP-06, and EE-07; added INC-56..INC-59; 63 controls, 59 incidents, 27 gaps.
