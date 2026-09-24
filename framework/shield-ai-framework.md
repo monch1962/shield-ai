@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 subtitle: "Framework Definition and Reference Implementation"
 author: "Security Architecture Practice"
-date: "September 21, 2026"
+date: "September 25, 2026"
 abstract: "A comprehensive framework for securing agentic AI systems in Australian enterprises and government, aligned with all relevant Australian regulatory and industry frameworks, and defined as a deployable component model with full implementation guidance."
 ---
 
@@ -702,6 +702,6 @@ This capability transforms SHIELD-AI from a point-in-time assessment into an ong
 
 ---
 
-*SHIELD-AI v1.13  --  September 21, 2026*
+*SHIELD-AI v1.14  --  September 25, 2026*
 *Authored by the Security Architecture Practice*
 *For enquiries: practice-lead@consultancy.example.com*

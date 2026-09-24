@@ -12,7 +12,7 @@ diagram, builder script). Rebuild a client deck with its builder:
 - NBN Co briefing: `python3 client-specific/nbn/build_deck.py`
 - Major Australian Retailer briefing: `python3 client-specific/retailer/build_deck.py`
 
-The deck version is independent of the framework version (v1.13); a framework
+The deck version is independent of the framework version (v1.14); a framework
 update that changes deck content bumps the deck version, not the framework
 version.
 
@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.12 | 2026-09-25 | Updated to framework v1.14 (63 controls): INC-63 Medicare portal breach, EE-08/GRM-04/MIR-02 egress + sovereign-assurance guidance extensions, footer version bumped |
 | 1.11 | 2026-09-21 | Updated to framework v1.13 (63 controls): MS-08 protocol-layer-identifier/credentials + fail-closed-auth and EE-08/GRM-04 harness-assurance guidance extensions (INC-60..INC-62), footer version bumped |
 | 1.10 | 2026-09-19 | Updated to framework v1.12 (63 controls): added TP-15 (in-process code-execution sandbox sufficiency) to the tool/pipeline slide and evidence slide, footer version bumped |
 | 1.9 | 2026-09-07 | Updated to framework v1.11 (62 controls): MS-08 MCP-gateway authentication fail-closed and EE-07 repository-supplied tool-configuration guidance extensions, footer version bumped |

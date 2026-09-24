@@ -23,9 +23,9 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.13"
+EXPECTED_VERSION = "v1.14"
 EXPECTED_COUNT = 63
-EXPECTED_EDITION = "September 21, 2026"
+EXPECTED_EDITION = "September 25, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []

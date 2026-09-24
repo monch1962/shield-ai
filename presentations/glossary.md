@@ -2,7 +2,7 @@
 title: "SHIELD-AI Glossary"
 subtitle: "Plain-language definitions of the terms used in our briefings"
 author: "Security Architecture Practice"
-date: "September 21, 2026"
+date: "September 25, 2026"
 abstract: "A short glossary for executives, boards, and program managers meeting AI security vocabulary for the first time."
 ---
 
@@ -82,4 +82,4 @@ Terms are grouped the way you will meet them in a briefing. Definitions are writ
 
 *Plain-language definitions are for briefings. Where a definition differs from the technical meaning, the framework document is authoritative.*
 
-*SHIELD-AI Glossary -- v1.13 edition, September 21, 2026*
+*SHIELD-AI Glossary -- v1.14 edition, September 25, 2026*

@@ -116,7 +116,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Defence Briefing  |  Deck v%s  |  Framework v1.13  |  Sep 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Defence Briefing  |  Deck v%s  |  Framework v1.14  |  Sep 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -283,7 +283,7 @@ r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "An Australian framework: 7 pillars, 63 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
-para(tf2, "Briefing  |  Framework v1.13  |  September 21, 2026", size=12, color=MUTED)
+para(tf2, "Briefing  |  Framework v1.14  |  September 25, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. The point of this slide is simple: SHIELD-AI is an Australian framework built "
     "for agents that act, not chatbots that answer. It is structured so a security team can explain it to decision makers in under "
     "half an hour, which is what we are about to do.")
@@ -518,7 +518,7 @@ r.font.size = Pt(44); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 4.6, 11.3, 1.8)
 para(tf2, "Where would an agentic-AI capability first touch your environment?", size=17, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "A useful next step: a posture assessment against the framework (L1-L4, all seven pillars), then a pilot of the reference implementation.", size=15, color=GOLD, space_after=10)
-para(tf2, "SHIELD-AI v1.13  |  7 pillars  |  63 controls  |  policy as code  |  September 21, 2026", size=12, color=MUTED)
+para(tf2, "SHIELD-AI v1.14  |  7 pillars  |  63 controls  |  policy as code  |  September 25, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Two minutes. The question on the slide is the honest conversation starter. Offer the maturity assessment and the open-source "
     "reference implementation as concrete next steps; keep it in maturity terms, no commercial pitch.")
 
@@ -532,7 +532,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-06",
-    "framework_version": "v1.13",
+    "framework_version": "v1.14",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

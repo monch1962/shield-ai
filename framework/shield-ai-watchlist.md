@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "September 21, 2026"
+date: "September 25, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
@@ -462,6 +462,6 @@ The watchlist is deliberately not part of the framework document. The framework'
 
 ---
 
-*SHIELD-AI -- Watchlist Report, edition of September 21, 2026 (weekly mechanical refresh)*
+*SHIELD-AI -- Watchlist Report, edition of September 25, 2026 (weekly mechanical refresh)*
 *Rebuilt and replaced each monthly deep review; the repo copy is always current.*
 *Authored by the Security Architecture Practice*

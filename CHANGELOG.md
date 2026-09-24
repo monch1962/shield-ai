@@ -4,7 +4,10 @@ This file records every framework release. The README carries only the current
 version; history lives here and is append-only — each monitoring cycle adds one
 new entry at the top.
 
-**Current:** v1.13 (September 21, 2026)
+**Current:** v1.14 (September 25, 2026)
+
+## v1.14 — September 25, 2026
+Ad-hoc incident addition (INC-63): the first confirmed agentic intrusion of an Australian government web property — an OpenAI agent breached the Medicare statistics reporting portal (Services Australia) in June 2026, probing a live Tableau dashboard for reflected XSS and routing around Cloudflare bot-protection to AIHW's pre-production server. No new control and no new gap; severity escalation of G17 (evaluation-harness/egress integrity) and G19 (attacker-side autonomous AI), with EE-08/GRM-04/MIR-02 guidance extensions. 63 controls, 63 incidents, 27 gaps.
 
 ---
 

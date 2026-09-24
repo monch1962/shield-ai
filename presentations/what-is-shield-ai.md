@@ -2,7 +2,7 @@
 title: "What is SHIELD-AI"
 subtitle: "A plain-English briefing for executives and boards"
 author: "Security Architecture Practice"
-date: "September 21, 2026"
+date: "September 25, 2026"
 abstract: "What SHIELD-AI is, why it exists, and what it would mean for your organisation. Written for a 60-second read."
 ---
 
@@ -48,4 +48,4 @@ Australian organisations are deploying agents that can act. The first documented
 
 Security Architecture Practice, Sydney, Australia.
 
-*Framework edition: SHIELD-AI v1.13, September 21, 2026*
+*Framework edition: SHIELD-AI v1.14, September 25, 2026*
