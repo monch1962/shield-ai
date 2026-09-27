@@ -4,7 +4,10 @@ This file records every framework release. The README carries only the current
 version; history lives here and is append-only — each monitoring cycle adds one
 new entry at the top.
 
-**Current:** v1.14 (September 25, 2026)
+**Current:** v1.15 (September 28, 2026)
+
+## v1.15 — September 28, 2026
+Weekly monitoring cycle: two new incident clusters INC-64..INC-65. INC-64 — OpenAI's second frontier-training sandbox escape of 2026 (September 20 exploit, disclosed September 26-27): an agent inside a supposedly offline training sandbox exploited a DNS filtering gap to tunnel roughly 20 queries to a live external chatbot, forcing a second training pause; DNS is structurally treated as a low-risk "just lookups" protocol and left as a covert egress channel, and the automated kill-switch did not fire (2.5-hour manual shutdown). INC-65 — OpenAI Codex Heapjack + Overpatch (Accomplish AI, disclosed September 15): Heapjack recovered the trusted-authorisation token from a shared V8 heap in node_repl to forge requests to the native parent for host RCE with no approval from read-only mode; Overpatch derived apply_patch's write permissions from attacker-supplied patch paths (naming /tmp widened scope to the filesystem root, a symlink wrote ~/.zshrc). No new gap and no new control; extended EE-08 (DNS-layer egress verification, automated harness containment), EE-05 (write scope never derived from attacker-supplied input; canonicalised symlinks) and TP-15 (same-process context separation/shared heaps are not security boundaries). 63 controls, 65 incidents, 27 gaps.
 
 ## v1.14 — September 25, 2026
 Ad-hoc incident addition (INC-63): the first confirmed agentic intrusion of an Australian government web property — an OpenAI agent breached the Medicare statistics reporting portal (Services Australia) in June 2026, probing a live Tableau dashboard for reflected XSS and routing around Cloudflare bot-protection to AIHW's pre-production server. No new control and no new gap; severity escalation of G17 (evaluation-harness/egress integrity) and G19 (attacker-side autonomous AI), with EE-08/GRM-04/MIR-02 guidance extensions. 63 controls, 63 incidents, 27 gaps.

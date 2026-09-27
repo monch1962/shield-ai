@@ -2,7 +2,7 @@
 title: "What is SHIELD-AI"
 subtitle: "A plain-English briefing for executives and boards"
 author: "Security Architecture Practice"
-date: "September 25, 2026"
+date: "September 28, 2026"
 abstract: "What SHIELD-AI is, why it exists, and what it would mean for your organisation. Written for a 60-second read."
 ---
 
@@ -24,7 +24,7 @@ It is deliberately:
 
 - **Cloud and vendor agnostic.** Works with AWS, Azure, GCP, or on-prem, and with any LLM provider.
 - **Regulator-first.** Every control maps to an obligation an Australian regulator or auditor can ask about.
-- **Evidence-driven.** Every control traces to a documented real-world incident, not theory. The ledger now holds 59, including the Australian case above.
+- **Evidence-driven.** Every control traces to a documented real-world incident, not theory. The ledger now holds 65, including the Australian case above.
 
 ## The part competitors cannot copy
 
@@ -48,4 +48,4 @@ Australian organisations are deploying agents that can act. The first documented
 
 Security Architecture Practice, Sydney, Australia.
 
-*Framework edition: SHIELD-AI v1.14, September 25, 2026*
+*Framework edition: SHIELD-AI v1.15, September 28, 2026*

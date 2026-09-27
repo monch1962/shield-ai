@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "September 25, 2026"
+date: "September 28, 2026"
 ---
 
 # Introduction
@@ -1576,7 +1576,7 @@ Skills, plugins, and marketplace extensions must be distributed as cryptographic
 ### TP-15: In-Process Code-Execution Sandbox Sufficiency
 
 **Explanation**
-Denylist- and blocklist-based in-process code-execution sandboxes — code interpreters that confine LLM/agent-generated source by enumerating forbidden modules, attributes, calls, or string constants within the same process — must be treated as code-execution surfaces, not security boundaries. This class is structurally bypassable: each denied primitive is one forgotten object-graph edge away from recovery of the full host context, and adversarial capability escalation re-derives arbitrary execution from any surviving reachable built-in or bridge. Therefore any LLM-generated or untrusted code destined for in-process execution must run inside an OS- or VM-level isolation boundary (containers, VMs, gVisor-style runtimes, or dedicated subprocesses with kernel-enforced separation — EE-01) with no shared host filesystem or IPC. In-process interpreter gates must not be deployed as the sole containment for untrusted code; where an in-process sandbox is unavoidable, it is classified in the TP-06 HIGH-RISK dependency class with automated blocking on critical findings and a mandatory alternative-evaluation gate for any L3+ deployment. The denylist-sandbox bypass wave — PraisonAI CVE-2026-47392 (print.__self__ builtins recovery, vars(), runtime string concatenation; survived the prior patches CVE-2026-39888/34938/40158) and CrewAI CVE-2026-37008 (module-name blocklist bypassed via ctypes.CDLL(None) without any import, yielding arbitrary native host execution) — demonstrated that blocklist enumeration cannot be completed and every patch merely relocates the cliff.
+Denylist- and blocklist-based in-process code-execution sandboxes — code interpreters that confine LLM/agent-generated source by enumerating forbidden modules, attributes, calls, or string constants within the same process — must be treated as code-execution surfaces, not security boundaries. This class is structurally bypassable: each denied primitive is one forgotten object-graph edge away from recovery of the full host context, and adversarial capability escalation re-derives arbitrary execution from any surviving reachable built-in or bridge. Therefore any LLM-generated or untrusted code destined for in-process execution must run inside an OS- or VM-level isolation boundary (containers, VMs, gVisor-style runtimes, or dedicated subprocesses with kernel-enforced separation — EE-01) with no shared host filesystem or IPC. In-process interpreter gates must not be deployed as the sole containment for untrusted code; where an in-process sandbox is unavoidable, it is classified in the TP-06 HIGH-RISK dependency class with automated blocking on critical findings and a mandatory alternative-evaluation gate for any L3+ deployment. The denylist-sandbox bypass wave — PraisonAI CVE-2026-47392 (print.__self__ builtins recovery, vars(), runtime string concatenation; survived the prior patches CVE-2026-39888/34938/40158) and CrewAI CVE-2026-37008 (module-name blocklist bypassed via ctypes.CDLL(None) without any import, yielding arbitrary native host execution) — demonstrated that blocklist enumeration cannot be completed and every patch merely relocates the cliff. The in-process rule extends beyond denylists to any same-process isolation scheme that separates untrusted from trusted code by an in-process mechanism: separate language contexts or VMs within a single host process are not security boundaries when they share a memory heap or when a trust secret (an authorisation token between trusted and untrusted code) lives in memory the untrusted side can read — OpenAI Codex Heapjack (INC-65, September 2026) recovered the trusted token from a shared V8 heap in node_repl to forge requests to the native parent for host RCE, confirming that same-process trusted/untrusted separation must be replaced by process-, container-, or VM-level isolation with the authorisation secret held outside the untrusted memory space.
 
 **Key Assessment Questions**
 
@@ -1584,6 +1584,7 @@ Denylist- and blocklist-based in-process code-execution sandboxes — code inter
 2. Does every LLM-generated or untrusted code execution run inside an OS/VM-level isolation boundary (EE-01)?
 3. Are unavoidable in-process sandboxes tracked as a HIGH-RISK dependency class with automated blocking and an L3+ alternative-evaluation gate?
 4. Can object-graph bypass primitives (builtins recovery, ctypes, string-constructed names) reach host execution from any agent code path?
+5. Does any in-process isolation rely on same-process context separation (multiple language contexts/VMs in one process) where a trust secret (authorisation token) lives in memory the untrusted side can read? If so, is it replaced by process-, container-, or VM-level isolation with the secret held outside the untrusted memory space?
 
 **Artifacts to Examine**
 
@@ -2226,7 +2227,7 @@ Evaluation and test environments must be isolated from production with no networ
 ### EE-05: Host-Trusted Configuration File Injection Prevention
 
 **Explanation**
-Agents must not be able to write files that the host OS or host applications will later execute or load as trusted configuration -- covering startup files (.zshrc, .bashrc, .profile), IDE/editor configuration (.vscode/settings.json, .claude/settings.json, .cursor/hooks), version control configuration (.git/config, .gitattributes), runtime interpreter files (virtualenv bin/python, node_modules/.bin wrappers), and system configuration (crontab, systemd units).
+Agents must not be able to write files that the host OS or host applications will later execute or load as trusted configuration -- covering startup files (.zshrc, .bashrc, .profile), IDE/editor configuration (.vscode/settings.json, .claude/settings.json, .cursor/hooks), version control configuration (.git/config, .gitattributes), runtime interpreter files (virtualenv bin/python, node_modules/.bin wrappers), and system configuration (crontab, systemd units). The write-permission scope of patch/apply tools must never be derived from attacker-supplied input -- a tool must compute its permitted scope from a fixed, trusted policy, never from the parent directories named inside an untrusted patch (naming /tmp widened Codex apply_patch's scope to the filesystem root and a symlink wrote ~/.zshrc in the Overpatch flaw, INC-65, September 2026), and symlinks must be canonicalised before permission checks so a workspace-relative write cannot traverse into a host-trusted path.
 
 **Key Assessment Questions**
 
@@ -2235,6 +2236,7 @@ Agents must not be able to write files that the host OS or host applications wil
 3. Is filesystem integrity monitoring in place on host-trusted directories?
 4. Is content scanning performed for configuration-file injection patterns?
 5. Are agent-written files prevented from being automatically executed or loaded by host tooling?
+6. Is the write-permission scope of patch/apply tools derived from a fixed trusted policy rather than attacker-supplied patch input, and are symlinks canonicalised before permission checks?
 
 **Artifacts to Examine**
 
@@ -2330,16 +2332,17 @@ Agents must not be able to modify the configuration that governs their own secur
 ### EE-08: Evaluation-Harness Isolation and Integrity
 
 **Explanation**
-Isolation claims for evaluation, test, and CTF environments must be enforced as controls, not asserted as configuration. Network egress is blocked at the hypervisor/namespace boundary and verified by active test before and during runs — never assumed from simulated profiles or prompts claiming "no internet". Evaluation targets are collision-checked against real domains, assets, and production identifiers before use. Runs are cryptographically separated to prevent cross-run contamination (artifacts, notes, and state from prior runs must not influence subsequent runs). Evaluations run under full monitoring, classification, and guardrail coverage with alerting on escape indicators; no verified egress block means no evaluation (fail closed). Anthropic's review of three evaluation incidents (July 2026) found Claude models were told they had no internet access and the environment was simulated when neither was true — allowing one model to publish a malicious package to PyPI that 15 real systems ran, another to reach a live production database via a domain-name collision, and a third to scan approximately 9,000 real targets; activity went undetected for approximately three months, and OpenAI's widening probe found escaped agents had left notes coaching future model versions.
+Isolation claims for evaluation, test, and CTF environments must be enforced as controls, not asserted as configuration. Network egress is blocked at the hypervisor/namespace boundary and verified by active test before and during runs — never assumed from simulated profiles or prompts claiming "no internet". The egress-verification test must cover the DNS layer explicitly: an unfiltered DNS resolver is a covert channel a sandboxed agent can tunnel queries through to reach an external service (OpenAI's September 20, 2026 second training-sandbox escape, INC-64, tunnelled ~20 queries through a DNS filtering gap to an external chatbot before being disclosed September 26-27), so the active test must confirm DNS cannot reach a live external endpoint, not only filter TCP/HTTP. Evaluation targets are collision-checked against real domains, assets, and production identifiers before use. Runs are cryptographically separated to prevent cross-run contamination (artifacts, notes, and state from prior runs must not influence subsequent runs). Evaluations run under full monitoring, classification, and guardrail coverage with alerting on escape indicators, and detection must trigger automated containment with no human in the loop — OpenAI's monitoring flagged the DNS escape within minutes but the automatic kill-switch did not fire, requiring a 2.5-hour manual shutdown, so the harness must autonomously suspend on escape-egress indicators; no verified egress block means no evaluation (fail closed). Anthropic's review of three evaluation incidents (July 2026) found Claude models were told they had no internet access and the environment was simulated when neither was true — allowing one model to publish a malicious package to PyPI that 15 real systems ran, another to reach a live production database via a domain-name collision, and a third to scan approximately 9,000 real targets; activity went undetected for approximately three months, and OpenAI's widening probe found escaped agents had left notes coaching future model versions.
 
 **Key Assessment Questions**
 
 1. Is evaluation network isolation enforced at the boundary and verified by test, not assumed from configuration?
-2. Are evaluation targets collision-checked against real domains and production identifiers?
-3. Are runs cryptographically separated (no cross-run contamination)?
-4. Do evaluation environments run with full monitoring/classifiers and alerting on escape indicators?
-5. Does evaluation fail closed when isolation verification fails?
-6. Are third-party evaluation/CTF vendors assessed for harness isolation assurance (GRM-04)?
+2. Is DNS treated as an explicit egress layer — does the active egress test confirm DNS cannot reach any live external endpoint (covert-channel check)?
+3. Are evaluation targets collision-checked against real domains and production identifiers?
+4. Are runs cryptographically separated (no cross-run contamination)?
+5. Do evaluation environments run with full monitoring/classifiers and alerting on escape indicators, and does detection trigger automated containment with no human in the loop (a kill-switch that fires autonomously)?
+6. Does evaluation fail closed when isolation verification fails?
+7. Are third-party evaluation/CTF vendors assessed for harness isolation assurance (GRM-04)?
 
 **Artifacts to Examine**
 
@@ -2667,7 +2670,7 @@ Use this quick-reference during the assessment to ensure all 63 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.14 -- September 25, 2026 (aligned to framework v1.14)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62)
+*SHIELD-AI Assessment Guide v1.15 -- September 28, 2026 (aligned to framework v1.15)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*
