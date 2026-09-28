@@ -4,7 +4,7 @@
 
 A sovereign Australian framework for securing agentic AI systems, designed for Australian enterprises and government bodies. Mapped to all relevant Australian regulatory frameworks and independent of cloud providers, LLMs, and industry verticals.
 
-**Current version:** [v1.15](CHANGELOG.md) (September 28, 2026) — 63 controls, 65 incidents, 27 gaps
+**Current version:** [v1.16](CHANGELOG.md) (October 5, 2026) — 63 controls, 69 incidents, 27 gaps
 
 ---
 
@@ -56,7 +56,7 @@ shield-ai/
 
 - **[Framework](framework/shield-ai-framework.md)** — principles, pillars, control mappings, emerging-trends coverage (2026–2029)
 - **[Implementation Architecture](framework/shield-ai-implementation-architecture.md)** — deployable component model with full SVG diagram set
-- **[Gap Analysis](framework/shield-ai-gap-analysis.md)** — sandbox-escape incident research driving framework evolution (v1.15, 65 incidents, 27 gaps)
+- **[Gap Analysis](framework/shield-ai-gap-analysis.md)** — sandbox-escape incident research driving framework evolution (v1.16, 69 incidents, 27 gaps)
 - **[Watchlist](framework/shield-ai-watchlist.md)** — components under active monitoring; rebuilt and replaced each monthly deep-review cycle
 - **[Novel AI Exploit Catalog](exploits/README.md)** — one entry per exploit type (G1–G27) mapped to covering controls
 - **[Tooling and Process Map](framework/shield-ai-tooling-map.md)** — tools and processes covering all 63 controls, with L1–L4 adoption roadmap
@@ -65,7 +65,7 @@ shield-ai/
 - **[Policy-as-Code](policies/)** — the 63 controls as executable deny-override Rego policies with test vectors (see `policies/README.md`)
 - **[Case Studies](case-studies/README.md)** — sanitised field-validation records
 - **[Field Findings](framework/shield-ai-field-findings.md)** — lessons staged for the next framework cycle
-- **[Changelog](CHANGELOG.md)** — full release history (v1.1 → v1.15)
+- **[Changelog](CHANGELOG.md)** — full release history (v1.1 → v1.16)
 
 ## How to View Slides
 

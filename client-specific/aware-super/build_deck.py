@@ -35,7 +35,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.10"
+DECK_VERSION = "1.11"
 AUDIENCE = "Aware Super"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/aware-super/shield-ai-deck-aware-super.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/aware-super/deck-manifest.json"
@@ -117,7 +117,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Aware Super Briefing  |  Deck v%s  |  Framework v1.15  |  Sep 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Aware Super Briefing  |  Deck v%s  |  Framework v1.16  |  Oct 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -283,7 +283,7 @@ r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "An Australian framework for APRA-regulated entities: 7 pillars, 63 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
-para(tf2, "Briefing  |  Framework v1.15  |  September 28, 2026", size=12, color=MUTED)
+para(tf2, "Briefing  |  Framework v1.16  |  October 5, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Aware Super is starting to put AI into production, and the honest position is "
     "that the security playbook for that is young. SHIELD-AI is an Australian framework built for agents that act, structured so a "
     "security and risk team can explain it to a trustee board in under half an hour. That is what we are about to do.")
@@ -516,7 +516,7 @@ r.font.size = Pt(44); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 4.6, 11.3, 1.8)
 para(tf2, "Which member-facing AI capability ships first, and where does member data meet a model today?", size=17, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "A useful next step: a seven-pillar posture assessment at L1-L4, then a policy-as-code pilot on that first use case.", size=15, color=GOLD, space_after=10)
-para(tf2, "SHIELD-AI v1.15  |  7 pillars  |  63 controls  |  policy as code  |  September 28, 2026", size=12, color=MUTED)
+para(tf2, "SHIELD-AI v1.15  |  7 pillars  |  63 controls  |  policy as code  |  October 5, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Two minutes. The question on the slide is the honest conversation starter. Offer the posture assessment and the "
     "policy-as-code pilot as concrete next steps; keep it in maturity terms, no commercial pitch.")
 
@@ -530,7 +530,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-06",
-    "framework_version": "v1.15",
+    "framework_version": "v1.16",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),
