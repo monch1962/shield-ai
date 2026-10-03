@@ -4,7 +4,7 @@
   "audience": "Major Australian Retailer",
   "version": "1.8",
   "date": "2026-08-20",
-  "framework_version": "v1.16",
+  "framework_version": "v1.17",
   "slides": 25,
   "diagrams": [
     "framework-architecture-updated",
@@ -16,6 +16,6 @@
     "retailer-alignment"
   ],
   "builder": "client-specific/retailer/build_deck.py",
-  "commit": "9bf5242",
-  "built_at": "2026-09-28T00:16:28+00:00"
+  "commit": "b32b5c3",
+  "built_at": "2026-10-03T23:51:12+00:00"
 }

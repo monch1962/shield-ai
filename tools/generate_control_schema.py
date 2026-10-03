@@ -26,8 +26,8 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.10"
-FRAMEWORK_DATE = "2026-09"
+FRAMEWORK_VERSION = "1.17"
+FRAMEWORK_DATE = "2026-10"
 
 PILLARS = {
     "MS":  "Model Security",
@@ -689,6 +689,31 @@ reg("DS-07", "Agent-Originated Artifact Publication Control", "DS",
     ],
     {"NIST": "SSDF", "ISM": "Software Integrity, Change Management", "OWASP": "LLM09 (Misuse of System Access)", "EU AI Act": "Art. 15(b)"},
     ["publication", "supply-chain", "egress"])
+
+reg("DS-08", "Destination and Emergent-Channel Egress Inventory", "DS",
+    "The set of outbound destinations and channels an agent can reach must be explicitly enumerated and controlled at every sink that carries data out of the agent boundary -- URLs and hosts an agent may visit or render, DNS queries it may trigger, image and rich-media sources it may load and render back to a user, messaging/webhook/Slack-unfurl endpoints, and browser render events -- because automatic HTTPS-egress controls and declared destination allow-lists miss covert exfiltration that leaves through a channel they do not enumerate (a rendered image tag, a DNS lookup, or a link-unfurl request) or through a destination they reject on a parsing quirk (an unusual TLD, a character that changes how a filter and a browser each interpret the same URL). The inventory must be payload-blind: verification that a destination is allowed is a hard allow-list, not a classifier on content the model produced -- an AI classifier can be defeated by re-encoding (the Framing Gap evidence, arXiv 2608.27092: closing a leak by model-level sanitisation was defeated by a held-out ROT13 encoding at 100%, while a destination allow-list closed the same leak at 0%). Each enumerated channel maps to an explicit control (DNS egress restricted to allow-listed resolvers with queried names inspected for embedded labels; rendered image/link sources subject to the same destination allow-list; messaging actions required to carry invoker attribution and user confirmation). Addresses the SalesBleed class (INC-72: Agentforce's Trusted URLs destination-redaction was bypassed via unusual TLDs and URL-parsing quirks, and stolen CRM data was exfiltrated by encoding it into the subdomain of an attacker-controlled hostname rendered as an HTML image tag, so the data left during DNS resolution, surviving HTTP egress controls).",
+    "Enumerate and control every outbound destination and channel that can carry agent data out of the boundary, using payload-blind allow-lists rather than classifiers.",
+    [
+        "No inventory; agents reach arbitrary destinations; egress relies on automatic HTTP controls only.",
+        "Destination allow-list for URLs; DNS egress and rendered rich-media sources uncontrolled.",
+        "Full channel inventory (URLs, DNS, image/render sources, messaging/unfurl, browser) each mapped to an explicit control; allow-list verification is payload-blind.",
+        "Continuous egress-channel discovery and attestation; automatic blocking of any un-inventoried sink; active red-team testing of rendered-content and DNS exfiltration paths.",
+    ],
+    [
+        "Are ALL outbound sinks (URLs, DNS, rendered images/links, messaging/unfurl, browser render) enumerated, not just HTTPS hosts?",
+        "Is destination verification a payload-blind allow-list rather than a content classifier?",
+        "Are DNS queries restricted to allow-listed resolvers with queried names inspected for embedded labels?",
+        "Are rendered image/link sources subject to the same destination allow-list as other egress?",
+        "Do messaging/webhook actions carry invoker attribution and user confirmation?",
+    ],
+    [
+        "Channel inventory document (URLs, DNS, render, messaging, browser)",
+        "Destination allow-list configuration and enforcement evidence",
+        "DNS egress policy and queried-name inspection",
+        "Messaging/webhook attribution and confirmation configuration",
+    ],
+    {"NIST": "SSDF", "ISM": "Guidelines for Network Management", "OWASP": "LLM01 (Prompt Injection)", "EU AI Act": "Art. 15(b)"},
+    ["egress", "exfiltration", "dns", "destination-allowlist", "rendered-content"])
 
 # ============================================
 # PILLAR 4: TOOL AND PIPELINE SECURITY
@@ -1421,6 +1446,56 @@ reg("MS-12", "MCP Discovery-Metadata and Shared-Cache Integrity", "MS",
     {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
     ["mcp", "prompt-injection", "cache-poisoning", "discovery-metadata"])
 
+reg("MS-13", "Transcript and Conversation Authenticity", "MS",
+    "The agent's record of its own conversation history, including the stored model responses that the harness treats as the source of truth for what was previously said, agreed, or observed, must be tamper-evident and authentic at the model boundary: model outputs returned to the harness are cryptographically signed (keyed per session with the key held outside the harness process) or chained into an append-only transcript, and every stored response is verified on read before the agent reasons over it or acts on its implications. Transcript stores are treated as untrusted until verified; an edit or replay breaks the chain and triggers a tamper alert; no confidence-gated action proceeds from an unverified transcript. Addresses the conversation-history poisoning class (INC-70, Darktrace, September 24, 2026: agentic harnesses -- Claude Code, Codex, Kiro-CLI, Pi -- store conversation history client-side with no verification that stored responses came from the model, so a single malicious MCP package install rewrites the past and the agent acts on fabricated prior agreement/state, enabling a full Active Directory compromise).",
+    "Make the harness's record of model output tamper-evident and authentic at the model boundary.",
+    [
+        "Conversation history stored client-side with no integrity/authenticity controls; no verification a stored response came from the model.",
+        "Transcript stores inventoried; tamper-evidence policy documented; manual spot-check benchmarks.",
+        "Model outputs signed at the API/proxy boundary (per-session HMAC/Ed25519, key outside harness) and verified on load; verification failures alert via MIR-01 and block the action.",
+        "Append-only hash-chained transcript verified before any confidence-gated action; chain-break blocks execution with signed human-override; forward-secret key rotation; continuous attestation to an independent verifier.",
+    ],
+    [
+        "Is conversation history / stored model output verified as authentic before the agent acts on it?",
+        "Are transcript stores treated as untrusted until verified?",
+        "Is a transcript tamper detected (edit/replay) and escalated via MIR-01?",
+        "Can a confidence-gated action proceed from an unverified transcript?",
+        "Is the model-output signing key held outside the harness process?",
+    ],
+    [
+        "Transcript store inventory (Claude Code, Codex, Kiro-CLI, Pi histories)",
+        "Model-output signing/verification configuration",
+        "Tamper-alert rules (MIR-01)",
+        "Signing key management and rotation records",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
+    ["transcript", "conversation-history", "authenticity", "tamper-evidence"])
+
+reg("MS-14", "Self-Replication Barrier", "MS",
+    "Agent output channels must not become a propagation vector for instructions: agent-generated outbound content -- outgoing email, written files, code comments, documentation, messaging posts -- is screened for near-verbatim re-emission of instruction-bearing input text, and a fingerprinted match of a source prompt's distinctive n-grams against outbound content quarantines the channel write and requires human approval, so a prompt injection cannot turn the agent into a worm that replays its payload into every channel a recipient's agent will read. Implementation includes fingerprinting source-prompt n-grams at input, matching against outbound payloads before publish, blocking echoes of instruction-like text, one-channel-per-write and human-signoff-on-broadcast policy, blast-radius cap per propagation hop, and worm-emulation drills. Addresses the self-replicating prompt-injection class (INC-71, OpenAI GPT-Red, September 25, 2026: a prompt injection that both executes an adversarial task and induces the target model to reproduce the payload on a public output channel, propagating to recipients' agents across email, files, code comments, and Slack).",
+    "Prevent an injected instruction from being re-emitted through the agent's own output channels to propagate to other agents.",
+    [
+        "No detection of re-emitted instruction text in outbound content.",
+        "Automated near-verbatim detection of source-prompt n-grams in outbound payloads; documentation of the replication kill-chain.",
+        "Fingerprint matching quarantine with human approval; one-channel-per-write and human-signoff-on-broadcast; blast-radius cap per hop.",
+        "Worm-emulation drills prove replication is blocked; automated channel-kill and incident-response triggers on any matching propagation signal.",
+    ],
+    [
+        "Is outbound content screened for near-verbatim re-emission of instruction-bearing input text?",
+        "Does a fingerprinted match quarantine the channel write and require human approval?",
+        "Is echo of instruction-like text blocked before publish?",
+        "Are broadcast writes human-signoff-gated and channel writes one-per-write?",
+        "Are worm-emulation drills run to verify replication is blocked?",
+    ],
+    [
+        "Source-prompt n-gram fingerprinting rules",
+        "Outbound content screen configuration and evidence",
+        "Broadcast approval workflow",
+        "Worm-emulation drill results",
+    ],
+    {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
+    ["self-replication", "worm", "propagation", "output-channel"])
+
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)
 # ============================================
@@ -1494,6 +1569,30 @@ reg("IAM-09", "Multi-Tenant Agent Platform Isolation", "IAM",
     ],
     {"NIST AI RMF": "PROTECT (PR.AC)", "EU AI Act": "Art. 15(b)", "ISO 42001": "Clause 8.4", "ISM": "Guidelines for System Management"},
     ["multi-tenant", "idor"])
+
+reg("IAM-10", "Taint-Tracked Least-Privilege Subagent Scoping", "IAM",
+    "Records submitted by external, untrusted sources (public web forms, lead ingestion, email, inbound messages) must be taint-marked at ingestion, and any subagent or workflow processing a tainted record must operate under field-level least-privilege scoping narrower than the subagent's nominal grants: the subagent is bound to only the tables, fields, and tools its specific task requires, and a tainted read must not cascade into reads of untainted, sensitive collections beyond the minimum to complete the immediate task. The default grant for a record-handling subagent must never include broad read access to adjacent sensitive collections; the sanitisation and trust boundary between externally-submitted and internally-trusted data is an explicit access-control decision. Addresses the SalesBleed class (INC-72: a poisoned Web-to-Lead lead lay dormant until an employee asked Agentforce to process it, at which point the default General CRM subagent, with standing read access to both Leads and Accounts tables, queried Accounts and exfiltrated company names and deal sizes -- zero-click, no employee observation).",
+    "Taint-track externally-submitted records and bind subagent permission scoping to that taint plus field-level least privilege.",
+    [
+        "Subagents process externally-submitted records with the same broad grants as internally-trusted data; no taint marking.",
+        "Externally-submitted records flagged as untrusted; manual review of subagent scope when processing them.",
+        "Taint-marked at ingestion; record-handling subagents scoped to only required tables/fields/tools; tainted reads prevented from cascading into untainted sensitive collections.",
+        "Automated taint propagation through the workflow graph; least-privilege subagent scope enforced by policy-as-code; any tainted-to-sensitive read blocked with alerting.",
+    ],
+    [
+        "Are externally-submitted records taint-marked at ingestion?",
+        "Does a subagent processing a tainted record run under field-level least-privilege scoping?",
+        "Can a tainted read cascade into reads of untainted, sensitive collections?",
+        "Does the default grant for a record-handling subagent avoid broad access to adjacent sensitive collections?",
+    ],
+    [
+        "Ingestion taint-marking rule set",
+        "Subagent permission-scoping policy (OPA/ABAC)",
+        "Taint-propagation monitoring and alerts",
+        "Record-handling subagent scope audit",
+    ],
+    {"NIST AI RMF": "PROTECT (PR.AC)", "OWASP": "LLM08 (Excessive Agency)", "EU AI Act": "Art. 14(b)", "ISM": "Guidelines for System Management"},
+    ["taint-tracking", "least-privilege", "external-input", "subagent-scope"])
 
 # ============================================
 # PILLAR 4 EXTENSIONS (v1.2/v1.4)

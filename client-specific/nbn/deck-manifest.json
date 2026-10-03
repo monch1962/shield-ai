@@ -4,7 +4,7 @@
   "audience": "NBN Co",
   "version": "1.9",
   "date": "2026-08-13",
-  "framework_version": "v1.16",
+  "framework_version": "v1.17",
   "slides": 25,
   "diagrams": [
     "framework-architecture-updated",
@@ -16,6 +16,6 @@
     "nbn-alignment"
   ],
   "builder": "client-specific/nbn/build_deck.py",
-  "commit": "9bf5242",
-  "built_at": "2026-09-28T00:16:28+00:00"
+  "commit": "b32b5c3",
+  "built_at": "2026-10-03T23:51:11+00:00"
 }

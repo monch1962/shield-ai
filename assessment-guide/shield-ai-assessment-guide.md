@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "October 5, 2026"
+date: "October 1, 2026"
 ---
 
 # Introduction
@@ -472,6 +472,74 @@ MCP discovery metadata — the server-level instructions field, tool description
 | L2 | MCP servers inventoried; instructions field flagged as untrusted; no cross-user response caching. |
 | L3 | Instructions isolated from the trusted system prompt with explicit boundaries and length limits; cache keys bind to authenticated identity; cacheScope claims verified; tool metadata pinned to a baseline with drift alerting. |
 | L4 | Signed provenance required for cached metadata; default-deny on MCP server connections with provenance verification; active red-team testing of the discovery/cache path; protocol-level fixes required of vendors. |
+
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 Human Oversight), ISM (Guidelines for System Monitoring).
+
+---
+
+### MS-13: Transcript and Conversation Authenticity
+
+**Explanation**
+
+The agent's record of its own conversation history — including the stored model responses that the harness treats as the source of truth for what was previously said, agreed, or observed — must be tamper-evident and authentic at the model boundary. Model outputs returned to the harness must be cryptographically signed (keyed per session with the key held outside the harness process) or chained into an append-only transcript, and every stored response must be verified on read before the agent reasons over it or acts on its implications. Transcript stores are treated as untrusted until verified; an edit or replay breaks the chain and triggers a tamper alert via MIR-01; and no confidence-gated action proceeds from an unverified transcript. This is distinct from MS-10 (agent memory-store integrity): MS-10 protects the agent's internal memory, while MS-13 protects the record of what the model actually said. The class is demonstrated by Darktrace's conversation-history poisoning research (INC-70, September 24, 2026): agentic harnesses — Claude Code, OpenAI Codex, AWS Kiro-CLI, and the open-source Pi — store conversation history client-side with no verification that stored AI responses were genuinely produced by the model, so the harness trusts the local database as the source of truth and an attacker who injects into that database (a single malicious MCP package install) rewrites the past; the agent then believes it previously agreed to instructions or observed system state it never did, enabling a demonstrated full Active Directory compromise.
+
+**Key Assessment Questions**
+
+1. Is conversation history / stored model output verified as authentic before the agent acts on it?
+2. Are transcript stores treated as untrusted until verified?
+3. Is transcript tampering (edit/replay) detected and escalated via MIR-01?
+4. Can a confidence-gated action proceed from an unverified transcript?
+5. Is the model-output signing key held outside the harness process?
+
+**Artifacts to Examine**
+
+- Transcript store inventory (Claude Code, Codex, Kiro-CLI, Pi histories)
+- Model-output signing / verification configuration
+- Tamper-alert rules (MIR-01)
+- Signing key management and rotation records
+
+**Maturity Indicators**
+
+| Level | Maturity |
+|-------|----------|
+| L1 | Conversation history stored client-side with no integrity/authenticity controls; no verification that a stored response came from the model. |
+| L2 | Transcript stores inventoried; tamper-evidence policy documented; manual spot-check benchmarks. |
+| L3 | Model outputs signed at the API/proxy boundary (per-session HMAC/Ed25519, key outside harness) and verified on load; verification failures alert via MIR-01 and block the action. |
+| L4 | Append-only hash-chained transcript verified before any confidence-gated action; chain-break blocks execution with signed human override; forward-secret key rotation; continuous attestation to an independent verifier. |
+
+**Regulatory Mapping:** OWASP LLM01 (Prompt Injection), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 Human Oversight), ISM (Guidelines for System Monitoring).
+
+---
+
+### MS-14: Self-Replication Barrier
+
+**Explanation**
+
+Agent output channels must not become a propagation vector for instructions. Agent-generated outbound content — outgoing email, written files, code comments, documentation, and messaging posts — must be screened for near-verbatim re-emission of instruction-bearing input text, and a fingerprinted match of a source prompt's distinctive n-grams against outbound content must quarantine the channel write and require human approval, so a prompt injection cannot turn the agent into a worm that replays its payload into every channel a recipient's agent will read. Implementation includes: fingerprinting source-prompt and operational-instruction n-grams at input, matching against outbound payloads before publish, blocking echoes of instruction-like text, enforcing a one-channel-per-write and human-signoff-on-broadcast policy, capping blast radius per propagation hop, and running worm-emulation drills that verify replication is blocked with automated channel-kill on any matching propagation signal. The class is demonstrated by OpenAI's GPT-Red finding (INC-71, disclosed September 25, 2026): a single prompt injection executes an adversarial task AND induces the target model to reproduce the injection payload on a public output channel, propagating to recipients' agents across email connectors, file systems, code comments, and a multi-step Slack task — the agent-native form of a worm.
+
+**Key Assessment Questions**
+
+1. Is outbound content screened for near-verbatim re-emission of instruction-bearing input text?
+2. Does a fingerprinted match quarantine the channel write and require human approval?
+3. Is echo of instruction-like text blocked before publish?
+4. Are broadcast writes human-signoff-gated and channel writes one-per-write?
+5. Are worm-emulation drills run to verify replication is blocked?
+
+**Artifacts to Examine**
+
+- Source-prompt n-gram fingerprinting rules
+- Outbound content screen configuration and evidence
+- Broadcast approval workflow
+- Worm-emulation drill results
+
+**Maturity Indicators**
+
+| Level | Maturity |
+|-------|----------|
+| L1 | No detection of re-emitted instruction text in outbound content. |
+| L2 | Automated near-verbatim detection of source-prompt n-grams in outbound payloads; documentation of the replication kill-chain. |
+| L3 | Fingerprint-matching quarantine with human approval; one-channel-per-write and human-signoff-on-broadcast; blast-radius cap per hop. |
+| L4 | Worm-emulation drills prove replication is blocked; automated channel-kill and incident-response triggers on any matching propagation signal. |
 
 **Regulatory Mapping:** OWASP LLM01 (Prompt Injection), NIST AI RMF (PROTECT -- PR.DS), EU AI Act (Art. 14 Human Oversight), ISM (Guidelines for System Monitoring).
 
@@ -1080,6 +1148,40 @@ Agent-authored or agent-published artifacts — packages, container images, conf
 | L4 | Continuous monitoring and provenance verification of agent-authored artifacts; automated blocking of unapproved publication paths. |
 
 **Regulatory Mapping:** NIST SSDF, ISM (Software Integrity, Change Management), OWASP LLM09 (Misuse of System Access), EU AI Act (Art. 15(b)).
+
+---
+
+### DS-08: Destination and Emergent-Channel Egress Inventory
+
+**Explanation**
+
+The set of outbound destinations and channels an agent can reach must be explicitly enumerated and controlled at every sink that carries data out of the agent boundary — URLs and hosts an agent may visit or render, DNS queries it may trigger, image and rich-media sources it may load and render back to a user, messaging/webhook/Slack-unfurl endpoints, and browser render events — because automatic HTTPS-egress controls and declared destination allow-lists miss covert exfiltration that leaves through a channel they do not enumerate (a rendered image tag, a DNS lookup, or a link-unfurl request) or through a destination they reject on a parsing quirk (an unusual TLD, a character that changes how a filter and a browser each interpret the same URL). The inventory must be payload-blind: verification that a destination is allowed is a hard allow-list, not a classifier on content the model produced — an AI classifier can be defeated by re-encoding (the Framing Gap evidence, arXiv 2608.27092: closing a leak by model-level sanitisation was defeated by a held-out ROT13 encoding at 100%, while a destination allow-list closed the same leak at 0%). Each enumerated channel maps to an explicit control: DNS egress restricted to allow-listed resolvers with queried names inspected for embedded labels; rendered image/link sources subject to the same destination allow-list; messaging actions required to carry invoker attribution and user confirmation. The class is demonstrated by SalesBleed (INC-72): agent data was exfiltrated by encoding it into the subdomain of an attacker-controlled hostname rendered as an HTML image tag, so it left during DNS resolution, surviving every HTTP egress control; and the destination redaction was bypassed via unusual TLDs and URL-parsing quirks.
+
+**Key Assessment Questions**
+
+1. Are ALL outbound sinks (URLs, DNS, rendered images/links, messaging/unfurl, browser render) enumerated, not just HTTPS hosts?
+2. Is destination verification a payload-blind allow-list rather than a content classifier?
+3. Are DNS queries restricted to allow-listed resolvers with queried names inspected for embedded labels?
+4. Are rendered image/link sources subject to the same destination allow-list as other egress?
+5. Do messaging/webhook actions carry invoker attribution and user confirmation?
+
+**Artifacts to Examine**
+
+- Channel inventory document (URLs, DNS, render, messaging, browser)
+- Destination allow-list configuration and enforcement evidence
+- DNS egress policy and queried-name inspection
+- Messaging/webhook attribution and confirmation configuration
+
+**Maturity Indicators**
+
+| Level | Indicator |
+|-------|-----------|
+| L1 | No inventory; agents reach arbitrary destinations; egress relies on automatic HTTP controls only. |
+| L2 | Destination allow-list for URLs; DNS egress and rendered rich-media sources uncontrolled. |
+| L3 | Full channel inventory (URLs, DNS, image/render, messaging/unfurl, browser) each mapped to an explicit control; allow-list verification is payload-blind. |
+| L4 | Continuous egress-channel discovery and attestation; automatic blocking of any un-inventoried sink; active red-team testing of rendered-content and DNS exfiltration paths. |
+
+**Regulatory Mapping:** NIST SSDF, ISM (Guidelines for Network Management), OWASP LLM01 (Prompt Injection), EU AI Act (Art. 15(b)).
 
 ---
 
@@ -2382,7 +2484,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 63 controls:
+For each of the 67 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2588,7 +2690,7 @@ For each of the 63 controls:
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 63 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 67 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2670,7 +2772,7 @@ Use this quick-reference during the assessment to ensure all 63 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.16 -- October 5, 2026 (aligned to framework v1.16)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69)
+*SHIELD-AI Assessment Guide v1.17 -- October 1, 2026 (aligned to framework v1.17)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69); refreshed for framework v1.17 October 1, 2026 (67 controls; MS-13/MS-14/DS-08/IAM-10 new, G28-G32)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

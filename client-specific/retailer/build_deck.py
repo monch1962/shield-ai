@@ -118,7 +118,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Major Australian Retailer Briefing  |  Deck v%s  |  Framework v1.16  |  Oct 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Major Australian Retailer Briefing  |  Deck v%s  |  Framework v1.17  |  Oct 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -283,8 +283,8 @@ r2 = p2.add_run(); r2.text = "Securing Production AI for a Major Australian Reta
 r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
-para(tf2, "An Australian framework for retail: 7 pillars, 63 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
-para(tf2, "Briefing  |  Framework v1.16  |  October 5, 2026", size=12, color=MUTED)
+para(tf2, "An Australian framework for retail: 7 pillars, 67 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
+para(tf2, "Briefing  |  Framework v1.17  |  October 1, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Retail is putting AI into customer service, merchandising, and "
     "supply chain, and the honest position is that the security playbook for agentic AI is young. SHIELD-AI is an Australian "
     "framework built for agents that act, structured so a security and risk team can explain it to a board and to regulators in "
@@ -293,7 +293,7 @@ s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Retail is
 # 2 — Agenda
 bullets_slide("Presentation Overview", [
     ("1.  Why AI security matters for retail now", 0, True),
-    ("2.  The framework: seven pillars and 63 controls", 0, True),
+    ("2.  The framework: seven pillars and 67 controls", 0, True),
     ("3.  How it works: reference implementation, policy as code, request flow", 0, True),
     ("4.  Applying it here: regulation, maturity, a practical starting point", 0, True),
     ("A note up front: every claim in this deck is tied to a documented incident", 0, True),
@@ -346,13 +346,13 @@ bullets_slide("Where Current Controls Come Up Short", [
 bullets_slide("SHIELD-AI at a Glance", [
     ("Seven security pillars across the whole agentic-AI stack", 0, True),
     ("Model Security, Identity and Access, Data Security, Tool and Pipeline Security, Monitoring and IR, Governance and Risk, Execution Environment", 1),
-    ("63 controls, each with implementation guidance and a maturity progression", 0, True),
+    ("67 controls, each with implementation guidance and a maturity progression", 0, True),
     ("Four maturity levels, consistent with ISM and the Essential Eight: L1 Initial, L2 Managed, L3 Defined, L4 Optimised", 0, True),
     ("Policy as code: 59 executable Rego controls, evaluated deny-override", 0, True),
     ("A deployable reference implementation: gateway, policy engine, identity plane, observability", 0, True),
     ("Evidence driven: 47 documented incidents, 25 identified gaps, monthly deep review, a live watchlist", 0, True),
     ("Aligned to what a retailer must answer to: the Privacy Act, PCI DSS, the Cyber Security Act 2024, and the AU Guardrails", 0, True, NAVY2),
-], page=page, notes="One minute. The thirty second version: seven pillars, 63 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
+], page=page, notes="One minute. The thirty second version: seven pillars, 67 controls, L1 to L4, policy as code, evidence driven. Say it plainly and move on."); page += 1
 
 # 8 — Seven pillars diagram
 diagram_slide("The Seven Pillars", "framework-architecture-updated.png",
@@ -518,7 +518,7 @@ r.font.size = Pt(44); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 4.6, 11.3, 1.8)
 para(tf2, "Which customer-facing or supply chain AI capability ships first, and where does customer data meet a model today?", size=17, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "A useful next step: a seven-pillar posture assessment at L1-L4, then a policy-as-code pilot on that first use case.", size=15, color=GOLD, space_after=10)
-para(tf2, "SHIELD-AI v1.15  |  7 pillars  |  63 controls  |  policy as code  |  October 5, 2026", size=12, color=MUTED)
+para(tf2, "SHIELD-AI v1.15  |  7 pillars  |  67 controls  |  policy as code  |  October 1, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Two minutes. The question on the slide is the honest conversation starter. Offer the posture assessment and the "
     "policy-as-code pilot as concrete next steps; keep it in maturity terms, no commercial pitch.")
 
@@ -532,7 +532,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-20",
-    "framework_version": "v1.16",
+    "framework_version": "v1.17",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

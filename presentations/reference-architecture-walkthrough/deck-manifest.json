@@ -4,13 +4,13 @@
   "audience": "Technical SMEs (security architects, platform engineers, AI engineers)",
   "version": "1.8",
   "date": "2026-08-12",
-  "framework_version": "v1.16",
+  "framework_version": "v1.17",
   "slides": 14,
   "diagrams": [
     "impl-request-flow",
     "impl-network-boundaries"
   ],
   "builder": "presentations/reference-architecture-walkthrough/build_deck.py",
-  "commit": "9bf52421a22113a49ead99ec42706e6c06674987",
-  "built_at": "2026-09-28T00:16:29.167803Z"
+  "commit": "b32b5c362510e373707de3a70e1f084f1d32c524",
+  "built_at": "2026-10-03T23:51:12.433079Z"
 }
