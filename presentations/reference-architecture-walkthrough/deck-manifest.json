@@ -11,6 +11,6 @@
     "impl-network-boundaries"
   ],
   "builder": "presentations/reference-architecture-walkthrough/build_deck.py",
-  "commit": "b32b5c362510e373707de3a70e1f084f1d32c524",
-  "built_at": "2026-10-03T23:51:12.433079Z"
+  "commit": "5c919d5a53435156036bb3c74a860cdee6f65577",
+  "built_at": "2026-10-03T23:57:09.510944Z"
 }
