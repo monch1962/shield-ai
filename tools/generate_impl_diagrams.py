@@ -250,7 +250,7 @@ def d4_telemetry():
     b.append(box(710, 70, 320, 55, WHITE, "SOC Dashboards", "live posture, agent activity"))
     b.append(box(710, 140, 320, 55, WHITE, "IR Playbooks", "containment, tool revocation", cap="MIR-04"))
     b.append(box(710, 210, 320, 55, LTBL, "Mandatory Reporting Triggers", "SOCI 12h | APRA 72h | NDB", cap="MIR-05"))
-    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "63 controls, per-pillar maturity", cap="GRM-06"))
+    b.append(box(710, 280, 320, 55, WHITE, "Compliance Dashboard", "67 controls, per-pillar maturity", cap="GRM-06"))
     for y in (97, 167, 237):
         b.append(arrow(290, y, 370, y))
     b.append(varrow(500, 125, 140))

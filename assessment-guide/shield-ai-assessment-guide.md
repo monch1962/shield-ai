@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "October 1, 2026"
+date: "October 5, 2026"
 ---
 
 # Introduction
@@ -2772,7 +2772,7 @@ Use this quick-reference during the assessment to ensure all 67 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.17 -- October 1, 2026 (aligned to framework v1.17)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69); refreshed for framework v1.17 October 1, 2026 (67 controls; MS-13/MS-14/DS-08/IAM-10 new, G28-G32)
+*SHIELD-AI Assessment Guide v1.18 -- October 5, 2026 (aligned to framework v1.18)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69); refreshed for framework v1.17 October 1, 2026 (67 controls; MS-13/MS-14/DS-08/IAM-10 new, G28-G32); refreshed for framework v1.18 October 5, 2026 (67 controls; TP-15/MS-08/EE-07 guidance extensions for INC-74..INC-76)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

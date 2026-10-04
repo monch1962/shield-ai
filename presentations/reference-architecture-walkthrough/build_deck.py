@@ -39,7 +39,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.8"
+DECK_VERSION = "1.9"
 AUDIENCE = "Technical SMEs (security architects, platform engineers, AI engineers)"
 OUT = os.path.join(OUT_DIR, "reference-architecture-walkthrough.pptx")
 MANIFEST = os.path.join(OUT_DIR, "deck-manifest.json")
@@ -121,7 +121,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Reference Architecture Walkthrough  |  Deck v%s  |  Framework v1.17  |  Oct 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Reference Architecture Walkthrough  |  Deck v%s  |  Framework v1.18  |  Oct 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -370,7 +370,7 @@ r.font.size = Pt(38); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name 
 tf2 = box(s, 1.0, 3.6, 11.3, 2.6)
 para(tf2, "Every agent action passes four gates. Every verdict is audited. If any gate or audit path fails, the action is blocked.", size=18, color=GOLD, first=True, space_after=12)
 para(tf2, "The incidents are the reason the gates exist. The audit trail is the evidence. The topology is the choice.", size=15, color=RGBColor(0xC9, 0xD4, 0xE8), space_after=12)
-para(tf2, "SHIELD-AI v1.17  |  67 controls  |  7 pillars  |  Reference architecture: framework/shield-ai-implementation-architecture.md", size=13, color=MUTED)
+para(tf2, "SHIELD-AI v1.18  |  67 controls  |  7 pillars  |  Reference architecture: framework/shield-ai-implementation-architecture.md", size=13, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("One minute. Close on the sentence you opened with. Remind the room: incidents are the reason the gates exist, the audit trail is the evidence, the topology is the choice. Point to the full architecture document and the walkthrough guide for anything they want to go deeper on.")
 page = 15
 
@@ -381,7 +381,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-12",
-    "framework_version": "v1.17",
+    "framework_version": "v1.18",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": "presentations/reference-architecture-walkthrough/build_deck.py",

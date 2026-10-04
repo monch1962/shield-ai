@@ -54,7 +54,7 @@
     <text x="870.0" y="227" text-anchor="middle" class="cap">MIR-05</text>
   <rect x="710" y="280" width="320" height="55" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="870.0" y="311.5" text-anchor="middle" class="label" font-size="12" font-weight="bold">Compliance Dashboard</text>
-    <text x="870.0" y="329.5" text-anchor="middle" class="sm">63 controls, per-pillar maturity</text>
+    <text x="870.0" y="329.5" text-anchor="middle" class="sm">67 controls, per-pillar maturity</text>
     <text x="870.0" y="297" text-anchor="middle" class="cap">GRM-06</text>
   <line x1="290" y1="97" x2="370" y2="97" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
   <line x1="290" y1="167" x2="370" y2="167" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>

@@ -26,9 +26,9 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-EXPECTED_VERSION = "v1.17"
+EXPECTED_VERSION = "v1.18"
 EXPECTED_COUNT = 67
-EXPECTED_EDITION = "October 1, 2026"
+EXPECTED_EDITION = "October 5, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []
@@ -112,10 +112,10 @@ def main():
 
     # 4. SVG ranges
     arch = open("assets/diagrams/framework-architecture.svg", encoding="utf-8").read()
-    for rng in ["MS-01 -> MS-12", "TP-01 -> TP-15", "DS-01 -> DS-07", "EE-01 -> EE-08", "IAM-01 -> IAM-09"]:
+    for rng in ["MS-01 -> MS-14", "TP-01 -> TP-15", "DS-01 -> DS-08", "EE-01 -> EE-08", "IAM-01 -> IAM-10"]:
         check(f"framework-architecture.svg has {rng}", rng in arch)
     tel = open("assets/diagrams/impl-telemetry-pipeline.svg", encoding="utf-8").read()
-    check("impl-telemetry-pipeline.svg has 63 controls", "63 controls" in tel)
+    check("impl-telemetry-pipeline.svg has 67 controls", "67 controls" in tel)
 
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
