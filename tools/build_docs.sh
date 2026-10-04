@@ -58,6 +58,10 @@ build_doc framework/shield-ai-framework.md \
   "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 build_doc framework/shield-ai-gap-analysis.md \
   "SHIELD-AI(TM) Sandbox Escape Gap Analysis"
+build_doc framework/shield-ai-field-findings.md \
+  "SHIELD-AI(TM) Field Findings -- Milestone 3 Field Validation Lessons"
+build_doc case-studies/2026-08-reference-implementation.md \
+  "SHIELD-AI(TM) Case Study -- Reference Implementation Assessment"
 build_doc assessment-guide/shield-ai-assessment-guide.md \
   "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 build_doc framework/shield-ai-implementation-architecture.md \

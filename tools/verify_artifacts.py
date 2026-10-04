@@ -12,6 +12,9 @@ Checks:
 - Architecture/impl SVGs carry the current control ranges
 - Rego stub count and schema JSON count match the framework
 - Client deck manifests record the current framework version
+- Freshness: every tracked PDF/EPUB/HTML derived artifact is not older than its
+  source(s), so an edited markdown/build script can never be committed with a
+  stale artifact (drift becomes a hard gate failure, not a silent regression)
 """
 import json
 import os
@@ -231,6 +234,70 @@ def main():
          if p.startswith(("./", "../")) and not os.path.exists(p)}
     )
     check(f"README relative links all resolve (broken: {broken})", not broken)
+
+    print()
+    # 10. Freshness: no derived artifact may be older than its source(s).
+    #     Prevents committing an edited markdown/HTML/build script with a stale
+    #     PDF/EPUB. Condition: artifact mtime >= MAX(source mtimes). Sources and
+    #     artifacts mirror tools/build_docs.sh + the decktape deck chain, plus the
+    #     published field-findings/case-study docs now also built there.
+
+    def max_mtime(paths):
+        return max(os.path.getmtime(p) for p in paths)
+
+    # (artifact, [source...], build_script) — artifact must not predate any
+    # source or its producing build script. Doc PDF/EPUB come from
+    # tools/build_docs.sh; deck PDFs come from tools/update_all.sh (decktape).
+    pairs = []
+    DOC_BUILDER = "tools/build_docs.sh"
+    DECK_BUILDER = "tools/update_all.sh"
+    doc_srcs = [
+        "framework/shield-ai-framework.md",
+        "framework/shield-ai-gap-analysis.md",
+        "assessment-guide/shield-ai-assessment-guide.md",
+        "framework/shield-ai-implementation-architecture.md",
+        "framework/shield-ai-watchlist.md",
+        "framework/shield-ai-tooling-map.md",
+        "framework/shield-ai-reference-architecture-walkthrough.md",
+        "presentations/what-is-shield-ai.md",
+        "presentations/glossary.md",
+        "framework/shield-ai-field-findings.md",
+        "case-studies/2026-08-reference-implementation.md",
+    ]
+    for md in doc_srcs:
+        base = md[:-3]
+        for ext in (".pdf", ".epub"):
+            pairs.append((base + ext, [md], DOC_BUILDER))
+    for review in sorted(__import__("glob").glob("framework/shield-ai-deep-review-*.md")):
+        base = review[:-3]
+        for ext in (".pdf", ".epub"):
+            pairs.append((base + ext, [review], DOC_BUILDER))
+    catalog_srcs = sorted(["exploits/README.md"] + __import__("glob").glob("exploits/g*.md"))
+    pairs.append(("exploits/exploit-catalog.pdf", catalog_srcs, DOC_BUILDER))
+    pairs.append(("exploits/exploit-catalog.epub", catalog_srcs, DOC_BUILDER))
+    for deck in ["board-brief/shield-ai-deck-board", "business-deck/shield-ai-deck-business",
+                 "buyers-journey-bridge/shield-ai-deck-bridge", "technical-deck/shield-ai-deck-technical"]:
+        html = os.path.join("presentations", deck + ".html")
+        pdf = os.path.join("presentations", deck + ".pdf")
+        pairs.append((pdf, [html], DECK_BUILDER))
+
+    for art, _srcs, builder in pairs:
+        if not os.path.exists(art):
+            check(f"{art} exists (missing artifact)", False)
+            continue
+        all_src = list(_srcs) + ([builder] if (os.path.exists(builder) and art.endswith((".pdf", ".epub"))) else [])
+        srcs = [s for s in all_src if os.path.exists(s)]
+        if not srcs:
+            continue
+        try:
+            fresh = os.path.getmtime(art) >= max_mtime(srcs)
+        except OSError:
+            fresh = False
+        if not fresh:
+            newest = max(srcs, key=os.path.getmtime)
+            check(f"{art} is not older than its sources (stale: {art} <- {newest})", fresh)
+        else:
+            check(f"{art} is not older than its sources", True)
 
     print()
     if failures:
