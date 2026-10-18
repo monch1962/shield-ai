@@ -26,8 +26,42 @@ from datetime import date
 # Canonical control definitions
 # ----------------------------------------------
 
-FRAMEWORK_VERSION = "1.17"
-FRAMEWORK_DATE = "2026-10"
+# Version/date are derived from framework/shield-ai-framework.md (single source
+# of truth, footer: "*SHIELD-AI vX.Y -- date*") so the generated schema never
+# drifts from the framework release. Fall back to these only if the footer is
+# unreadable, so running make check without the framework present still works.
+_FRAMEWORK_FALLBACK_VERSION = "1.17"
+_FRAMEWORK_FALLBACK_DATE = "2026-10"
+
+
+def _derive_framework_version_date():
+    """Return (version, date) from the framework footer, or the fallbacks."""
+    import os
+    import re
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "..", "framework", "shield-ai-framework.md")
+    try:
+        with open(path, encoding="utf-8") as f:
+            txt = f.read()
+    except OSError:
+        return _FRAMEWORK_FALLBACK_VERSION, _FRAMEWORK_FALLBACK_DATE
+    m = re.search(r"SHIELD-AI v(\d+\.\d+)\s+--\s+([A-Za-z]+ \d+, \d{4})", txt)
+    if m:
+        ver = m.group(1)
+        d = m.group(2)
+        # date column in schema is "YYYY-MM"
+        months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"]
+        parts = d.split(" ")
+        if len(parts) == 3 and parts[0] in months:
+            ymd = f"{parts[2]}-{months.index(parts[0]) + 1:02d}"
+        else:
+            ymd = _FRAMEWORK_FALLBACK_DATE
+        return ver, ymd
+    return _FRAMEWORK_FALLBACK_VERSION, _FRAMEWORK_FALLBACK_DATE
+
+
+FRAMEWORK_VERSION, FRAMEWORK_DATE = _derive_framework_version_date()
 
 PILLARS = {
     "MS":  "Model Security",

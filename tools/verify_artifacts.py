@@ -123,6 +123,23 @@ def main():
     schema_doc = json.load(open("assets/shield-ai-control-schema.json", encoding="utf-8"))
     schema = schema_doc.get("controls", schema_doc)
     check(f"schema JSON count == {EXPECTED_COUNT} (found {len(schema)})", len(schema) == EXPECTED_COUNT)
+    # Schema meta.version/date must track the framework release (single source
+    # of truth: tools/generate_control_schema.py derives it from the framework
+    # footer; the schema generator regen is part of `make check`). Prevents the
+    # schema's stamped version silently drifting behind the framework.
+    meta_ver = schema_doc.get("meta", {}).get("version")
+    meta_date = schema_doc.get("meta", {}).get("date")
+    check(f"schema meta.version == framework {EXPECTED_VERSION} (found {meta_ver})",
+          meta_ver == EXPECTED_VERSION.lstrip("v"))
+    # Schema meta.date is "YYYY-MM"; EXPECTED_EDITION is "Month D, YYYY".
+    _months = ["January","February","March","April","May","June","July",
+               "August","September","October","November","December"]
+    _er_parts = EXPECTED_EDITION.replace(",", "").split(" ")   # ["October","12","2026"]
+    _expected_date = ""
+    if len(_er_parts) == 3 and _er_parts[0] in _months and _er_parts[2].isdigit():
+        _expected_date = f"{_er_parts[2]}-{_months.index(_er_parts[0]) + 1:02d}"
+    check(f"schema meta.date == edition month (found {meta_date})",
+          meta_date == _expected_date)
 
     # 5b. Schema <-> framework control-set drift (1:1, not just counts)
     fw_text = open("framework/shield-ai-framework.md", encoding="utf-8").read()
