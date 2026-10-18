@@ -22,7 +22,7 @@ help:
 	@echo "  make test          OPA policy tests (policies/tests + demo/tests)"
 	@echo "  make build         full artifact pipeline (tools/update_all.sh)"
 
-check: rego-schema lint-spacing verify catalog test
+check: rego-schema lint-spacing verify catalog gap-format test
 	@echo ""
 	@echo "All gates passed."
 
@@ -37,6 +37,9 @@ verify:
 
 catalog:
 	$(PY) tools/check_exploit_catalog.py
+
+gap-format:
+	$(PY) tools/check_gap_analysis_format.py
 
 test:
 	$(OPA) test policies policies/tests demo/policies demo/tests
