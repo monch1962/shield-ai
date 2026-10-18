@@ -35,7 +35,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.12"
+DECK_VERSION = "1.13"
 AUDIENCE = "Aware Super"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/aware-super/shield-ai-deck-aware-super.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/aware-super/deck-manifest.json"
@@ -117,7 +117,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Aware Super Briefing  |  Deck v%s  |  Framework v1.18  |  Oct 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Aware Super Briefing  |  Deck v%s  |  Framework v1.19  |  Oct 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -283,7 +283,7 @@ r2.font.size = Pt(24); r2.font.color.rgb = GOLD; r2.font.name = FONT
 tf2 = box(s, 1.0, 4.9, 11.3, 1.9)
 para(tf2, "Security and Holistic Integrity for Enterprise-Level Deployment of AI", size=16, color=RGBColor(0xC9,0xD4,0xE8), first=True, space_after=10)
 para(tf2, "An Australian framework for APRA-regulated entities: 7 pillars, 67 controls, 4 maturity levels, policy as code", size=14, color=RGBColor(0xC9,0xD4,0xE8), space_after=10)
-para(tf2, "Briefing  |  Framework v1.18  |  October 5, 2026", size=12, color=MUTED)
+para(tf2, "Briefing  |  Framework v1.19  |  October 12, 2026", size=12, color=MUTED)
 s.notes_slide.notes_text_frame.text = ("Thirty minutes, so let's move. Aware Super is starting to put AI into production, and the honest position is "
     "that the security playbook for that is young. SHIELD-AI is an Australian framework built for agents that act, structured so a "
     "security and risk team can explain it to a trustee board in under half an hour. That is what we are about to do.")
@@ -530,7 +530,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-06",
-    "framework_version": "v1.18",
+    "framework_version": "v1.19",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.16 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.15 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
 | 1.13 | 2026-09-28 | Updated to framework v1.15 (63 controls): INC-64 DNS-filtering training-escape and INC-65 Codex Heapjack/Overpatch, EE-08/EE-05/TP-15 guidance extensions, footer version bumped |
 | 1.14 | 2026-10-05 | Updated to framework v1.16 (63 controls): INC-66 Plugin4Shell SHA-pinning bypass, INC-67 Sentry Seer PhantomFix, INC-68 PraisonAI CVE-2026-57138, INC-69 OpenCode localhost-RCE, TP-14/MS-11/EE-07 guidance extensions, footer version bumped |
@@ -41,6 +42,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.13 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.12 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
 | 1.11 | 2026-10-05 | Updated to framework v1.16 (63 controls): INC-66..INC-69 (Plugin4Shell, Sentry Seer PhantomFix, PraisonAI CVE-2026-57138, OpenCode localhost-RCE), TP-14/MS-11/EE-07 guidance extensions, footer version bumped |
 | 1.10 | 2026-09-28 | Updated to framework v1.15 (63 controls): INC-64 DNS-filtering training-escape and INC-65 Codex Heapjack/Overpatch, EE-08/EE-05/TP-15 guidance extensions, footer version bumped |
@@ -59,6 +61,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.10 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.9 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
 | 1.7 | 2026-09-28 | Updated to framework v1.15 (63 controls): INC-64 DNS-filtering training-escape and INC-65 Codex Heapjack/Overpatch, EE-08/EE-05/TP-15 guidance extensions, footer version bumped |
 | 1.8 | 2026-10-05 | Updated to framework v1.16 (63 controls): INC-66..INC-69 (Plugin4Shell, Sentry Seer PhantomFix, PraisonAI CVE-2026-57138, OpenCode localhost-RCE), TP-14/MS-11/EE-07 guidance extensions, footer version bumped |
@@ -74,6 +77,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.11 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.10 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
 | 1.8 | 2026-09-28 | Updated to framework v1.15 (63 controls): INC-64 DNS-filtering training-escape and INC-65 Codex Heapjack/Overpatch, EE-08/EE-05/TP-15 guidance extensions, footer version bumped |
 | 1.9 | 2026-10-05 | Updated to framework v1.16 (63 controls): INC-66..INC-69 (Plugin4Shell, Sentry Seer PhantomFix, PraisonAI CVE-2026-57138, OpenCode localhost-RCE), TP-14/MS-11/EE-07 guidance extensions, footer version bumped |
@@ -82,6 +86,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.10 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.9 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
 | 1.8 | 2026-10-05 | Updated to framework v1.16 (63 controls): control/incident-count and footer version refreshed; INC-66..INC-69 anchors and guidance extensions reflected; footer version bumped |
 | 1.7 | 2026-09-28 | Updated to framework v1.15 (63 controls): INC-64 DNS-filtering training-escape and INC-65 Codex Heapjack/Overpatch, EE-08/EE-05/TP-15 guidance extensions, footer version bumped |

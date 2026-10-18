@@ -2,15 +2,15 @@
   "deck": "reference-architecture-walkthrough",
   "title": "SHIELD-AI Reference Architecture Walkthrough",
   "audience": "Technical SMEs (security architects, platform engineers, AI engineers)",
-  "version": "1.9",
+  "version": "1.10",
   "date": "2026-08-12",
-  "framework_version": "v1.18",
+  "framework_version": "v1.19",
   "slides": 14,
   "diagrams": [
     "impl-request-flow",
     "impl-network-boundaries"
   ],
   "builder": "presentations/reference-architecture-walkthrough/build_deck.py",
-  "commit": "fe10faeea593f476bbff020069dc192af902dfe2",
-  "built_at": "2026-10-04T22:50:21.472608Z"
+  "commit": "b60ec254542a2dc9a956e93a45f1c4c40bf19860",
+  "built_at": "2026-10-18T21:24:58.880851Z"
 }
