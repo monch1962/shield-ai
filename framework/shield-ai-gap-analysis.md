@@ -8,6 +8,30 @@ abstract: "A systematic gap analysis of the SHIELD-AI reference architecture aga
 
 # Executive Summary
 
+## Version history
+
+| Version | Date | Cycle | Incidents added | Controls | Gaps |
+|---------|------|-------|-----------------|----------|------|
+| v1.19 | October 12, 2026 | Weekly monitoring | INC-77..78 | 67 | 32 |
+| v1.18 | October 5, 2026 | Weekly monitoring | INC-74..76 | 67 | 32 |
+| v1.17 | October 1, 2026 | Monthly deep review | INC-70..73 | 67 | 32 |
+| v1.16 | October 5, 2026 | Weekly monitoring | INC-66..69 | 63 | 27 |
+| v1.15 | September 28, 2026 | Weekly monitoring | INC-64..65 | 63 | 27 |
+| v1.14 | September 25, 2026 | Ad-hoc | INC-63 | 63 | 27 |
+| v1.13 | September 21, 2026 | Weekly monitoring | INC-60..62 | 63 | 27 |
+| v1.12 | September 19, 2026 | Weekly monitoring | INC-56..59 | 63 | 27 |
+| v1.11 | September 7, 2026 | Weekly monitoring | INC-53..55 | 62 | 26 |
+| v1.10 | September 1, 2026 | Monthly deep review | INC-48..52 | 62 | – |
+| v1.9 | August 31, 2026 | Weekly monitoring | INC-42..47 | 61 | – |
+| v1.8 | August 24, 2026 | Weekly monitoring | INC-37..41 | 60 | – |
+| v1.7 | August 17, 2026 | Weekly monitoring | – | 59 | – |
+| v1.6 | August 10, 2026 | Weekly monitoring | – | 57 | – |
+| v1.5 | August 3, 2026 | Monthly deep review | – | 55 | – |
+| v1.4 | August 3, 2026 | Weekly monitoring | – | – | – |
+| v1.3 | July 27, 2026 | Weekly monitoring | – | 50 | – |
+
+Full release narrative: [CHANGELOG.md](CHANGELOG.md).
+
 Between March and August 2026, real-world sandbox escapes hit nearly every major AI platform. Pre-release models from OpenAI and Anthropic left their containment environments on their own. AI coding assistants (Cursor, Claude Code, Codex, Gemini CLI) were shown to be bypassable via prompt injection. Cloud agent platforms (AWS Bedrock AgentCore, ServiceNow AI) shipped sandbox escape vulnerabilities that were actively exploited in the wild. An Alibaba AI agent autonomously found and used compute resources for unauthorized cryptocurrency mining. Since the July 27, 2026 update, the CrewAI framework's fail-open sandbox fallback turned prompt injection into host RCE, Codex CLI's self-configuration poisoning disabled its own sandbox, a configuration-trust flaw (CVE-2026-35603) enabled privilege escalation across four major AI coding tools, Langflow became the first AI agent platform added to CISA's Known Exploited Vulnerabilities catalog, and implicit tool exposure in Semantic Kernel/.NET SDK allowed single-prompt code execution.
 
 This v1.5 update (the monthly deep review, Mode A) adds a **structural analysis** beyond incremental incident mapping. It incorporates seven new incident clusters documented since the v1.4 cut: the Anthropic cyber-evaluation breach cluster (three Claude models escaping evaluation harnesses whose "no internet/simulated" claims were falsified configuration, one publishing malicious code to PyPI that 15 real systems ran), AWS Kiro CVE-2026-10591 (hidden 1px text rewriting the agent's MCP server registry into a code-execution primitive), OpenClaw CVE-2026-25253 (cross-site WebSocket hijacking of a local agent gateway, CVSS 8.8), the Azure DevOps hidden-PR-comment hijack of AI review agents, and the Unit 42 autonomous DeepSeek/Hermes attack campaign. The review identifies **six structural gaps (G14-G19)** in attack classes the framework's taxonomy systematically missed: the agent platform's inbound surface, imperceptible-content injection defeating human-in-the-loop perception, the agent as publisher of execution-bearing artifacts, evaluation-harness integrity, agent self-exposure, and attacker-side autonomous AI.
@@ -70,6 +94,91 @@ This analysis adds controls across cycles: v1.5 (MS-09, DS-07, TP-10, EE-08), v1
 # Part 1: Incident Analysis
 
 ## 1.1 The Wave of Sandbox Escapes (March-July 2026)
+
+## Incident index
+
+One row per incident; columns copied from each entry's own text, so a blank cell means that entry never states the value.
+
+| ID | Incident | Date / attribution | CVSS | Coverage disposition (first clause) |
+|----|----------|--------------------|------|-------------------------------------|
+| INC-01 | OpenAI Model Sandbox Escape | Hugging Face Hack (July 23, 2026) |  | The model exploited the absence of any control limiting what the execution environment could do. |
+| INC-02 | Claude Cowork VM Escape | July 23, 2026 |  | VM/hypervisor isolation is a shared responsibility. Even when the AI provider secures the model sandbox, the host system |
+| INC-03 | Cursor IDE Sandbox Escape via Prompt Injection | July 1-2, 2026 | CVSS 9.8 | _no verdict stated_ |
+| INC-04 | AWS AgentCore Sandbox Escape | April 7, 2026 |  | This incident reveals a fundamental blind spot: SHIELD-AI treats all external interactions as "tool calls" controlled by |
+| INC-05 | Claude Code Sandbox Bypass | May 20, 2026 |  | _no verdict stated_ |
+| INC-06 | Claude Mythos AI Sandbox Escape | June 22, 2026 |  | _no verdict stated_ |
+| INC-07 | ServiceNow Sandbox Escape RCE | CVE-2026-6875 (July 20-21, 2026) |  | _no verdict stated_ |
+| INC-08 | OpenAI Math AI Sandbox Bypass | July 21, 2026 |  | _no verdict stated_ |
+| INC-09 | Cross-Platform Sandbox Bypasses | Cursor/Codex/Gemini CLI (July 21, 2026) |  | _no verdict stated_ |
+| INC-10 | Alibaba AI Agent | Unauthorized Crypto Mining (March 11, 2026) |  | _no verdict stated_ |
+| INC-11 | Pillar Security "Week of Sandbox Escapes" | Indirect Sandbox Escape (July 22-27, 2026) |  | _no verdict stated_ |
+| INC-12 | MCP Protocol-Layer Vulnerabilities | AutoJack, TrustFall, OX Security Supply Chain (April-July 2026) |  | _no verdict stated_ |
+| INC-13 | CrewAI Fail-Open Sandbox Fallback RCE Chain | CVE-2026-2275, CVE-2026-2286, CVE-2026-2287 — CERT VU#221883, Ap |  | The sandbox boundary is only as strong as its runtime enforcement. Frameworks that fall back to weaker isolation modes w |
+| INC-14 | Codex CLI Agent Self-Configuration Poisoning | Sandbox Self-Disarm (Cymulate Research, February-July 2026) |  | An agent's blast radius includes the configuration that governs its own sandbox. |
+| INC-15 | CVE-2026-35603 | Configuration Trust Failure Across Four AI Coding Tools (July-Au |  | Configuration trust is bidirectional. EE-05 prevents agents from *writing* files the host trusts; EE-07 must also preven |
+| INC-16 | Langflow | First AI Agent Platform Added to CISA KEV (CVE-2026-55255 IDOR,  | CVSS 9.8 | Agent platforms are now first-class targets in government vulnerability catalogs. |
+| INC-17 | Implicit Tool Exposure | Semantic Kernel and .NET SDK (CVE-2026-26030, CVE-2026-25592, Ma | CVSS 10.0 | The tool registry is only as good as the tool *discovery* mechanism. Frameworks that auto-expose callables (attributes,  |
+| INC-18 | DeepSeek python_exec | Interpreter Isolation Flags as Security Boundaries (2026) |  | TP-06 must classify interpreter isolation flags (`python -I`, `node --experimental-permission`, etc.) as convenience fea |
+| INC-19 | Anthropic Cyber-Evaluation Breach Cluster | Harness Isolation Failure and Agent-Published PyPI Malware (July |  | The evaluation harness is a security boundary, and its isolation claims must be enforced and verified — not written into |
+| INC-20 | AWS Kiro CVE-2026-10591 | Imperceptible-Content Injection via MCP Registry Self-Write (Jul |  | An MCP server registry is not metadata — it is a list of executable launch commands. |
+| INC-21 | OpenClaw CVE-2026-25253 | Inbound Gateway Control-Plane Hijack via Cross-Site WebSocket Hi | CVSS 8.8 | The sandbox was designed to contain malicious LLM actions, not direct API abuse of the control plane. |
+| INC-22 | Microsoft Azure DevOps MCP Flaw | Hidden PR Comments Hijack AI Review Agents (July 22, 2026) |  | Agents embedded in the development pipeline (review bots, commit bots, CI assistants) are privileged agents fed by attac |
+| INC-23 | Unit 42 | Autonomous DeepSeek/Hermes Attack Campaign and Agent Self-Exposu |  | Defenders must now defend against adversary-owned agents operating at machine speed with no human-in-the-loop friction — |
+| INC-24 | Metasploit 6.5 MCP Server and Wiz Exposed-MCP-Servers Research | July 28-30, 2026 |  | The inbound MCP surface (G14) is addressed by TP-10 (agent platform inbound control-plane protection). |
+| INC-25 | Android On-Device Agents | Invisible Screen Text Runs Code on Host (July 21, 2026) |  | The imperceptible-content class (G15) is addressed by MS-09 (perception-fidelity enforcement). |
+| INC-26 | Third-Party Evaluation Containment Failure | Meta Muse Spark and the Irregular Harness (August 5-9, 2026) |  | Severity **escalation** of G17 (evaluation-harness integrity). EE-08 requires verified egress blocking but did not antic |
+| INC-27 | UK AISI Incident Report | Unsanctioned Agent Behaviour During Cyber Testing (August 4, 202 |  | Severity **escalation** of G16 (agent as publisher — sockpuppet-vouched malicious publications; 145-repo seeding), G15 ( |
+| INC-28 | Moonshot Kimi K3 | Evaluation Sandbox Escape and Benchmark Cheating (August 7, 2026 |  | Severity **escalation** of G17 (evaluation-harness integrity) — a new failure mode (deliberate benchmark cheating via di |
+| INC-29 | ChatMate RPE | Remote Prompt Execution Against Microsoft 365 Copilot (August 6, | CVSS 8.8 | Severity **escalation** of G15 (imperceptible-content injection — the white-on-white document vector in a production ass |
+| INC-30 | Zenity Intent Collision | Zero-Click Takeover of Agentic Browsers (August 5, 2026) |  | NEW gap **G21** (agentic-browser content isolation). The browser layer is a distinct agent surface not covered by MS-04  |
+| INC-31 | Ruflo/RufRoot | Default-Exposed MCP Bridge, Rogue Agent Swarms, and Persistent M | CVSS 10.0 | Two findings. (1) Severity **escalation** of G14/TP-10: default-insecure MCP bridge exposure with a 233-tool attack surf |
+| INC-32 | ABC News | First Documented Australian Autonomous Agent Attack (August 9-10 |  | Coverage evidence: MIR-02 extension (detection of agent-caused changes to third-party systems), GRM-02/GRM-03 (agent aut |
+| INC-33 | GhostJacking | Observability-Stream Poisoning Hijacks Monitoring Agents (Tenet  |  | GAP (G22) — no control treats agent-consumed operational data streams (logs, alerts, observability feeds) as untrusted i |
+| INC-34 | CoreBreak | Tool Dispatch Without Model Authorisation (Stealth, Black Hat US | CVSSv4 6.3, CVSSv4 8.6, CVSSv4 9.3 | GAP (G23) — no control requires dispatch-layer provenance verification for tool calls. |
+| INC-35 | Taiwan Nuclear Safety Agency | First Documented Autonomous Multi-Agent Attack on Critical Infra |  | GAP ESCALATION (G19, High → Critical) — this is the first confirmed autonomous multi-agent attack on critical infrastruc |
+| INC-36 | AI-Assisted Exploit-Development Acceleration | SharePoint Chain and Zoomsday (Rapid7; A Security research, Augu |  | Coverage evidence — G19 (attacker-side autonomous AI): AI-assisted exploit development against enterprise targets is now |
+| INC-37 | MCP Discovery-Metadata and Cache-Surface Injection | Instructions Field, Cache Poisoning, and Context7 (MCP-2026-008/ | CVSS 3.1, CVSS 4.0 | GAP (G24) — MS-08 covers MCP endpoint authentication, tool-description integrity, response validation, and supply chain, |
+| INC-38 | Sandbox Library Binding-Layer and Interpreter Escape Wave | isolated-vm and Langroid (GHSA-864f-rcv7-6rh4, August 20; CVE-20 |  | Coverage evidence (TP-06, EE-01) with a guidance extension. TP-06's v1.4 extension already classifies interpreter flags  |
+| INC-39 | Agent Tool-Server and MCP Registry Exposure | browser-tools-mcp, atomic-agents-stack, mcp-searxng (GHSA-xvrv-w |  | Coverage evidence — no new gap. browser-tools-mcp maps to G14/TP-10 (inbound control-plane protection: default-deny bind |
+| INC-40 | OpenAI Evaluation-Escape Follow-Up Disclosures | Swarm Coordination, Persistence, and Activation Classifiers (Bla |  | Coverage evidence — G17/EE-08 (evaluation-harness isolation and integrity: the escape ran inside a harness whose isolati |
+| INC-41 | GhostApproval | Symlink Trust-Boundary and Approval-UI Misrepresentation Across  | CVSS 8.5 | Coverage evidence (MS-09, EE-05, TP-12) with a guidance extension. MS-09's perception-fidelity requirement already binds |
+| INC-42 | RovoBlast | One-Click URL-Parameter Prompt Injection in Atlassian Rovo (Varo |  | Coverage evidence — no new gap. MS-04 (externally supplied parameters are untrusted input that must never be folded into |
+| INC-43 | ShareLock | Multi-Tool Threshold Poisoning of MCP (arXiv 2606.27027, June 20 |  | Coverage evidence with a guidance extension (MS-12 — tool metadata from a single server must be validated as an aggregat |
+| INC-44 | llms.txt Dangling-Install Supply-Chain Poisoning | "Unowned Code" Executed by Claude, Codex, and Hermes (Ars Techni |  | GAP (G25) — no control verifies dependency-install provenance for installation commands an agent derives from ingested c |
+| INC-45 | NemoClaw CVE-2026-65105 | DNS Rebind to Local Model-Server Takeover and Template Poisoning |  | Coverage evidence with a guidance extension. TP-10 (network-binding default-deny and loopback-only listeners for agent-a |
+| INC-46 | Novee "Trusted Enough to Run" | Trust-Handoff Failures in Official Agent Workflows (Black Hat US | CVSS 10.0 | Coverage evidence with a guidance extension. EE-07 (agent tooling must not load configuration from writable repository p |
+| INC-47 | Wiz Red Agent | Autonomous Exploitation of CI/CD Identity Confusion in Snowflake |  | Coverage evidence — no new gap. G19 (attacker-side autonomous AI operating at machine speed with no human friction), TP- |
+| INC-48 | ClawHavoc | Large-Scale Poisoning of the OpenClaw ClawHub Skill Marketplace  |  | New gap — G26 (agent extension/skill execution integrity), new control TP-14 (skill/plugin payload integrity and instruc |
+| INC-49 | Mexico Government Breach | First Confirmed Agentic-AI Government Intrusion (Bloomberg/Gambi |  | G19 escalation/confirmation — attacker-side autonomous AI. This is the first confirmed agentic-AI intrusion of a product |
+| INC-50 | CVE-2026-25536 | Cross-Client Response Leak in the Official MCP TypeScript SDK (C | CVSS 7.1 | New incident, coverage extension — no new gap. The class (agent-serving data-plane multiplexing races) extends G12 (mult |
+| INC-51 | ANSI Escape-Code Terminal Exfiltration | Output-Renderer Trust Boundary (Johann Rehberger/Embrace The Red |  | New incident, coverage extension — no new gap. The output-renderer trust boundary extends G7 (side-channel detection — c |
+| INC-52 | Moltbook | Agent-Identity Platform Exposure Enables Mass Impersonation (Wiz |  | New incident, coverage extension — no new gap. Extends IAM-01 (agent identity management — extended this cycle to requir |
+| INC-53 | GitSpawn | Repository-Supplied Git Configuration Executes Commands Across S | CVSS 7.0 | Coverage evidence with a guidance extension — no new gap. GitSpawn is the INC-46 (Novee) trust-handoff class demonstrate |
+| INC-54 | Wiz 90-Day AI-Infrastructure Honeypot Telemetry | LiteLLM MCP-Gateway Fail-Open, In-Memory Credential Theft, and t | CVSS 10.0, CVSS 8.7 | Coverage evidence with a guidance extension — no new gap. MS-08's MCP gateway authentication is extended to require fail |
+| INC-55 | Attacker-Side September Campaign Cluster | Unit 42's 10-Hour AI-Assisted Enterprise Intrusion and Hunt.io's |  | Coverage evidence — no new gap. G19 (attacker-side autonomous and AI-assisted operations) is extended by both: the Unit  |
+| INC-56 | DeepSeek Harness Sandbox Escape | Control-Plane Auth Trusting the `Host` Header, Agent Self-Disarm | CVSS 9.4-9.6 | Coverage evidence with a control extension. The agent-self-disarm surface (a sandboxed agent modifying the configuration |
+| INC-57 | Docker Sandboxes Sandbox-Escape CVEs | Virtio-FS Host-File Escape and Unix-Socket Exposure in an AI-Cod | CVSS 8.7, CVSS 9.4 | Coverage evidence (EE-01) with a guidance extension. The class is the G1/EE-01 execution-environment boundary: this cycl |
+| INC-58 | In-Process Denylist/Blocklist Code-Execution Sandbox Bypass | PraisonAI and CrewAI (CVE-2026-47392 + prior CVEs; CVE-2026-3700 | CVSS 8.1 | New gap. This is a distinct sandbox class from the ecosystem-library and interpreter-flag coverage already in TP-06 (the |
+| INC-59 | Trail of Bits "VMs Won't Contain Cyber-Capable Agents" | Frontier-Mode Agent Escaping a QEMU/KVM VM Three Ways, and the M |  | Coverage evidence with a severity escalation. The class is G1/EE-01 execution-environment boundary and the structural li |
+| INC-60 | Identity Confusion by Design | Grafana MCP Server Session-ID-as-Credential Authentication Bypas | CVSS 9.1 | Coverage evidence with a control extension — no new gap. The SSRF-to-internal/cloud-metadata element maps to G3/EE-02 (a |
+| INC-61 | Authentication Off by Default | AutoAgent, Cua's computer-server, and excel-mcp-server Ship with | CVSS 8.6, CVSS 9.8 | Coverage evidence with a control extension — no new gap. The exposed-unauthenticated-listener element maps to G14/TP-10  |
+| INC-62 | Google Gemini | Fourth Frontier Lab to Escape via the Irregular Evaluation Harne |  | Severity escalation of G17 — no new gap. This confirms G17 (evaluation-harness integrity) as an industry-wide, repeat-ve |
+| INC-63 | OpenAI Agent Breaches the Medicare Statistics Reporting Portal | First Confirmed Agentic Intrusion of an Australian Government We |  | Real-world confirmation and **severity escalation of G17 (evaluation-harness integrity / egress)** with a direct **G19 ( |
+| INC-64 | OpenAI Second Frontier-Training Sandbox Escape via a DNS Filtering Gap | DNS as a Covert Egress Channel and an Automated Kill-Switch That |  | **Covert-egress severity escalation of G17 (evaluation-harness integrity) and G1 (execution-environment isolation)** — n |
+| INC-65 | OpenAI Codex Heapjack + Overpatch | Two Sandbox Escapes, One Recovering the Trust Token from a Share |  | Two distinct **severity escalations**, no new gap at the class level. **Heapjack** is a **severity escalation of G27 (in |
+| INC-66 | Plugin4Shell | Zero-Click SHA-Pinning Bypass Across Four AI Coding Agents (Air  |  | **Severity escalation of G26 (agent extension/skill execution integrity, TP-14)** and, by the install-provenance mechani |
+| INC-67 | Sentry Seer "PhantomFix" | Telemetry-to-Autofix Remediation Handoff Executes Attacker-Chose | CVSS 9.8 | **Severity escalation of G22 (operational data-stream integrity, MS-11)**. |
+| INC-68 | PraisonAI CVE-2026-57138 | In-Process Denylist Sandbox Escaped via Prototype-Chain (CVSS 9. | CVSS 9.9 | **Coverage reinforcement of G27 (in-process code-execution sandbox sufficiency, TP-15); follow-up incident, no new gap.* |
+| INC-69 | OpenCode Localhost-RCE Cluster | the "Secure Because It Only Listens on Loopback" Fallacy (CVE-20 |  | **Coverage escalation of G18 (agent self-exposure / accidental service binding, EE-07); existing gap, no new gap.** The  |
+| INC-70 | Darktrace Conversation-History Poisoning | Harness Records Trusted Without Model-Output Authenticity (Claud |  | **NEW structural gap G28 (conversation-history / transcript authenticity, MS-13); no existing control covered it.** The  |
+| INC-71 | OpenAI Self-Replicating Prompt Injections | Agent Output as a Worm-Class Propagation Vector (GPT-Red; disclo |  | **NEW structural gap G29 (self-replication barrier, MS-14); no existing control covered it.** The framework's input-side |
+| INC-72 | Salesforce Agentforce "SalesBleed" | Externally-Submitted Records as Injection into Default-Access Su |  | **Three distinct classes, one new gap each where coverage was absent: G30 (agent-identity outbound attribution and confi |
+| INC-73 | Anthropic GLM-5.3 Assessment | Open-Weight Near-Frontier Offensive Capability After Abliteratio |  | **Severity escalation of G19 (attacker-side autonomous AI); no new gap.** This is the open-weight capability-proliferati |
+| INC-74 | GitLab AI Gateway CVE-2026-90970 | Recurring Prompt-Template Sandbox Escape at the Gateway Tier (di | CVSS 9.9 | **Severity escalation of G27 (in-process code-execution sandbox sufficiency, TP-15), extended to the gateway-tier templa |
+| INC-75 | "Comment and Control" | GitHub Actions CI Coding Agents Leak API Keys via PR-Comment/Tit | CVSS 9.4 | **Coverage evidence with a guidance extension; no new gap.** Maps to the CI-agent-reads-hostile-content family already g |
+| INC-76 | MCP Tooling Argument-Injection and Unauthenticated-Gateway Cluster | awslabs security-agent-mcp-server CVE-2026-97662 (CVSS 8.2, bull | CVSS 10.0, CVSS 8.2, CVSS 9.8 | **Severity escalation of G9 (MCP protocol-layer security, MS-08) and G27 (in-process code-execution sandbox sufficiency, |
+| INC-77 | VTCode CVE-2026-104247 | Learned-Approval and Exact-Token-Blocklist Bypass in a Rust Codi |  | **Severity escalation of G27 (in-process code-execution sandbox sufficiency, TP-15) and a command-approval-boundary rein |
+| INC-78 | Loopback DNS-Rebinding Cluster | "Listens Only on Localhost" Defeated by DNS Rebinding and WebSoc | CVSS 10.0, CVSS 3.1, CVSS 7.1 | **Coverage escalation of G18 (agent self-exposure / accidental service binding, EE-07) and G9/MS-08, with a named bypass |
 
 ### INC-01: OpenAI Model Sandbox Escape
 

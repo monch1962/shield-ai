@@ -218,8 +218,13 @@ def main():
     check(f"gap-analysis subtitle carries 'Updated {EXPECTED_EDITION}'",
           f"Updated {EXPECTED_EDITION}" in ga_src)
     ga_pdf = pdf_text("framework/shield-ai-gap-analysis.pdf")
-    check("gap-analysis.pdf carries no stale v1.7 edition date",
-          "August 17, 2026" not in ga_pdf)
+    # Regression guard for a stale EDITION stamp (Aug 2026: the footer/title
+    # drifted to the v1.7 edition date while the body was current). The raw date
+    # now legitimately appears in the version-history table (v1.7 cycle), so
+    # match the stale-edition FOOTER patterns, not the bare noun-phrase date.
+    check("gap-analysis.pdf carries no stale v1.7 edition stamp",
+          "Gap Analysis v1.7" not in ga_pdf and "v1.7 --" not in ga_pdf
+          and "Updated August 17, 2026" not in ga_pdf)
 
     # 9. README freshness (keeps the repo index tidy): current version present
     #    and every relative markdown path in the README resolves to a file.

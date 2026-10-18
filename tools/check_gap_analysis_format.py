@@ -76,7 +76,20 @@ for idx, ln in enumerate(lines):
         j += 1
     check(f"{m.group(1)} body has content", bool(content))
 
+    # 5. Every incident must appear in the master index table in Part 1 (so a
+    #    cron cycle that adds INC-NN to the body never forgets the index row).
+    inc_id = m.group(1).replace("### ", "")
+    check(f"{m.group(1)} is in the incident index",
+          f"| {inc_id} |" in txt)
+
 check(f"{heading_count} INC headings parsed", heading_count > 0)
+
+# 6. Incident index present and complete (all INC ids + matches heading count)
+index_ids = set(re.findall(r"^\| (INC-\d+) \|", txt, re.M))
+head_ids = set(m.group(1).replace("### ", "")
+               for m in re.finditer(r"^### (INC-\d+):", txt, re.M))
+check(f"incident index lists every INC ({len(index_ids)} == {len(head_ids)})",
+      index_ids >= head_ids)
 
 # 4. CVE/GHSA/MCP reference preservation sanity (no global drop vs. nothing to compare;
 #    just ensure references still present in the doc)
