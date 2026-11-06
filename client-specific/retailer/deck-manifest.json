@@ -16,6 +16,6 @@
     "retailer-alignment"
   ],
   "builder": "client-specific/retailer/build_deck.py",
-  "commit": "1090c15",
-  "built_at": "2026-11-06T22:29:11+00:00"
+  "commit": "af293eb",
+  "built_at": "2026-11-06T22:30:57+00:00"
 }
