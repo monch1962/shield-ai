@@ -33,7 +33,7 @@ methodology (Section 8 and Phase 2 evidence collection).
 
 ## FF-02: Weakest-link scoring conflates "not assessed" with "L1"
 
-- **Status:** pending
+- **Status:** adopted (v1.20, November 7, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, section 3.1
 - **Finding:** pillar maturity as the minimum control score treats an
   unevaluated control (its action kind never occurs in the deployment) the
@@ -46,7 +46,7 @@ methodology (Section 8 and Phase 2 evidence collection).
 
 ## FF-03: Validation suites need a control-coverage map
 
-- **Status:** pending
+- **Status:** adopted (v1.20, November 7, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, finding F3
 - **Finding:** the reference implementation's e2e matrix exercises 12 of 59
   controls with runtime deny observations; the other 47 are evaluated but
@@ -59,7 +59,7 @@ methodology (Section 8 and Phase 2 evidence collection).
 
 ## FF-04: Positive controls belong in the method
 
-- **Status:** pending
+- **Status:** adopted (v1.20, November 7, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, allow_approved_transfer
 - **Finding:** the approved high-risk transfer passing all 59 controls was
   the strongest single proof that the full evaluation path works (deny
@@ -71,7 +71,7 @@ methodology (Section 8 and Phase 2 evidence collection).
 
 ## FF-05: Substitution disclosure for reference implementations
 
-- **Status:** pending
+- **Status:** adopted (v1.20, November 7, 2026)
 - **Source:** case-studies/2026-08-reference-implementation.md, finding F5
 - **Finding:** the reference implementation substitutes framework mechanisms
   (sidecar-minted provenance for TP-12 model-turn signatures, config-file

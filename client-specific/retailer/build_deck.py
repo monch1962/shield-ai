@@ -36,7 +36,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.10"
+DECK_VERSION = "1.11"
 AUDIENCE = "Major Australian Retailer"
 OUT = "/home/davidm/Projects/shield-ai/client-specific/retailer/shield-ai-deck-retailer.pptx"
 MANIFEST = "/home/davidm/Projects/shield-ai/client-specific/retailer/deck-manifest.json"
@@ -532,7 +532,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-20",
-    "framework_version": "v1.19",
+    "framework_version": "v1.20",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": os.path.relpath(__file__, REPO),

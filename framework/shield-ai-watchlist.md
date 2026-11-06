@@ -2,13 +2,13 @@
 title: "SHIELD-AI(TM): Watchlist Report"
 subtitle: "Components Under Active Monitoring"
 author: "Security Architecture Practice"
-date: "October 12, 2026"
+date: "November 7, 2026"
 abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. This is the canonical, always-current watchlist: it is rebuilt and REPLACED by the monthly deep review cycle, which re-scores each component, promotes or demotes items against the decision gates, and updates the edition date. Between deep reviews the weekly cycle keeps count, version, and incident references mechanically current so the document never drifts from the framework it tracks. For each component this report covers current state, why it is being watched, realistic attack scenarios, implications for SHIELD-AI controls, and the decision gates that would promote it from the watchlist to a formal control."
 ---
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** October 12, 2026 (weekly mechanical refresh of the September 1 deep-review edition) -- rebuilt and replaced by each monthly deep review cycle; the weekly cycle mechanically refreshes count and version references between deep reviews (the repo copy is always the current watchlist).
+**Edition:** November 7, 2026 (rebuilt and replaced by the November deep review; the weekly cycle mechanically refreshes count and version references between deep reviews).
 
 ## 1. Purpose and Method
 
@@ -19,6 +19,11 @@ The September 2026 review (v1.9 to v1.10) made three structural changes to the w
 - **Component 6 (adversary-owned autonomous agents) was promoted** to an active defence-work item. The Mexico government breach (INC-49) is the first confirmed agentic-AI intrusion of a production government environment and fires the component's decision gate 1. The G19 response-side controls (MIR-02 agentic intrusion-telemetry detection, GRM-02 exercised kill-switch) landed in v1.10; the component is no longer a watchlist item but an active programme of detection, response, and automation work.
 - **Two new components were added:** component 7 (agent extension/skill marketplace integrity) tracks the ecosystem side of the ClawHavoc class that v1.10's TP-14 governs at the consumer side, and component 8 (guardrail erosion under adversarial persistence) tracks the demonstrated collapse of model guardrails under sustained social engineering (Mexico: 40 minutes; AISI: 19 unsanctioned actions in 122 runs).
 - **Every remaining component was re-scored** against the monitoring signals recorded in the August edition. Re-scoring notes appear in each section.
+
+The November 2026 review (v1.19 to v1.20) made two structural changes:
+
+- **Two themes were promoted from watch-adjacent to formal controls.** The MCP connection/onboarding execution class (INC-79 opencode, INC-80 Copilot) became G33/TP-16; the cross-tenant memory and execution isolation class (INC-81 MemLeak/Strands/Ryvane, INC-82 Beta9/Beam) became G34/MS-15 with an EE-01 extension.
+- **Two new components were added:** component 9 (pooled multi-tenant agent infrastructure) tracks the residual isolation surface beyond the promoted memory/execution controls, and component 10 (agent-prepared-content trust / marker authorship) tracks the instruction-source trust-ordering theme INC-83 escalated but only partially covered by the MS-13 extension.
 
 Each section follows the same structure: **Current state**, **Why it is on the watchlist**, **Attack scenarios**, **SHIELD-AI implications**, **Decision gate**, and **Monitoring signals**. The report closes with a cross-cutting synthesis, the interaction matrix, recommendations for the monitoring pipeline, and the assessment-criteria section that governs the watchlist itself.
 
@@ -34,6 +39,8 @@ Each section follows the same structure: **Current state**, **Why it is on the w
 | 6 | Adversary-owned autonomous agents | Threat capability | MIR-02, GRM-02, MIR-04 | Certain | Critical | **PROMOTED Sep 2026** -- active defence-work item (INC-49 Mexico) |
 | 7 | Agent extension/skill marketplace integrity | Supply chain | TP-14, TP-09, MIR-02 | Certain | High | Second confirmed skill-marketplace campaign or enterprise breach |
 | 8 | Guardrail erosion under adversarial persistence | Threat capability | MS-04, MS-05, MIR-02 | High | Critical | Enterprise agent guardrails defeated by persistent social engineering |
+| 9 | Pooled multi-tenant agent infrastructure | Attack surface | MS-15, EE-01, IAM-09, DS-01 | Certain | High | Cross-tenant memory/compute breach in a pooled enterprise deployment |
+| 10 | Agent-prepared-content trust (marker authorship) | Threat capability | MS-13, MS-09, TP-12 | High | Medium-High | Agent obeys a spoofed instruction marker at enterprise scope |
 
 ---
 
@@ -362,6 +369,80 @@ Promote from watchlist when any of the following occur:
 
 ---
 
+## 10A. Component 9: Pooled Multi-Tenant Agent Infrastructure (NEW)
+
+### 10A.1 Current State
+
+The November review promoted the memory-store dimension (G34/MS-15) and the execution-tier dimension (EE-01 extension) of pooled multi-tenant isolation, but the broader pooled surface -- shared vector/retrieval services, shared memory backends, multi-tenant code-execution and inference workers -- is broader than the two controls and remains under active monitoring. Likelihood Certain, impact High.
+
+### 10A.2 Why It Is on the Watchlist
+
+The single-instance assumption the taxonomy carried for a year is now a named structural finding. Modern agent deployments pool memory and compute across tenants by design, so the residual isolation surface (beyond the specific memory and execute controls) needs a dedicated track.
+
+### 10A.3 Attack Scenarios
+
+- Cross-tenant memory leakage via cosine-similarity retrieval with no exploit (INC-81 MemLeak). 
+- LLM-controllable isolation keys (Strands GHSA-mpxq-953j-42m4, CWE-639).
+- Cross-tenant write via a shared memory/RAG backend (Ryvane CVE-2026-2018/2104).
+- Worker-root escape in multi-tenant code-execution hosting (Beta9/Beam CVE-2026-120306-8).
+
+### 10A.4 SHIELD-AI Implications
+
+| Control | Implication |
+|---------|-------------|
+| MS-15 (cross-tenant memory isolation, v1.20) | Hard ownership gating and non-model-controllable tenant keys; the residuals here are retrieval and state beyond the memory store |
+| EE-01 (execution boundary, v1.20 ext) | Multi-tenant hosting tier isolation; chroot-only isolation rejected |
+| IAM-09 (multi-tenant platform isolation) | Platform-layer tenant isolation adjacency |
+| DS-01 (data classification) | Tenant data-at-rest and retrieval-path classification |
+
+### 10A.5 Decision Gate
+
+Promote when a cross-tenant memory/compute breach occurs in a pooled enterprise deployment, or a second independent multi-tenant vector-store IDOR is confirmed.
+
+### 10A.6 Monitoring Signals
+
+- Multi-tenant vector/memory-store advisories
+- Semantic-leakage research with updated quantitative results
+- Execution-hosting-worker advisories (Beam/Beta9 class)
+
+---
+
+## 10B. Component 10: Agent-Prepared-Content Trust (Marker Authorship) (NEW)
+
+### 10B.1 Current State
+
+INC-83 (GitInject config-file precedence; Radware's 145M-item GitHub hidden-text census) escalated the instruction-source trust-ordering theme. The v1.20 MS-13 extension covers part of it, but marker-authority authentication at enterprise scale is not a full control. Likelihood High, impact Medium-High.
+
+### 10B.2 Why It Is on the Watchlist
+
+Hidden notes projects leave for their own agents are plain text anyone can reproduce in a public thread; "looks like the project's own marker" is no longer a trustworthy signal, and friendly marker traffic grew fivefold in four months (Radware).
+
+### 10B.3 Attack Scenarios
+
+- A triage/review/CI agent obeys a spoofed hidden marker addressed to it by name with its real tool names (INC-75/Radware class).
+- GitInject config-file precedence: an attacker's branch configuration loads as operator-level instruction before PR content (INC-83).
+- Descriptive text in agent-facing content (markers, notes, config files) accepted as trusted because it looks like the project's own.
+
+### 10B.4 SHIELD-AI Implications
+
+| Control | Implication |
+|---------|-------------|
+| MS-13 (transcript/instruction authenticity, v1.20 ext) | Trust-ordering: operator-authored content outranks merged-branch/external; authenticate an instruction marker's writer, not its style |
+| MS-09 (perception fidelity) | Instruction-bearing content across channels |
+| TP-12 (tool-call provenance) | Operator/third-party attribution on instruction-bearing content |
+
+### 10B.5 Decision Gate
+
+Promote when an agent obeys a spoofed instruction marker at enterprise scope, or GitInject config-file precedence causes a production credential leak.
+
+### 10B.6 Monitoring Signals
+
+- GitHub/CI agent instruction-spoofing incidents
+- Config-file-precedence CVEs in CI agents
+- Hidden-text census updates
+
+---
+
 ## 11. Cross-Cutting Synthesis
 
 Across the eight components, the September review's threads are sharper than August's:
@@ -444,7 +525,7 @@ Watchlist entries require named sources. Promotion to a control requires one of:
 
 ### 13.4 Relationship to the Framework
 
-The watchlist is deliberately not part of the framework document. The framework's 67 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
+The watchlist is deliberately not part of the framework document. The framework's 69 controls are ratified, incident-validated requirements; the watchlist is a forward-looking instrument. Mixing the two would dilute both. This separation is itself a governance decision, recorded here so future maintainers do not collapse the distinction.
 
 ---
 
@@ -462,6 +543,6 @@ The watchlist is deliberately not part of the framework document. The framework'
 
 ---
 
-*SHIELD-AI -- Watchlist Report, edition of October 12, 2026 (weekly mechanical refresh)*
+*SHIELD-AI -- Watchlist Report, edition of November 7, 2026 (monthly deep review)*
 *Rebuilt and replaced each monthly deep review; the repo copy is always current.*
 *Authored by the Security Architecture Practice*

@@ -1,7 +1,7 @@
 # SHIELD-AI demo: policy-as-code in five minutes
 
 This is the self-run demo we hand to prospects. It shows the framework's
-core differentiator in practice: **67 controls, expressed as executable
+core differentiator in practice: **69 controls, expressed as executable
 policy, evaluated deny-override**. The full control suite lives in
 `policies/` at the repo root (67 Rego policies; implemented controls carry deny-override assertions and test vectors, with newer controls shipping as generated stubs). This bundle is a reduced,
 runnable subset of three controls so you can see enforcement working in
@@ -77,7 +77,7 @@ Each evaluation is one agent action:
 }
 ```
 
-The production engine evaluates the same shape against all 67 controls
+The production engine evaluates the same shape against all 69 controls
 plus request parsing, rate limiting, and audit logging. See
 `framework/shield-ai-implementation-architecture.md` for the full
 component model and `policies/` for the complete control set.

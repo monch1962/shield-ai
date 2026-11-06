@@ -4,7 +4,7 @@
 
 A sovereign Australian framework for securing agentic AI systems, designed for Australian enterprises and government bodies. Mapped to all relevant Australian regulatory frameworks and independent of cloud providers, LLMs, and industry verticals.
 
-**Current version:** [v1.19](CHANGELOG.md) (October 12, 2026) — 67 controls, 78 incidents, 32 gaps
+**Current version:** [v1.20](CHANGELOG.md) (November 7, 2026) — 69 controls, 84 incidents, 34 gaps
 
 ---
 
@@ -21,7 +21,7 @@ shield-ai/
 │   ├── shield-ai-tooling-map.md               Tools/processes covering all controls
 │   ├── shield-ai-deep-review-*.md             Monthly deep-review records (2026-08, 2026-09)
 │   └── shield-ai-reference-architecture-walkthrough.md
-├── assessment-guide/     Consultant's field manual (7 pillars × 67 controls)
+├── assessment-guide/     Consultant's field manual (7 pillars × 69 controls)
 ├── presentations/        Slide decks + static deliverables
 │   ├── business-deck/         14-slide business decision-maker deck
 │   ├── technical-deck/        27-slide technical SME deck
@@ -56,16 +56,16 @@ shield-ai/
 
 - **[Framework](framework/shield-ai-framework.md)** — principles, pillars, control mappings, emerging-trends coverage (2026–2029)
 - **[Implementation Architecture](framework/shield-ai-implementation-architecture.md)** — deployable component model with full SVG diagram set
-- **[Gap Analysis](framework/shield-ai-gap-analysis.md)** — sandbox-escape incident research driving framework evolution (v1.19, 78 incidents, 32 gaps)
+- **[Gap Analysis](framework/shield-ai-gap-analysis.md)** — sandbox-escape incident research driving framework evolution (v1.20, 84 incidents, 34 gaps)
 - **[Watchlist](framework/shield-ai-watchlist.md)** — components under active monitoring; rebuilt and replaced each monthly deep-review cycle
 - **[Novel AI Exploit Catalog](exploits/README.md)** — one entry per exploit type (G1–G32) mapped to covering controls
-- **[Tooling and Process Map](framework/shield-ai-tooling-map.md)** — tools and processes covering all 67 controls, with L1–L4 adoption roadmap
+- **[Tooling and Process Map](framework/shield-ai-tooling-map.md)** — tools and processes covering all 69 controls, with L1–L4 adoption roadmap
 - **[Assessment Guide](assessment-guide/shield-ai-assessment-guide.md)** — consultant's field manual with per-control assessment questions, artifacts, maturity indicators
 - **[Control Schema](assets/shield-ai-control-schema.json)** — machine-readable control definitions for tooling and automation
-- **[Policy-as-Code](policies/)** — the 67 controls as executable deny-override Rego policies with test vectors (see `policies/README.md`)
+- **[Policy-as-Code](policies/)** — the 69 controls as executable deny-override Rego policies with test vectors (see `policies/README.md`)
 - **[Case Studies](case-studies/README.md)** — sanitised field-validation records
 - **[Field Findings](framework/shield-ai-field-findings.md)** — lessons staged for the next framework cycle
-- **[Changelog](CHANGELOG.md)** — full release history (v1.1 → v1.19)
+- **[Changelog](CHANGELOG.md)** — full release history (v1.1 → v1.20)
 
 ## How to View Slides
 

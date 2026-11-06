@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM) Assessment Guide -- Consultant's Field Manual"
 subtitle: "Pillar & Control Breakdown with Assessment Methodology"
 author: "Security Architecture Practice"
-date: "October 12, 2026"
+date: "November 7, 2026"
 ---
 
 # Introduction
@@ -554,6 +554,30 @@ Identity and Access is the single highest-impact pillar for agentic AI security.
 **Why this matters to the client:** If an agent has the same database access as a senior engineer, a prompt injection can exfiltrate the entire customer database. If an agent has the same payment approval rights as a finance manager, a prompt injection can authorise fraudulent transfers. IAM-02 (Scope-bound delegation) is the control that prevents this.
 
 **Primary stakeholders to interview:** IAM Lead, Security Architect, Platform Engineering Lead, Identity Governance Lead.
+
+---
+
+### MS-15: Cross-Tenant Agent Memory and State Isolation
+
+**Explanation**
+
+Multi-tenant agent memory and state must be isolated per tenant as a hard boundary, never a soft metadata convention. Pooled vector stores and memory databases where multiple users, roles, or tenants share one index must enforce ownership at post-retrieval and post-write, dropping or rejecting any hit whose owner does not match the querying principal under default-deny, because semantic similarity is not an admissibility proxy: cosine-similarity retrieval over a shared embedding space leaks and can be steered across user boundaries even without an exploit. The tenant/namespace key that keys isolation must never be a model-controllable tool argument — the LLM must not be able to select the namespace, cluster, or collection a memory tool reads or writes, and connection parameters are bound at construction time and removed from the tool schema. Memory writes are authenticated to a verified writer identity and cross-tenant write attempts are denied and alarmed. Where a fix cannot verify an ownership claim, the memory tool refuses the operation (fail closed). Demonstrated by MemLeak (INC-81, arXiv 2610.04195: cross-user semantic leakage at 70-100% incidental pooled retrieval and 90-100% adversarial placement; only hard post-retrieval ownership gating restores the clean baseline), Strands Agents Tools (GHSA-mpxq-953j-42m4: memory namespace as the sole tenant-isolation key exposed as an LLM-controllable tool parameter, CWE-639), and the Ryvane cross-tenant write primitives (CVE-2026-2018, CVE-2026-2104).
+
+**Key Assessment Questions**
+
+1. Can a model-driven tool argument select the namespace, cluster, or collection a memory tool reads or writes?
+2. Does post-retrieval and post-write checking drop or reject hits whose owner does not match the querying principal under default-deny?
+3. Are cross-tenant hits alarmed as a control violation rather than treated as a retrieval miss?
+4. Are memory writes authenticated to a verified writer identity and cross-tenant writes denied?
+
+**Artifacts to Examine**
+
+- Memory/vector store tenancy configuration and ownership model
+- Memory tool schema (namespace and connection parameters bound or exposed)
+- Cross-tenant reach detection and alarm definitions
+- Memory-isolation fail-closed test results
+
+**Primary stakeholders to interview:** MLOps Lead, Platform Engineering Lead, Identity Governance Lead, Data Protection Officer.
 
 ---
 
@@ -1720,6 +1744,30 @@ Monitoring, Logging, and Incident Response detects and responds to security inci
 
 ---
 
+### TP-16: Tool-Connection and Launch-Path Integrity
+
+**Explanation**
+
+Agent/tool connection adapters must treat remote peer-supplied protocol metadata — OAuth discovery documents, authorization_endpoint values, server definitions, connect-time responses, and any string an external server controls — as untrusted input that must never reach an OS-process launch, shell, or browser-launch primitive directly. An adapter that hands a server-supplied string to a process launcher (browser open, shell exec, PowerShell EncodedCommand, IDE launch) is a code-execution boundary regardless of URL-scheme checks, because a syntactically valid HTTPS URL can still carry a payload the launcher evaluates (PowerShell $(...) subexpression expansion in double-quoted strings). The authorization endpoint is origin-bound to the configured server and validated on its canonical processed value after any encoding, never accepted on the server's advertised value as authoritative without origin comparison. Tool/connection onboarding and reconnection assume a later compromise of a previously benign server, a hijacked registry listing, a typosquatted name, or an expired domain are in-threat-model. Launch commands registered through tool or server definitions are validated and allowlisted. Fail closed: any transport field crossing into an execution or launch primitive terminates the connection and alerts (MIR-01). Demonstrated by opencode MCP OAuth RCE (INC-79, Pillar Security, patched 1.18.33, no CVE), GitHub Copilot CVE-2026-103572, and CVE-2025-6514 (mcp-remote).
+
+**Key Assessment Questions**
+
+1. Can a remote server-supplied field (authorization_endpoint, discovery doc, server definition) reach a process-launch, shell, or browser-launch primitive?
+2. Is the authorization endpoint compared against the configured server's origin, not accepted as authoritative?
+3. Are launch commands registered via tool/server definitions validated and allowlisted?
+4. Is a later compromise of a previously benign connection peer assumed in-threat-model, and does any transport-to-execution cross terminate and alert?
+
+**Artifacts to Examine**
+
+- Connection-adapter inventory and launch-path data-flow review
+- Authorization endpoint origin-binding and canonical validation configuration
+- Tool/server-definition launch-command allowlist
+- Reconnection and server-hijack scenario test results
+
+**Primary stakeholders to interview:** Security Architect, Platform Engineering Lead, Software Engineering Lead, Incident Response Lead.
+
+---
+
 ### MIR-01: Agent Activity Logging
 
 **Explanation**
@@ -2484,7 +2532,7 @@ Before arriving on site:
 
 ### Phase 2: Control Assessment (Weeks 1-2)
 
-For each of the 67 controls:
+For each of the 69 controls:
 
 1. **Interview** -- meet with the primary stakeholder(s) for the control's pillar. Ask the Key Assessment Questions listed in this guide.
 2. **Evidence collection** -- request the Artifacts to Examine. Score each artifact on a 1-5 scale:
@@ -2671,6 +2719,8 @@ For each of the 67 controls:
 | TP-13 | Web App Hardening, Network Seg | App Control | - | - | - | - |
 | TP-14 | Web App Hardening, App Control | App Control | - | - | - | - |
 | TP-15 | Web App Hardening, App Control | App Control | - | - | - | - |
+| TP-16 | Web App Hardening, App Control | App Control | - | - | - | - |
+| MS-15 | System Monitoring, Data Protection | Data Protection | - | - | - | - |
 
 ## Quick-Reference: Framework -> Control Mapping
 
@@ -2690,7 +2740,7 @@ For each of the 67 controls:
 
 # Appendix: Assessment Checklist Summary
 
-Use this quick-reference during the assessment to ensure all 67 controls have been evaluated:
+Use this quick-reference during the assessment to ensure all 69 controls have been evaluated:
 
 | # | Control | Assessed | Score (1-5) | Maturity (L1-L4) | Key Artifact Obtained | Notes |
 |---|---------|----------|-------------|-------------------|----------------------|-------|
@@ -2772,7 +2822,7 @@ Use this quick-reference during the assessment to ensure all 67 controls have be
 
 ---
 
-*SHIELD-AI Assessment Guide v1.19 -- October 12, 2026 (aligned to framework v1.19)*
-*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69); refreshed for framework v1.17 October 1, 2026 (67 controls; MS-13/MS-14/DS-08/IAM-10 new, G28-G32); refreshed for framework v1.18 October 5, 2026 (67 controls; TP-15/MS-08/EE-07 guidance extensions for INC-74..INC-76); refreshed for framework v1.19 October 12, 2026 (67 controls; EE-07/MS-08 guidance extensions for INC-77..INC-78)
+*SHIELD-AI Assessment Guide v1.20 -- November 7, 2026 (aligned to framework v1.20)*
+*Version history: v1.0 July 2026 (initial release); refreshed for framework v1.8 August 2026 (60 controls); refreshed for framework v1.9 August 31, 2026 (61 controls, TP-13); refreshed for framework v1.10 September 1, 2026 (62 controls, TP-14; FF-01/FF-06/FF-07 adopted into Section 8 methodology and Phase 2 evidence collection)*; refreshed for framework v1.11 September 7, 2026 (62 controls, MS-08/EE-07 guidance extensions); refreshed for framework v1.12 September 19, 2026 (63 controls, TP-15; EE-01/TP-06/EE-07 guidance extensions); refreshed for framework v1.14 September 25, 2026 (63 controls; MS-08/EE-08/GRM-04 guidance extensions for INC-60..INC-62); refreshed for framework v1.15 September 28, 2026 (63 controls; EE-08/EE-05/TP-15 guidance extensions for INC-64..INC-65); refreshed for framework v1.16 October 5, 2026 (63 controls; TP-14/MS-11/EE-07 guidance extensions for INC-66..INC-69); refreshed for framework v1.17 October 1, 2026 (67 controls; MS-13/MS-14/DS-08/IAM-10 new, G28-G32); refreshed for framework v1.18 October 5, 2026 (67 controls; TP-15/MS-08/EE-07 guidance extensions for INC-74..INC-76); refreshed for framework v1.19 October 12, 2026 (67 controls; EE-07/MS-08 guidance extensions for INC-77..INC-78); refreshed for framework v1.20 November 7, 2026 (69 controls; MS-15/TP-16 new for G33/G34; EE-01/MS-09/MS-13/TP-15 guidance extensions for INC-79..INC-84; FF-02/FF-03/FF-04/FF-05 adopted into Section 8 and Phase 2)
 *For use by SHIELD-AI Practitioners and Assessors*
 *Security Architecture Practice*

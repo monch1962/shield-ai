@@ -1530,6 +1530,30 @@ reg("MS-14", "Self-Replication Barrier", "MS",
     {"OWASP": "LLM01 (Prompt Injection)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Monitoring"},
     ["self-replication", "worm", "propagation", "output-channel"])
 
+reg("MS-15", "Cross-Tenant Agent Memory and State Isolation", "MS",
+    "Multi-tenant agent memory and state must be isolated per tenant as a hard boundary, never a soft metadata convention. Pooled vector stores and memory databases where multiple users, roles, or tenants share one index must enforce ownership at post-retrieval and post-write, dropping or rejecting any hit whose owner does not match the querying principal under default-deny. Semantic similarity is not an admissibility proxy: cosine-similarity retrieval over a shared embedding space leaks and can be steered across user boundaries even without an exploit, so a deployment that pools memories must apply hard post-retrieval ownership gating plus cross-user reach monitoring and treat any cross-tenant hit as a control violation to alarm, not a retrieval miss. The tenant/namespace key that keys isolation must never be a model-controllable tool argument: the LLM must not select the namespace, cluster, or collection a memory tool reads or writes, and connection parameters are bound at construction time and removed from the tool schema. Memory writes are authenticated to a verified writer identity and cross-tenant write attempts are denied and alarmed; where a fix cannot verify an ownership claim, the memory tool refuses the operation (fail closed). Addresses the cross-tenant memory-leakage class (MemLeak arxiv 2610.04195, October 2026: cross-user semantic leakage in shared vector stores at 70-100% incidental pooled retrieval and 90-100% adversarial placement, only hard post-retrieval ownership gating restores the clean baseline while a similarity suspicion gate still lets 30-40% through; Strands Agents Tools GHSA-mpxq-953j-42m4, October 2026: memory tool namespace as the sole tenant-isolation key exposed as an LLM-controllable tool parameter, enabling read/list/delete/injection of another tenant's memories (CWE-639); Ryvane cross-tenant write CVE-2026-2018/CVE-2026-2104: public knowledge-base content treated as memory during extraction, attacker with no account on target tenant writes into its memory).",
+    "Isolate multi-tenant agent memory and state per tenant as a hard boundary; keep the isolation key out of model control and gate retrieval/write by verified ownership.",
+    [
+        "Shared/pooled vector store with soft metadata ownership and LLM-controllable namespace keys; cross-tenant reach demonstrable.",
+        "Per-tenant partitioning or post-retrieval ownership gate applied; namespace keys removed from the tool schema; cross-user reach monitored.",
+        "Hard post-retrieval and post-write ownership gating with default-deny; connection parameters bound at construction; cross-tenant hits alarmed as control violations.",
+        "Memory isolation fail-closed and continuously exercised; cross-tenant write attempts denied and alarmed; pooled-store deployments require hard partitioning or ownership gating.",
+    ],
+    [
+        "Can a model-driven tool argument select the namespace, cluster, or collection a memory tool reads or writes?",
+        "Does post-retrieval retrieval and post-write check drop or reject hits whose owner does not match the querying principal?",
+        "Are cross-tenant hits alarmed as a control violation rather than treated as a retrieval miss?",
+        "Are memory writes authenticated to a verified writer identity and cross-tenant writes denied?",
+    ],
+    [
+        "Memory/vector store tenancy configuration and ownership model",
+        "Memory tool schema (namespace/connection parameters bound or exposed)",
+        "Cross-tenant reach detection and alarm definitions",
+        "Memory isolation fail-closed test results",
+    ],
+    {"OWASP": "LLM12 (Memory Poisoning, cross-tenant variant)", "NIST AI RMF": "GOVERN + PROTECT (PR.AC)", "EU AI Act": "Art. 10 (Data Governance)", "ISM": "Guidelines for Cryptography and Data Protection", "Essential Eight": "Restrict Administrative Privileges"},
+    ["cross-tenant", "memory-isolation", "vector-store", "tenant-key", "memleak", "idor"])
+
 # ============================================
 # PILLAR 2 EXTENSIONS (v1.2/v1.4)
 # ============================================
@@ -1847,6 +1871,30 @@ reg("TP-15", "In-Process Code-Execution Sandbox Sufficiency", "TP",
     ],
     {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for Software Development, Application Control"},
     ["code-execution", "in-process-sandbox", "denylist", "blocklist", "interpreter-gate", "praisonai", "crewai"])
+
+reg("TP-16", "Tool-Connection and Launch-Path Integrity", "TP",
+    "Agent/tool connection adapters must treat remote peer-supplied protocol metadata (OAuth discovery documents, authorization_endpoint values, server definitions, connect-time responses, and any string an external server controls) as untrusted input that must never reach an OS-process launch, shell, or browser-launch primitive directly. An adapter that hands a server-supplied string to a process launcher is a code-execution boundary regardless of URL-scheme checks, because a syntactically valid HTTPS URL can still carry a payload the launcher evaluates (PowerShell substition expansion in double-quoted strings). The authorization endpoint is origin-bound to the configured server and validated on the canonical processed value after any encoding, never accepted on the server's advertised value as authoritative without origin comparison. Onboarding and reconnection assume a later compromise of a previously benign server, a hijacked registry listing, a typosquatted name, or an expired domain are in-threat-model. Launch commands registered through tool or server definitions are validated and allowlisted so a model-influenced or externally-derived definition cannot register an arbitrary OS command an IDE or agent will auto-launch. Fail closed: any transport field crossing into an execution or launch primitive terminates the connection and alerts (MIR-01). Addresses the tool-connection execution class (opencode MCP OAuth RCE, Pillar Security, patched 1.18.33 September 28 2026, disclosed October 19 2026, no CVE: a remote MCP server's advertised authorization_endpoint reached a browser-launch helper that built a base64 PowerShell command on Windows/WSL with the target URL unescaped, executing a $(...) payload at sign-in time -- the same class as CVE-2025-6514 mcp-remote, July 2025; GitHub Copilot for Visual Studio/SSMS CVE-2026-103572, CVSS 8.8, October 13 2026: a prompt-injected agent appended a trailing dot to a filename to bypass the .mcp.json protection and register an attacker-chosen command as an MCP server the IDE launched).",
+    "Keep remote peer-supplied protocol metadata (OAuth/discovery/connection fields) out of process-launch and shell execution primitives; origin-bound and validate the authorization endpoint.",
+    [
+        "Tool/connection adapters pass server-supplied transport fields (authorization_endpoint, discovery docs) to a process launcher or shell; no origin comparison.",
+        "Connection adapters identified and audited for launch-path handoff; URL-scheme checks in place as defence in depth but not sole control.",
+        "Authorization endpoint origin-bound and validated on canonical value; no transport field crosses into a launch/shell primitive; launch commands allowlisted; connection termination and alert on any violation.",
+        "Launch-path fail-closed and red-teamed; reconnection and server-hijack scenarios tested; onboarding treats later server compromise as in-threat-model.",
+    ],
+    [
+        "Can a remote server-supplied field (authorization_endpoint, discovery doc, server definition) reach a process-launch, shell, or browser-launch primitive?",
+        "Is the authorization endpoint compared against the configured server's origin, not accepted as authoritative?",
+        "Are launch commands registered via tool/server definitions validated and allowlisted?",
+        "Is a later compromise of a previously benign connection peer assumed in-threat-model and does any transport-to-execution cross terminate and alert?",
+    ],
+    [
+        "Connection-adapter inventory and launch-path data-flow review",
+        "Authorization endpoint origin-binding and canonical validation configuration",
+        "Tool/server-definition launch-command allowlist",
+        "Reconnection and server-hijack scenario test results",
+    ],
+    {"OWASP": "LLM08 (Excessive Agency)", "NIST AI RMF": "PROTECT (PR.DS)", "EU AI Act": "Art. 14 (Human Oversight)", "ISM": "Guidelines for System Hardening, Application Control"},
+    ["mcp-connection", "launch-path", "oauth", "authorization-endpoint", "opencode", "launch-integrity"])
 
 # ============================================
 # PILLAR 7: EXECUTION ENVIRONMENT (v1.2, extended v1.4)

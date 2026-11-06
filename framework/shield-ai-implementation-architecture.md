@@ -2,13 +2,13 @@
 title: "SHIELD-AI(TM): Implementation Architecture"
 subtitle: "Deployable Components for a SHIELD-AI Implementation"
 author: "Security Architecture Practice"
-date: "October 12, 2026"
-abstract: "The deployable component model for implementing the SHIELD-AI framework: what to build, deploy, and configure to realise the 67 controls across 7 pillars, presented with a complete set of diagrams and explanatory text. Covers the component inventory, reference architecture, policy decision points, request flows, telemetry and incident response pipeline, network boundary model, deployment topologies, the component-to-control mapping matrix, and the L1-L4 maturity mapping."
+date: "November 7, 2026"
+abstract: "The deployable component model for implementing the SHIELD-AI framework: what to build, deploy, and configure to realise the 69 controls across 7 pillars, presented with a complete set of diagrams and explanatory text. Covers the component inventory, reference architecture, policy decision points, request flows, telemetry and incident response pipeline, network boundary model, deployment topologies, the component-to-control mapping matrix, and the L1-L4 maturity mapping."
 ---
 
 # Introduction
 
-The SHIELD-AI framework (see `framework/shield-ai-framework.md`) defines seven security pillars and 67 controls. Controls must be realised as **deployable components** -- concrete infrastructure, services, and policy artifacts that an organisation builds and runs. This document is the full reference for that component model: it names each component, explains what it does, which controls it implements, and how it deploys, and it provides a complete set of diagrams.
+The SHIELD-AI framework (see `framework/shield-ai-framework.md`) defines seven security pillars and 69 controls. Controls must be realised as **deployable components** -- concrete infrastructure, services, and policy artifacts that an organisation builds and runs. This document is the full reference for that component model: it names each component, explains what it does, which controls it implements, and how it deploys, and it provides a complete set of diagrams.
 
 This document is written for:
 
@@ -22,7 +22,7 @@ This document is written for:
 - **Section 1** -- the component inventory (what exists and what each component does)
 - **Sections 2-6** -- the reference architecture, policy decision points, request flows, telemetry pipeline, and network boundaries (the "how it fits together" view)
 - **Section 7** -- deployment topologies and the container-orchestration hardening baseline
-- **Section 8** -- the component-to-control mapping matrix for all 67 controls
+- **Section 8** -- the component-to-control mapping matrix for all 69 controls
 - **Section 9** -- the maturity mapping (which components deploy at L1-L4)
 - **Section 10** -- the delivery methodology (the phases used to implement the model)
 - **Appendix A** -- the policy-as-code stub inventory shipped in this repository
@@ -33,7 +33,7 @@ The diagrams are maintained as SVG files in `assets/diagrams/` and regenerated b
 
 # 1. Component Inventory
 
-An implementation of SHIELD-AI is composed of eight deployable component groups. Each group realises a defined subset of the 67 controls and maps to one or more zones of the reference architecture (Section 2).
+An implementation of SHIELD-AI is composed of eight deployable component groups. Each group realises a defined subset of the 69 controls and maps to one or more zones of the reference architecture (Section 2).
 
 | # | Component Group | What it Deploys | Primary Controls |
 |---|-----------------|-----------------|------------------|
@@ -128,7 +128,7 @@ The reference architecture is organised into five zones:
 
 **Zone 4 - Data Plane.** The RAG security layer classifies, redacts, and applies ABAC at retrieval. Memory stores are per-agent scoped with retention and sanitisation. Training data governance tracks lineage and consent.
 
-**Zone 5 - Observability and Governance.** Agent telemetry flows to the SIEM with anomaly detection, then to incident response and reporting triggers (SOCI/APRA/NDB), and to the compliance console that continuously tests the 67 controls.
+**Zone 5 - Observability and Governance.** Agent telemetry flows to the SIEM with anomaly detection, then to incident response and reporting triggers (SOCI/APRA/NDB), and to the compliance console that continuously tests the 69 controls.
 
 ---
 
@@ -226,7 +226,7 @@ The pipeline has three stages:
 - SOC dashboards show live posture and agent activity
 - IR playbooks cover prompt-injection containment, model rollback, and tool revocation (MIR-04)
 - Mandatory reporting triggers pre-populate SOCI 12-hour, APRA 72-hour, and NDB notifications (MIR-05)
-- The compliance dashboard maps findings to all 67 controls with per-pillar maturity (GRM-06)
+- The compliance dashboard maps findings to all 69 controls with per-pillar maturity (GRM-06)
 
 The correlation ID ties every event to the originating user session, giving investigators a single reconstructable audit trail per request chain.
 
@@ -371,9 +371,9 @@ The repository ships per-control Rego policy stubs in `policies/`, generated by 
 | GRM | GRM-01..GRM-06 | Core governance controls |
 | EE | EE-01..EE-08 | Execution Environment controls (incl. evaluation-harness isolation EE-08) |
 
-**Status:** all 67 controls have shipped stubs (v1.19), generated by `tools/generate_control_schema.py --rego`. The decision points in Section 3 define the interfaces these stubs must satisfy.
+**Status:** all 69 controls have shipped stubs (v1.20), generated by `tools/generate_control_schema.py --rego`. The decision points in Section 3 define the interfaces these stubs must satisfy.
 
 ---
 
-*SHIELD-AI v1.19 -- October 12, 2026*
+*SHIELD-AI v1.20 -- November 7, 2026*
 *Authored by the Security Architecture Practice*
