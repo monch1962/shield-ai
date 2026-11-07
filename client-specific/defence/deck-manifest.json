@@ -2,9 +2,9 @@
   "deck": "shield-ai-deck-defence",
   "title": "SHIELD-AI",
   "audience": "Australian Defence Department",
-  "version": "1.17",
+  "version": "1.18",
   "date": "2026-08-06",
-  "framework_version": "v1.20",
+  "framework_version": "v1.21",
   "slides": 25,
   "diagrams": [
     "framework-architecture-updated",
@@ -17,6 +17,6 @@
     "defence-alignment"
   ],
   "builder": "client-specific/defence/build_deck.py",
-  "commit": "af293eb",
-  "built_at": "2026-11-06T22:30:56+00:00"
+  "commit": "9dfe96b",
+  "built_at": "2026-11-07T22:00:42+00:00"
 }

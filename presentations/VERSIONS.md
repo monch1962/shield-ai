@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.18 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.17 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84 (MCP connection-path OAuth RCE, MCP tool-argument injection wave, cross-tenant memory leakage, multi-tenant hosting escapes, CI config-file trust-ordering, visual prompt injection), new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
 | 1.16 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.15 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
@@ -43,6 +44,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.15 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.14 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
 | 1.13 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.12 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
@@ -63,6 +65,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.12 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.11 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
 | 1.10 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.9 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
@@ -80,6 +83,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.13 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.12 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
 | 1.11 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.10 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
@@ -90,6 +94,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.12 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.11 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
 | 1.10 | 2026-10-12 | Updated to framework v1.19 (67 controls): INC-77..INC-78 (VTCode CVE-2026-104247 learned-approval/blocklist bypass, loopback DNS-rebinding cluster), EE-07/MS-08 guidance extensions, footer version bumped |
 | 1.9 | 2026-10-05 | Updated to framework v1.18 (67 controls): INC-74..INC-76 (GitLab AI Gateway CVE-2026-90970, Comment and Control CI, MCP tooling argument-injection cluster), TP-15/MS-08/EE-07 guidance extensions, footer version bumped |
