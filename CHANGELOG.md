@@ -6,6 +6,19 @@ new entry at the top.
 
 **Current:** v1.20 (November 7, 2026)
 
+**Maintenance (Nov 2026):** fixed stale hardcoded control counts/ranges that had
+drifted below the real v1.20 numbers — README (67 Controls, G1–G27, G1–G32,
+63 Rego), policies/README (67 total, missing MS-15/TP-16), ROADMAP (63 Rego,
+stub list, "framework v1.7 frozen"), the framework-architecture diagrams
+(MS-14→MS-15, TP-15→TP-16, EE-04→EE-08, DS-06→DS-08, IAM-08→IAM-10) and the
+telemetry SVG (67→69). Root cause: control counts and pillar ranges were
+hardcoded in the two diagram generators and the verify gate, so a release could
+bump `verify_artifacts.py` constants while the SVG/prose lagged. Fix: new
+`tools/control_metadata.py` derives count + per-pillar ranges from
+`framework.md` (single source of truth); both generators and the verify gate
+now read from it; the gate additionally rejects any README control-count
+assertion other than the current one.
+
 ## v1.20 — November 7, 2026
 Monthly deep review (Mode A, full Six Thinking Hats): six new incident clusters INC-79..INC-84 and two new structural gaps G33-G34, moving the framework to 69 controls (MS 15 / IAM 10 / DS 8 / TP 16 / MIR 6 / GRM 6 / EE 8), 84 incidents, 34 gaps. INC-79 — MCP connection-path OAuth RCE (opencode, Pillar Security): a remote MCP server's advertised authorization_endpoint reached a browser-launch helper and PowerShell subexpression on Windows/WSL at sign-in time, with no origin comparison and no CVE/advisory; the same class as CVE-2025-6514 and Copilot CVE-2026-103572. -> NEW G33 (Critical), tool-connection and launch-path integrity, new control TP-16. INC-80 — the MCP tool-argument command-injection wave (eight VulnCheck CVEs CVE-2026-117558..117569 plus functype-mcp-server CVE-2026-59176 and Langflow CVE-2026-105740 actively exploited, 1,423 honeypot attempts), a G27/TP-15 and INC-76 escalation; functype showed a valid package spec reaching an installer is code execution with zero shell encoding (extends G25/TP-13). INC-81 — cross-tenant agent memory leakage (MemLeak shared-vector-store semantic leakage at 70-100% incidental / 90-100% adversarial placement, only hard ownership gating works; Strands Agents Tools memory-namespace IDOR GHSA-mpxq-953j-42m4; Ryvane cross-tenant write CVE-2026-2018/2104). -> NEW G34 (High), cross-tenant isolation in pooled agent infrastructure, new control MS-15. INC-82 — multi-tenant AI code-execution hosting tier escapes (Beta9/Beam CVE-2026-120306/120307/120308, Prefab UI CVE-2026-120338, ServiceNow Rhino CVE-2026-103093, OpenHands CVE-2026-112346, Flowise), extending EE-01 and feeding G34's compute wing. INC-83 — CI/CD agent config-file trust-ordering and marker authorship (GitInject config-file precedence; Radware 145M-item GitHub hidden-text census), extending MS-13 (instruction-source trust-ordering). INC-84 — visual prompt injection into agent ability configuration (Repeat-After-Me AISec '26; OpenClaw TOOLS.md overwrite from a minimally injected image), extending MS-09. Extensions: EE-01 (multi-tenant execution hosting tier), MS-09 (multimodal instruction channels reaching agent self-configuration), MS-13 (instruction-source authorship/trust-ordering), TP-15/MS-08/TP-13 (tool-argument command injection, active Langflow exploitation). Field findings FF-02/FF-03/FF-04/FF-05 adopted into the assessment methodology (Section 8/Phase 2). Structural-review finding: the single-instance assumption — pooled multi-tenant agent memory/compute/infrastructure is now a first-class isolation surface.
 

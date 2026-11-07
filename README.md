@@ -19,7 +19,7 @@ shield-ai/
 │   ├── shield-ai-field-findings.md            Field validation lessons (FF-01..)
 │   ├── shield-ai-watchlist.md                 Current watchlist (rebuilt monthly)
 │   ├── shield-ai-tooling-map.md               Tools/processes covering all controls
-│   ├── shield-ai-deep-review-*.md             Monthly deep-review records (2026-08, 2026-09)
+│   ├── shield-ai-deep-review-*.md             Monthly deep-review records (2026-08, 2026-09, 2026-11)
 │   └── shield-ai-reference-architecture-walkthrough.md
 ├── assessment-guide/     Consultant's field manual (7 pillars × 69 controls)
 ├── presentations/        Slide decks + static deliverables
@@ -35,8 +35,8 @@ shield-ai/
 │   ├── aware-super/       Aware Super production-AI briefing
 │   ├── nbn/               NBN Co national-infrastructure briefing
 │   └── retailer/          Retail-sector briefing
-├── exploits/             Novel AI exploit catalog (G1–G27, one entry per type)
-├── policies/             Policy-as-code controls (63 Rego/OPA, deny-override)
+├── exploits/             Novel AI exploit catalog (G1–G34, one entry per type)
+├── policies/             Policy-as-code controls (69 Rego/OPA, deny-override)
 ├── case-studies/         Sanitised field-validation records
 ├── reference-impl/       Milestone 2: runnable Go sidecar + OPA + telemetry
 ├── demo/                 Demo policies + OPA inputs/tests + docker-compose
@@ -48,7 +48,7 @@ shield-ai/
 ## Framework at a Glance
 
 - **7 Pillars:** Model Security (MS) · Identity & Access (IAM) · Data Security (DS) · Tool & Pipeline Security (TP) · Monitoring & Incident Response (MIR) · Governance & Risk Management (GRM) · Execution Environment (EE)
-- **67 Controls** across all pillars, each with implementation guidance, maturity indicators and regulatory mappings, shipping as executable Rego deny-override policy with test vectors (see `policies/`).
+- **69 Controls** across all pillars, each with implementation guidance, maturity indicators and regulatory mappings, shipping as executable Rego deny-override policy with test vectors (see `policies/`).
 - **4 Maturity Levels:** L1 (Initial) → L2 (Managed) → L3 (Defined) → L4 (Optimised)
 - **Regulatory Alignment:** ISM, Essential Eight, SOCI Act, APRA CPS 234, PSPF, Privacy Act 1988, OWASP LLM Top 10 v2, NIST AI RMF, EU AI Act, ISO/IEC 42001, Google SAIF, MITRE ATLAS, AU Mandatory Guardrails (proposed)
 
@@ -58,7 +58,7 @@ shield-ai/
 - **[Implementation Architecture](framework/shield-ai-implementation-architecture.md)** — deployable component model with full SVG diagram set
 - **[Gap Analysis](framework/shield-ai-gap-analysis.md)** — sandbox-escape incident research driving framework evolution (v1.20, 84 incidents, 34 gaps)
 - **[Watchlist](framework/shield-ai-watchlist.md)** — components under active monitoring; rebuilt and replaced each monthly deep-review cycle
-- **[Novel AI Exploit Catalog](exploits/README.md)** — one entry per exploit type (G1–G32) mapped to covering controls
+- **[Novel AI Exploit Catalog](exploits/README.md)** — one entry per exploit type (G1–G34) mapped to covering controls
 - **[Tooling and Process Map](framework/shield-ai-tooling-map.md)** — tools and processes covering all 69 controls, with L1–L4 adoption roadmap
 - **[Assessment Guide](assessment-guide/shield-ai-assessment-guide.md)** — consultant's field manual with per-control assessment questions, artifacts, maturity indicators
 - **[Control Schema](assets/shield-ai-control-schema.json)** — machine-readable control definitions for tooling and automation

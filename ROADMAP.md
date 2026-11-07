@@ -22,7 +22,7 @@
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.3, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.20 | 69 controls, machine-readable |
-| Rego policy set (63) | [OK] Complete | 69 controls as generated stubs (59 implemented with deny-override assertions and test vectors; MS-12, TP-13, TP-14 and TP-15 pending implementation); 253 OPA tests |
+| Rego policy set (69) | [OK] Complete | 69 controls as generated stubs (59 implemented with deny-override assertions and test vectors; MS-12, MS-13, MS-14, MS-15, TP-13, TP-14, TP-15, TP-16, DS-08 and IAM-10 pending implementation); 253 OPA tests |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
@@ -41,11 +41,12 @@
 ## Next Milestones
 
 ### Milestone 1: Convert the Rego policy set to evaluable assertions
-- Convert the 62 shipped stubs from TODO bodies to evaluable assertions with test vectors
-- **COMPLETE (Sep 2026):** 59 controls implemented with deny-override
-  assertions and per-control test vectors (253 OPA tests), following the pattern
-  and shared input model documented in `policies/README.md`. MS-12, TP-13 and TP-14
-  ship as generated stubs pending implementation in a subsequent cycle.
+- Convert the shipped stubs from TODO bodies to evaluable assertions with test vectors
+- **PENDING (v1.20):** 59 controls implemented with deny-override assertions and
+  per-control test vectors (253 OPA tests); MS-12, MS-13, MS-14, MS-15, TP-13,
+  TP-14, TP-15, TP-16, DS-08 and IAM-10 remain generated stubs pending
+  implementation in a subsequent cycle, following the pattern documented in
+  `policies/README.md`.
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components
@@ -82,7 +83,8 @@
 ## Key Decisions
 
 ### What stays unchanged
-- Framework v1.7 -- frozen pending field feedback
+- Framework core -- the 7-pillar model and 4 maturity levels remain stable while
+  the control set advances each weekly/monthly monitoring cycle
 - Assessment guide -- will be tested and refined in first field use
 - Three slide decks -- use them in outreach and enablement
 - JSON schema + Rego stubs -- good enough for tooling baseline

@@ -36,7 +36,7 @@
   <rect x="710" y="55" width="190" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="805.0" y="89.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Model Gateway &amp; Guardrails</text>
     <text x="805.0" y="107.0" text-anchor="middle" class="sm">output guardrails, redaction</text>
-    <text x="805.0" y="72" text-anchor="middle" class="cap">MS-01..11</text>
+    <text x="805.0" y="72" text-anchor="middle" class="cap">MS-01..15</text>
   <rect x="940" y="55" width="160" height="60" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="1020.0" y="79.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">LLM Provider(s)</text>
     <text x="1020.0" y="97.0" text-anchor="middle" class="sm">cloud / self-hosted</text>
@@ -63,13 +63,13 @@
   <rect x="880" y="195" width="220" height="100" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="990.0" y="249.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Tool Registry + MCP Gateway</text>
     <text x="990.0" y="267.0" text-anchor="middle" class="sm">signed tool defs, schema validation</text>
-    <text x="990.0" y="212" text-anchor="middle" class="cap">TP-01..15</text>
+    <text x="990.0" y="212" text-anchor="middle" class="cap">TP-01..16</text>
   <line x1="540" y1="245" x2="620" y2="245" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
   <line x1="850" y1="245" x2="880" y2="245" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#a)"/>
   <rect x="620" y="330" width="230" height="90" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="735.0" y="379.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Identity Plane</text>
     <text x="735.0" y="397.0" text-anchor="middle" class="sm">SPIFFE/SPIRE, JIT creds, delegation</text>
-    <text x="735.0" y="347" text-anchor="middle" class="cap">IAM-01..09</text>
+    <text x="735.0" y="347" text-anchor="middle" class="cap">IAM-01..10</text>
   <rect x="880" y="330" width="220" height="90" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="990.0" y="369.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">External Tools / APIs</text>
     <text x="990.0" y="387.0" text-anchor="middle" class="sm">databases, SaaS, code exec (sandboxed)</text>
@@ -78,7 +78,7 @@
   <rect x="60" y="495" width="250" height="70" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="185.0" y="534.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Data &amp; RAG Security Layer</text>
     <text x="185.0" y="552.0" text-anchor="middle" class="sm">classification, ABAC, redaction</text>
-    <text x="185.0" y="512" text-anchor="middle" class="cap">DS-01..07</text>
+    <text x="185.0" y="512" text-anchor="middle" class="cap">DS-01..08</text>
   <rect x="350" y="495" width="240" height="70" rx="6" fill="#ffffff" stroke="#1a3a6b" stroke-width="1.5"/>
     <text x="470.0" y="534.0" text-anchor="middle" class="label" font-size="12" font-weight="bold">Memory Store</text>
     <text x="470.0" y="552.0" text-anchor="middle" class="sm">per-agent scoped, retention, sanitisation</text>

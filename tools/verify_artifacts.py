@@ -25,6 +25,8 @@ import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from control_metadata import control_count_text, pillar_ranges
 
 EXPECTED_VERSION = "v1.20"
 EXPECTED_COUNT = 69
@@ -110,12 +112,13 @@ def main():
         txt = pdf_text(p)
         check(f"{os.path.basename(p)} footer/version {EXPECTED_VERSION}", EXPECTED_VERSION in txt)
 
-    # 4. SVG ranges
+    # 4. SVG ranges (derived from the framework so a control-set change forces
+    #    a diagram rebuild -- the count can never silently lag EXPECTED_COUNT)
     arch = open("assets/diagrams/framework-architecture.svg", encoding="utf-8").read()
-    for rng in ["MS-01 -> MS-14", "TP-01 -> TP-15", "DS-01 -> DS-08", "EE-01 -> EE-08", "IAM-01 -> IAM-10"]:
+    for rng in pillar_ranges().values():
         check(f"framework-architecture.svg has {rng}", rng in arch)
     tel = open("assets/diagrams/impl-telemetry-pipeline.svg", encoding="utf-8").read()
-    check("impl-telemetry-pipeline.svg has 67 controls", "67 controls" in tel)
+    check(f"impl-telemetry-pipeline.svg has {control_count_text()}", control_count_text() in tel)
 
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
@@ -250,6 +253,16 @@ def main():
           EXPECTED_VERSION in readme)
     check(f"README carries current control count ({EXPECTED_COUNT} controls)",
           f"{EXPECTED_COUNT} controls" in readme)
+    # Reject a stale control count asserted anywhere in the README (the "Keep
+    # the README Tidy" rule: this doc states a single current number). Catches
+    # the v1.18==67 / v1.20==69 drift that presence-of-correct-count alone
+    # (above) never failed on. Case-insensitive: README writes both "69
+    # controls" and "69 Controls". "controls" with no number (tooling-map
+    # prose) is a link, not a count assertion, so require a bare integer.
+    readme_plain = re.sub(r"<[^>]+>", " ", readme)
+    stale_pat = re.compile(rf"(?<![\d])(?!{EXPECTED_COUNT}\b)\d+\s+controls", re.IGNORECASE)
+    for stale in stale_pat.findall(readme_plain):
+        check(f"README asserts a stale control count: '{stale.strip()}'", False)
     readme_links = re.findall(r"\]\(([^)#]+?)(?:#[^)]*)?\)", readme)
     broken = sorted(
         {p for p in readme_links

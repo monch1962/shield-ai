@@ -13,6 +13,9 @@ Usage:
 
 import os, sys, textwrap
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from control_metadata import pillar_ranges
+
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 OUTPUT_DIR = os.path.join(REPO_ROOT, "assets", "diagrams")
 
@@ -77,14 +80,15 @@ def diagram_architecture():
     gap = 10       # gap between boxes
     arrow_gap = 8  # gap above arrowhead
 
+    ranges = pillar_ranges()
     pillars = [
-        ("P7  EXECUTION ENVIRONMENT",          "ISM | E8 | ASD Container Security Guidance", "EE-01 -> EE-08"),
-        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               "MS-01 -> MS-14"),
-        ("P2  IDENTITY &amp; ACCESS",              "ISM | E8 | PSPF",                                  "IAM-01 -> IAM-10"),
-        ("P3  DATA SECURITY",                  "Privacy Act | PSPF",                               "DS-01 -> DS-08"),
-        ("P4  TOOL &amp; PIPELINE SECURITY",       "ISM | E8 | SOCI Act",                              "TP-01 -> TP-15"),
-        ("P5  MONITORING &amp; INCIDENT RESPONSE",  "SOCI Act | APRA CPS 234 | Privacy NDB",           "MIR-01 -> MIR-06"),
-        ("P6  GOVERNANCE &amp; RISK (GRM)",           "APRA CPS 234 | PSPF | Privacy Act | NIST AI RMF", "GRM-01 -> GRM-06"),
+        ("P7  EXECUTION ENVIRONMENT",          "ISM | E8 | ASD Container Security Guidance", ranges["EE"]),
+        ("P1  MODEL SECURITY",                 "ISM | OWASP | NIST",                               ranges["MS"]),
+        ("P2  IDENTITY &amp; ACCESS",              "ISM | E8 | PSPF",                                  ranges["IAM"]),
+        ("P3  DATA SECURITY",                  "Privacy Act | PSPF",                               ranges["DS"]),
+        ("P4  TOOL &amp; PIPELINE SECURITY",       "ISM | E8 | SOCI Act",                              ranges["TP"]),
+        ("P5  MONITORING &amp; INCIDENT RESPONSE",  "SOCI Act | APRA CPS 234 | Privacy NDB",           ranges["MIR"]),
+        ("P6  GOVERNANCE &amp; RISK (GRM)",           "APRA CPS 234 | PSPF | Privacy Act | NIST AI RMF", ranges["GRM"]),
     ]
 
     # Bottom-to-top placement
