@@ -10,7 +10,7 @@ PY    ?= python3
 OPA   ?= $(shell command -v opa 2>/dev/null || echo $(HOME)/.local/bin/opa)
 SKILL_SCRIPTS := $(HOME)/.hermes/profiles/sec-arch/skills/research/threat-informed-architecture-review/scripts
 
-.PHONY: help check rego-schema lint-spacing verify catalog test build
+.PHONY: help check rego-schema lint-spacing verify catalog gap-format dna latency test build
 
 help:
 	@echo "SHIELD-AI local gates"
@@ -19,10 +19,13 @@ help:
 	@echo "  make lint-spacing  pandoc list-merge scan (repo-wide)"
 	@echo "  make verify        artifact verification (footers, counts, schema drift, PDF markers, deck manifests)"
 	@echo "  make catalog       exploit catalog integrity gate (G-ID to entry 1:1, link resolution)"
+	@echo "  make gap-format    gap analysis format check"
+	@echo "  make dna           evolution DNA gate (new threat classes absorbed or re-attested)"
+	@echo "  make latency       incident latency ledger (first-seen -> mapping KPIs, backdate-proof)"
 	@echo "  make test          OPA policy tests (policies/tests + demo/tests)"
 	@echo "  make build         full artifact pipeline (tools/update_all.sh)"
 
-check: rego-schema lint-spacing verify catalog gap-format test
+check: rego-schema lint-spacing verify catalog gap-format dna latency test
 	@echo ""
 	@echo "All gates passed."
 
@@ -40,6 +43,12 @@ catalog:
 
 gap-format:
 	$(PY) tools/check_gap_analysis_format.py
+
+dna:
+	$(PY) tools/check_evolution_dna.py
+
+latency:
+	$(PY) tools/latency_ledger.py
 
 test:
 	$(OPA) test policies policies/tests demo/policies demo/tests
