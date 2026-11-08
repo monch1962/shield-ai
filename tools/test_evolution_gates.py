@@ -11,6 +11,8 @@ Gates under test (each via a fresh subprocess, cwd at repo root):
 2. check_evolution_dna.py  -- past review_due on open canary
 3. check_evolution_dna.py  -- false coverage (bogus control + gap)
 4. latency_ledger.py       -- freshness via SHIELD_OPEN_MAX_DAYS override
+5. source-date debt        -- an incident missing from the debt file fires
+6. source-date debt        -- a stale (now-dated) entry in the debt file fires
 
 Exits 1 if any gate fails to fire (i.e., a protection was lost). Wired into
 `make test-gates`.
@@ -110,13 +112,43 @@ def main():
     if rc == 0:
         failures.append("feed-misfit provenance did not fire")
 
+    # --- 5. source-date debt: incident missing from the debt file ----------
+    can = "framework/source-date-debt.md"
+    tmp = copy_restore(can)
+    d = open(can).read()
+    d = d.replace("| INC-37 |", "| INC-37Z |", 1)  # evict one dateless incident
+    open(can, "w").write(d)
+    rc = run_gate("latency_ledger.py")
+    restore(tmp, can)
+    fired += (rc != 0)
+    print(f"  {'ok ' if rc != 0 else 'FAIL'} source-date debt missing-entry fires (rc={rc})")
+    if rc == 0:
+        failures.append("source-date debt missing-entry did not fire")
+
+    # --- 6. source-date debt: stale (now-dated) entry in the debt file -----
+    can = "framework/source-date-debt.md"
+    tmp = copy_restore(can)
+    d = open(can).read()
+    # Inject a row for a dated incident that DOES have a parseable date (INC-90);
+    # a debt listing for a dated incident is stale and must fail.
+    d = d.replace("| INC-89 |",
+                  "| INC-90 | 2026-11-06 | placeholder | placeholder |\n| INC-89 |", 1)
+    open(can, "w").write(d)
+    rc = run_gate("latency_ledger.py")
+    restore(tmp, can)
+    fired += (rc != 0)
+    print(f"  {'ok ' if rc != 0 else 'FAIL'} source-date debt stale-entry fires (rc={rc})")
+    if rc == 0:
+        failures.append("source-date debt stale-entry did not fire")
+
     # restore any stray backups
     for f in ["framework/feed-misfits.md.testbak",
-              "framework/evolution-canaries.md.testbak"]:
+              "framework/evolution-canaries.md.testbak",
+              "framework/source-date-debt.md.testbak"]:
         if os.path.exists(f):
             os.remove(f)
 
-    print(f"\n  {fired}/5 evolution-gate antagonisms fire correctly.")
+    print(f"\n  {fired}/7 evolution-gate antagonisms fire correctly.")
     if failures:
         print("Evolution gate tests FAILED:")
         for f in failures:

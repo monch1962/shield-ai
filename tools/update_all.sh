@@ -14,7 +14,10 @@
 #   5. HTML deck PDFs via decktape        (board, business, bridge, technical)
 #   6. Client decks + walkthrough PPTX    (build_deck.py x5)
 #   7. NBN deck PDF via LibreOffice container (podman lo-deck)
-#   8. Gates: list-spacing, trademark, ai-tell
+#   8. Gates: list-spacing, trademark, ai-tell, and — evolution + intake:
+#      collect_feed drains staging -> misfit / DNA / latency gates consume it
+#      (tools/collect_feed.py, check_feed_misfits.py, check_evolution_dna.py,
+#      latency_ledger.py)
 #   9. Count/version sweep report
 #  10. Artifact verification              (tools/verify_artifacts.py)
 #
@@ -124,6 +127,11 @@ else
       client-specific/nbn/build_deck.py client-specific/retailer/build_deck.py \
       presentations/reference-architecture-walkthrough/build_deck.py || true
 fi
+echo "  -- evolution + intake gates (collect_feed drains staging; the misfit, DNA and latency gates consume it)"
+"$PY" tools/collect_feed.py
+"$PY" tools/check_feed_misfits.py || FAILED+=("feed-misfits")
+"$PY" tools/check_evolution_dna.py || FAILED+=("evolution-dna")
+"$PY" tools/latency_ledger.py || FAILED+=("latency-ledger")
 
 # --- 9. Count/version sweep report ---
 step "9/10  Count/version sweep (review these; version history legitimately contains old versions)"

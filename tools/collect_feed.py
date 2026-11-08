@@ -33,6 +33,9 @@ os.chdir(ROOT)
 MANIFEST = os.path.join(ROOT, "framework", "threat-feeds.md")
 LEDGER = os.path.join(ROOT, "framework", "feed-misfits.md")
 STAGING = os.path.join(ROOT, "framework", "feed-staging.tsv")
+# Consumed intake is archived so staging reflects PENDING intake only (a re-run
+# does not re-classify the same rows forever). Kept append-only for audit.
+ARCHIVE = os.path.join(ROOT, "framework", "feed-intake-archive.tsv")
 
 # Pillar keyword classifiers (lowercased substring scoring). An item matches a
 # pillar if any keyword appears in its title; a no-pillar item is a misfit.
@@ -127,6 +130,7 @@ def main():
     intake = {"total": 0, "absorbed": 0, "misfit": 0, "per_lineage": {}}
     new_misfits = 0
     next_mid = max([int(c[0].split("-")[1]) for c in read_ledger_rows()] or [0]) + 1
+    consumed, retained = [], []
 
     with open(STAGING, encoding="utf-8", errors="replace") as f:
         for line in f:
@@ -138,19 +142,23 @@ def main():
                 continue
             feed_id, lineage, title = parts[0].strip(), parts[1].strip(), parts[2].strip()
             if feed_id not in feeds:
-                print(f"  skip: unknown feed_id {feed_id} (not in manifest)")
+                # unknown feed is an operator error -- keep it staged, don't drop
+                print(f"  skip: unknown feed_id {feed_id} (not in manifest) -- kept staged")
+                retained.append(line)
                 continue
             if feeds[feed_id]["lineage"] != lineage:
-                print(f"  skip: lineage mismatch for {feed_id} ({feeds[feed_id]['lineage']} vs {lineage})")
+                print(f"  skip: lineage mismatch for {feed_id} ({feeds[feed_id]['lineage']} vs {lineage}) -- kept staged")
+                retained.append(line)
                 continue
             intake["total"] += 1
             intake["per_lineage"][lineage] = intake["per_lineage"].get(lineage, 0) + 1
 
-            hits = classify(title)
-            if hits:
+            if classify(title):
                 intake["absorbed"] += 1
+                consumed.append((today, feed_id, lineage, title, "absorbed"))
                 continue
             if title.lower() in seen_titles:
+                consumed.append((today, feed_id, lineage, title, "duplicate"))
                 continue
             # genuine no-pillar misfit; review_due defaults to 90 days out (one
             # review cadence) so the sunrise gate has a window to act on it.
@@ -162,11 +170,29 @@ def main():
             append_ledger_row([mid, feed_id, lineage, title, today, "open", due, ""])
             seen_titles.add(title.lower())
             new_misfits += 1
+            consumed.append((today, feed_id, lineage, title, f"misfit {mid}"))
+
+    # Drain consumed rows out of staging into the append-only archive, so a
+    # re-run (or the next weekly cron tick) does not re-classify the same intake.
+    # Only operator-error rows (unknown feed / lineage mismatch) stay staged.
+    if consumed:
+        with open(ARCHIVE, "a", encoding="utf-8") as af:
+            if not os.path.exists(ARCHIVE) or os.path.getsize(ARCHIVE) == 0:
+                af.write("# consumed_at\tfeed_id\tlineage\ttitle\toutcome\n")
+            for row in consumed:
+                af.write("\t".join(row) + "\n")
+        with open(STAGING, "w", encoding="utf-8") as sf:
+            if retained:
+                sf.write("\n".join(retained) + "\n")
+    else:
+        print("  nothing consumed (staging empty or all rows retained) -- staging unchanged")
 
     print(f"  intake: {intake['total']} items ({intake['absorbed']} absorbed, {intake['misfit']} no-pillar misfits)")
     for lin, n in sorted(intake["per_lineage"].items()):
         print(f"    lineage {lin}: {n} items")
     print(f"  appended {new_misfits} new misfit(s) to framework/feed-misfits.md")
+    print(f"  drained {len(consumed)} consumed row(s) to framework/feed-intake-archive.tsv; "
+          f"{len(retained)} operator-error row(s) kept staged")
     print("  collector idle exit 0 (check_feed_misfits.py is the gate that consumes this)")
 
 
