@@ -57,15 +57,15 @@ This v1.15 update (the weekly monitoring cycle, Mode B) adds **two new incident 
 
 | # | Gap | Severity | Incidents | Current Coverage |
 |---|-----|----------|-----------|------------------|
-| G1 | No execution environment (sandbox/VM/container) isolation control | **Critical** | 7/10 incidents | None |
+| G1 | No execution environment (sandbox/VM/container) isolation control | **Critical** | 7/10 incidents | EE-01 (P7, new pillar; extended v1.12), EE-03 (P7) |
 | G2 | No cross-tool dependency/chain analysis | **High** | 7/10 incidents | TP-01 (tool registry) insufficient |
 | G3 | No infrastructure API vs tool API distinction | **High** | 4/10 incidents | TP-03 (API gateway) insufficient |
 | G4 | No multi-hop identity delegation chain verification | **High** | 5/10 incidents | IAM-02 (scope-bound delegation) insufficient |
-| G5 | No agent deployment context awareness | **Medium** | 2/10 incidents | None |
-| G6 | No evaluation/test sandbox controls | **Medium** | 2/10 incidents | None |
+| G5 | No agent deployment context awareness | **Medium** | 2/10 incidents | MS-07 (P1), MS-05 (P1, extended) |
+| G6 | No evaluation/test sandbox controls | **Medium** | 2/10 incidents | EE-04 (P7) |
 | G7 | No side-channel detection controls | **Medium** | 3/10 incidents | MIR-02 (anomaly detection) insufficient |
 | G8 | No host-trusted file injection prevention (indirect sandbox escape) | **Critical** | 5/5 Pillar Security research | EE-01 (direct escape only) insufficient |
-| G9 | No MCP protocol-layer security controls | **Critical** | 3 independent research teams | None |
+| G9 | No MCP protocol-layer security controls | **Critical** | 3 independent research teams | MS-08 (P1), MS-12 (P1, new v1.8), TP-06 (P4, extended) |
 | G10 | No fail-closed sandbox operation (fail-open fallback to weak sandbox) | **Critical** | CrewAI CVE-2026-2275/2286/2287 + Lyrie Research analysis | EE-01 insufficient — no runtime mode verification |
 | G11 | No agent control-plane configuration integrity (self-config poisoning + config trust) | **Critical** | Codex CLI config.toml (Cymulate), CVE-2026-35603 (4 tools) | EE-05 insufficient — agent's own config not covered |
 | G12 | No multi-tenant agent platform isolation (IDOR class) | **High** | Langflow CVE-2026-55255/0770 (CISA KEV) | IAM-01/02 insufficient — no tenant scoping |
