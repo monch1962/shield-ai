@@ -1,0 +1,4 @@
+FEED-03	govt-cert	Australian ACSC advisory on model-endpoint regional fail-open defaults
+FEED-01	vendor	NVD entry for a cross-tenant vector-store namespace IDOR in an agent memory SDK
+FEED-02	vendor	Google mcp-toolbox SSRF via missing CheckRedirect policy (CVSS 8.0)
+FEED-06	in-the-wild	In-the-wild scan of agent frameworks finding an exposed OB1 gateway port

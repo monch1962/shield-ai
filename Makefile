@@ -21,11 +21,13 @@ help:
 	@echo "  make catalog       exploit catalog integrity gate (G-ID to entry 1:1, link resolution)"
 	@echo "  make gap-format    gap analysis format check"
 	@echo "  make dna           evolution DNA gate (new threat classes absorbed or re-attested)"
-	@echo "  make latency       incident latency ledger (first-seen -> mapping KPIs, backdate-proof)"
+	@echo "  make latency       incident latency ledger (publication -> record KPIs, backdate-proof)"
+	@echo "  make feed-misfits  external feed harvester + misfit-ratchet gate (per-lineage provenance)"
+	@echo "  make test-gates    replay evolution-gate antagonisms (prove protections still fire)"
 	@echo "  make test          OPA policy tests (policies/tests + demo/tests)"
 	@echo "  make build         full artifact pipeline (tools/update_all.sh)"
 
-check: rego-schema lint-spacing verify catalog gap-format dna latency test
+check: rego-schema lint-spacing verify catalog gap-format dna feed-misfits latency test test-gates
 	@echo ""
 	@echo "All gates passed."
 
@@ -49,6 +51,13 @@ dna:
 
 latency:
 	$(PY) tools/latency_ledger.py
+
+feed-misfits:
+	$(PY) tools/check_feed_misfits.py
+	$(PY) tools/collect_feed.py >/dev/null
+
+test-gates:
+	$(PY) tools/test_evolution_gates.py
 
 test:
 	$(OPA) test policies policies/tests demo/policies demo/tests
