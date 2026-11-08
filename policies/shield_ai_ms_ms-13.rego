@@ -1,4 +1,6 @@
-package shield_ai.ms.transcript_and_conversation_au
+package shield_ai.ms.transcript_and_conversation_authenticity
+
+import rego.v1
 
 # SHIELD-AI(TM) MS-13: Transcript and Conversation Authenticity
 # Pillar: MS -- Model Security
@@ -17,14 +19,38 @@ package shield_ai.ms.transcript_and_conversation_au
 #   EU AI Act: Art. 14 (Human Oversight)
 #   ISM: Guidelines for System Monitoring
 
-# Default deny
-default deny = false
+# IMPLEMENTED (v1.20, Nov 2026) -- reference implementation (INC-70 Darktrace
+# conversation-history poisoning; INC-83 config-file trust-ordering/marker
+# authorship). Input model: input.action.kind == "transcript_read" (an agent
+# about to reason over its stored history). The stored transcript must be
+# verified as authentic model output before any reasoning or confidence-gated
+# action proceeds from it.
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_13
-#     msg := sprintf("MS-13 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "transcript_read"
+    input.action.transcript.model_output_signed == false
+    msg := sprintf("MS-13 deny: agent %q reads a transcript whose model outputs are not signed at the model boundary; stored response cannot be verified as genuine", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "transcript_read"
+    input.action.transcript.verified_on_read == false
+    msg := sprintf("MS-13 deny: agent %q proceeds from an unverified transcript; every stored response must be verified on read before reasoning", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "transcript_read"
+    input.action.transcript.chain_break == true
+    input.action.transcript.confidence_gated_action == true
+    msg := sprintf("MS-13 deny: agent %q attempts a confidence-gated action from a transcript with a broken authenticity chain; chain-break blocks execution", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "transcript_read"
+    input.action.transcript.store_verified == false
+    msg := sprintf("MS-13 deny: agent %q reads from an unverified transcript store; transcript stores are untrusted until verified", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

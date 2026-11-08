@@ -1,4 +1,6 @@
-package shield_ai.ds.destination_and_emergent_chann
+package shield_ai.ds.destination_and_emergent_channel_egress_inventory
+
+import rego.v1
 
 # SHIELD-AI(TM) DS-08: Destination and Emergent-Channel Egress Inventory
 # Pillar: DS -- Data Security
@@ -17,14 +19,46 @@ package shield_ai.ds.destination_and_emergent_chann
 #   OWASP: LLM01 (Prompt Injection)
 #   EU AI Act: Art. 15(b)
 
-# Default deny
-default deny = false
+# IMPLEMENTED (v1.20, Nov 2026) -- reference implementation (INC-72 SalesBleed
+# DNS/image-tag exfiltration and Trusted-URLs parse-quirk bypass; Framing Gap
+# arXiv 2608.27092 ROT13 classifier defeat). Input model:
+# input.action.kind == "egress"; every outbound sink an agent can reach (URL/DNS/
+# rendered rich media/messaging-unfurl/browser) must be mapped to an explicit
+# control, verified by a payload-blind hard allow-list, not a content classifier.
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ds_ds_08
-#     msg := sprintf("DS-08 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.egress.destination_allowlisted == false
+    msg := sprintf("DS-08 deny: agent %q egress to destination not on the payload-blind allow-list", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.egress.channel_inventoried == false
+    msg := sprintf("DS-08 deny: agent %q egress through an un-inventoried sink (channel not enumerated/mapped to a control)", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.egress.classifier_based == true
+    msg := sprintf("DS-08 deny: agent %q egress rely on a content classifier rather than a payload-blind hard allow-list", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.egress.channel == "messaging"
+    input.action.egress.invoker_attributed == false
+    msg := sprintf("DS-08 deny: agent %q messaging egress lacks invoker attribution and user confirmation", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.egress.channel == "dns"
+    input.action.egress.dns_resolver_allowlisted == false
+    msg := sprintf("DS-08 deny: agent %q DNS egress is not restricted to allow-listed resolvers with inspected names", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.egress.channel == "rendered_media"
+    input.action.egress.render_source_allowlisted == false
+    msg := sprintf("DS-08 deny: agent %q rendered rich-media source is not on the destination allow-list", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

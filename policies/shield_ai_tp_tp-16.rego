@@ -1,4 +1,6 @@
-package shield_ai.tp.tool_connection_and_launch_pat
+package shield_ai.tp.tool_connection_and_launch_path_integrity
+
+import rego.v1
 
 # SHIELD-AI(TM) TP-16: Tool-Connection and Launch-Path Integrity
 # Pillar: TP -- Tool and Pipeline Security
@@ -17,14 +19,50 @@ package shield_ai.tp.tool_connection_and_launch_pat
 #   EU AI Act: Art. 14 (Human Oversight)
 #   ISM: Guidelines for System Hardening, Application Control
 
-# Default deny
-default deny = false
+# IMPLEMENTED (v1.20, Nov 2026) -- reference implementation (INC-79 opencode MCP
+# OAuth RCE; INC-85 AgentScope registration-time launch; INC-88 MCP protocol
+# pivoting / cross-protocol trust; INC-92 peer-agent collaboration surfaces).
+# Input model: input.action.kind == "tool_connect" / "tool_launch". Remote
+# peer-supplied protocol metadata must never cross into a process-launch or shell
+# primitive; the authorization endpoint is origin-bound and validated on its
+# canonical value.
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.tp_tp_16
-#     msg := sprintf("TP-16 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    input.action.connection.transport_metadata_to_launch == true
+    msg := sprintf("TP-16 deny: agent %q connection hands server-supplied protocol metadata to a process-launch/shell primitive (code-execution boundary)", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    input.action.connection.auth_endpoint_origin_bound == false
+    msg := sprintf("TP-16 deny: agent %q authorization endpoint is not origin-bound to the configured server", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    input.action.connection.auth_endpoint_validated_canonical == false
+    msg := sprintf("TP-16 deny: agent %q accepts the server-advertised authorization endpoint without validating the canonical processed value against the configured origin", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "tool_launch"
+    input.action.launch.command_allowlisted == false
+    msg := sprintf("TP-16 deny: agent %q launch command registered through a tool/server definition is not on the allowlist", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "tool_launch"
+    input.action.launch.model_derived_command == true
+    msg := sprintf("TP-16 deny: agent %q auto-launch command is model-influenced or externally derived; a server definition must not register an arbitrary OS command", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    input.action.connection.peer_supplied_transport_field_crosses_launch == true
+    msg := sprintf("TP-16 deny: agent %q connection has a peer-supplied transport field crossing into an execution/launch primitive; terminated and alerted (fail closed)", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

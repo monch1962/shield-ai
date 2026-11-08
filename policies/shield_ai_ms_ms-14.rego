@@ -1,5 +1,7 @@
 package shield_ai.ms.self_replication_barrier
 
+import rego.v1
+
 # SHIELD-AI(TM) MS-14: Self-Replication Barrier
 # Pillar: MS -- Model Security
 #
@@ -17,14 +19,39 @@ package shield_ai.ms.self_replication_barrier
 #   EU AI Act: Art. 14 (Human Oversight)
 #   ISM: Guidelines for System Monitoring
 
-# Default deny
-default deny = false
+# IMPLEMENTED (v1.20, Nov 2026) -- reference implementation (INC-71 OpenAI
+# GPT-Red self-replicating prompt injections). Input model:
+# input.action.kind == "outbound_publish". Agent-generated outbound content must
+# be screened for near-verbatim re-emission of instruction-bearing input;
+# a replication match quarantines the write and requires human approval.
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.ms_ms_14
-#     msg := sprintf("MS-14 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "outbound_publish"
+    input.action.outbound.replication_match == true
+    input.action.outbound.quarantined == false
+    msg := sprintf("MS-14 deny: outbound publish by agent %q matches an instruction-bearing n-gram fingerprint (replication vector) and is not quarantined", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "outbound_publish"
+    input.action.outbound.replication_match == true
+    input.action.outbound.human_approved == false
+    msg := sprintf("MS-14 deny: outbound publish by agent %q is a fingerprinted replication match that lacks human approval", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "outbound_publish"
+    input.action.outbound.broadcast == true
+    input.action.outbound.human_signoff == false
+    msg := sprintf("MS-14 deny: outbound broadcast by agent %q lacks human signoff (one-channel-per-write / human-signoff-on-broadcast)", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "outbound_publish"
+    input.action.outbound.propagation_signal == true
+    msg := sprintf("MS-14 deny: outbound publish by agent %q carries a propagation signal; channel-kill and incident response triggered (worm-emulation)", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}

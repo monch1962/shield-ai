@@ -1,4 +1,6 @@
-package shield_ai.iam.taint_tracked_least_privilege_
+package shield_ai.iam.taint_tracked_least_privilege_subagent_scoping
+
+import rego.v1
 
 # SHIELD-AI(TM) IAM-10: Taint-Tracked Least-Privilege Subagent Scoping
 # Pillar: IAM -- Identity and Access
@@ -17,14 +19,41 @@ package shield_ai.iam.taint_tracked_least_privilege_
 #   EU AI Act: Art. 14(b)
 #   ISM: Guidelines for System Management
 
-# Default deny
-default deny = false
+# IMPLEMENTED (v1.20, Nov 2026) -- reference implementation (INC-72 SalesBleed
+# Poisoned-lead cross-table read via default-access General CRM subagent).
+# Input model: input.action.kind == "data_read"; input.action.record.tainted =
+# the record was externally/submitted or poisoned; a record-handling subagent
+# must be taint-scoped to field-level least privilege and must not cascade into
+# untainted sensitive collections.
 
-# TODO: Implement control test logic
-# Example structure:
-#
-# deny[msg] {
-#     agent := input.agents[_]
-#     not agent.iam_iam_10
-#     msg := sprintf("IAM-10 violation: agent %v does not meet control requirements", [agent.id])
-# }
+deny contains msg if {
+    input.action.kind == "data_read"
+    input.action.record.tainted == true
+    input.action.record.taint_marked == false
+    msg := sprintf("IAM-10 deny: agent %q processed an externally-submitted record that was not taint-marked at ingestion", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "data_read"
+    input.action.record.tainted == true
+    input.action.record.field_level_scoped == false
+    msg := sprintf("IAM-10 deny: agent %q reads a tainted record without field-level least-privilege scoping (must be narrower than nominal grants)", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "data_read"
+    input.action.record.tainted == true
+    input.action.record.cascades_to_sensitive == true
+    msg := sprintf("IAM-10 deny: agent %q tainted read cascades into an untainted sensitive collection beyond the immediate task; blocked", [input.agent.id])
+}
+
+deny contains msg if {
+    input.action.kind == "data_read"
+    input.action.record.tainted == true
+    input.action.record.sanitisation_boundary_explicit == false
+    msg := sprintf("IAM-10 deny: agent %q processed a tainted record where the untrusted/trusted sanitisation boundary is not an explicit access-control decision", [input.agent.id])
+}
+
+allow if {
+    count(deny) == 0
+}
