@@ -54,6 +54,11 @@ MONTHS = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5,
           "November": 11, "December": 12}
 MONTH_RE = "|".join(MONTHS)
 
+# Source-date debt file: incidents whose blockquote lacks a parseable
+# 'Month D, YYYY' publication date. Tracked as a committed ratchet, not a
+# fabricated date -- see framework/source-date-debt.md.
+DEBT_FILE = os.path.join(ROOT, "framework", "source-date-debt.md")
+
 failures = []
 
 
@@ -103,6 +108,18 @@ def parse_changelog():
             if n not in explicit:
                 explicit[n] = ver
     return first_seen, explicit, vers
+
+
+def parse_debt_file():
+    """Return the set of INC numbers listed in the source-date debt file."""
+    if not os.path.exists(DEBT_FILE):
+        return None  # None means the file is missing (a gate failure)
+    out = set()
+    for ln in open(DEBT_FILE, encoding="utf-8").read().splitlines():
+        m = re.match(r"^\|\s*INC-(\d+)\s*\|", ln)
+        if m:
+            out.add(int(m.group(1)))
+    return out
 
 
 def parse_publication_dates():
@@ -216,14 +233,30 @@ def main():
 
     check(f"publication date parsed for {len(pub)} incident blockquotes "
           f"({len(set(pub) & set(dated))} of {len(dated)} dated)", True)
+    # Source-date debt is a committed ratchet: dated incidents without a
+    # parseable source date must be listed in framework/source-date-debt.md, and
+    # no incident may be listed there once it gains a date. It is NOT a hard
+    # failure -- a non-'Month D, YYYY' source (e.g. 'reported Aug 29') legitimately
+    # lacks a date and must never be assigned one by fabrication -- but the
+    # listing itself is enforced so the cleanup is owned and visible.
+    debt = parse_debt_file()
+    if debt is None:
+        check(f"source-date debt file {os.path.relpath(DEBT_FILE, ROOT)} exists", False)
+    else:
+        missing_from_file = sorted(set(no_pub) - debt)
+        stale_in_file = sorted(debt - set(no_pub))
+        check(f"source-date debt file tracks {len(debt)} incidents "
+              f"({len(no_pub)} dated without a source date)", True)
+        for n in missing_from_file:
+            check(f"  INC-{n} lacks a source date but is not in {os.path.relpath(DEBT_FILE, ROOT)}", False)
+        for n in stale_in_file:
+            check(f"  INC-{n} listed in debt file but now has a source date -- remove it", False)
+        if not (missing_from_file or stale_in_file):
+            check("debt file exactly matches the dated-without-date set "
+                  f"({len(debt)} == {len(no_pub)})", True)
     if no_pub:
-        # Not a hard gate: incidents whose blockquote uses a non-'Month D, YYYY'
-        # format (e.g. 'reported Aug 29, patched Sept 28') legitimately lack a
-        # parseable date and must not be assigned one by fabrication. The KPI is
-        # computed over attributable incidents; the missing ones are tracked as
-        # source-date debt the cadence should clear, and surfaced as a warning.
         ids = ", ".join(f"INC-{n}" for n in sorted(no_pub))
-        print(f"  [warn] {len(no_pub)} dated incidents lack a parseable 'Month D,"
+        print(f"  [info] {len(no_pub)} dated incidents lack a parseable 'Month D,"
               f" YYYY' source date (excluded from KPI, tracked as source-date debt): {ids}")
     else:
         check(f"all dated incidents carry a source publication date "
