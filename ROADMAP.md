@@ -22,14 +22,14 @@
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.3, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.22 | 69 controls, machine-readable |
-| Rego policy set (69) | [OK] Complete | 69 controls as generated stubs (59 implemented with deny-override assertions and test vectors; MS-12, MS-13, MS-14, MS-15, TP-13, TP-14, TP-15, TP-16, DS-08 and IAM-10 pending implementation); 253 OPA tests |
+| Rego policy set (69) | [OK] Complete | All 69 controls implemented as deny-override assertions with per-control test vectors; 330 OPA tests pass |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
 
 | Pri | Item | Verdict | Effort | Impact |
 |-----|------|---------|--------|--------|
-| [X] | Rego policy stubs for all 69 controls | Complete (v1.22) | Per-control | Automated control testing per GRM-05/06 |
+| [X] | Implement all 69 controls as deny-override Rego policy | Complete (v1.22) | Per-control | Automated control testing per GRM-05/06 |
 | [X] | EE pillar policy stubs (EE-01..08) | Complete (v1.7) | 1-2 days | Closed the largest stub gap |
 | P1 | Reference implementation (deployable tooling from the implementation architecture doc) | Next milestone | Multi-week | Validates the component model against real environments |
 | P2 | Public release | After field validation | 1 day | Community adoption |
@@ -40,13 +40,11 @@
 
 ## Next Milestones
 
-### Milestone 1: Convert the Rego policy set to evaluable assertions
-- Convert the shipped stubs from TODO bodies to evaluable assertions with test vectors
-- **PENDING (v1.22):** 59 controls implemented with deny-override assertions and
-  per-control test vectors (253 OPA tests); MS-12, MS-13, MS-14, MS-15, TP-13,
-  TP-14, TP-15, TP-16, DS-08 and IAM-10 remain generated stubs pending
-  implementation in a subsequent cycle, following the pattern documented in
-  `policies/README.md`.
+### Milestone 1: Implement the Rego policy set as evaluable assertions
+- Convert every control from its TODO stub to deny-override assertions with test vectors
+- **COMPLETE (v1.22):** all 69 controls implemented with deny-override
+  assertions and per-control test vectors (330 OPA tests), following the
+  pattern and shared input model documented in `policies/README.md`.
 - Wire the policy set into the reference architecture's policy decision points
 
 ### Milestone 2: Reference implementation of the deployable components

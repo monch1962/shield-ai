@@ -76,6 +76,36 @@ def frontmatter_date(path):
     return None
 
 
+def count_opa_tests():
+    """Number of top-level OPA test rules (matches `opa test` PASS total)."""
+    import glob
+    total = 0
+    for base in ("policies", "demo"):
+        for p in glob.glob(f"{base}/**/*.rego", recursive=True):
+            try:
+                body = open(p, encoding="utf-8").read()
+            except OSError:
+                continue
+            total += len(re.findall(r"(?m)^test_[\w]+\s+if\b", body))
+    return total
+
+
+def check_stale_control_counts(path, label):
+    """Reject any '<N> controls' in a current-state doc where N != EXPECTED_COUNT.
+
+    Presence of the correct count (checked elsewhere) never catches that the
+    SAME document also asserts a stale number (e.g. v1.18==67 + v1.20==69 both
+    in README). This closes that: a current-state doc states one number.
+    """
+    txt = re.sub(r"<[^>]+>", " ", open(path, encoding="utf-8").read())
+    # Exclude fraction denominators ("47/61 controls deny-observed at runtime")
+    # and digit runs that are parts of IDs or ranges -- we only want a standalone
+    # integer asserting a control TOTAL.
+    pat = re.compile(rf"(?<![0-9/])(?<![\d])(?!{EXPECTED_COUNT}\b)\d+\s+controls", re.IGNORECASE)
+    for stale in pat.findall(txt):
+        check(f"{label} asserts a stale control count: '{stale.strip()}'", False)
+
+
 def main():
     print(f"== Artifact verification vs framework {EXPECTED_VERSION}, {EXPECTED_COUNT} controls ==")
 
@@ -253,16 +283,31 @@ def main():
           EXPECTED_VERSION in readme)
     check(f"README carries current control count ({EXPECTED_COUNT} controls)",
           f"{EXPECTED_COUNT} controls" in readme)
-    # Reject a stale control count asserted anywhere in the README (the "Keep
-    # the README Tidy" rule: this doc states a single current number). Catches
-    # the v1.18==67 / v1.20==69 drift that presence-of-correct-count alone
-    # (above) never failed on. Case-insensitive: README writes both "69
-    # controls" and "69 Controls". "controls" with no number (tooling-map
-    # prose) is a link, not a count assertion, so require a bare integer.
-    readme_plain = re.sub(r"<[^>]+>", " ", readme)
-    stale_pat = re.compile(rf"(?<![\d])(?!{EXPECTED_COUNT}\b)\d+\s+controls", re.IGNORECASE)
-    for stale in stale_pat.findall(readme_plain):
-        check(f"README asserts a stale control count: '{stale.strip()}'", False)
+    # Reject a stale control count asserted anywhere in a current-state doc
+    # (README, ROADMAP, policies/README -- each states a single current number).
+    # Catches the v1.18==67 / v1.20==69 drift that presence-of-correct-count
+    # alone never failed on, and the ROADMAP/policies-README "59 of 69
+    # implemented" lag that re-appeared after all controls were implemented.
+    check_stale_control_counts("README.md", "README")
+    check_stale_control_counts("ROADMAP.md", "ROADMAP")
+    check_stale_control_counts("policies/README.md", "policies/README")
+
+    # OPA test count in current-state docs must match the actual suite, so a
+    # cycle that adds/removes controls can't leave a stale "N OPA tests" claim.
+    actual_tests = count_opa_tests()
+    check(f"computed OPA test count ({actual_tests}) is consistent with 'N OPA tests' claims",
+          all(actual_tests == int(n) for n in
+              re.findall(r"(\d+)\s+OPA tests?\b", open("ROADMAP.md", encoding="utf-8").read())
+              + re.findall(r"(\d+)\s+OPA tests?\b", open("policies/README.md", encoding="utf-8").read())))
+
+    # No current-state doc may claim any control is a stub/pending/non-implemented
+    # while the policy set is fully implemented. A cycle that introduces a stub
+    # must first face check_exploit_catalog's non-stub gate; this catches a doc
+    # that re-opens the stub story in prose.
+    stub_claims = re.findall(r"(?<!none\s)(?<!no\s)(?:ship|ships|remain|remains|are)\s+(?:as\s+)?(?:generated\s+)?stubs?\b",
+                             open("policies/README.md", encoding="utf-8").read())
+    stub_claims += re.findall(r"still\s+(?:pending|a stub|stubs)", open("policies/README.md", encoding="utf-8").read())
+    check(f"policies/README asserts no stub/pending claims (found {len(stub_claims)})", not stub_claims)
     readme_links = re.findall(r"\]\(([^)#]+?)(?:#[^)]*)?\)", readme)
     broken = sorted(
         {p for p in readme_links

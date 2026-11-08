@@ -1,24 +1,25 @@
 # SHIELD-AI Policy-as-Code
 
 This directory ships the framework's 69 controls as OPA/Rego policies with
-deny-override assertions and per-control test vectors. Every control through v1.7 is
-implemented; later controls ship as generated stubs pending deny-override assertions (see the status table below). The demo bundle in `demo/` is a reduced,
+deny-override assertions and per-control test vectors. Every control is
+implemented — none ship as stubs. The demo bundle in `demo/` is a reduced,
 self-contained subset for prospects; the full control set lives here.
 
 ## Status (v1.22, November 9, 2026)
 
-**59 controls implemented; MS-12, MS-13, MS-14, MS-15, TP-13, TP-14, TP-15, TP-16, DS-08 and IAM-10 ship as generated stubs pending deny-override assertions (69 controls total).** 253 OPA tests pass (`opa test policies
+**All 69 controls implemented with deny-override assertions and per-control
+test vectors.** 330 OPA tests pass (`opa test policies
 policies/tests demo/policies demo/tests`). Coverage by pillar:
 
-| Pillar | Controls implemented | Stubs pending |
-|--------|----------------------|---------------|
-| MS (Model Security) | MS-01..MS-11 | MS-12, MS-13, MS-14, MS-15 |
-| IAM (Identity and Access) | IAM-01..IAM-09 | IAM-10 |
-| DS (Data Security) | DS-01..DS-07 | DS-08 |
-| TP (Tool and Pipeline Security) | TP-01..TP-12 | TP-13, TP-14, TP-15, TP-16 |
-| MIR (Monitoring and Incident Response) | MIR-01..MIR-06 | — |
-| GRM (Governance and Risk Management) | GRM-01..GRM-06 | — |
-| EE (Execution Environment) | EE-01..EE-08 | — |
+| Pillar | Controls |
+|--------|----------|
+| MS (Model Security) | MS-01..MS-15 |
+| IAM (Identity and Access) | IAM-01..IAM-10 |
+| DS (Data Security) | DS-01..DS-08 |
+| TP (Tool and Pipeline Security) | TP-01..TP-16 |
+| MIR (Monitoring and Incident Response) | MIR-01..MIR-06 |
+| GRM (Governance and Risk Management) | GRM-01..GRM-06 |
+| EE (Execution Environment) | EE-01..EE-08 |
 
 Each implemented file's header records the incidents its assertions trace to
 (see `framework/shield-ai-gap-analysis.md`). Maturity indicators and regulatory

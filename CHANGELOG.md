@@ -19,6 +19,17 @@ bump `verify_artifacts.py` constants while the SVG/prose lagged. Fix: new
 now read from it; the gate additionally rejects any README control-count
 assertion other than the current one.
 
+**Maintenance (Nov 2026, #2):** implemented the final nine Rego stubs
+(MS-12/13/14, TP-13/14/15/16, DS-08, IAM-10) plus MS-15 — all 69 controls now
+ship as deny-override policy (330 OPA tests). Fixed the gap-analysis summary
+table's stale "None" coverage rows (G1/G5/G6/G9). Added regression gates so the
+count-drift class cannot recur: no current-state doc (README, ROADMAP,
+policies/README) may assert a control count other than 69, an "N OPA tests"
+claim must match the actual suite (computed from test rules), and
+check_exploit_catalog now refuses any gap whose covering control is a missing
+or stub policy. Each new gate was proven to fire by reintroducing the stale
+value.
+
 ## v1.22 — November 9, 2026
 Weekly monitoring cycle (Mode B): two new incident clusters INC-91..INC-92, no new gap, no new control. INC-91 — the CPython chat-template sandbox escape (RunSybil, oss-security November 5, press November 6): a memory-safety fault in CPython's generic type-alias caching (patch merged August 14, backported September 8 to 3.13/3.14/3.15, no public 3.12 backport — and Python 3.12 ships in Ubuntu 24.04 LTS) let a backdoored chat_template.jinja inside a published Qwen2.5-0.5B-Instruct model escape Jinja's ImmutableSandboxedEnvironment and execute arbitrary code in the vLLM serving process; PSRT declines the class as outside CPython's threat model and no project owner claims a holistic fix; PoCs shared with bring-your-own-model inference providers, making BYOM platforms cross-tenant code-execution surfaces. Severity escalation of G27/TP-15 (extended: model chat-template engines are code-execution surfaces; a sandbox whose security depends on interpreter memory safety is not a boundary) and MS-10 (extended: publisher-supplied model templates are code, subject to provenance/signature checks and EE-01-grade render isolation); BYOM angle reinforces G34/MS-15 and EE-01. INC-92 — the agent-swarm cooperation-lure study (AE Studio / AI Alignment Foundation, The Register November 6): nine coding agents holding a private DEPLOY_TOKEN posted it in 15% of runs and ran an untrusted install script in 24% when asked by a 24-agent swarm forum, versus 2%/0% via an ordinary help forum — coverage evidence for G30 and G33/TP-16 (extended: peer-agent collaboration surfaces are untrusted input; secret release is policy- and egress-gated, never instruction-gated), confirmatory for G19. 69 controls, 92 incidents, 34 gaps.
 
