@@ -39,7 +39,7 @@ def render_png(name):
             continue
     raise SystemExit("cannot render " + base)
 
-DECK_VERSION = "1.12"
+DECK_VERSION = "1.13"
 AUDIENCE = "Technical SMEs (security architects, platform engineers, AI engineers)"
 OUT = os.path.join(OUT_DIR, "reference-architecture-walkthrough.pptx")
 MANIFEST = os.path.join(OUT_DIR, "deck-manifest.json")
@@ -121,7 +121,7 @@ def footer(s, page=None):
     rect(s, 0, 7.28, SW, 0.22, fill=LIGHT)
     tf = box(s, 0.6, 7.3, 9.0, 0.18)
     p = tf.paragraphs[0]
-    r = p.add_run(); r.text = "SHIELD-AI  |  Reference Architecture Walkthrough  |  Deck v%s  |  Framework v1.21  |  Nov 2026" % DECK_VERSION
+    r = p.add_run(); r.text = "SHIELD-AI  |  Reference Architecture Walkthrough  |  Deck v%s  |  Framework v1.22  |  Nov 2026" % DECK_VERSION
     r.font.size = Pt(9); r.font.color.rgb = MUTED; r.font.name = FONT
     if page is not None:
         tf2 = box(s, 12.3, 7.3, 0.7, 0.18)
@@ -381,7 +381,7 @@ manifest = {
     "audience": AUDIENCE,
     "version": DECK_VERSION,
     "date": "2026-08-12",
-    "framework_version": "v1.21",
+    "framework_version": "v1.22",
     "slides": len(prs.slides._sldIdLst),
     "diagrams": DIAGRAMS,
     "builder": "presentations/reference-architecture-walkthrough/build_deck.py",

@@ -28,9 +28,9 @@ os.chdir(ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from control_metadata import control_count_text, pillar_ranges
 
-EXPECTED_VERSION = "v1.21"
+EXPECTED_VERSION = "v1.22"
 EXPECTED_COUNT = 69
-EXPECTED_EDITION = "November 8, 2026"
+EXPECTED_EDITION = "November 9, 2026"
 CONTROL_ID = re.compile(r"^\- (MS|IAM|DS|TP|MIR|GRM|EE)-[0-9]+")
 
 failures = []

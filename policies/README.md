@@ -5,7 +5,7 @@ deny-override assertions and per-control test vectors. Every control through v1.
 implemented; later controls ship as generated stubs pending deny-override assertions (see the status table below). The demo bundle in `demo/` is a reduced,
 self-contained subset for prospects; the full control set lives here.
 
-## Status (v1.20, November 7, 2026)
+## Status (v1.22, November 9, 2026)
 
 **59 controls implemented; MS-12, MS-13, MS-14, MS-15, TP-13, TP-14, TP-15, TP-16, DS-08 and IAM-10 ship as generated stubs pending deny-override assertions (69 controls total).** 253 OPA tests pass (`opa test policies
 policies/tests demo/policies demo/tests`). Coverage by pillar:
