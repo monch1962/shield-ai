@@ -112,14 +112,30 @@ def main():
     if rc == 0:
         failures.append("feed-misfit provenance did not fire")
 
-    # --- 5. source-date debt: incident missing from the debt file ----------
-    can = "framework/source-date-debt.md"
-    tmp = copy_restore(can)
-    d = open(can).read()
-    d = d.replace("| INC-37 |", "| INC-37Z |", 1)  # evict one dateless incident
-    open(can, "w").write(d)
+    # --- 5. source-date debt: a dated incident with no source date is not
+    #        listed in the debt file -> must fire. With the debt pool cleared
+    #        (all 56 dated incidents carry a date), the authentic antagonist is
+    #        to strip a real publication date from a source blockquote and NOT
+    #        list it: a dateless incident the cadence failed to track.
+    ga = "framework/shield-ai-gap-analysis.md"
+    tmp = copy_restore(ga)
+    d = open(ga).read()
+    # Strip the appended ' (published ...)' clause from INC-37's source
+    # blockquote (a blank line may sit between the heading and the quote, so
+    # operate per-line like the ledger itself does). INC-37 then has no
+    # parseable date and is NOT listed in the (now empty) debt file -> fires.
+    lines = d.splitlines()
+    for i, ln in enumerate(lines):
+        if re.match(r"^### INC-37:", ln):
+            j = i + 1
+            while j < len(lines) and not lines[j].startswith("> "):
+                j += 1
+            if j < len(lines):
+                lines[j] = re.sub(r"\s+\(published [^)]+\)$", "", lines[j])
+            break
+    open(ga, "w").write("\n".join(lines) + "\n")
     rc = run_gate("latency_ledger.py")
-    restore(tmp, can)
+    restore(tmp, ga)
     fired += (rc != 0)
     print(f"  {'ok ' if rc != 0 else 'FAIL'} source-date debt missing-entry fires (rc={rc})")
     if rc == 0:
@@ -131,8 +147,9 @@ def main():
     d = open(can).read()
     # Inject a row for a dated incident that DOES have a parseable date (INC-90);
     # a debt listing for a dated incident is stale and must fail.
-    d = d.replace("| INC-89 |",
-                  "| INC-90 | 2026-11-06 | placeholder | placeholder |\n| INC-89 |", 1)
+    d = d.replace("|-----|------------------------|-----------------------------------|--------|",
+                  "|-----|------------------------|-----------------------------------|--------|\n"
+                  "| INC-90 | 2026-11-06 | placeholder | placeholder |", 1)
     open(can, "w").write(d)
     rc = run_gate("latency_ledger.py")
     restore(tmp, can)

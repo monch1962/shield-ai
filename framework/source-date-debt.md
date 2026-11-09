@@ -17,22 +17,14 @@ cadence owns the cleanup instead of hiding it.
 inline) rather than a full `November 5, 2026`. Add the publication date in that
 full form to the source blockquote text and drop the row from this table.
 
+**Cleared (Nov 2026).** The 17 historically-flagged incidents
+(INC-37/38/39/43/50/55/61/78/79/80/81/82/83/84/87/88/89) each had their
+publication date transcribed into their source blockquote from the primary
+source (NVD publish dates for CVE-2026-25536/54769/54688/34742; arXiv
+submission dates for 2606.27027, 2610.04195, 2611.03555, 2610.22301,
+2609.04533; Ars Technica, Unit 42, Hunt.io, Radware, JFrog publication dates).
+The latency KPI now attributes all 56 dated incidents, raising its coverage for
+that pool to 100% while keeping every date verifiable — no date was invented.
+
 | INC | first_seen (CHANGELOG) | why no parseable `Month D, YYYY` | action |
 |-----|------------------------|-----------------------------------|--------|
-| INC-37 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-38 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-39 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-43 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-50 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-55 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-61 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-78 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-79 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-80 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-81 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-82 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-83 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-84 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-87 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-88 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
-| INC-89 |  | non-standard date form in source | add `Month D, YYYY` to blockquote |
