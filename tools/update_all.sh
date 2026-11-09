@@ -132,6 +132,7 @@ echo "  -- evolution + intake gates (collect_feed drains staging; the misfit, DN
 "$PY" tools/check_feed_misfits.py || FAILED+=("feed-misfits")
 "$PY" tools/check_evolution_dna.py || FAILED+=("evolution-dna")
 "$PY" tools/latency_ledger.py || FAILED+=("latency-ledger")
+"$PY" tools/check_framework_format.py || FAILED+=("framework-format")
 
 # --- 9. Count/version sweep report ---
 step "9/10  Count/version sweep (review these; version history legitimately contains old versions)"

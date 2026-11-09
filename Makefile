@@ -10,7 +10,7 @@ PY    ?= python3
 OPA   ?= $(shell command -v opa 2>/dev/null || echo $(HOME)/.local/bin/opa)
 SKILL_SCRIPTS := $(HOME)/.hermes/profiles/sec-arch/skills/research/threat-informed-architecture-review/scripts
 
-.PHONY: help check rego-schema lint-spacing verify catalog gap-format dna latency test build
+.PHONY: help check rego-schema lint-spacing verify catalog gap-format dna latency framework-format test-gates test build
 
 help:
 	@echo "SHIELD-AI local gates"
@@ -22,12 +22,13 @@ help:
 	@echo "  make gap-format    gap analysis format check"
 	@echo "  make dna           evolution DNA gate (new threat classes absorbed or re-attested)"
 	@echo "  make latency       incident latency ledger (publication -> record KPIs, backdate-proof)"
+	@echo "  make framework-format  framework.md control layout gate (scannable controls, persists)"
 	@echo "  make feed-misfits  external feed harvester + misfit-ratchet gate (per-lineage provenance)"
 	@echo "  make test-gates    replay evolution-gate antagonisms (prove protections still fire)"
 	@echo "  make test          OPA policy tests (policies/tests + demo/tests)"
 	@echo "  make build         full artifact pipeline (tools/update_all.sh)"
 
-check: rego-schema lint-spacing verify catalog gap-format dna feed-misfits latency test test-gates
+check: rego-schema lint-spacing verify catalog gap-format dna feed-misfits latency framework-format test test-gates
 	@echo ""
 	@echo "All gates passed."
 
@@ -51,6 +52,9 @@ dna:
 
 latency:
 	$(PY) tools/latency_ledger.py
+
+framework-format:
+	$(PY) tools/check_framework_format.py
 
 feed-misfits:
 	$(PY) tools/check_feed_misfits.py

@@ -13,6 +13,7 @@ Gates under test (each via a fresh subprocess, cwd at repo root):
 4. latency_ledger.py       -- freshness via SHIELD_OPEN_MAX_DAYS override
 5. source-date debt        -- an incident missing from the debt file fires
 6. source-date debt        -- a stale (now-dated) entry in the debt file fires
+7. check_framework_format.py -- a re-introduced wall-of-text control fires
 
 Exits 1 if any gate fails to fire (i.e., a protection was lost). Wired into
 `make test-gates`.
@@ -37,15 +38,31 @@ def run_gate(gate, args=(), env=None):
     return p.returncode
 
 
+_MTIMES = {}  # tmp path -> original mtime, for mtime-preserving restores
+
+
 def copy_restore(path):
-    """Context-manager style helper: yield a temp copy path; caller restores."""
+    """Context-manager style helper: yield a temp copy path; caller restores.
+
+    Records the original mtime so restore() can put the file back byte-for-byte
+    AND timestamp-for-timestamp. Without the mtime preservation, restoring a
+    *source* doc (framework.md, gap-analysis.md) leaves it freshly-touched, so
+    the verify gate sees the source as newer than its derived PDF/EPUB and the
+    next `make check` fails spuriously.
+    """
     tmp = path + ".testbak"
     shutil.copy(path, tmp)
+    _MTIMES[tmp] = os.stat(path).st_mtime
     return tmp
 
 
 def restore(tmp, path):
     shutil.copy(tmp, path)
+    # Restore the original mtime so a restored source doc is not "newer" than
+    # its derived artifacts (see copy_restore docstring).
+    if tmp in _MTIMES:
+        os.utime(path, (_MTIMES[tmp], _MTIMES[tmp]))
+        del _MTIMES[tmp]
     os.remove(tmp)
 
 
@@ -158,14 +175,50 @@ def main():
     if rc == 0:
         failures.append("source-date debt stale-entry did not fire")
 
+    # --- 7. framework layout gate: a re-introduced wall-of-text control -----
+    # Mutate a COPY of the framework so one control collapses to a single
+    # >90-word headline (unscannable). The layout gate must fire.
+    ga = "framework/shield-ai-framework.md"
+    tmp = copy_restore(ga)
+    d = open(ga).read()
+    # Fold MS-02's body into its headline line (removing its structure) to
+    # create a deliberately unscannable single-line control.
+    closed = re.search(r"- MS-02: .*", d)
+    if closed:
+        d = d.replace(closed.group(0),
+                      "- MS-02: Training data integrity and poison detection across the data "
+                      "pipeline, requiring provenance tracking, data sanitisation, adversarial "
+                      "robustness testing, and continuous scanning of the biomorphic multi-tenant "
+                      "vectorised memory store with sub-pixel attack surface, imperceptible-content "
+                      "vectors, hidden pull-request comments, DOM-hidden content, and zero-opacity "
+                      "text all sanitised before reasoning, tool-returned content scanned for "
+                      "hidden-content primitives, agentic browser renders isolated, uploaded "
+                      "documents treated as untrusted seeds, the whole pipeline validated against "
+                      "the Rubrik Zero Labs Remote Prompt Execution chain and the AWS Kiro "
+                      "CVE-2026-10591 perception-bypass class and the Zenity Labs Intent Collision "
+                      "research, with every one of these requirements expressed as a single "
+                      "unbroken textual wall so that the layout gate must reject this control "
+                      "as unscannable and the build must fail loudly",
+                      1)
+        open(ga, "w").write(d)
+        rc = run_gate("check_framework_format.py")
+        restore(tmp, ga)
+        fired += (rc != 0)
+        print(f"  {'ok ' if rc != 0 else 'FAIL'} framework layout wall-of-text fires (rc={rc})")
+        if rc == 0:
+            failures.append("framework layout wall-of-text did not fire")
+    else:
+        print("  SKIP framework layout gate: MS-02 not found in framework.md")
+
     # restore any stray backups
     for f in ["framework/feed-misfits.md.testbak",
               "framework/evolution-canaries.md.testbak",
-              "framework/source-date-debt.md.testbak"]:
+              "framework/source-date-debt.md.testbak",
+              "framework/shield-ai-framework.md.testbak"]:
         if os.path.exists(f):
             os.remove(f)
 
-    print(f"\n  {fired}/7 evolution-gate antagonisms fire correctly.")
+    print(f"\n  {fired}/8 evolution+format-gate antagonisms fire correctly.")
     if failures:
         print("Evolution gate tests FAILED:")
         for f in failures:
