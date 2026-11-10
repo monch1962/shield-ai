@@ -38,7 +38,26 @@ def _parse():
 
 
 def control_ids():
-    return _parse()
+    """All control IDs in a STABLE order.
+
+    Canonical order is by pillar block (in the pillar's first-seen framework
+    order) then numerically within the pillar (e.g. EE-01..EE-08, MS-01..MS-15).
+    Sorting here guarantees the reference views and any consumer iterate the
+    same order every run -- previously this returned a set, so the iteration
+    order depended on Python's hash seed and was different in every process,
+    which made regenerated documents reorder their contents nondeterministically.
+    """
+    ids = _parse()
+    # order pillars by first appearance in the parsed set's framework order is
+    # unstable; instead sort by (pillar, numeric) but keep pillar grouping by
+    # the canonical pillar sequence so a pillar's controls stay contiguous.
+    def _key(cid):
+        pillar, _, num = cid.partition("-")
+        try:
+            return (pillar, int(num))
+        except ValueError:
+            return (pillar, 0)
+    return tuple(sorted(ids, key=_key))
 
 
 def count_controls():

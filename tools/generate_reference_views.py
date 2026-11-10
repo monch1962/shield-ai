@@ -1154,21 +1154,54 @@ def generate_all():
 
 
 def check_all():
+    """Verify outputs exist AND are byte-identical to a fresh in-memory
+    regeneration from the committed sources.
+
+    This is the source->view freshness guarantee: editing
+    framework/shield-ai-framework.md or framework/shield-ai-gap-analysis.md
+    without regenerating the reference views now fails `make check` with a
+    precise list of stale files, instead of silently shipping a view that lags
+    the framework. It also catches any hand-edit of a generated file (which
+    would otherwise drift from what the generator produces next time).
+    """
+    ok = True
+    fresh = []   # (is_diagram, name) currently matching a fresh regen
     missing = []
-    for name, _ in DIAGRAMS:
+    stale = []
+    for name, fn in DIAGRAMS:
         path = os.path.join(DIAG_DIR, name)
-        if not os.path.exists(path) or os.path.getsize(path) < 500:
+        want = fn()
+        if not os.path.exists(path) or os.path.getsize(path) < 40:
             missing.append(name)
-    for name, _ in VIEW_FILES:
+        elif open(path, encoding="utf-8").read() != want:
+            stale.append(name)
+        else:
+            fresh.append((True, name))
+    for name, fn in VIEW_FILES:
         path = os.path.join(VIEW_DIR, name)
-        if not os.path.exists(path) or os.path.getsize(path) < 200:
+        want = fn().rstrip() + "\n"
+        if not os.path.exists(path) or os.path.getsize(path) < 20:
             missing.append(name)
-    if missing:
-        print(f"Missing or broken: {missing}")
-        return False
-    for name, _ in DIAGRAMS + VIEW_FILES:
-        print(f"  OK  {name}")
-    return True
+        elif open(path, encoding="utf-8").read() != want:
+            stale.append(name)
+        else:
+            fresh.append((False, name))
+    if missing or stale:
+        ok = False
+        if missing:
+            print(f"MISSING reference-view outputs: {missing}")
+        if stale:
+            print("STALE reference-view outputs (source changed or file hand-edited):")
+            for name in sorted(stale):
+                print(f"  - {name}")
+            print("Regenerate with:  python3 tools/generate_reference_views.py")
+            print("then commit the rebuilt views (this gate will pass only when")
+            print("the committed files match a fresh regeneration).")
+    else:
+        for is_diagram, name in fresh:
+            where = "assets/diagrams" if is_diagram else "reference-views"
+            print(f"  OK  {where}/{name} (fresh)")
+    return ok
 
 
 if __name__ == "__main__":
