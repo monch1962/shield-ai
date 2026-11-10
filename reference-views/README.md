@@ -13,6 +13,7 @@ page and an SVG diagram.
 | 03 | [Controls → AU Frameworks](03-control-au-framework-matrix.md) | What must we align to (ISM/E8/SOCI/CPS234/Privacy/PSPF)? | `control-au-framework-matrix.svg` |
 | 04 | [Pillar → Maturity](04-pillar-maturity.md) | How mature are we per pillar, and what does L3 require? | `pillar-maturity-heat.svg` |
 | 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
+| 06 | [Control Technical Verification Field Guide](06-controls-technical.md) | What precisely must hold per control, and how is it verified? *(technical specialists)* | `control-technical-sheet.svg` |
 
 ## For business stakeholders (the 60-second story)
 

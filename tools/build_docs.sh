@@ -95,6 +95,8 @@ build_doc reference-views/04-pillar-maturity.md \
   "SHIELD-AI(TM) Reference View -- Pillar Maturity Heat Grid"
 build_doc reference-views/05-controls-outcomes.md \
   "SHIELD-AI(TM) Reference View -- Controls Outcomes & Executable Verification"
+build_doc reference-views/06-controls-technical.md \
+  "SHIELD-AI(TM) Technical Field Guide -- Control Verification for Security Specialists"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 

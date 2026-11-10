@@ -14,104 +14,104 @@ the foundation).
 | ID | Control |
 |---|---|
 | EE-03 | Resource usage limiting |
-| EE-01 | Execution environment boundary enforcement |
-| EE-04 | Evaluation sandbox integrity |
 | EE-06 | Fail-closed sandbox operation |
-| EE-08 | Evaluation-harness isolation and integrity |
-| EE-05 | Host-trusted configuration file injection prevention |
-| EE-02 | Infrastructure API access control |
 | EE-07 | Agent control-plane configuration integrity |
+| EE-01 | Execution environment boundary enforcement |
+| EE-02 | Infrastructure API access control |
+| EE-08 | Evaluation-harness isolation and integrity |
+| EE-04 | Evaluation sandbox integrity |
+| EE-05 | Host-trusted configuration file injection prevention |
 
 ### MS — Model Security
 
 | ID | Control |
 |---|---|
-| MS-12 | MCP discovery-metadata and shared-cache integrity |
-| MS-02 | Training data integrity |
-| MS-07 | Deployment context obfuscation |
-| MS-11 | Operational data-stream integrity |
-| MS-04 | Adversarial robustness |
-| MS-14 | Self-replication barrier |
-| MS-03 | Supply chain security |
-| MS-05 | Model behaviour validation |
 | MS-13 | Transcript and conversation authenticity |
-| MS-09 | Perception-fidelity enforcement for human-in-the-loop approvals |
-| MS-06 | Model inventory and lineage tracking |
 | MS-15 | Cross-tenant agent memory and state isolation |
-| MS-08 | MCP |
+| MS-14 | Self-replication barrier |
+| MS-05 | Model behaviour validation |
+| MS-12 | MCP discovery-metadata and shared-cache integrity |
 | MS-10 | Agent memory-store integrity |
+| MS-02 | Training data integrity |
+| MS-08 | MCP |
+| MS-11 | Operational data-stream integrity |
+| MS-06 | Model inventory and lineage tracking |
+| MS-07 | Deployment context obfuscation |
+| MS-09 | Perception-fidelity enforcement for human-in-the-loop approvals |
 | MS-01 | Model weight protection |
+| MS-04 | Adversarial robustness |
+| MS-03 | Supply chain security |
 
 ### IAM — Identity & Access
 
 | ID | Control |
 |---|---|
-| IAM-08 | Credential scope narrowing |
-| IAM-03 | Human oversight controls |
-| IAM-06 | Cross-session boundary enforcement |
-| IAM-05 | Just-in-time access |
-| IAM-02 | Scope-bound delegation |
-| IAM-10 | Taint-tracked least-privilege subagent scoping |
 | IAM-01 | Agent identity management |
-| IAM-07 | Transitive delegation chain enforcement |
-| IAM-09 | Multi-tenant agent platform isolation |
 | IAM-04 | Credential isolation |
+| IAM-07 | Transitive delegation chain enforcement |
+| IAM-02 | Scope-bound delegation |
+| IAM-06 | Cross-session boundary enforcement |
+| IAM-03 | Human oversight controls |
+| IAM-10 | Taint-tracked least-privilege subagent scoping |
+| IAM-05 | Just-in-time access |
+| IAM-08 | Credential scope narrowing |
+| IAM-09 | Multi-tenant agent platform isolation |
 
 ### DS — Data Security
 
 | ID | Control |
 |---|---|
-| DS-07 | Requirement:** Agent-originated artifact publication control |
-| DS-01 | Data classification and labelling |
 | DS-02 | Inference data protection |
-| DS-05 | Training data governance |
-| DS-04 | Data minimisation |
 | DS-03 | Memory sanitisation |
 | DS-06 | Requirement:** Output validation |
+| DS-04 | Data minimisation |
+| DS-07 | Requirement:** Agent-originated artifact publication control |
 | DS-08 | Requirement:** Destination and emergent-channel egress inventory |
+| DS-01 | Data classification and labelling |
+| DS-05 | Training data governance |
 
 ### TP — Tool & Pipeline Security
 
 | ID | Control |
 |---|---|
-| TP-01 | Tool inventory and registry |
-| TP-03 | API gateway security |
-| TP-07 | Cross-tool dependency analysis |
-| TP-11 | Agent browser and content-rendering isolation |
-| TP-02 | Tool access control |
-| TP-10 | Agent platform inbound control-plane protection |
-| TP-16 | Tool-connection and launch-path integrity |
-| TP-09 | Explicit tool registration — no implicit tool exposure |
 | TP-14 | Skill/plugin payload integrity and instruction-channel isolation |
-| TP-08 | API gateway infrastructure-isolation mode |
-| TP-13 | Agent dependency-install provenance verification |
-| TP-05 | Pipeline integrity |
-| TP-12 | Tool-call provenance and dispatch verification |
 | TP-06 | Dependency scanning |
-| TP-04 | Tool output validation |
+| TP-08 | API gateway infrastructure-isolation mode |
+| TP-05 | Pipeline integrity |
+| TP-07 | Cross-tool dependency analysis |
 | TP-15 | In-process code-execution sandbox sufficiency |
+| TP-12 | Tool-call provenance and dispatch verification |
+| TP-01 | Tool inventory and registry |
+| TP-02 | Tool access control |
+| TP-13 | Agent dependency-install provenance verification |
+| TP-10 | Agent platform inbound control-plane protection |
+| TP-09 | Explicit tool registration — no implicit tool exposure |
+| TP-11 | Agent browser and content-rendering isolation |
+| TP-16 | Tool-connection and launch-path integrity |
+| TP-03 | API gateway security |
+| TP-04 | Tool output validation |
 
 ### MIR — Monitoring, Logging & IR
 
 | ID | Control |
 |---|---|
-| MIR-04 | Incident response playbooks AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation; |
+| MIR-03 | Prompt audit log |
 | MIR-06 | Forensic readiness |
+| MIR-04 | Incident response playbooks AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation; |
+| MIR-05 | Mandatory reporting integration |
 | MIR-01 | Agent activity logging |
 | MIR-02 | Behavioural anomaly detection baseline per-agent behaviour established over training period; alerts on deviation  --  unusual tool, unusual data access pattern, unusual frequency; |
-| MIR-05 | Mandatory reporting integration |
-| MIR-03 | Prompt audit log |
 
 ### GRM — Governance & Risk
 
 | ID | Control |
 |---|---|
-| GRM-01 | AI governance body |
-| GRM-04 | Requirement:** Third-party AI risk management |
 | GRM-06 | Requirement:** Board and executive reporting |
+| GRM-04 | Requirement:** Third-party AI risk management |
 | GRM-03 | Ethical use policy |
 | GRM-02 | Requirement:** AI risk register |
 | GRM-05 | Regulatory mapping and compliance reporting |
+| GRM-01 | AI governance body |
 
 ## Signal for architects
 
