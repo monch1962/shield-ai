@@ -176,6 +176,15 @@ def main():
             _ys = [int(y) for y in re.findall(r'y="(\d+)"', data)]
             _max = max(_ys) if _ys else 0
             check(f"reference view diagram {name} content fits viewport (max y {_max} <= {_h})", _max <= _h)
+        # Horizontal-overlap guard: text in a fixed-width cell must stay inside
+        # its cell so it can't bleed into the adjacent box (e.g. the maturity-heat
+        # diagram's 140px cells: a line longer than the wrap width overruns the
+        # right edge into the next cell). The generator wraps maturity cell text
+        # at 25 chars @ 9px = ~133px < 140px cell, + 8px left pad.
+        if name == "pillar-maturity-heat.svg":
+            _mline = max((len(t) for t in re.findall(r'class="sm" fill="[^"]+">([^<]+)</text>', data)
+                          if not t.startswith("Across ")), default=0)
+            check(f"{name} maturity cell text stays within wrap (max line {_mline} <= 25)", _mline <= 25)
     _rv_docs = [
         "reference-views/01-pillar-control-atlas.md",
         "reference-views/02-controls-incidents.md",

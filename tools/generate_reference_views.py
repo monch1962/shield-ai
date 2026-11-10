@@ -267,28 +267,62 @@ def diagram_au_matrix():
 
 
 def diagram_maturity_heat():
-    w, h = 820, 460
+    import textwrap
+    w = 820
     maturity = load_maturity()
     col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
            "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
     lvl_col = {"L1": "#8a9ab0", "L2": "#4a7a9c", "L3": "#2563eb", "L4": "#d4a017"}
+    cell_x0, cell_w, cell_gap = 140, 140, 10
+    pillar_w = 100
     body = ""
-    # header
-    body += f'''<text x="140" y="44" class="cap">pillar · maturity level</text>'''
+    # header row: level labels
+    body += f'''<text x="{cell_x0}" y="44" class="cap">pillar · maturity level</text>'''
     for j, lvl in enumerate(["L1 Initial", "L2 Managed", "L3 Defined", "L4 Optimised"]):
-        body += f'''<rect x="{140+j*150}" y="34" width="140" height="16" rx="3" fill="{BLUE}"/>
-        <text x="{140+j*150+70}" y="{45}" text-anchor="middle" class="white" font-size="9" font-weight="bold">{lvl}</text>'''
-    for i, p in enumerate(PILLARS):
-        yy = 56 + i * 50
-        body += f'''<rect x="30" y="{yy}" width="100" height="40" rx="4" fill="{col[p]}" opacity="0.15"/>
-        <text x="40" y="{yy+17}" class="sm" font-weight="bold" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
+        body += f'''<rect x="{cell_x0+j*(cell_w+cell_gap)}" y="34" width="{cell_w}" height="16" rx="3" fill="{BLUE}"/>
+        <text x="{cell_x0+j*(cell_w+cell_gap)+cell_w/2}" y="45" text-anchor="middle" class="white" font-size="9" font-weight="bold">{lvl}</text>'''
+    # Each pillar is one row; text is WRAPPED inside each cell and left-aligned so
+    # it never overflows the right edge into the adjacent box. Row height is sized
+    # to the tallest of its four cells, and the canvas grows to fit all rows.
+    lvls = ["L1", "L2", "L3", "L4"]
+    lvl_labels = ["L1 Initial", "L2 Managed", "L3 Defined", "L4 Optimised"]
+    line_gap = 11
+    top_pad = 14
+    wrap_w = 25  # chars per line at 9px in a 140px cell (pad inside both edges)
+    y = 60
+    rows = []  # (pillar, [(lvl, lines)])
+    for p in PILLARS:
         prog = maturity.get(p, {})
-        for j, lvl in enumerate(["L1", "L2", "L3", "L4"]):
+        cells = []
+        for lvl in lvls:
             desc = prog.get(lvl, "")
-            fill = f"{lvl_col[lvl]}"
-            body += f'''<rect x="{140+j*150}" y="{yy}" width="140" height="40" rx="4" fill="{fill}" opacity="0.18" stroke="{fill}" stroke-width="1"/>
-            <text x="{140+j*150+70}" y="{yy+24}" text-anchor="middle" class="sm" fill="{fill}" font-weight="bold">{desc[:70] if desc else "—"}</text>'''
-    body += f'''<text x="{w/2}" y="{h-10}" text-anchor="middle" class="sm" font-style="italic">Across {count_controls()} controls, the weakest pillar determines overall maturity -- target the L2->L3 transition first (regulated entities)</text>'''
+            if not desc:
+                cells.append([])
+                continue
+            lines = textwrap.wrap(desc, width=wrap_w,
+                                  break_on_hyphens=False, break_long_words=False)
+            cells.append(lines)
+        nlines = max((len(c) for c in cells), default=1)
+        rows.append((p, cells, nlines))
+    for p, cells, nlines in rows:
+        rh = max(34, top_pad + nlines * line_gap + 8)
+        body += f'''<rect x="30" y="{y}" width="{pillar_w}" height="{rh}" rx="4" fill="{col[p]}" opacity="0.15"/>
+        <text x="40" y="{y+16}" class="sm" font-weight="bold" fill="{col[p]}">{p}</text>
+        <text x="40" y="{y+27}" class="sm">{PILLAR_FULL[p]}</text>'''
+        for j, (lvl, lines) in enumerate(zip(lvls, cells)):
+            cx = cell_x0 + j * (cell_w + cell_gap)
+            fill = lvl_col[lvl]
+            body += f'''<rect x="{cx}" y="{y}" width="{cell_w}" height="{rh}" rx="4" fill="{fill}" opacity="0.18" stroke="{fill}" stroke-width="1"/>'''
+            if not lines:
+                body += f'''<text x="{cx+8}" y="{y+22}" class="sm" fill="{fill}" font-style="italic">—</text>'''
+                continue
+            ty = y + 14
+            for ln in lines:
+                body += f'''<text x="{cx+8}" y="{ty}" class="sm" fill="{fill}">{ln}</text>'''
+                ty += line_gap
+        y += rh + 10  # gap after each pillar row
+    h = y + 26
+    body += f'''<text x="{w/2}" y="{h-8}" text-anchor="middle" class="sm" font-style="italic">Across {count_controls()} controls, the weakest pillar determines overall maturity -- target the L2->L3 transition first (regulated entities)</text>'''
     return svg(w, h, group_title(body, w, "SHIELD-AI: Pillar Maturity Heat Grid (L1->L4)"))
 
 
