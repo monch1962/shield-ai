@@ -193,10 +193,37 @@ def main():
         "reference-views/04-pillar-maturity.md",
         "reference-views/05-controls-outcomes.md",
         "reference-views/06-controls-technical.md",
+        "reference-views/07-incident-summaries.md",
         "reference-views/README.md",
     ]
     for p in _rv_docs:
         check(f"reference view {os.path.basename(p)} exists", os.path.exists(p))
+
+    # 4c. Incident-link integrity: every incident link in docs 06 and 02 must
+    #     resolve to a summary card anchor in doc 07, and every 'full detail'
+    #     link in doc 07 must resolve to a real incident heading in the
+    #     gap-analysis. This keeps the human-readable landing pages in sync
+    #     with their anchors and the deep-dive trapdoors pointing at real
+    #     catalogue entries.
+    _rv7_p = "reference-views/07-incident-summaries.md"
+    _rv7 = open(_rv7_p, encoding="utf-8").read() if os.path.exists(_rv7_p) else ""
+    if _rv7:
+        _anchors7 = set(
+            re.sub(r"[^0-9a-z]+", "-", t.lower()).strip("-")
+            for _, t in re.findall(r"^### (INC-\d+):\s*(.+?)\s*$", _rv7, re.M))
+        for _src in ("reference-views/06-controls-technical.md",
+                     "reference-views/02-controls-incidents.md"):
+            _txt = open(_src, encoding="utf-8").read()
+            _linked = re.findall(r"\]\(\.\./reference-views/07-incident-summaries\.md#([a-z0-9-]+)\)", _txt)
+            _bad = sorted({a for a in _linked if a not in _anchors7})
+            check(f"{os.path.basename(_src)} incident links resolve in doc 07 (broken: {_bad})", not _bad)
+        _ga = open("framework/shield-ai-gap-analysis.md", encoding="utf-8").read()
+        _g_anchors = set(
+            re.sub(r"[^0-9a-z]+", "-", t.lower()).strip("-")
+            for _, t in re.findall(r"^### (INC-\d+):\s*(.+?)\s*$", _ga, re.M))
+        _deep = re.findall(r"\]\(\.\./framework/shield-ai-gap-analysis\.md#([a-z0-9-]+)\)", _rv7)
+        _bad_deep = sorted({a for a in _deep if a not in _g_anchors})
+        check(f"doc 07 'full detail' links resolve in gap-analysis (broken: {_bad_deep})", not _bad_deep)
 
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])

@@ -403,9 +403,10 @@ def md_incident_map():
         inc = links.get(cid, [])
         if inc:
             inc_links = ", ".join(
-                f"[{i['id']}](../framework/shield-ai-gap-analysis.md#{i['anchor']})"
+                f"[{i['id']}](../reference-views/07-incident-summaries.md#{i['anchor']})"
                 for i in inc)
-            lines.append(f"- **{cid}** — {title} ({len(inc)}): {inc_links}")
+            lines.append(f"- **{cid}** — {title} ({len(inc)}): {inc_links} "
+                         f"(human-readable summary in [doc 07](07-incident-summaries.md))")
         else:
             lines.append(f"- **{cid}** — {title} (0): no catalogue incident yet")
     lines.append("")
@@ -599,6 +600,116 @@ def plain_verify(cid, title, pol_entry, cap=5):
     return plain, shown, rest
 
 
+def load_incident_briefs():
+    """{inc_id: {id, title, anchor, brief, controls}} for every incident in the
+    gap-analysis.
+
+    The 'brief' is the incident's OWN first sentence (from its `**What
+    happened:**` narrative, or its intro paragraph for short-format incidents)
+    -- reused verbatim so the human-readable summary view is derived from the
+    committed source, never hand-paraphrased into a new claim. 'controls' is
+    the set of SHIELD-AI control IDs the incident references.
+    """
+    txt = open(GAP, encoding="utf-8").read()
+    out = {}
+    ctrl_re = re.compile(r"\b((?:EE|MS|IAM|DS|TP|MIR|GRM)-\d{2})\b")
+    for block in re.split(r"\n### INC-", txt):
+        if not block.strip():
+            continue
+        head = block.split("\n", 1)[0]
+        mm = re.match(r"(\d+):\s*(.*)$", head, re.DOTALL)
+        if not mm:
+            continue
+        inc_id = "INC-" + mm.group(1)
+        title = mm.group(2).strip()
+        # The evidence body: everything from this block up to the next top-level
+        # section or next incident (the block already stopped at the next \n### INC-).
+        mtop = re.search(r"\n## ", block)
+        body = block[:mtop.start()] if mtop else block
+        wh = re.search(r"\*\*What happened:\*\*\s*(.*?)(?=\n\n|\n\*\*|\n\|)", body, re.S)
+        brief = ""
+        if wh:
+            t = " ".join(wh.group(1).split())
+            parts = re.split(r"(?<=[a-z0-9\)\]])\.\s+(?=[A-Z])", t, maxsplit=1)
+            brief = parts[0].rstrip(" .") + "."
+        else:
+            # short-format incidents: first sentence of the intro paragraph
+            para = re.search(r"\n\n\>.*?\n\n(.*?)(?=\n###|\n## |\nAffected controls|\Z)", body, re.S)
+            if para:
+                t = " ".join(para.group(1).split())
+                t = re.split(r"\bAffected controls:\s*$", t)[0].strip()
+                brief = re.split(r"(?<=[a-z0-9])\.\s+(?=[A-Z])", t, maxsplit=1)[0].rstrip(" .") + "."
+        anchor = re.sub(r"[^0-9a-z]+", "-", title.lower()).strip("-")
+        out[inc_id] = {
+            "id": inc_id,
+            "title": title,
+            "anchor": anchor,
+            "brief": brief,
+            "controls": sorted(set(ctrl_re.findall(body))),
+        }
+    return out
+
+
+def md_incident_summaries():
+    """Document 07: human-readable incident summaries.
+
+    One card per incident: what happened (the incident's own first sentence),
+    the SHIELD-AI controls it evidences, and a one-click link to the full
+    technical detail in the gap-analysis -- so a reader who follows a link from
+    a control's incident evidence lands on something scannable first and can
+    drill down only if needed.
+    """
+    briefs = load_incident_briefs()
+    links = load_incident_links()
+    ids = sorted(briefs)
+    lines = [
+        "# 07 · Incident Summaries",
+        "",
+        "A human-friendly index of the **92 catalogue incidents**. Each card gives",
+        "what happened in one sentence, the SHIELD-AI controls it evidences, and a",
+        "link to the full technical detail in the gap-analysis document. Use this",
+        "page when a control's 'incident evidence' link in doc 06 leads you here —",
+        "it is the scannable summary; the catalogue entry is the deep dive.",
+        "",
+        "## Incidents A–Z",
+        "",
+    ]
+    total_links = sum(len(links.get(i, [])) for i in ids)
+    lines.append(
+        f"> **Use with the field guide:** every incident-evidence link in "
+        f"[06 · Control Technical Verification Field Guide](06-controls-technical.md) "
+        f"now resolves to its card here. {len(ids)} incidents, "
+        f"{sum(len(briefs[i]['controls']) for i in ids)} control references across the set.\n")
+    lines.append("")
+    for inc_id in ids:
+        b = briefs[inc_id]
+        ctrls = b["controls"]
+        lines.append(f"### {inc_id}: {b['title']}")
+        lines.append("")
+        lines.append(f"**In brief:** {b['brief'] or '*No standalone summary; see full detail.*'}")
+        lines.append("")
+        if ctrls:
+            ctrl_str = ", ".join(f"**{c}**" for c in ctrls)
+            lines.append(f"- **Controls evidenced:** {ctrl_str}")
+        else:
+            lines.append("- **Controls evidenced:** none directly referenced")
+        lines.append(f"- **Full detail:** [view the INC-{inc_id.split('-')[1]} catalogue entry]"
+                     f"(../framework/shield-ai-gap-analysis.md#{b['anchor']})")
+        lines.append("")
+    lines += [
+        "## How this page is generated",
+        "",
+        "- **Summary card:** one card per incident, ordered by INC number.",
+        "- **'In brief'** reuses the incident's own opening sentence from the gap-analysis —",
+        "  no paraphrase, no invented summary.",
+        "- **'Controls evidenced'** is the set of SHIELD-AI control IDs referenced in the",
+        "  incident's catalogue entry.",
+        "- **'Full detail'** links to the complete technical record in the gap-analysis.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 # ── Diagram 5: Control -> Outcome & Executable verification ─────────────
 
 
@@ -753,8 +864,10 @@ def md_technical_controls():
         "  rule in the policy, so nothing is paraphrased or softened.",
         "- **Executable policy** names the exact `policies/*.rego` file; open it for the",
         "  input model and the full `deny` rules that fail closed.",
-        "- **Incident evidence** links straight to the specific catalogue incident(s) that",
-        "  demonstrated a failure of this control class.",
+        "- **Incident evidence** links each incident to its human-readable summary card in",
+        "  [07 · Incident Summaries](07-incident-summaries.md), which gives what happened in",
+        "  one sentence and then links the full catalogue detail in the gap-analysis — this",
+        "  keeps the control page scannable and the deep dive one click further out.",
         "",
         "> **How to read the checks:** each bullet is a condition that, when true, makes the",
         "> control *fail closed* (the action is blocked). To satisfy the control, confirm",
@@ -787,9 +900,10 @@ def md_technical_controls():
             lines.append("")
             if inc:
                 inc_links = ", ".join(
-                    f"[{i['id']}](../framework/shield-ai-gap-analysis.md#{i['anchor']})"
+                    f"[{i['id']}](../reference-views/07-incident-summaries.md#{i['anchor']})"
                     for i in inc)
-                lines.append(f"- **Incident evidence ({len(inc)}):** {inc_links}")
+                lines.append(f"- **Incident evidence ({len(inc)}):** {inc_links} "
+                             "-- opens each incident's human-readable summary (see doc 07)")
             else:
                 lines.append("- **Incident evidence:** none yet — baseline coverage, "
                              "not yet demonstrated by a catalogue incident")
@@ -942,11 +1056,11 @@ def md_maturity():
 def md_readme():
     return """# SHIELD-AI Reference Views
 
-Five simplified, cross-cutting views for presenting the framework to security
-architects and business stakeholders. Each view derives its numbers from the
-committed framework sources (see `tools/generate_reference_views.py`) so it can
-never drift from the main document, and each is available as both a Markdown
-page and an SVG diagram.
+Seven cross-cutting views for presenting the framework to security architects
+and business stakeholders. Each view derives its content from the committed
+framework sources (see `tools/generate_reference_views.py`) so it can never
+drift from the main document; most ship as both a Markdown page and an SVG
+diagram, and the index is maintained for both formats.
 
 | # | View | Question it answers | SVG |
 |---|------|--------------------|-----|
@@ -956,6 +1070,7 @@ page and an SVG diagram.
 | 04 | [Pillar → Maturity](04-pillar-maturity.md) | How mature are we per pillar, and what does L3 require? | `pillar-maturity-heat.svg` |
 | 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
 | 06 | [Control Technical Verification Field Guide](06-controls-technical.md) | What precisely must hold per control, and how is it verified? *(technical specialists)* | `control-technical-sheet.svg` |
+| 07 | [Incident Summaries](07-incident-summaries.md) | What happened in each catalogue incident, in one line, with which controls it evidences? | — |
 
 ## For business stakeholders (the 60-second story)
 
@@ -987,6 +1102,7 @@ VIEW_FILES = [
     ("04-pillar-maturity.md", md_maturity),
     ("05-controls-outcomes.md", md_control_outcomes),
     ("06-controls-technical.md", md_technical_controls),
+    ("07-incident-summaries.md", md_incident_summaries),
     ("README.md", md_readme),
 ]
 

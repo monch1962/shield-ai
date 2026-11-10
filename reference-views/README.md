@@ -1,10 +1,10 @@
 # SHIELD-AI Reference Views
 
-Five simplified, cross-cutting views for presenting the framework to security
-architects and business stakeholders. Each view derives its numbers from the
-committed framework sources (see `tools/generate_reference_views.py`) so it can
-never drift from the main document, and each is available as both a Markdown
-page and an SVG diagram.
+Seven cross-cutting views for presenting the framework to security architects
+and business stakeholders. Each view derives its content from the committed
+framework sources (see `tools/generate_reference_views.py`) so it can never
+drift from the main document; most ship as both a Markdown page and an SVG
+diagram, and the index is maintained for both formats.
 
 | # | View | Question it answers | SVG |
 |---|------|--------------------|-----|
@@ -14,6 +14,7 @@ page and an SVG diagram.
 | 04 | [Pillar → Maturity](04-pillar-maturity.md) | How mature are we per pillar, and what does L3 require? | `pillar-maturity-heat.svg` |
 | 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
 | 06 | [Control Technical Verification Field Guide](06-controls-technical.md) | What precisely must hold per control, and how is it verified? *(technical specialists)* | `control-technical-sheet.svg` |
+| 07 | [Incident Summaries](07-incident-summaries.md) | What happened in each catalogue incident, in one line, with which controls it evidences? | — |
 
 ## For business stakeholders (the 60-second story)
 

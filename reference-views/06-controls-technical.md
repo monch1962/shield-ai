@@ -27,8 +27,10 @@ those deny rules.
   rule in the policy, so nothing is paraphrased or softened.
 - **Executable policy** names the exact `policies/*.rego` file; open it for the
   input model and the full `deny` rules that fail closed.
-- **Incident evidence** links straight to the specific catalogue incident(s) that
-  demonstrated a failure of this control class.
+- **Incident evidence** links each incident to its human-readable summary card in
+  [07 · Incident Summaries](07-incident-summaries.md), which gives what happened in
+  one sentence and then links the full catalogue detail in the gap-analysis — this
+  keeps the control page scannable and the deep dive one click further out.
 
 > **How to read the checks:** each bullet is a condition that, when true, makes the
 > control *fail closed* (the action is blocked). To satisfy the control, confirm
@@ -45,7 +47,7 @@ those deny rules.
 **What to verify:** Execution environment boundary enforcement must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - tool <name> is high-risk and agent <name> is not sandboxed (fail closed)
 
-- **Incident evidence (14):** [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-13](../framework/shield-ai-gap-analysis.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-17](../framework/shield-ai-gap-analysis.md#implicit-tool-exposure), [INC-18](../framework/shield-ai-gap-analysis.md#deepseek-python-exec), [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-29](../framework/shield-ai-gap-analysis.md#chatmate-rpe), [INC-38](../framework/shield-ai-gap-analysis.md#sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-57](../framework/shield-ai-gap-analysis.md#docker-sandboxes-sandbox-escape-cves), [INC-58](../framework/shield-ai-gap-analysis.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-59](../framework/shield-ai-gap-analysis.md#trail-of-bits-vms-won-t-contain-cyber-capable-agents), [INC-68](../framework/shield-ai-gap-analysis.md#praisonai-cve-2026-57138), [INC-82](../framework/shield-ai-gap-analysis.md#multi-tenant-ai-code-execution-hosting-escapes), [INC-91](../framework/shield-ai-gap-analysis.md#cpython-chat-template-sandbox-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (14):** [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-13](../reference-views/07-incident-summaries.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-17](../reference-views/07-incident-summaries.md#implicit-tool-exposure), [INC-18](../reference-views/07-incident-summaries.md#deepseek-python-exec), [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-29](../reference-views/07-incident-summaries.md#chatmate-rpe), [INC-38](../reference-views/07-incident-summaries.md#sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-57](../reference-views/07-incident-summaries.md#docker-sandboxes-sandbox-escape-cves), [INC-58](../reference-views/07-incident-summaries.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-59](../reference-views/07-incident-summaries.md#trail-of-bits-vms-won-t-contain-cyber-capable-agents), [INC-68](../reference-views/07-incident-summaries.md#praisonai-cve-2026-57138), [INC-82](../reference-views/07-incident-summaries.md#multi-tenant-ai-code-execution-hosting-escapes), [INC-91](../reference-views/07-incident-summaries.md#cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-02: Infrastructure API access control
 
@@ -54,7 +56,7 @@ those deny rules.
 **What to verify:** Infrastructure API access control must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - agent call to infrastructure API <name> without explicit tool registration
 
-- **Incident evidence (3):** [INC-39](../framework/shield-ai-gap-analysis.md#agent-tool-server-and-mcp-registry-exposure), [INC-60](../framework/shield-ai-gap-analysis.md#identity-confusion-by-design), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-39](../reference-views/07-incident-summaries.md#agent-tool-server-and-mcp-registry-exposure), [INC-60](../reference-views/07-incident-summaries.md#identity-confusion-by-design), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-03: Resource usage limiting
 
@@ -65,7 +67,7 @@ those deny rules.
   - agent <name> network usage ... Mbps exceeds limit ... Mbps
   - agent <name> API rate ... exceeds limit ...
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-04: Evaluation sandbox integrity
 
@@ -76,7 +78,7 @@ those deny rules.
   - evaluation run has a network path to production
   - evaluation pipeline can modify production systems or data
 
-- **Incident evidence (3):** [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-05: Host-trusted configuration file injection prevention
 
@@ -86,7 +88,7 @@ those deny rules.
   - agent can write host-trusted path <name> (indirect escape class)
   - agent <name> file write with no reported write-path allowlist (fail closed)
 
-- **Incident evidence (10):** [INC-03](../framework/shield-ai-gap-analysis.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-14](../framework/shield-ai-gap-analysis.md#codex-cli-agent-self-configuration-poisoning), [INC-15](../framework/shield-ai-gap-analysis.md#cve-2026-35603), [INC-41](../framework/shield-ai-gap-analysis.md#ghostapproval), [INC-57](../framework/shield-ai-gap-analysis.md#docker-sandboxes-sandbox-escape-cves), [INC-65](../framework/shield-ai-gap-analysis.md#openai-codex-heapjack-overpatch), [INC-76](../framework/shield-ai-gap-analysis.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-84](../framework/shield-ai-gap-analysis.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-03](../reference-views/07-incident-summaries.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-14](../reference-views/07-incident-summaries.md#codex-cli-agent-self-configuration-poisoning), [INC-15](../reference-views/07-incident-summaries.md#cve-2026-35603), [INC-41](../reference-views/07-incident-summaries.md#ghostapproval), [INC-57](../reference-views/07-incident-summaries.md#docker-sandboxes-sandbox-escape-cves), [INC-65](../reference-views/07-incident-summaries.md#openai-codex-heapjack-overpatch), [INC-76](../reference-views/07-incident-summaries.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-84](../reference-views/07-incident-summaries.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-06: Fail-closed sandbox operation
 
@@ -97,7 +99,7 @@ those deny rules.
   - no sandbox attestation before code execution by agent <name> (fail closed)
   - sandbox attestation negative for agent <name>
 
-- **Incident evidence (3):** [INC-21](../framework/shield-ai-gap-analysis.md#openclaw-cve-2026-25253), [INC-61](../framework/shield-ai-gap-analysis.md#authentication-off-by-default), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-21](../reference-views/07-incident-summaries.md#openclaw-cve-2026-25253), [INC-61](../reference-views/07-incident-summaries.md#authentication-off-by-default), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-07: Agent control-plane configuration integrity
 
@@ -107,7 +109,7 @@ those deny rules.
   - agent configuration loaded from a world-writable location (config-trust class)
   - agent control-plane path <name> is writable by the agent
 
-- **Incident evidence (12):** [INC-03](../framework/shield-ai-gap-analysis.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-15](../framework/shield-ai-gap-analysis.md#cve-2026-35603), [INC-20](../framework/shield-ai-gap-analysis.md#aws-kiro-cve-2026-10591), [INC-39](../framework/shield-ai-gap-analysis.md#agent-tool-server-and-mcp-registry-exposure), [INC-46](../framework/shield-ai-gap-analysis.md#novee-trusted-enough-to-run), [INC-53](../framework/shield-ai-gap-analysis.md#gitspawn), [INC-56](../framework/shield-ai-gap-analysis.md#deepseek-harness-sandbox-escape), [INC-69](../framework/shield-ai-gap-analysis.md#opencode-localhost-rce-cluster), [INC-75](../framework/shield-ai-gap-analysis.md#comment-and-control), [INC-78](../framework/shield-ai-gap-analysis.md#loopback-dns-rebinding-cluster), [INC-79](../framework/shield-ai-gap-analysis.md#mcp-connection-path-oauth-rce), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (12):** [INC-03](../reference-views/07-incident-summaries.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-15](../reference-views/07-incident-summaries.md#cve-2026-35603), [INC-20](../reference-views/07-incident-summaries.md#aws-kiro-cve-2026-10591), [INC-39](../reference-views/07-incident-summaries.md#agent-tool-server-and-mcp-registry-exposure), [INC-46](../reference-views/07-incident-summaries.md#novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#gitspawn), [INC-56](../reference-views/07-incident-summaries.md#deepseek-harness-sandbox-escape), [INC-69](../reference-views/07-incident-summaries.md#opencode-localhost-rce-cluster), [INC-75](../reference-views/07-incident-summaries.md#comment-and-control), [INC-78](../reference-views/07-incident-summaries.md#loopback-dns-rebinding-cluster), [INC-79](../reference-views/07-incident-summaries.md#mcp-connection-path-oauth-rce), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### EE-08: Evaluation-harness isolation and integrity
 
@@ -118,7 +120,7 @@ those deny rules.
   - evaluation run without target collision-checking against real domains and assets
   - evaluation run without cross-run separation (contamination risk)
 
-- **Incident evidence (10):** [INC-26](../framework/shield-ai-gap-analysis.md#third-party-evaluation-containment-failure), [INC-27](../framework/shield-ai-gap-analysis.md#uk-aisi-incident-report), [INC-28](../framework/shield-ai-gap-analysis.md#moonshot-kimi-k3), [INC-32](../framework/shield-ai-gap-analysis.md#abc-news), [INC-40](../framework/shield-ai-gap-analysis.md#openai-evaluation-escape-follow-up-disclosures), [INC-62](../framework/shield-ai-gap-analysis.md#google-gemini), [INC-63](../framework/shield-ai-gap-analysis.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-64](../framework/shield-ai-gap-analysis.md#openai-second-frontier-training-sandbox-escape-via-a-dns-filtering-gap), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-26](../reference-views/07-incident-summaries.md#third-party-evaluation-containment-failure), [INC-27](../reference-views/07-incident-summaries.md#uk-aisi-incident-report), [INC-28](../reference-views/07-incident-summaries.md#moonshot-kimi-k3), [INC-32](../reference-views/07-incident-summaries.md#abc-news), [INC-40](../reference-views/07-incident-summaries.md#openai-evaluation-escape-follow-up-disclosures), [INC-62](../reference-views/07-incident-summaries.md#google-gemini), [INC-63](../reference-views/07-incident-summaries.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-64](../reference-views/07-incident-summaries.md#openai-second-frontier-training-sandbox-escape-via-a-dns-filtering-gap), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## MS — Model Security
 
@@ -130,7 +132,7 @@ those deny rules.
   - model <name> weights not encrypted at rest and in transit
   - model <name> weights lack key management (HSM or cloud KMS required)
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-02: Training data integrity
 
@@ -141,7 +143,7 @@ those deny rules.
   - training run with unsanitised dataset (PII or sensitive content)
   - training run without a clean poison-detection scan (fail closed)
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-03: Supply chain security
 
@@ -152,7 +154,7 @@ those deny rules.
   - model <name> provenance signature not verified
   - model <name> checkpoints not signed
 
-- **Incident evidence (3):** [INC-01](../framework/shield-ai-gap-analysis.md#openai-model-sandbox-escape), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-01](../reference-views/07-incident-summaries.md#openai-model-sandbox-escape), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-04: Adversarial robustness
 
@@ -161,7 +163,7 @@ those deny rules.
 **What to verify:** Adversarial robustness must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - prompt-injection or imperceptible-content marker <name> found in agent-visible content
 
-- **Incident evidence (19):** [INC-03](../framework/shield-ai-gap-analysis.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-09](../framework/shield-ai-gap-analysis.md#cross-platform-sandbox-bypasses), [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-13](../framework/shield-ai-gap-analysis.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../framework/shield-ai-gap-analysis.md#codex-cli-agent-self-configuration-poisoning), [INC-17](../framework/shield-ai-gap-analysis.md#implicit-tool-exposure), [INC-20](../framework/shield-ai-gap-analysis.md#aws-kiro-cve-2026-10591), [INC-22](../framework/shield-ai-gap-analysis.md#microsoft-azure-devops-mcp-flaw), [INC-27](../framework/shield-ai-gap-analysis.md#uk-aisi-incident-report), [INC-29](../framework/shield-ai-gap-analysis.md#chatmate-rpe), [INC-30](../framework/shield-ai-gap-analysis.md#zenity-intent-collision), [INC-33](../framework/shield-ai-gap-analysis.md#ghostjacking), [INC-42](../framework/shield-ai-gap-analysis.md#rovoblast), [INC-44](../framework/shield-ai-gap-analysis.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-51](../framework/shield-ai-gap-analysis.md#ansi-escape-code-terminal-exfiltration), [INC-54](../framework/shield-ai-gap-analysis.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-71](../framework/shield-ai-gap-analysis.md#openai-self-replicating-prompt-injections), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (19):** [INC-03](../reference-views/07-incident-summaries.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#cross-platform-sandbox-bypasses), [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../reference-views/07-incident-summaries.md#codex-cli-agent-self-configuration-poisoning), [INC-17](../reference-views/07-incident-summaries.md#implicit-tool-exposure), [INC-20](../reference-views/07-incident-summaries.md#aws-kiro-cve-2026-10591), [INC-22](../reference-views/07-incident-summaries.md#microsoft-azure-devops-mcp-flaw), [INC-27](../reference-views/07-incident-summaries.md#uk-aisi-incident-report), [INC-29](../reference-views/07-incident-summaries.md#chatmate-rpe), [INC-30](../reference-views/07-incident-summaries.md#zenity-intent-collision), [INC-33](../reference-views/07-incident-summaries.md#ghostjacking), [INC-42](../reference-views/07-incident-summaries.md#rovoblast), [INC-44](../reference-views/07-incident-summaries.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-51](../reference-views/07-incident-summaries.md#ansi-escape-code-terminal-exfiltration), [INC-54](../reference-views/07-incident-summaries.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-71](../reference-views/07-incident-summaries.md#openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-05: Model behaviour validation
 
@@ -171,7 +173,7 @@ those deny rules.
   - output by agent <name> not evaluated by proxy-layer guardrails (fail closed)
   - output by agent <name> outside its configured behaviour scope
 
-- **Incident evidence (4):** [INC-06](../framework/shield-ai-gap-analysis.md#claude-mythos-ai-sandbox-escape), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-09](../framework/shield-ai-gap-analysis.md#cross-platform-sandbox-bypasses), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (4):** [INC-06](../reference-views/07-incident-summaries.md#claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#cross-platform-sandbox-bypasses), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-06: Model inventory and lineage tracking
 
@@ -182,7 +184,7 @@ those deny rules.
   - model <name> has no traceable lineage
   - model <name> has no version record
 
-- **Incident evidence (1):** [INC-06](../framework/shield-ai-gap-analysis.md#claude-mythos-ai-sandbox-escape)
+- **Incident evidence (1):** [INC-06](../reference-views/07-incident-summaries.md#claude-mythos-ai-sandbox-escape) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-07: Deployment context obfuscation
 
@@ -192,7 +194,7 @@ those deny rules.
   - evaluation environment distinguishable from production (endpoints, data shapes, latency)
   - evaluation behaviour diverges from production for the same inputs (subversion indicator)
 
-- **Incident evidence (2):** [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-08: MCP
 
@@ -203,7 +205,7 @@ those deny rules.
   - MCP server <name> is not from a trusted registry
   - MCP connection <name> can write execution-bearing locations (registry launch-command class)
 
-- **Incident evidence (19):** [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-20](../framework/shield-ai-gap-analysis.md#aws-kiro-cve-2026-10591), [INC-37](../framework/shield-ai-gap-analysis.md#mcp-discovery-metadata-and-cache-surface-injection), [INC-39](../framework/shield-ai-gap-analysis.md#agent-tool-server-and-mcp-registry-exposure), [INC-43](../framework/shield-ai-gap-analysis.md#sharelock), [INC-54](../framework/shield-ai-gap-analysis.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../framework/shield-ai-gap-analysis.md#deepseek-harness-sandbox-escape), [INC-60](../framework/shield-ai-gap-analysis.md#identity-confusion-by-design), [INC-61](../framework/shield-ai-gap-analysis.md#authentication-off-by-default), [INC-76](../framework/shield-ai-gap-analysis.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-78](../framework/shield-ai-gap-analysis.md#loopback-dns-rebinding-cluster), [INC-79](../framework/shield-ai-gap-analysis.md#mcp-connection-path-oauth-rce), [INC-80](../framework/shield-ai-gap-analysis.md#mcp-tool-argument-command-injection-wave), [INC-85](../framework/shield-ai-gap-analysis.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../framework/shield-ai-gap-analysis.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-87](../framework/shield-ai-gap-analysis.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-88](../framework/shield-ai-gap-analysis.md#mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (19):** [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-20](../reference-views/07-incident-summaries.md#aws-kiro-cve-2026-10591), [INC-37](../reference-views/07-incident-summaries.md#mcp-discovery-metadata-and-cache-surface-injection), [INC-39](../reference-views/07-incident-summaries.md#agent-tool-server-and-mcp-registry-exposure), [INC-43](../reference-views/07-incident-summaries.md#sharelock), [INC-54](../reference-views/07-incident-summaries.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../reference-views/07-incident-summaries.md#deepseek-harness-sandbox-escape), [INC-60](../reference-views/07-incident-summaries.md#identity-confusion-by-design), [INC-61](../reference-views/07-incident-summaries.md#authentication-off-by-default), [INC-76](../reference-views/07-incident-summaries.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-78](../reference-views/07-incident-summaries.md#loopback-dns-rebinding-cluster), [INC-79](../reference-views/07-incident-summaries.md#mcp-connection-path-oauth-rce), [INC-80](../reference-views/07-incident-summaries.md#mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-87](../reference-views/07-incident-summaries.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-88](../reference-views/07-incident-summaries.md#mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-09: Perception-fidelity enforcement for human-in-the-loop approvals
 
@@ -213,7 +215,7 @@ those deny rules.
   - approval evidence comes from an agent-generated attestation (sockpuppet class); out-of-band verification required
   - approval binds to content containing imperceptible marker <name> without a verified rendering-fidelity snapshot
 
-- **Incident evidence (10):** [INC-25](../framework/shield-ai-gap-analysis.md#android-on-device-agents), [INC-27](../framework/shield-ai-gap-analysis.md#uk-aisi-incident-report), [INC-30](../framework/shield-ai-gap-analysis.md#zenity-intent-collision), [INC-36](../framework/shield-ai-gap-analysis.md#ai-assisted-exploit-development-acceleration), [INC-41](../framework/shield-ai-gap-analysis.md#ghostapproval), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-71](../framework/shield-ai-gap-analysis.md#openai-self-replicating-prompt-injections), [INC-72](../framework/shield-ai-gap-analysis.md#salesforce-agentforce-salesbleed), [INC-84](../framework/shield-ai-gap-analysis.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-25](../reference-views/07-incident-summaries.md#android-on-device-agents), [INC-27](../reference-views/07-incident-summaries.md#uk-aisi-incident-report), [INC-30](../reference-views/07-incident-summaries.md#zenity-intent-collision), [INC-36](../reference-views/07-incident-summaries.md#ai-assisted-exploit-development-acceleration), [INC-41](../reference-views/07-incident-summaries.md#ghostapproval), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-71](../reference-views/07-incident-summaries.md#openai-self-replicating-prompt-injections), [INC-72](../reference-views/07-incident-summaries.md#salesforce-agentforce-salesbleed), [INC-84](../reference-views/07-incident-summaries.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-10: Agent memory-store integrity
 
@@ -223,7 +225,7 @@ those deny rules.
   - memory-store write by agent <name> is unauthenticated
   - memory-store write by agent <name> carries tamper evidence; store must be treated as compromised
 
-- **Incident evidence (7):** [INC-31](../framework/shield-ai-gap-analysis.md#ruflo-rufroot), [INC-33](../framework/shield-ai-gap-analysis.md#ghostjacking), [INC-45](../framework/shield-ai-gap-analysis.md#nemoclaw-cve-2026-65105), [INC-70](../framework/shield-ai-gap-analysis.md#darktrace-conversation-history-poisoning), [INC-81](../framework/shield-ai-gap-analysis.md#cross-tenant-agent-memory-leakage), [INC-91](../framework/shield-ai-gap-analysis.md#cpython-chat-template-sandbox-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (7):** [INC-31](../reference-views/07-incident-summaries.md#ruflo-rufroot), [INC-33](../reference-views/07-incident-summaries.md#ghostjacking), [INC-45](../reference-views/07-incident-summaries.md#nemoclaw-cve-2026-65105), [INC-70](../reference-views/07-incident-summaries.md#darktrace-conversation-history-poisoning), [INC-81](../reference-views/07-incident-summaries.md#cross-tenant-agent-memory-leakage), [INC-91](../reference-views/07-incident-summaries.md#cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-11: Operational data-stream integrity
 
@@ -234,7 +236,7 @@ those deny rules.
   - instruction-bearing operational content acted on without independent non-log verification
   - high-impact agent action triggered by log/alert content without human approval
 
-- **Incident evidence (4):** [INC-33](../framework/shield-ai-gap-analysis.md#ghostjacking), [INC-40](../framework/shield-ai-gap-analysis.md#openai-evaluation-escape-follow-up-disclosures), [INC-67](../framework/shield-ai-gap-analysis.md#sentry-seer-phantomfix), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (4):** [INC-33](../reference-views/07-incident-summaries.md#ghostjacking), [INC-40](../reference-views/07-incident-summaries.md#openai-evaluation-escape-follow-up-disclosures), [INC-67](../reference-views/07-incident-summaries.md#sentry-seer-phantomfix), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-12: MCP discovery-metadata and shared-cache integrity
 
@@ -248,7 +250,7 @@ those deny rules.
   - MCP discovery response for agent <name> uses a cache key not bound to the authenticated identity
   - *1 more fail-closed conditions in the policy.*
 
-- **Incident evidence (3):** [INC-37](../framework/shield-ai-gap-analysis.md#mcp-discovery-metadata-and-cache-surface-injection), [INC-43](../framework/shield-ai-gap-analysis.md#sharelock), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-37](../reference-views/07-incident-summaries.md#mcp-discovery-metadata-and-cache-surface-injection), [INC-43](../reference-views/07-incident-summaries.md#sharelock), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-13: Transcript and conversation authenticity
 
@@ -260,7 +262,7 @@ those deny rules.
   - agent <name> attempts a confidence-gated action from a transcript with a broken authenticity chain; chain-break blocks execution
   - agent <name> reads from an unverified transcript store; transcript stores are untrusted until verified
 
-- **Incident evidence (3):** [INC-70](../framework/shield-ai-gap-analysis.md#darktrace-conversation-history-poisoning), [INC-83](../framework/shield-ai-gap-analysis.md#ci-cd-agent-config-file-trust-ordering-and-marker-authorship), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-70](../reference-views/07-incident-summaries.md#darktrace-conversation-history-poisoning), [INC-83](../reference-views/07-incident-summaries.md#ci-cd-agent-config-file-trust-ordering-and-marker-authorship), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-14: Self-replication barrier
 
@@ -272,7 +274,7 @@ those deny rules.
   - outbound broadcast by agent <name> lacks human signoff (one-channel-per-write / human-signoff-on-broadcast)
   - outbound publish by agent <name> carries a propagation signal; channel-kill and incident response triggered (worm-emulation)
 
-- **Incident evidence (2):** [INC-71](../framework/shield-ai-gap-analysis.md#openai-self-replicating-prompt-injections), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-71](../reference-views/07-incident-summaries.md#openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MS-15: Cross-tenant agent memory and state isolation
 
@@ -286,7 +288,7 @@ those deny rules.
   - memory_read by agent <name> uses an LLM-controllable namespace/tenant key; the isolation key must never be a model-controllable tool argument
   - *3 more fail-closed conditions in the policy.*
 
-- **Incident evidence (4):** [INC-81](../framework/shield-ai-gap-analysis.md#cross-tenant-agent-memory-leakage), [INC-87](../framework/shield-ai-gap-analysis.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../framework/shield-ai-gap-analysis.md#cpython-chat-template-sandbox-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (4):** [INC-81](../reference-views/07-incident-summaries.md#cross-tenant-agent-memory-leakage), [INC-87](../reference-views/07-incident-summaries.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../reference-views/07-incident-summaries.md#cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## IAM — Identity & Access
 
@@ -298,7 +300,7 @@ those deny rules.
   - agent <name> has no unique identity (sharing human credentials)
   - agent <name> identity is not auditable
 
-- **Incident evidence (5):** [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape), [INC-16](../framework/shield-ai-gap-analysis.md#langflow), [INC-35](../framework/shield-ai-gap-analysis.md#taiwan-nuclear-safety-agency), [INC-52](../framework/shield-ai-gap-analysis.md#moltbook), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (5):** [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape), [INC-16](../reference-views/07-incident-summaries.md#langflow), [INC-35](../reference-views/07-incident-summaries.md#taiwan-nuclear-safety-agency), [INC-52](../reference-views/07-incident-summaries.md#moltbook), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-02: Scope-bound delegation
 
@@ -308,7 +310,7 @@ those deny rules.
   - agent <name> has no scope-bound delegation claim (fail closed)
   - agent <name> has wildcard permissions
 
-- **Incident evidence (10):** [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape), [INC-05](../framework/shield-ai-gap-analysis.md#claude-code-sandbox-bypass), [INC-09](../framework/shield-ai-gap-analysis.md#cross-platform-sandbox-bypasses), [INC-10](../framework/shield-ai-gap-analysis.md#alibaba-ai-agent), [INC-15](../framework/shield-ai-gap-analysis.md#cve-2026-35603), [INC-16](../framework/shield-ai-gap-analysis.md#langflow), [INC-42](../framework/shield-ai-gap-analysis.md#rovoblast), [INC-47](../framework/shield-ai-gap-analysis.md#wiz-red-agent), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#claude-code-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#cross-platform-sandbox-bypasses), [INC-10](../reference-views/07-incident-summaries.md#alibaba-ai-agent), [INC-15](../reference-views/07-incident-summaries.md#cve-2026-35603), [INC-16](../reference-views/07-incident-summaries.md#langflow), [INC-42](../reference-views/07-incident-summaries.md#rovoblast), [INC-47](../reference-views/07-incident-summaries.md#wiz-red-agent), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-03: Human oversight controls
 
@@ -319,7 +321,7 @@ those deny rules.
   - financial action approved on the agent channel; human-console approval required
   - ... action by agent <name> without human approval
 
-- **Incident evidence (8):** [INC-10](../framework/shield-ai-gap-analysis.md#alibaba-ai-agent), [INC-20](../framework/shield-ai-gap-analysis.md#aws-kiro-cve-2026-10591), [INC-21](../framework/shield-ai-gap-analysis.md#openclaw-cve-2026-25253), [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-27](../framework/shield-ai-gap-analysis.md#uk-aisi-incident-report), [INC-34](../framework/shield-ai-gap-analysis.md#corebreak), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (8):** [INC-10](../reference-views/07-incident-summaries.md#alibaba-ai-agent), [INC-20](../reference-views/07-incident-summaries.md#aws-kiro-cve-2026-10591), [INC-21](../reference-views/07-incident-summaries.md#openclaw-cve-2026-25253), [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-27](../reference-views/07-incident-summaries.md#uk-aisi-incident-report), [INC-34](../reference-views/07-incident-summaries.md#corebreak), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-04: Credential isolation
 
@@ -329,7 +331,7 @@ those deny rules.
   - agent <name> credentials not isolated from human credentials
   - agent <name> compromise signal without credential rotation
 
-- **Incident evidence (4):** [INC-01](../framework/shield-ai-gap-analysis.md#openai-model-sandbox-escape), [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-21](../framework/shield-ai-gap-analysis.md#openclaw-cve-2026-25253)
+- **Incident evidence (4):** [INC-01](../reference-views/07-incident-summaries.md#openai-model-sandbox-escape), [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-21](../reference-views/07-incident-summaries.md#openclaw-cve-2026-25253) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-05: Just-in-time access
 
@@ -349,7 +351,7 @@ those deny rules.
   - agent <name> session shares credentials across sessions
   - agent <name> session is not an independent security context
 
-- **Incident evidence (2):** [INC-50](../framework/shield-ai-gap-analysis.md#cve-2026-25536), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-50](../reference-views/07-incident-summaries.md#cve-2026-25536), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-07: Transitive delegation chain enforcement
 
@@ -359,7 +361,7 @@ those deny rules.
   - delegation chain for agent <name> is ... hops, exceeding the bound of ...
   - delegation chain for agent <name> is not reconstructable from audit logs
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-08: Credential scope narrowing
 
@@ -370,7 +372,7 @@ those deny rules.
   - agent <name> credentials are not scoped per registered tool
   - agent <name> credentials are not short-lived
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-09: Multi-tenant agent platform isolation
 
@@ -380,7 +382,7 @@ those deny rules.
   - request not scoped to tenant ID at the data layer (presentation-layer checks only)
   - user-controlled object ID bypasses tenant scoping (CWE-639 IDOR class)
 
-- **Incident evidence (4):** [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-35](../framework/shield-ai-gap-analysis.md#taiwan-nuclear-safety-agency), [INC-52](../framework/shield-ai-gap-analysis.md#moltbook), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (4):** [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-35](../reference-views/07-incident-summaries.md#taiwan-nuclear-safety-agency), [INC-52](../reference-views/07-incident-summaries.md#moltbook), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### IAM-10: Taint-tracked least-privilege subagent scoping
 
@@ -392,7 +394,7 @@ those deny rules.
   - agent <name> tainted read cascades into an untainted sensitive collection beyond the immediate task; blocked
   - agent <name> processed a tainted record where the untrusted/trusted sanitisation boundary is not an explicit access-control decision
 
-- **Incident evidence (2):** [INC-72](../framework/shield-ai-gap-analysis.md#salesforce-agentforce-salesbleed), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-72](../reference-views/07-incident-summaries.md#salesforce-agentforce-salesbleed), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## DS — Data Security
 
@@ -404,7 +406,7 @@ those deny rules.
   - data ingestion without automated classification (fail closed)
   - data ingestion with no classification label
 
-- **Incident evidence (3):** [INC-02](../framework/shield-ai-gap-analysis.md#claude-cowork-vm-escape), [INC-15](../framework/shield-ai-gap-analysis.md#cve-2026-35603), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-02](../reference-views/07-incident-summaries.md#claude-cowork-vm-escape), [INC-15](../reference-views/07-incident-summaries.md#cve-2026-35603), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-02: Inference data protection
 
@@ -415,7 +417,7 @@ those deny rules.
   - inference transport below TLS 1.3 minimum
   - sensitive inference endpoint outside the organisation's trust boundary
 
-- **Incident evidence (1):** [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape)
+- **Incident evidence (1):** [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-03: Memory sanitisation
 
@@ -425,7 +427,7 @@ those deny rules.
   - agent <name> persists classified or sensitive data beyond session lifetime
   - agent <name> session ended without memory wipe (cross-session leakage risk)
 
-- **Incident evidence (2):** [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-04: Data minimisation
 
@@ -436,7 +438,7 @@ those deny rules.
   - retrieval without field-level filtering (document-level only)
   - retrieval without attribute-based access control at query time
 
-- **Incident evidence (2):** [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-05: Training data governance
 
@@ -457,7 +459,7 @@ those deny rules.
   - output not verified clean by the leakage scanner (fail closed)
   - output flagged for data leakage (PII, training data, system prompt, or credential)
 
-- **Incident evidence (6):** [INC-02](../framework/shield-ai-gap-analysis.md#claude-cowork-vm-escape), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-22](../framework/shield-ai-gap-analysis.md#microsoft-azure-devops-mcp-flaw), [INC-51](../framework/shield-ai-gap-analysis.md#ansi-escape-code-terminal-exfiltration), [INC-71](../framework/shield-ai-gap-analysis.md#openai-self-replicating-prompt-injections), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (6):** [INC-02](../reference-views/07-incident-summaries.md#claude-cowork-vm-escape), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-22](../reference-views/07-incident-summaries.md#microsoft-azure-devops-mcp-flaw), [INC-51](../reference-views/07-incident-summaries.md#ansi-escape-code-terminal-exfiltration), [INC-71](../reference-views/07-incident-summaries.md#openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-07: Requirement:** Agent-originated artifact publication control
 
@@ -468,7 +470,7 @@ those deny rules.
   - agent publication to <name> lacks the required out-of-band approval
   - publication to <name> was approved on the agent channel; out-of-band human approval required
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### DS-08: Requirement:** Destination and emergent-channel egress inventory
 
@@ -482,7 +484,7 @@ those deny rules.
   - agent <name> DNS egress is not restricted to allow-listed resolvers with inspected names
   - *1 more fail-closed conditions in the policy.*
 
-- **Incident evidence (2):** [INC-72](../framework/shield-ai-gap-analysis.md#salesforce-agentforce-salesbleed), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-72](../reference-views/07-incident-summaries.md#salesforce-agentforce-salesbleed), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## TP — Tool & Pipeline Security
 
@@ -493,7 +495,7 @@ those deny rules.
 **What to verify:** Tool inventory and registry must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - tool <name> is not in the approved tool registry
 
-- **Incident evidence (10):** [INC-03](../framework/shield-ai-gap-analysis.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape), [INC-05](../framework/shield-ai-gap-analysis.md#claude-code-sandbox-bypass), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-09](../framework/shield-ai-gap-analysis.md#cross-platform-sandbox-bypasses), [INC-10](../framework/shield-ai-gap-analysis.md#alibaba-ai-agent), [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-17](../framework/shield-ai-gap-analysis.md#implicit-tool-exposure), [INC-44](../framework/shield-ai-gap-analysis.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-03](../reference-views/07-incident-summaries.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#claude-code-sandbox-bypass), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#cross-platform-sandbox-bypasses), [INC-10](../reference-views/07-incident-summaries.md#alibaba-ai-agent), [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-17](../reference-views/07-incident-summaries.md#implicit-tool-exposure), [INC-44](../reference-views/07-incident-summaries.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-02: Tool access control
 
@@ -515,7 +517,7 @@ those deny rules.
   - tool <name> call payload not schema-validated by the gateway
   - tool <name> call not audit-logged by the gateway
 
-- **Incident evidence (9):** [INC-01](../framework/shield-ai-gap-analysis.md#openai-model-sandbox-escape), [INC-04](../framework/shield-ai-gap-analysis.md#aws-agentcore-sandbox-escape), [INC-07](../framework/shield-ai-gap-analysis.md#servicenow-sandbox-escape-rce), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-13](../framework/shield-ai-gap-analysis.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-21](../framework/shield-ai-gap-analysis.md#openclaw-cve-2026-25253), [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (9):** [INC-01](../reference-views/07-incident-summaries.md#openai-model-sandbox-escape), [INC-04](../reference-views/07-incident-summaries.md#aws-agentcore-sandbox-escape), [INC-07](../reference-views/07-incident-summaries.md#servicenow-sandbox-escape-rce), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-21](../reference-views/07-incident-summaries.md#openclaw-cve-2026-25253), [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-04: Tool output validation
 
@@ -527,7 +529,7 @@ those deny rules.
   - tool <name> output exceeds the size limit
   - code-generation output of tool <name> not executed in a sandbox
 
-- **Incident evidence (13):** [INC-03](../framework/shield-ai-gap-analysis.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-05](../framework/shield-ai-gap-analysis.md#claude-code-sandbox-bypass), [INC-09](../framework/shield-ai-gap-analysis.md#cross-platform-sandbox-bypasses), [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-13](../framework/shield-ai-gap-analysis.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../framework/shield-ai-gap-analysis.md#codex-cli-agent-self-configuration-poisoning), [INC-16](../framework/shield-ai-gap-analysis.md#langflow), [INC-17](../framework/shield-ai-gap-analysis.md#implicit-tool-exposure), [INC-18](../framework/shield-ai-gap-analysis.md#deepseek-python-exec), [INC-20](../framework/shield-ai-gap-analysis.md#aws-kiro-cve-2026-10591), [INC-22](../framework/shield-ai-gap-analysis.md#microsoft-azure-devops-mcp-flaw), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (13):** [INC-03](../reference-views/07-incident-summaries.md#cursor-ide-sandbox-escape-via-prompt-injection), [INC-05](../reference-views/07-incident-summaries.md#claude-code-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#cross-platform-sandbox-bypasses), [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../reference-views/07-incident-summaries.md#codex-cli-agent-self-configuration-poisoning), [INC-16](../reference-views/07-incident-summaries.md#langflow), [INC-17](../reference-views/07-incident-summaries.md#implicit-tool-exposure), [INC-18](../reference-views/07-incident-summaries.md#deepseek-python-exec), [INC-20](../reference-views/07-incident-summaries.md#aws-kiro-cve-2026-10591), [INC-22](../reference-views/07-incident-summaries.md#microsoft-azure-devops-mcp-flaw), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-05: Pipeline integrity
 
@@ -539,7 +541,7 @@ those deny rules.
   - deployment that failed the security validation gate
   - deployment artifact not stored in an immutable, integrity-verified registry
 
-- **Incident evidence (8):** [INC-01](../framework/shield-ai-gap-analysis.md#openai-model-sandbox-escape), [INC-05](../framework/shield-ai-gap-analysis.md#claude-code-sandbox-bypass), [INC-07](../framework/shield-ai-gap-analysis.md#servicenow-sandbox-escape-rce), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-22](../framework/shield-ai-gap-analysis.md#microsoft-azure-devops-mcp-flaw), [INC-47](../framework/shield-ai-gap-analysis.md#wiz-red-agent), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (8):** [INC-01](../reference-views/07-incident-summaries.md#openai-model-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#claude-code-sandbox-bypass), [INC-07](../reference-views/07-incident-summaries.md#servicenow-sandbox-escape-rce), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-22](../reference-views/07-incident-summaries.md#microsoft-azure-devops-mcp-flaw), [INC-47](../reference-views/07-incident-summaries.md#wiz-red-agent), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-06: Dependency scanning
 
@@ -550,7 +552,7 @@ those deny rules.
   - critical-severity dependency finding not blocked
   - HIGH-RISK sandbox library (vm2/n8n/Pyodide/Wasmtime class) with critical finding and no approved alternative
 
-- **Incident evidence (9):** [INC-07](../framework/shield-ai-gap-analysis.md#servicenow-sandbox-escape-rce), [INC-13](../framework/shield-ai-gap-analysis.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-18](../framework/shield-ai-gap-analysis.md#deepseek-python-exec), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-38](../framework/shield-ai-gap-analysis.md#sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-44](../framework/shield-ai-gap-analysis.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-48](../framework/shield-ai-gap-analysis.md#clawhavoc), [INC-58](../framework/shield-ai-gap-analysis.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (9):** [INC-07](../reference-views/07-incident-summaries.md#servicenow-sandbox-escape-rce), [INC-13](../reference-views/07-incident-summaries.md#crewai-fail-open-sandbox-fallback-rce-chain), [INC-18](../reference-views/07-incident-summaries.md#deepseek-python-exec), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-38](../reference-views/07-incident-summaries.md#sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-44](../reference-views/07-incident-summaries.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-48](../reference-views/07-incident-summaries.md#clawhavoc), [INC-58](../reference-views/07-incident-summaries.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-07: Cross-tool dependency analysis
 
@@ -560,7 +562,7 @@ those deny rules.
   - deployment without cross-tool dependency (transitive risk) analysis
   - tool combination enables an escape-class chain without explicit risk acceptance (GRM-02)
 
-- **Incident evidence (2):** [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (2):** [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-08: API gateway infrastructure-isolation mode
 
@@ -570,7 +572,7 @@ those deny rules.
   - tool <name> call without an active gateway API allow-list
   - infrastructure control-plane API <name> not blocked by the gateway (infra-isolation mode off)
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-09: Explicit tool registration — no implicit tool exposure
 
@@ -580,7 +582,7 @@ those deny rules.
   - tool <name> was not explicitly registered (implicit exposure class)
   - tool <name> auto-registered by framework mechanism; explicit registration required
 
-- **Incident evidence (5):** [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-34](../framework/shield-ai-gap-analysis.md#corebreak), [INC-46](../framework/shield-ai-gap-analysis.md#novee-trusted-enough-to-run), [INC-48](../framework/shield-ai-gap-analysis.md#clawhavoc), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (5):** [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-34](../reference-views/07-incident-summaries.md#corebreak), [INC-46](../reference-views/07-incident-summaries.md#novee-trusted-enough-to-run), [INC-48](../reference-views/07-incident-summaries.md#clawhavoc), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-10: Agent platform inbound control-plane protection
 
@@ -590,7 +592,7 @@ those deny rules.
   - listener binding <name> is not on the approved binding list (default deny)
   - web-origin binding <name> without origin validation (CSWSH class)
 
-- **Incident evidence (13):** [INC-24](../framework/shield-ai-gap-analysis.md#metasploit-6-5-mcp-server-and-wiz-exposed-mcp-servers-research), [INC-30](../framework/shield-ai-gap-analysis.md#zenity-intent-collision), [INC-31](../framework/shield-ai-gap-analysis.md#ruflo-rufroot), [INC-32](../framework/shield-ai-gap-analysis.md#abc-news), [INC-34](../framework/shield-ai-gap-analysis.md#corebreak), [INC-39](../framework/shield-ai-gap-analysis.md#agent-tool-server-and-mcp-registry-exposure), [INC-45](../framework/shield-ai-gap-analysis.md#nemoclaw-cve-2026-65105), [INC-54](../framework/shield-ai-gap-analysis.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../framework/shield-ai-gap-analysis.md#deepseek-harness-sandbox-escape), [INC-60](../framework/shield-ai-gap-analysis.md#identity-confusion-by-design), [INC-61](../framework/shield-ai-gap-analysis.md#authentication-off-by-default), [INC-79](../framework/shield-ai-gap-analysis.md#mcp-connection-path-oauth-rce), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (13):** [INC-24](../reference-views/07-incident-summaries.md#metasploit-6-5-mcp-server-and-wiz-exposed-mcp-servers-research), [INC-30](../reference-views/07-incident-summaries.md#zenity-intent-collision), [INC-31](../reference-views/07-incident-summaries.md#ruflo-rufroot), [INC-32](../reference-views/07-incident-summaries.md#abc-news), [INC-34](../reference-views/07-incident-summaries.md#corebreak), [INC-39](../reference-views/07-incident-summaries.md#agent-tool-server-and-mcp-registry-exposure), [INC-45](../reference-views/07-incident-summaries.md#nemoclaw-cve-2026-65105), [INC-54](../reference-views/07-incident-summaries.md#wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../reference-views/07-incident-summaries.md#deepseek-harness-sandbox-escape), [INC-60](../reference-views/07-incident-summaries.md#identity-confusion-by-design), [INC-61](../reference-views/07-incident-summaries.md#authentication-off-by-default), [INC-79](../reference-views/07-incident-summaries.md#mcp-connection-path-oauth-rce), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-11: Agent browser and content-rendering isolation
 
@@ -601,7 +603,7 @@ those deny rules.
   - token access from rendered content without approval (credential-layer isolation)
   - cross-origin privileged action <name> from rendered content without approval
 
-- **Incident evidence (4):** [INC-29](../framework/shield-ai-gap-analysis.md#chatmate-rpe), [INC-30](../framework/shield-ai-gap-analysis.md#zenity-intent-collision), [INC-42](../framework/shield-ai-gap-analysis.md#rovoblast), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (4):** [INC-29](../reference-views/07-incident-summaries.md#chatmate-rpe), [INC-30](../reference-views/07-incident-summaries.md#zenity-intent-collision), [INC-42](../reference-views/07-incident-summaries.md#rovoblast), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-12: Tool-call provenance and dispatch verification
 
@@ -613,7 +615,7 @@ those deny rules.
   - dispatch without model signature (fail closed)
   - approval bound to <name> does not match dispatched tool <name> (forged-approval class)
 
-- **Incident evidence (8):** [INC-11](../framework/shield-ai-gap-analysis.md#pillar-security-week-of-sandbox-escapes), [INC-34](../framework/shield-ai-gap-analysis.md#corebreak), [INC-41](../framework/shield-ai-gap-analysis.md#ghostapproval), [INC-44](../framework/shield-ai-gap-analysis.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-46](../framework/shield-ai-gap-analysis.md#novee-trusted-enough-to-run), [INC-53](../framework/shield-ai-gap-analysis.md#gitspawn), [INC-84](../framework/shield-ai-gap-analysis.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (8):** [INC-11](../reference-views/07-incident-summaries.md#pillar-security-week-of-sandbox-escapes), [INC-34](../reference-views/07-incident-summaries.md#corebreak), [INC-41](../reference-views/07-incident-summaries.md#ghostapproval), [INC-44](../reference-views/07-incident-summaries.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-46](../reference-views/07-incident-summaries.md#novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#gitspawn), [INC-84](../reference-views/07-incident-summaries.md#visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-13: Agent dependency-install provenance verification
 
@@ -627,7 +629,7 @@ those deny rules.
   - install by agent <name> treats a documentation file as an authoritative install script; a doc file is never the install script
   - *1 more fail-closed conditions in the policy.*
 
-- **Incident evidence (7):** [INC-44](../framework/shield-ai-gap-analysis.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-48](../framework/shield-ai-gap-analysis.md#clawhavoc), [INC-66](../framework/shield-ai-gap-analysis.md#plugin4shell), [INC-80](../framework/shield-ai-gap-analysis.md#mcp-tool-argument-command-injection-wave), [INC-85](../framework/shield-ai-gap-analysis.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../framework/shield-ai-gap-analysis.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (7):** [INC-44](../reference-views/07-incident-summaries.md#llms-txt-dangling-install-supply-chain-poisoning), [INC-48](../reference-views/07-incident-summaries.md#clawhavoc), [INC-66](../reference-views/07-incident-summaries.md#plugin4shell), [INC-80](../reference-views/07-incident-summaries.md#mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-14: Skill/plugin payload integrity and instruction-channel isolation
 
@@ -641,7 +643,7 @@ those deny rules.
   - skill <name> for agent <name> lacks end-to-end provenance attestation (publisher -> registry -> artifact)
   - *1 more fail-closed conditions in the policy.*
 
-- **Incident evidence (3):** [INC-48](../framework/shield-ai-gap-analysis.md#clawhavoc), [INC-66](../framework/shield-ai-gap-analysis.md#plugin4shell), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-48](../reference-views/07-incident-summaries.md#clawhavoc), [INC-66](../reference-views/07-incident-summaries.md#plugin4shell), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-15: In-process code-execution sandbox sufficiency
 
@@ -654,7 +656,7 @@ those deny rules.
   - code execution by agent <name> uses an in-process sandbox not treated as the HIGH-RISK dependency class with blocking on critical findings
   - code execution by agent <name> runs a chat-template/rendering-template engine as a code surface without EE-01-grade render isolation (CPython/Jinja template-escape class)
 
-- **Incident evidence (11):** [INC-58](../framework/shield-ai-gap-analysis.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-65](../framework/shield-ai-gap-analysis.md#openai-codex-heapjack-overpatch), [INC-68](../framework/shield-ai-gap-analysis.md#praisonai-cve-2026-57138), [INC-74](../framework/shield-ai-gap-analysis.md#gitlab-ai-gateway-cve-2026-90970), [INC-76](../framework/shield-ai-gap-analysis.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-77](../framework/shield-ai-gap-analysis.md#vtcode-cve-2026-104247), [INC-80](../framework/shield-ai-gap-analysis.md#mcp-tool-argument-command-injection-wave), [INC-85](../framework/shield-ai-gap-analysis.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-87](../framework/shield-ai-gap-analysis.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../framework/shield-ai-gap-analysis.md#cpython-chat-template-sandbox-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (11):** [INC-58](../reference-views/07-incident-summaries.md#in-process-denylist-blocklist-code-execution-sandbox-bypass), [INC-65](../reference-views/07-incident-summaries.md#openai-codex-heapjack-overpatch), [INC-68](../reference-views/07-incident-summaries.md#praisonai-cve-2026-57138), [INC-74](../reference-views/07-incident-summaries.md#gitlab-ai-gateway-cve-2026-90970), [INC-76](../reference-views/07-incident-summaries.md#mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-77](../reference-views/07-incident-summaries.md#vtcode-cve-2026-104247), [INC-80](../reference-views/07-incident-summaries.md#mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-87](../reference-views/07-incident-summaries.md#seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../reference-views/07-incident-summaries.md#cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### TP-16: Tool-connection and launch-path integrity
 
@@ -668,7 +670,7 @@ those deny rules.
   - agent <name> auto-launch command is model-influenced or externally derived; a server definition must not register an arbitrary OS command
   - *1 more fail-closed conditions in the policy.*
 
-- **Incident evidence (6):** [INC-79](../framework/shield-ai-gap-analysis.md#mcp-connection-path-oauth-rce), [INC-85](../framework/shield-ai-gap-analysis.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../framework/shield-ai-gap-analysis.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-88](../framework/shield-ai-gap-analysis.md#mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-89](../framework/shield-ai-gap-analysis.md#mcp-server-trust-boundary-measurement-wave), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (6):** [INC-79](../reference-views/07-incident-summaries.md#mcp-connection-path-oauth-rce), [INC-85](../reference-views/07-incident-summaries.md#agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-88](../reference-views/07-incident-summaries.md#mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-89](../reference-views/07-incident-summaries.md#mcp-server-trust-boundary-measurement-wave), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## MIR — Monitoring, Logging & IR
 
@@ -680,7 +682,7 @@ those deny rules.
   - audit record not written to append-only storage (integrity requirement)
   - agent <name> action <name> has no structured audit record
 
-- **Incident evidence (10):** [INC-01](../framework/shield-ai-gap-analysis.md#openai-model-sandbox-escape), [INC-05](../framework/shield-ai-gap-analysis.md#claude-code-sandbox-bypass), [INC-06](../framework/shield-ai-gap-analysis.md#claude-mythos-ai-sandbox-escape), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-12](../framework/shield-ai-gap-analysis.md#mcp-protocol-layer-vulnerabilities), [INC-16](../framework/shield-ai-gap-analysis.md#langflow), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-48](../framework/shield-ai-gap-analysis.md#clawhavoc), [INC-56](../framework/shield-ai-gap-analysis.md#deepseek-harness-sandbox-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (10):** [INC-01](../reference-views/07-incident-summaries.md#openai-model-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#claude-code-sandbox-bypass), [INC-06](../reference-views/07-incident-summaries.md#claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-12](../reference-views/07-incident-summaries.md#mcp-protocol-layer-vulnerabilities), [INC-16](../reference-views/07-incident-summaries.md#langflow), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-48](../reference-views/07-incident-summaries.md#clawhavoc), [INC-56](../reference-views/07-incident-summaries.md#deepseek-harness-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MIR-02: Behavioural anomaly detection baseline per-agent behaviour established over training period; alerts on deviation  --  unusual tool, unusual data access pattern, unusual frequency;
 
@@ -690,7 +692,7 @@ those deny rules.
   - action by agent <name> deviates from its behaviour baseline
   - sensitive tool <name> from ephemeral sandbox agent <name> without campaign correlation (swarm class)
 
-- **Incident evidence (18):** [INC-06](../framework/shield-ai-gap-analysis.md#claude-mythos-ai-sandbox-escape), [INC-08](../framework/shield-ai-gap-analysis.md#openai-math-ai-sandbox-bypass), [INC-10](../framework/shield-ai-gap-analysis.md#alibaba-ai-agent), [INC-19](../framework/shield-ai-gap-analysis.md#anthropic-cyber-evaluation-breach-cluster), [INC-23](../framework/shield-ai-gap-analysis.md#unit-42), [INC-27](../framework/shield-ai-gap-analysis.md#uk-aisi-incident-report), [INC-28](../framework/shield-ai-gap-analysis.md#moonshot-kimi-k3), [INC-32](../framework/shield-ai-gap-analysis.md#abc-news), [INC-35](../framework/shield-ai-gap-analysis.md#taiwan-nuclear-safety-agency), [INC-40](../framework/shield-ai-gap-analysis.md#openai-evaluation-escape-follow-up-disclosures), [INC-43](../framework/shield-ai-gap-analysis.md#sharelock), [INC-45](../framework/shield-ai-gap-analysis.md#nemoclaw-cve-2026-65105), [INC-49](../framework/shield-ai-gap-analysis.md#mexico-government-breach), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-56](../framework/shield-ai-gap-analysis.md#deepseek-harness-sandbox-escape), [INC-63](../framework/shield-ai-gap-analysis.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (18):** [INC-06](../reference-views/07-incident-summaries.md#claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#openai-math-ai-sandbox-bypass), [INC-10](../reference-views/07-incident-summaries.md#alibaba-ai-agent), [INC-19](../reference-views/07-incident-summaries.md#anthropic-cyber-evaluation-breach-cluster), [INC-23](../reference-views/07-incident-summaries.md#unit-42), [INC-27](../reference-views/07-incident-summaries.md#uk-aisi-incident-report), [INC-28](../reference-views/07-incident-summaries.md#moonshot-kimi-k3), [INC-32](../reference-views/07-incident-summaries.md#abc-news), [INC-35](../reference-views/07-incident-summaries.md#taiwan-nuclear-safety-agency), [INC-40](../reference-views/07-incident-summaries.md#openai-evaluation-escape-follow-up-disclosures), [INC-43](../reference-views/07-incident-summaries.md#sharelock), [INC-45](../reference-views/07-incident-summaries.md#nemoclaw-cve-2026-65105), [INC-49](../reference-views/07-incident-summaries.md#mexico-government-breach), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-56](../reference-views/07-incident-summaries.md#deepseek-harness-sandbox-escape), [INC-63](../reference-views/07-incident-summaries.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MIR-03: Prompt audit log
 
@@ -700,7 +702,7 @@ those deny rules.
   - sensitive prompt/response pair not captured for the audit log
   - captured prompt/response pair not redacted before SIEM ingestion
 
-- **Incident evidence (1):** [INC-22](../framework/shield-ai-gap-analysis.md#microsoft-azure-devops-mcp-flaw)
+- **Incident evidence (1):** [INC-22](../reference-views/07-incident-summaries.md#microsoft-azure-devops-mcp-flaw) -- opens each incident's human-readable summary (see doc 07)
 
 ### MIR-04: Incident response playbooks AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation;
 
@@ -710,7 +712,7 @@ those deny rules.
   - ... incident acknowledged without a named AI-specific IR playbook
   - ... incident without an automatic containment step (agent-speed response)
 
-- **Incident evidence (3):** [INC-07](../framework/shield-ai-gap-analysis.md#servicenow-sandbox-escape-rce), [INC-16](../framework/shield-ai-gap-analysis.md#langflow), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-07](../reference-views/07-incident-summaries.md#servicenow-sandbox-escape-rce), [INC-16](../reference-views/07-incident-summaries.md#langflow), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### MIR-05: Mandatory reporting integration
 
@@ -728,7 +730,7 @@ those deny rules.
 **What to verify:** Forensic readiness must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - high-impact action <name> by agent <name> is not reconstructible from immutable logs
 
-- **Incident evidence (6):** [INC-07](../framework/shield-ai-gap-analysis.md#servicenow-sandbox-escape-rce), [INC-40](../framework/shield-ai-gap-analysis.md#openai-evaluation-escape-follow-up-disclosures), [INC-46](../framework/shield-ai-gap-analysis.md#novee-trusted-enough-to-run), [INC-53](../framework/shield-ai-gap-analysis.md#gitspawn), [INC-70](../framework/shield-ai-gap-analysis.md#darktrace-conversation-history-poisoning), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (6):** [INC-07](../reference-views/07-incident-summaries.md#servicenow-sandbox-escape-rce), [INC-40](../reference-views/07-incident-summaries.md#openai-evaluation-escape-follow-up-disclosures), [INC-46](../reference-views/07-incident-summaries.md#novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#gitspawn), [INC-70](../reference-views/07-incident-summaries.md#darktrace-conversation-history-poisoning), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## GRM — Governance & Risk
 
@@ -741,7 +743,7 @@ those deny rules.
   - AI governance body lacks cross-functional membership (CISO, CRO, GC, data owner, AI lead)
   - AI governance body has no defined decision authority over agentic AI deployments
 
-- **Incident evidence (1):** [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### GRM-02: Requirement:** AI risk register
 
@@ -751,7 +753,7 @@ those deny rules.
   - kill-switch capability not exercised (AI-speed response requires one rehearsed red button)
   - ... action not registered in the AI risk register
 
-- **Incident evidence (6):** [INC-06](../framework/shield-ai-gap-analysis.md#claude-mythos-ai-sandbox-escape), [INC-32](../framework/shield-ai-gap-analysis.md#abc-news), [INC-35](../framework/shield-ai-gap-analysis.md#taiwan-nuclear-safety-agency), [INC-49](../framework/shield-ai-gap-analysis.md#mexico-government-breach), [INC-55](../framework/shield-ai-gap-analysis.md#attacker-side-september-campaign-cluster), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (6):** [INC-06](../reference-views/07-incident-summaries.md#claude-mythos-ai-sandbox-escape), [INC-32](../reference-views/07-incident-summaries.md#abc-news), [INC-35](../reference-views/07-incident-summaries.md#taiwan-nuclear-safety-agency), [INC-49](../reference-views/07-incident-summaries.md#mexico-government-breach), [INC-55](../reference-views/07-incident-summaries.md#attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### GRM-03: Ethical use policy
 
@@ -761,7 +763,7 @@ those deny rules.
   - high-risk tier agent deployed without human-in-the-loop requirement per risk tier
   - action <name> outside the documented acceptable-use boundary for agent <name>
 
-- **Incident evidence (3):** [INC-10](../framework/shield-ai-gap-analysis.md#alibaba-ai-agent), [INC-32](../framework/shield-ai-gap-analysis.md#abc-news), [INC-42](../framework/shield-ai-gap-analysis.md#rovoblast)
+- **Incident evidence (3):** [INC-10](../reference-views/07-incident-summaries.md#alibaba-ai-agent), [INC-32](../reference-views/07-incident-summaries.md#abc-news), [INC-42](../reference-views/07-incident-summaries.md#rovoblast) -- opens each incident's human-readable summary (see doc 07)
 
 ### GRM-04: Requirement:** Third-party AI risk management
 
@@ -772,7 +774,7 @@ those deny rules.
   - vendor <name> without contractual security control obligations
   - evaluation vendor <name> without right-to-audit (harness egress must be independently verified, never self-attested)
 
-- **Incident evidence (6):** [INC-26](../framework/shield-ai-gap-analysis.md#third-party-evaluation-containment-failure), [INC-62](../framework/shield-ai-gap-analysis.md#google-gemini), [INC-63](../framework/shield-ai-gap-analysis.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-75](../framework/shield-ai-gap-analysis.md#comment-and-control), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (6):** [INC-26](../reference-views/07-incident-summaries.md#third-party-evaluation-containment-failure), [INC-62](../reference-views/07-incident-summaries.md#google-gemini), [INC-63](../reference-views/07-incident-summaries.md#openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-75](../reference-views/07-incident-summaries.md#comment-and-control), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ### GRM-05: Regulatory mapping and compliance reporting
 
@@ -782,7 +784,7 @@ those deny rules.
   - deployment without an automated regulatory mapping (ISM, E8, SOCI, CPS 234, PSPF, Privacy Act)
   - compliance posture not reported on the quarterly cadence
 
-- **Incident evidence (1):** [INC-16](../framework/shield-ai-gap-analysis.md#langflow)
+- **Incident evidence (1):** [INC-16](../reference-views/07-incident-summaries.md#langflow) -- opens each incident's human-readable summary (see doc 07)
 
 ### GRM-06: Requirement:** Board and executive reporting
 
@@ -792,7 +794,7 @@ those deny rules.
   - no executive dashboard for AI security posture (maturity, findings, compliance, risk acceptances)
   - risk acceptance decision not logged in the executive reporting trail
 
-- **Incident evidence (3):** [INC-73](../framework/shield-ai-gap-analysis.md#anthropic-glm-5-3-assessment), [INC-90](../framework/shield-ai-gap-analysis.md#workos-artex-agent-escape), [INC-92](../framework/shield-ai-gap-analysis.md#agent-swarm-cooperation-lure-secret-leakage)
+- **Incident evidence (3):** [INC-73](../reference-views/07-incident-summaries.md#anthropic-glm-5-3-assessment), [INC-90](../reference-views/07-incident-summaries.md#workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
 ## Verification protocol
 

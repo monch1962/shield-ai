@@ -97,6 +97,8 @@ build_doc reference-views/05-controls-outcomes.md \
   "SHIELD-AI(TM) Reference View -- Controls Outcomes & Executable Verification"
 build_doc reference-views/06-controls-technical.md \
   "SHIELD-AI(TM) Technical Field Guide -- Control Verification for Security Specialists"
+build_doc reference-views/07-incident-summaries.md \
+  "SHIELD-AI(TM) Incident Summaries -- 92 Catalogue Events in One Line Each"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 
