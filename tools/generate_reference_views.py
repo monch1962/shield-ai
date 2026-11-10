@@ -473,7 +473,10 @@ def load_incident_links():
             if cur:
                 incidents.append(cur)
             title = m.group(2).strip()
-            anchor = re.sub(r"[^0-9a-z]+", "-", title.lower()).strip("-")
+            # GitHub renders the anchor from the FULL heading line, which
+            # includes the "INC-xx: " prefix (e.g. "### INC-01: Title" ->
+            # "#inc-01-title"), so the anchor must be derived from heading text.
+            anchor = github_anchor(f"{m.group(1)}: {title}")
             cur = {"id": m.group(1), "title": title, "anchor": anchor, "refs": set()}
             continue
         if cur:
@@ -577,6 +580,21 @@ def _outcome(cid, title):
     return f"Verify that {title.lower() if title else 'the control'} holds under agent action"
 
 
+def github_anchor(title):
+    """GitHub-compatible heading anchor (e.g. for '#INC-xx: Title' links).
+
+    Matches GitHub's rendered-slug algorithm: lowercase, then drop every
+    character that is not [0-9a-z], a space, or a hyphen (so '.', '/', '_',
+    ''', '"' vanish entirely rather than becoming hyphens), then collapse
+    whitespace runs to a single hyphen and strip leading/trailing hyphens.
+    """
+    t = title.lower()
+    t = re.sub(r"[^0-9a-z\s-]", "", t)
+    t = re.sub(r"\s+", "-", t)
+    t = re.sub(r"-{2,}", "-", t)
+    return t.strip("-")
+
+
 def plain_verify(cid, title, pol_entry, cap=5):
     """Human-readable "What to verify" block for a control.
 
@@ -639,7 +657,10 @@ def load_incident_briefs():
                 t = " ".join(para.group(1).split())
                 t = re.split(r"\bAffected controls:\s*$", t)[0].strip()
                 brief = re.split(r"(?<=[a-z0-9])\.\s+(?=[A-Z])", t, maxsplit=1)[0].rstrip(" .") + "."
-        anchor = re.sub(r"[^0-9a-z]+", "-", title.lower()).strip("-")
+        # Same rule as load_incident_links: the GitHub-rendered anchor covers the
+        # whole heading line ("### INC-01: Title" -> "#inc-01-title"), so derive
+        # the anchor from the full heading text, not the bare title.
+        anchor = github_anchor(f"{inc_id}: {title}")
         out[inc_id] = {
             "id": inc_id,
             "title": title,
