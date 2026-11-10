@@ -93,6 +93,8 @@ build_doc reference-views/03-control-au-framework-matrix.md \
   "SHIELD-AI(TM) Reference View -- Control to Australian Framework Matrix"
 build_doc reference-views/04-pillar-maturity.md \
   "SHIELD-AI(TM) Reference View -- Pillar Maturity Heat Grid"
+build_doc reference-views/05-controls-outcomes.md \
+  "SHIELD-AI(TM) Reference View -- Controls Outcomes & Executable Verification"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 

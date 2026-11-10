@@ -157,6 +157,7 @@ def main():
         "controls-incident-map.svg": control_count_text(),
         "control-au-framework-matrix.svg": control_count_text(),
         "pillar-maturity-heat.svg": control_count_text(),
+        "control-outcomes-diagram.svg": control_count_text(),
     }
     for name, needle in _rv_diags.items():
         p = os.path.join("assets/diagrams", name)
@@ -170,6 +171,7 @@ def main():
         "reference-views/02-controls-incidents.md",
         "reference-views/03-control-au-framework-matrix.md",
         "reference-views/04-pillar-maturity.md",
+        "reference-views/05-controls-outcomes.md",
         "reference-views/README.md",
     ]
     for p in _rv_docs:

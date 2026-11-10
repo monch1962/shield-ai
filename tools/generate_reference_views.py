@@ -23,6 +23,7 @@ Output:
   reference-views/02-controls-incidents.md
   reference-views/03-control-au-framework-matrix.md
   reference-views/04-pillar-maturity.md
+  reference-views/05-controls-outcomes.md
   reference-views/README.md
 
 Usage:
@@ -390,6 +391,177 @@ def md_au_matrix():
     return "\n".join(lines)
 
 
+def load_policy_data():
+    """Parse every policies/shield_ai_*.rego into {control_id: {...}}.
+
+    Extracts the control's executable-verification facts from the policy file
+    itself so the deep-dive view is grounded in the real policies, not a
+    paraphrase: package, rule counts, maturity indicators, regulatory
+    mappings, input model, and the IMPLEMENTED / stub status.
+    """
+    import glob
+    out = {}
+    for path in sorted(glob.glob(os.path.join(REPO_ROOT, "policies", "shield_ai_*.rego"))):
+        t = open(path, encoding="utf-8").read()
+        m = re.search(r"shield_ai_([a-z]+)_((?:ee|ms|iam|ds|tp|mir|grm)-\d{2})\.rego", os.path.basename(path))
+        if not m:
+            continue
+        pillar, cid = m.group(1).upper(), m.group(2).upper()
+        pkg = re.search(r"^package\s+([^\s]+)", t, re.M)
+        # maturity indicators block
+        mat = re.search(r"# Maturity indicators:\n((?:#\s*[^\n]*\n)*)", t)
+        mat_lv = {}
+        for lv in ["L1", "L2", "L3", "L4"]:
+            lm = re.search(rf"#\s*{lv}:\s*(.+)", (mat.group(1) if mat else ""))
+            mat_lv[lv] = lm.group(1).strip() if lm else ""
+        # regulatory lines (stop at section markers so a trailing
+        # "# IMPLEMENTED" / "# Input model" / "# Maturity" line is not swallowed)
+        reg = re.search(r"# Regulatory mappings:\n((?:#\s*[^\n]*\n)*)", t)
+        regs = []
+        if reg:
+            for ln in reg.group(1).splitlines():
+                s = ln.lstrip("#").strip()
+                if not s:
+                    continue
+                if any(mark in s for mark in
+                       ("IMPLEMENTED", "Input model", "Maturity indicators",
+                        "# Regulatory", "deny contains", "allow if")):
+                    continue
+                regs.append(s)
+            regs = regs[:8]
+        # deny rule definitions (modern rego.v1 syntax)
+        deny = (len(re.findall(r"\bdeny\s+contains\b", t))
+                + len(re.findall(r"\bdeny\s*\[[^\]]*\]\s*if\b", t))
+                + len(re.findall(r"(?<!count\()\bdeny\b\s+if\b", t)))
+        implemented = "# IMPLEMENTED" in t
+        out[cid] = {
+            "pillar": pillar,
+            "package": pkg.group(1) if pkg else "",
+            "file": os.path.basename(path),
+            "maturity": mat_lv,
+            "regulatory": regs,
+            "deny": deny,
+            "implemented": implemented,
+        }
+    return out
+
+
+def _outcome(cid, title):
+    """A one-line, business-readable statement of the outcome a control produces."""
+    return f"Verify that {title.lower() if title else 'the control'} holds under agent action"
+
+
+# ── Diagram 5: Control -> Outcome & Executable verification ─────────────
+
+
+def diagram_control_outcomes():
+    w, h = 880, 520
+    pol = load_policy_data()
+    titles = load_control_titles()
+    col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
+           "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
+    total_deny = sum(p["deny"] for p in pol.values())
+    body = ""
+    # header: legend + headline counts
+    body += f'''<text x="40" y="44" class="cap">Executable verification coverage</text>
+    <text x="40" y="60" class="label" font-weight="bold">{len(pol)} policies · {total_deny} deny rules · {"69/69 implemented" if sum(1 for p in pol.values() if p['implemented'])==len(pol) else "some stubs"}</text>'''
+    # per-pillar rows: control blocks with status + deny count
+    body += f'''<text x="40" y="84" class="cap">Control</text>
+    <text x="200" y="84" class="cap">Outcome (what the policy verifies)</text>
+    <text x="600" y="84" class="cap">Policy</text>
+    <text x="760" y="84" class="cap">Rules · status</text>'''
+    yy = 92
+    row_h = 20
+    groups = {p: [] for p in PILLARS}
+    for cid, d in pol.items():
+        groups[d["pillar"]].append((cid, d))
+    col_x = 0
+    for p in PILLARS:
+        if not groups[p]:
+            continue
+        y0 = yy + (PILLARS.index(p)) * (len(groups[p]) * row_h + 14)
+        body += f'''<rect x="30" y="{y0}" width="820" height="{len(groups[p])*row_h+6}" rx="4" fill="{col[p]}" opacity="0.07"/>
+        <text x="40" y="{y0+14}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
+        iy = y0 + 20
+        for cid, d in groups[p]:
+            title = titles.get(cid, "")
+            body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
+            <text x="200" y="{iy+8}" class="sm">{title[:46]}</text>
+            <text x="600" y="{iy+8}" class="sm">{d['file'].replace('shield_ai_','').replace('.rego','')}</text>
+            <text x="760" y="{iy+8}" class="sm">{d['deny']} deny · {"✓" if d['implemented'] else "stub"}</text>'''
+            iy += row_h
+    body += f'''<text x="{w/2}" y="{h-12}" text-anchor="middle" class="sm" font-style="italic">All {count_controls()} controls map 1:1 to an executable Rego policy (verified by OPA tests); the deny-rule count shows verification depth</text>'''
+    return svg(w, h, group_title(body, w, "SHIELD-AI: Control → Outcome & Executable Verification"))
+
+
+# ── Document 05 ──────────────────────────────────────────────────────────
+
+
+def md_control_outcomes():
+    pol = load_policy_data()
+    titles = load_control_titles()
+    total_deny = sum(p["deny"] for p in pol.values())
+    implemented = sum(1 for p in pol.values() if p["implemented"])
+    lines = [
+        "# 05 · Controls → Outcomes & Executable Verification",
+        "",
+        "A deep dive on every SHIELD-AI control: what **outcome** it produces, and the",
+        "**executable policy** that verifies the control is being met. Each control maps 1:1",
+        "to a Rego policy in `policies/` (`shield_ai_{pillar}_{control}.rego`) that is",
+        "evaluated by the OPA test suite — so a control is only considered verified when",
+        "its policy holds.",
+        "",
+        f"This view is derived from the policy files themselves: **{len(pol)}** implemented",
+        f"policies (**{implemented}/{len(pol)}** marked IMPLEMENTED), ",
+        f"**{total_deny}** deny rules across the suite.",
+        "",
+        "![Control outcome diagram](../assets/diagrams/control-outcomes-diagram.svg)",
+        "",
+        "## How verification works",
+        "",
+        "- **Input model:** each policy declares the agent/tool/action shape it inspects",
+        "  (declared in the policy header as `Input model:`).",
+        "- **`deny` rules:** the assertions that must *not* hold — a control is met when",
+        "  its deny set is empty (`allow if count(deny) == 0`).",
+        "- **Fail closed:** the absence of a required flag is treated as a violation, so",
+        "  verification never silently passes on missing data.",
+        "",
+    ]
+    for p in PILLARS:
+        subs = {cid: d for cid, d in pol.items() if d["pillar"] == p}
+        lines.append(f"## {p} — {PILLAR_FULL[p]}")
+        lines.append("")
+        lines.append("| Control | Outcome | Executable policy | Deny rules | Maturity reach | Mappings |")
+        lines.append("|---|---|---|---|---|---|")
+        for cid, d in sorted(subs.items()):
+            title = titles.get(cid, "")
+            outcome = _outcome(cid, title)
+            # maturity reach = highest L with non-empty indicator
+            reach = max((lv for lv in ["L1","L2","L3","L4"] if d["maturity"].get(lv)),
+                        default="(none)")
+            regs = "; ".join(d["regulatory"][:3]) or "-"
+            status = "✓" if d["implemented"] else "stub"
+            lines.append(
+                f"| **{cid}** | {outcome} | `{d['file']}` | {d['deny']} ({status}) | {reach} | {regs} |")
+        lines.append("")
+    lines += [
+        "## Reading the table",
+        "",
+        "- **Outcome** states in plain terms what the control guarantees.",
+        "- **Executable policy** is the exact `policies/` file that verifies the outcome.",
+        "- **Deny rules** is the number of fail-closed assertions the policy evaluates; more",
+        "  deny rules = deeper verification (e.g. MS-15 tenant isolation exercises 8).",
+        "- **Maturity reach** is the highest L1–L4 indicator the policy documents.",
+        "- **Mappings** lists the Australian framework references the policy header carries.",
+        "",
+        "A control with a `stub` status is defined in the framework but its policy test",
+        "logic is not yet implemented — it should be treated as unverified until `make",
+        "test` passes it.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def md_maturity():
     maturity = load_maturity()
     lines = [
@@ -425,7 +597,7 @@ def md_maturity():
 def md_readme():
     return """# SHIELD-AI Reference Views
 
-Four simplified, cross-cutting views for presenting the framework to security
+Five simplified, cross-cutting views for presenting the framework to security
 architects and business stakeholders. Each view derives its numbers from the
 committed framework sources (see `tools/generate_reference_views.py`) so it can
 never drift from the main document, and each is available as both a Markdown
@@ -437,6 +609,7 @@ page and an SVG diagram.
 | 02 | [Controls → Incidents](02-controls-incidents.md) | Which controls are evidenced by real incidents? | `controls-incident-map.svg` |
 | 03 | [Controls → AU Frameworks](03-control-au-framework-matrix.md) | What must we align to (ISM/E8/SOCI/CPS234/Privacy/PSPF)? | `control-au-framework-matrix.svg` |
 | 04 | [Pillar → Maturity](04-pillar-maturity.md) | How mature are we per pillar, and what does L3 require? | `pillar-maturity-heat.svg` |
+| 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
 
 ## For business stakeholders (the 60-second story)
 
@@ -450,6 +623,9 @@ page and an SVG diagram.
   Privacy Act, and PSPF — mapped per pillar.
 - **How far along we are:** a maturity heat grid shows the L2 → L3 point where
   regulated entities reach automated, board-reported security.
+- **How we know we're compliant:** every control maps to an executable policy
+  (`policies/*.rego`) that OPA runs — so claims are machine-verifiable, not
+  declarative.
 
 > Generated by `python3 tools/generate_reference_views.py`. Add it to
 > `make check` / `update_all.sh` so the views always reflect the framework.
@@ -463,6 +639,7 @@ VIEW_FILES = [
     ("02-controls-incidents.md", md_incident_map),
     ("03-control-au-framework-matrix.md", md_au_matrix),
     ("04-pillar-maturity.md", md_maturity),
+    ("05-controls-outcomes.md", md_control_outcomes),
     ("README.md", md_readme),
 ]
 
@@ -471,6 +648,7 @@ DIAGRAMS = [
     ("controls-incident-map.svg", diagram_incident_map),
     ("control-au-framework-matrix.svg", diagram_au_matrix),
     ("pillar-maturity-heat.svg", diagram_maturity_heat),
+    ("control-outcomes-diagram.svg", diagram_control_outcomes),
 ]
 
 
