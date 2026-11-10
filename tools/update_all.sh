@@ -62,9 +62,12 @@ EOF
 step "2/10  Architecture diagrams"
 "$PY" tools/generate_diagrams.py || FAILED+=("diagrams")
 
-# --- 3. Implementation diagrams ---
+# --- 3. Implementation diagrams + reference views ---
 step "3/10  Implementation diagrams"
 "$PY" tools/generate_impl_diagrams.py || FAILED+=("impl-diagrams")
+
+# --- 3b. Reference views (pillar/incident/AU-framework/maturity maps) ---
+"$PY" tools/generate_reference_views.py || FAILED+=("reference-views")
 
 # --- 4. Core docs -> PDF + EPUB (deep-review glob included) ---
 step "4/10  Core docs (PDF + EPUB)"

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 520" width="100%" height="100%">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .title { font-size: 15px; font-weight: bold; fill: #0a1e3d; }
+    .label { font-size: 11px; fill: #1a1a2e; }
+    .sm { font-size: 9px; fill: #5a6a8a; }
+    .cap { font-size: 8px; font-weight: bold; text-transform: uppercase; fill: #5a6a8a; }
+    .white { fill: #ffffff; }
+  </style>
+  <text x="390.0" y="24" text-anchor="middle" class="title">SHIELD-AI: Pillars aligned to Australian frameworks</text>
+    <text x="180" y="48" class="cap">pillar · AU framework</text><rect x="180" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="218" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">ISM</text><rect x="266" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="304" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">E8</text><rect x="352" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="390" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">SOCI</text><rect x="438" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="476" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">CPS234</text><rect x="524" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="562" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">Priv/APPs</text><rect x="610" y="38" width="76" height="16" rx="3" fill="#1a3a6b"/>
+        <text x="648" y="49" text-anchor="middle" class="white" font-size="9" font-weight="bold">PSPF</text><rect x="30" y="60" width="140" height="34" rx="4" fill="#1a3a6b" opacity="0.15"/>
+        <text x="40" y="73" class="sm" font-weight="bold" fill="#1a3a6b">EE</text>
+        <text x="40" y="86" class="sm">Execution Environment</text><rect x="180" y="60" width="76" height="34" rx="4" fill="#1a3a6b" stroke="#1a3a6b" stroke-width="1"/>
+            <text x="218" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="60" width="76" height="34" rx="4" fill="#1a3a6b" stroke="#1a3a6b" stroke-width="1"/>
+            <text x="304" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="352" y="60" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#1a3a6b" stroke-width="0.5"/>
+            <text x="390" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="438" y="60" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#1a3a6b" stroke-width="0.5"/>
+            <text x="476" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="524" y="60" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#1a3a6b" stroke-width="0.5"/>
+            <text x="562" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="610" y="60" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#1a3a6b" stroke-width="0.5"/>
+            <text x="648" y="81" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="30" y="106" width="140" height="34" rx="4" fill="#2563eb" opacity="0.15"/>
+        <text x="40" y="119" class="sm" font-weight="bold" fill="#2563eb">MS</text>
+        <text x="40" y="132" class="sm">Model Security</text><rect x="180" y="106" width="76" height="34" rx="4" fill="#2563eb" stroke="#2563eb" stroke-width="1"/>
+            <text x="218" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="106" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#2563eb" stroke-width="0.5"/>
+            <text x="304" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="352" y="106" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#2563eb" stroke-width="0.5"/>
+            <text x="390" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="438" y="106" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#2563eb" stroke-width="0.5"/>
+            <text x="476" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="524" y="106" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#2563eb" stroke-width="0.5"/>
+            <text x="562" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="610" y="106" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#2563eb" stroke-width="0.5"/>
+            <text x="648" y="127" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="30" y="152" width="140" height="34" rx="4" fill="#059669" opacity="0.15"/>
+        <text x="40" y="165" class="sm" font-weight="bold" fill="#059669">IAM</text>
+        <text x="40" y="178" class="sm">Identity &amp; Access</text><rect x="180" y="152" width="76" height="34" rx="4" fill="#059669" stroke="#059669" stroke-width="1"/>
+            <text x="218" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="152" width="76" height="34" rx="4" fill="#059669" stroke="#059669" stroke-width="1"/>
+            <text x="304" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="352" y="152" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#059669" stroke-width="0.5"/>
+            <text x="390" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="438" y="152" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#059669" stroke-width="0.5"/>
+            <text x="476" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="524" y="152" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#059669" stroke-width="0.5"/>
+            <text x="562" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="610" y="152" width="76" height="34" rx="4" fill="#059669" stroke="#059669" stroke-width="1"/>
+            <text x="648" y="173" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="30" y="198" width="140" height="34" rx="4" fill="#d97706" opacity="0.15"/>
+        <text x="40" y="211" class="sm" font-weight="bold" fill="#d97706">DS</text>
+        <text x="40" y="224" class="sm">Data Security</text><rect x="180" y="198" width="76" height="34" rx="4" fill="#d97706" stroke="#d97706" stroke-width="1"/>
+            <text x="218" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="198" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#d97706" stroke-width="0.5"/>
+            <text x="304" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="352" y="198" width="76" height="34" rx="4" fill="#d97706" stroke="#d97706" stroke-width="1"/>
+            <text x="390" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="438" y="198" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#d97706" stroke-width="0.5"/>
+            <text x="476" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="524" y="198" width="76" height="34" rx="4" fill="#d97706" stroke="#d97706" stroke-width="1"/>
+            <text x="562" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="610" y="198" width="76" height="34" rx="4" fill="#d97706" stroke="#d97706" stroke-width="1"/>
+            <text x="648" y="219" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="30" y="244" width="140" height="34" rx="4" fill="#7c3aed" opacity="0.15"/>
+        <text x="40" y="257" class="sm" font-weight="bold" fill="#7c3aed">TP</text>
+        <text x="40" y="270" class="sm">Tool &amp; Pipeline Security</text><rect x="180" y="244" width="76" height="34" rx="4" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+            <text x="218" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="244" width="76" height="34" rx="4" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+            <text x="304" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="352" y="244" width="76" height="34" rx="4" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+            <text x="390" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="438" y="244" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#7c3aed" stroke-width="0.5"/>
+            <text x="476" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="524" y="244" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#7c3aed" stroke-width="0.5"/>
+            <text x="562" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="610" y="244" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#7c3aed" stroke-width="0.5"/>
+            <text x="648" y="265" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="30" y="290" width="140" height="34" rx="4" fill="#db2777" opacity="0.15"/>
+        <text x="40" y="303" class="sm" font-weight="bold" fill="#db2777">MIR</text>
+        <text x="40" y="316" class="sm">Monitoring, Logging &amp; IR</text><rect x="180" y="290" width="76" height="34" rx="4" fill="#db2777" stroke="#db2777" stroke-width="1"/>
+            <text x="218" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="290" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#db2777" stroke-width="0.5"/>
+            <text x="304" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="352" y="290" width="76" height="34" rx="4" fill="#db2777" stroke="#db2777" stroke-width="1"/>
+            <text x="390" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="438" y="290" width="76" height="34" rx="4" fill="#db2777" stroke="#db2777" stroke-width="1"/>
+            <text x="476" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="524" y="290" width="76" height="34" rx="4" fill="#db2777" stroke="#db2777" stroke-width="1"/>
+            <text x="562" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="610" y="290" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#db2777" stroke-width="0.5"/>
+            <text x="648" y="311" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="30" y="336" width="140" height="34" rx="4" fill="#475569" opacity="0.15"/>
+        <text x="40" y="349" class="sm" font-weight="bold" fill="#475569">GRM</text>
+        <text x="40" y="362" class="sm">Governance &amp; Risk</text><rect x="180" y="336" width="76" height="34" rx="4" fill="#475569" stroke="#475569" stroke-width="1"/>
+            <text x="218" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="266" y="336" width="76" height="34" rx="4" fill="#f1f3f6" stroke="#475569" stroke-width="0.5"/>
+            <text x="304" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#5a6a8a">·</text><rect x="352" y="336" width="76" height="34" rx="4" fill="#475569" stroke="#475569" stroke-width="1"/>
+            <text x="390" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="438" y="336" width="76" height="34" rx="4" fill="#475569" stroke="#475569" stroke-width="1"/>
+            <text x="476" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="524" y="336" width="76" height="34" rx="4" fill="#475569" stroke="#475569" stroke-width="1"/>
+            <text x="562" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><rect x="610" y="336" width="76" height="34" rx="4" fill="#475569" stroke="#475569" stroke-width="1"/>
+            <text x="648" y="357" text-anchor="middle" class="label" font-weight="bold" fill="#ffffff">✓</text><text x="390.0" y="496" text-anchor="middle" class="sm">Derived from each pillar's committed "AU framework mappings". Full control-by-control ISM/E8/SOCI/CPS234/APPs mapping is maintained separately (framework §2.4).</text><text x="390.0" y="512" text-anchor="middle" class="sm" font-style="italic">Shaded cells = the pillar signals that Australian framework in its control definitions (69 controls)</text>
+</svg>

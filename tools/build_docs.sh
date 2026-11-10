@@ -85,6 +85,14 @@ build_doc framework/shield-ai-reference-architecture-walkthrough.md \
   "SHIELD-AI Reference Architecture Walkthrough -- Presenter's Guide"
 build_doc presentations/what-is-shield-ai.md \
   "What is SHIELD-AI -- A Plain-English Briefing"
+build_doc reference-views/01-pillar-control-atlas.md \
+  "SHIELD-AI(TM) Reference View -- Pillar to Control Atlas"
+build_doc reference-views/02-controls-incidents.md \
+  "SHIELD-AI(TM) Reference View -- Control to Incident Map"
+build_doc reference-views/03-control-au-framework-matrix.md \
+  "SHIELD-AI(TM) Reference View -- Control to Australian Framework Matrix"
+build_doc reference-views/04-pillar-maturity.md \
+  "SHIELD-AI(TM) Reference View -- Pillar Maturity Heat Grid"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 

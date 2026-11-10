@@ -150,6 +150,31 @@ def main():
     tel = open("assets/diagrams/impl-telemetry-pipeline.svg", encoding="utf-8").read()
     check(f"impl-telemetry-pipeline.svg has {control_count_text()}", control_count_text() in tel)
 
+    # 4b. Reference views (derived from the framework so a control/incident/maturity
+    #     change forces a rebuild -- the simplified views can never drift)
+    _rv_diags = {
+        "pillar-control-atlas.svg": control_count_text(),
+        "controls-incident-map.svg": control_count_text(),
+        "control-au-framework-matrix.svg": control_count_text(),
+        "pillar-maturity-heat.svg": control_count_text(),
+    }
+    for name, needle in _rv_diags.items():
+        p = os.path.join("assets/diagrams", name)
+        if not os.path.exists(p):
+            check(f"reference view diagram {name} exists", False)
+            continue
+        data = open(p, encoding="utf-8").read()
+        check(f"reference view diagram {name} carries {needle}", needle in data)
+    _rv_docs = [
+        "reference-views/01-pillar-control-atlas.md",
+        "reference-views/02-controls-incidents.md",
+        "reference-views/03-control-au-framework-matrix.md",
+        "reference-views/04-pillar-maturity.md",
+        "reference-views/README.md",
+    ]
+    for p in _rv_docs:
+        check(f"reference view {os.path.basename(p)} exists", os.path.exists(p))
+
     # 5. Rego + schema counts
     rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
     check(f"policies/*.rego count == {EXPECTED_COUNT} (found {rego})", rego == EXPECTED_COUNT)
