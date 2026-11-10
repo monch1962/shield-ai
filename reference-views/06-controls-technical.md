@@ -8,15 +8,12 @@ assessment document, not a stakeholder briefing.
 
 ![Control technical sheet](../assets/diagrams/control-technical-sheet.svg)
 
-![Control verification anatomy](../assets/diagrams/control-verification-anatomy.svg)
+## How this sheet is derived
 
-## The anatomy of a control
-
-Every control is verified by an executable Rego policy. The anatomy sheet above
-shows, for all 69 controls, the plain objective, the number of deny checks the
-policy enforces, the policy file, and the incidents evidencing the control class.
-The 'What to verify' checklist beneath each control is derived directly from
-those deny rules.
+Every control is verified by an executable Rego policy. The sheet above shows, for
+all 69 controls, the plain objective, the verification depth (deny rules), the
+exact policy file, and the incidents evidencing the control class. The 'What to
+verify' checklist beneath each control is derived directly from those deny rules.
 
 
 ## How to use this field guide

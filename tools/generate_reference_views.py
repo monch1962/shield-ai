@@ -866,15 +866,12 @@ def md_technical_controls():
         "",
         "![Control technical sheet](../assets/diagrams/control-technical-sheet.svg)",
         "",
-        "![Control verification anatomy](../assets/diagrams/control-verification-anatomy.svg)",
+        "## How this sheet is derived",
         "",
-        "## The anatomy of a control",
-        "",
-        "Every control is verified by an executable Rego policy. The anatomy sheet above",
-        "shows, for all 69 controls, the plain objective, the number of deny checks the",
-        "policy enforces, the policy file, and the incidents evidencing the control class.",
-        "The 'What to verify' checklist beneath each control is derived directly from",
-        "those deny rules.",
+        "Every control is verified by an executable Rego policy. The sheet above shows, for",
+        "all 69 controls, the plain objective, the verification depth (deny rules), the",
+        "exact policy file, and the incidents evidencing the control class. The 'What to",
+        "verify' checklist beneath each control is derived directly from those deny rules.",
         "",
         "",
         "## How to use this field guide",
@@ -941,58 +938,6 @@ def md_technical_controls():
     return "\n".join(lines)
 
 
-def diagram_control_anatomy():
-    """'Control verification anatomy' sheet: for each of the 69 controls, the
-    plain objective (title), the number of executable deny checks, the policy
-    file, and the incident evidence count -- a glanceable map of what each
-    control guards and how it is verified."""
-    import textwrap
-    w = 880
-    pol = load_policy_data()
-    titles = load_control_titles()
-    links = load_incident_links()
-    col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
-           "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
-    body = ""
-    body += f'''<text x="40" y="44" class="cap">Control verification anatomy</text>
-    <text x="40" y="60" class="label" font-weight="bold">{count_controls()} controls · objective + deny checks + policy + incident evidence</text>'''
-    body += f'''<text x="40" y="84" class="cap">Control</text>
-    <text x="200" y="84" class="cap">What it guards (plain objective)</text>
-    <text x="560" y="84" class="cap">Verify</text>
-    <text x="680" y="84" class="cap">Policy</text>
-    <text x="800" y="84" class="cap">Evidence</text>'''
-    row_h = 20
-    block_head = 18
-    groups = {p: [] for p in PILLARS}
-    for cid in control_ids():
-        groups[cid.split("-")[0]].append(cid)
-    groups = {p: v for p, v in groups.items() if v}
-    y = 100
-    for p in PILLARS:
-        if p not in groups:
-            continue
-        block_h = block_head + len(groups[p]) * row_h
-        y0 = y
-        body += f'''<rect x="30" y="{y0}" width="820" height="{block_h+4}" rx="4" fill="{col[p]}" opacity="0.06"/>
-        <text x="40" y="{y0+12}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
-        iy = y0 + block_head
-        for cid in groups[p]:
-            title = titles.get(cid, "")
-            n_checks = len(pol.get(cid, {}).get('deny_msgs', []))
-            n_inc = len(links.get(cid, []))
-            policy = pol.get(cid, {}).get('file', '').replace('shield_ai_', '').replace('.rego', '')
-            body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
-            <text x="200" y="{iy+8}" class="sm">{title[:46]}</text>
-            <text x="560" y="{iy+8}" class="sm">{n_checks} checks</text>
-            <text x="680" y="{iy+8}" class="sm">{policy[:26]}</text>
-            <text x="800" y="{iy+8}" class="sm">{n_inc} incidents</text>'''
-            iy += row_h
-        y += block_h + 14
-    h = y + 32
-    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">Each deny check is a fail-closed condition the executable policy enforces -- {sum(len(pol[c].get('deny_msgs',[])) for c in control_ids())} checks across {count_controls()} controls</text>'''
-    return svg(w, h, group_title(body, w, "SHIELD-AI: Control Verification Anatomy"))
-
-
 def diagram_technical_sheet():
     """Per-pillar technical verification coverage: control, objective, deny
     rules, incident evidence, implemented status -- dense for specialists."""
@@ -1009,8 +954,9 @@ def diagram_technical_sheet():
     <text x="40" y="60" class="label" font-weight="bold">{count_controls()} controls · {total_deny} deny rules · {total_links} control-incident links</text>'''
     body += f'''<text x="40" y="84" class="cap">Control</text>
     <text x="170" y="84" class="cap">Objective (what must hold)</text>
-    <text x="560" y="84" class="cap">Verify via policy</text>
-    <text x="720" y="84" class="cap">Incidents</text>'''
+    <text x="470" y="84" class="cap">Verify via policy</text>
+    <text x="590" y="84" class="cap">Policy file</text>
+    <text x="780" y="84" class="cap">Incidents</text>'''
     row_h = 20
     block_head = 18
     groups = {p: [] for p in PILLARS}
@@ -1031,14 +977,16 @@ def diagram_technical_sheet():
             title = titles.get(cid, "")
             inc_count = len(links.get(cid, []))
             deny = pol.get(cid, {}).get('deny', 0)
+            policy = pol.get(cid, {}).get('file', '').replace('shield_ai_', '').replace('.rego', '')
             body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
-            <text x="170" y="{iy+8}" class="sm">{title[:52]}</text>
-            <text x="560" y="{iy+8}" class="sm">{deny} deny rules</text>
-            <text x="720" y="{iy+8}" class="sm">{inc_count} incidents</text>'''
+            <text x="170" y="{iy+8}" class="sm">{title[:48]}</text>
+            <text x="470" y="{iy+8}" class="sm">{deny} deny rules</text>
+            <text x="590" y="{iy+8}" class="sm">{policy[:24]}</text>
+            <text x="780" y="{iy+8}" class="sm">{inc_count} incidents</text>'''
             iy += row_h
         y += block_h + 14  # gap after each pillar block
     h = y + 32  # footer margin
-    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable verification depth (deny rules), and incident evidence per SHIELD-AI control</text>'''
+    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable policy + verification depth, and incident evidence per SHIELD-AI control</text>'''
     return svg(w, h, group_title(body, w, "SHIELD-AI: Control Technical Verification Field Guide"))
 
 
@@ -1134,7 +1082,6 @@ DIAGRAMS = [
     ("pillar-maturity-heat.svg", diagram_maturity_heat),
     ("control-outcomes-diagram.svg", diagram_control_outcomes),
     ("control-technical-sheet.svg", diagram_technical_sheet),
-    ("control-verification-anatomy.svg", diagram_control_anatomy),
 ]
 
 

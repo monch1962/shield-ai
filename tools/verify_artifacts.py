@@ -159,7 +159,6 @@ def main():
         "pillar-maturity-heat.svg": control_count_text(),
         "control-outcomes-diagram.svg": control_count_text(),
         "control-technical-sheet.svg": control_count_text(),
-        "control-verification-anatomy.svg": control_count_text(),
     }
     for name, needle in _rv_diags.items():
         p = os.path.join("assets/diagrams", name)
