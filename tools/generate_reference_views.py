@@ -135,42 +135,61 @@ def group_title(body, w, text):
 
 
 def diagram_pillar_atlas():
-    w, h = 780, 460
+    """Seven-pillar atlas: each pillar's controls stacked numerically under its
+    column, each control box sized to fit its full title (no truncation), with
+    canvas height computed from the tallest column so nothing clips."""
+    import textwrap
     titles = load_control_titles()
     col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
            "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
-    cols = 7
-    bw, bh, gap = 96, 130, 10
-    body = ""
+    w = 1180
+    x0 = 30
+    col_w = 150
+    gap = 14
+    top_h = 66
+    row_gap = 6
+    wrap_w = 26
+    by = {}
+    for p in PILLARS:
+        ids = [c for c in control_ids() if c.startswith(p)]
+        ids.sort(key=lambda s: int(s.split("-")[1]))
+        by[p] = ids
+    plan = {}
+    for p in PILLARS:
+        for cid in by[p]:
+            title = titles.get(cid, "")
+            wrapped = textwrap.wrap(title, width=wrap_w,
+                                    break_on_hyphens=False, break_long_words=False) or [""]
+            plan[cid] = (wrapped, len(wrapped))
+    parts = []
     for idx, p in enumerate(PILLARS):
-        cx = 30 + idx * (bw + gap) + bw / 2
-        cy = 70 + bh / 2
-        count = len([c for c in control_ids() if c.startswith(p)])
-        body += f'''<rect x="{cx-bw/2}" y="{cy-bh/2}" width="{bw}" height="{bh}" rx="8" fill="{col[p]}" opacity="0.12"/>
-        <rect x="{cx-bw/2}" y="{cy-bh/2}" width="{bw}" height="26" rx="8" fill="{col[p]}"/>
-        <text x="{cx}" y="{cy-bh/2+17}" text-anchor="middle" class="white" font-size="11" font-weight="bold">{p}</text>
-        <text x="{cx}" y="{cy-6}" text-anchor="middle" class="label" font-weight="bold" fill="{col[p]}">{count} controls</text>
-        <text x="{cx}" y="{cy+10}" text-anchor="middle" class="sm">{PILLAR_FULL[p]}</text>'''
-    # control inventory grid below
-    gy = 210
-    gcols = 8
-    cw, ch, cgap = 82, 16, 4
-    body += f'''<text x="30" y="{gy-8}" class="cap">Control inventory (all {count_controls()})</text>'''
-    for i, cid in enumerate(control_ids()):
-        px = PILLARS.index(cid.split("-")[0])
-        gx = 30 + (i % gcols) * (cw + cgap)
-        gyy = gy + (i // gcols) * (ch + 2)
-        body += f'''<rect x="{gx}" y="{gyy}" width="{cw}" height="{ch}" rx="3" fill="{WHITE}" stroke="{col[cid.split('-')[0]]}" stroke-width="1"/>
-        <text x="{gx+4}" y="{gyy+11}" class="sm" font-weight="bold" fill="{col[cid.split('-')[0]]}">{cid}</text>'''
-        title = titles.get(cid, "")
-        if len(title) > 12:
-            title = title[:11] + "…"
-        body += f'''<text x="{gx+34}" y="{gyy+11}" class="sm">{title}</text>'''
-    body += f'''<text x="{w/2}" y="{h-8}" text-anchor="middle" class="sm" font-style="italic">Seven pillars, {count_controls()} controls -- execution environment is the foundation</text>'''
+        px = x0 + idx * (col_w + gap)
+        cx = px + col_w / 2.0
+        n = len(by[p])
+        parts.append(f'<rect x="{px}" y="38" width="{col_w}" height="{top_h}" rx="8" fill="{col[p]}" opacity="0.12"/>')
+        parts.append(f'<rect x="{px}" y="38" width="{col_w}" height="26" rx="8" fill="{col[p]}"/>')
+        parts.append(f'<text x="{cx}" y="55" text-anchor="middle" class="white" font-size="11" font-weight="bold">{p}</text>')
+        parts.append(f'<text x="{cx}" y="72" text-anchor="middle" class="label" font-weight="bold" fill="{col[p]}">{n} controls</text>')
+        parts.append(f'<text x="{cx}" y="88" text-anchor="middle" class="sm">{PILLAR_FULL[p]}</text>')
+    for idx, p in enumerate(PILLARS):
+        px = x0 + idx * (col_w + gap)
+        y = 38 + top_h + 10
+        for cid in by[p]:
+            wrapped, nlines = plan[cid]
+            bh = 26 + nlines * 11
+            parts.append(f'<rect x="{px}" y="{y}" width="{col_w}" height="{bh}" rx="5" fill="{WHITE}" stroke="{col[p]}" stroke-width="1"/>')
+            parts.append(f'<text x="{px+10}" y="{y+14}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>')
+            ty = y + 25
+            for line in wrapped:
+                parts.append(f'<text x="{px+10}" y="{ty}" class="sm">{line}</text>')
+                ty += 11
+            y += bh + row_gap
+    col_h = {p: top_h + sum(26 + plan[c][1] * 11 + row_gap for c in by[p]) for p in PILLARS}
+    h = max(col_h.values()) + 44 + 30
+    parts.append(f'<text x="{w/2.0}" y="{h-12}" text-anchor="middle" class="sm" font-style="italic">Seven pillars, {count_controls()} controls -- execution environment is the foundation</text>')
+    body = "\n".join(parts)
     return svg(w, h, group_title(body, w, "SHIELD-AI: Pillar to Control Atlas"))
 
-
-# ── Diagram 2: Control -> Incident coverage ──────────────────────────────
 
 
 def diagram_incident_map():
