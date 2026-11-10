@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 1736" width="100%" height="100%">
   <style>
     text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .title { font-size: 15px; font-weight: bold; fill: #0a1e3d; }
@@ -12,219 +12,219 @@
     <text x="40" y="60" class="label" font-weight="bold">69 controls · 195 deny rules · 360 control-incident links</text><text x="40" y="84" class="cap">Control</text>
     <text x="170" y="84" class="cap">Objective (what must hold)</text>
     <text x="560" y="84" class="cap">Verify via policy</text>
-    <text x="720" y="84" class="cap">Incidents</text><rect x="30" y="92" width="820" height="166" rx="4" fill="#1a3a6b" opacity="0.06"/>
-        <text x="40" y="104" class="cap" fill="#1a3a6b">EE · Execution Environment</text><text x="40" y="118" class="sm" font-weight="bold" fill="#1a3a6b">EE-03</text>
-            <text x="170" y="118" class="sm">Resource usage limiting</text>
-            <text x="560" y="118" class="sm">3 deny </text>
-            <text x="720" y="118" class="sm">1 incidents</text><text x="40" y="138" class="sm" font-weight="bold" fill="#1a3a6b">EE-06</text>
-            <text x="170" y="138" class="sm">Fail-closed sandbox operation</text>
-            <text x="560" y="138" class="sm">3 deny </text>
-            <text x="720" y="138" class="sm">3 incidents</text><text x="40" y="158" class="sm" font-weight="bold" fill="#1a3a6b">EE-07</text>
-            <text x="170" y="158" class="sm">Agent control-plane configuration integrity</text>
-            <text x="560" y="158" class="sm">2 deny </text>
-            <text x="720" y="158" class="sm">12 incidents</text><text x="40" y="178" class="sm" font-weight="bold" fill="#1a3a6b">EE-01</text>
-            <text x="170" y="178" class="sm">Execution environment boundary enforcement</text>
-            <text x="560" y="178" class="sm">1 deny </text>
-            <text x="720" y="178" class="sm">14 incidents</text><text x="40" y="198" class="sm" font-weight="bold" fill="#1a3a6b">EE-02</text>
-            <text x="170" y="198" class="sm">Infrastructure API access control</text>
-            <text x="560" y="198" class="sm">1 deny </text>
-            <text x="720" y="198" class="sm">3 incidents</text><text x="40" y="218" class="sm" font-weight="bold" fill="#1a3a6b">EE-08</text>
-            <text x="170" y="218" class="sm">Evaluation-harness isolation and integrity</text>
-            <text x="560" y="218" class="sm">3 deny </text>
-            <text x="720" y="218" class="sm">10 incidents</text><text x="40" y="238" class="sm" font-weight="bold" fill="#1a3a6b">EE-04</text>
-            <text x="170" y="238" class="sm">Evaluation sandbox integrity</text>
-            <text x="560" y="238" class="sm">3 deny </text>
-            <text x="720" y="238" class="sm">3 incidents</text><text x="40" y="258" class="sm" font-weight="bold" fill="#1a3a6b">EE-05</text>
-            <text x="170" y="258" class="sm">Host-trusted configuration file injection prevention</text>
-            <text x="560" y="258" class="sm">2 deny </text>
-            <text x="720" y="258" class="sm">10 incidents</text><rect x="30" y="408" width="820" height="306" rx="4" fill="#2563eb" opacity="0.06"/>
-        <text x="40" y="420" class="cap" fill="#2563eb">MS · Model Security</text><text x="40" y="434" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
-            <text x="170" y="434" class="sm">Transcript and conversation authenticity</text>
-            <text x="560" y="434" class="sm">4 deny </text>
-            <text x="720" y="434" class="sm">3 incidents</text><text x="40" y="454" class="sm" font-weight="bold" fill="#2563eb">MS-15</text>
-            <text x="170" y="454" class="sm">Cross-tenant agent memory and state isolation</text>
-            <text x="560" y="454" class="sm">8 deny </text>
-            <text x="720" y="454" class="sm">4 incidents</text><text x="40" y="474" class="sm" font-weight="bold" fill="#2563eb">MS-14</text>
-            <text x="170" y="474" class="sm">Self-replication barrier</text>
-            <text x="560" y="474" class="sm">4 deny </text>
-            <text x="720" y="474" class="sm">2 incidents</text><text x="40" y="494" class="sm" font-weight="bold" fill="#2563eb">MS-05</text>
-            <text x="170" y="494" class="sm">Model behaviour validation</text>
-            <text x="560" y="494" class="sm">2 deny </text>
-            <text x="720" y="494" class="sm">4 incidents</text><text x="40" y="514" class="sm" font-weight="bold" fill="#2563eb">MS-12</text>
-            <text x="170" y="514" class="sm">MCP discovery-metadata and shared-cache integrity</text>
-            <text x="560" y="514" class="sm">6 deny </text>
-            <text x="720" y="514" class="sm">3 incidents</text><text x="40" y="534" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
-            <text x="170" y="534" class="sm">Agent memory-store integrity</text>
-            <text x="560" y="534" class="sm">2 deny </text>
-            <text x="720" y="534" class="sm">7 incidents</text><text x="40" y="554" class="sm" font-weight="bold" fill="#2563eb">MS-02</text>
-            <text x="170" y="554" class="sm">Training data integrity</text>
-            <text x="560" y="554" class="sm">3 deny </text>
-            <text x="720" y="554" class="sm">1 incidents</text><text x="40" y="574" class="sm" font-weight="bold" fill="#2563eb">MS-08</text>
-            <text x="170" y="574" class="sm">MCP</text>
-            <text x="560" y="574" class="sm">3 deny </text>
-            <text x="720" y="574" class="sm">19 incidents</text><text x="40" y="594" class="sm" font-weight="bold" fill="#2563eb">MS-11</text>
-            <text x="170" y="594" class="sm">Operational data-stream integrity</text>
-            <text x="560" y="594" class="sm">3 deny </text>
-            <text x="720" y="594" class="sm">4 incidents</text><text x="40" y="614" class="sm" font-weight="bold" fill="#2563eb">MS-06</text>
-            <text x="170" y="614" class="sm">Model inventory and lineage tracking</text>
-            <text x="560" y="614" class="sm">3 deny </text>
-            <text x="720" y="614" class="sm">1 incidents</text><text x="40" y="634" class="sm" font-weight="bold" fill="#2563eb">MS-07</text>
-            <text x="170" y="634" class="sm">Deployment context obfuscation</text>
-            <text x="560" y="634" class="sm">2 deny </text>
-            <text x="720" y="634" class="sm">2 incidents</text><text x="40" y="654" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
-            <text x="170" y="654" class="sm">Perception-fidelity enforcement for human-in-the-loo</text>
-            <text x="560" y="654" class="sm">2 deny </text>
-            <text x="720" y="654" class="sm">10 incidents</text><text x="40" y="674" class="sm" font-weight="bold" fill="#2563eb">MS-01</text>
-            <text x="170" y="674" class="sm">Model weight protection</text>
-            <text x="560" y="674" class="sm">2 deny </text>
-            <text x="720" y="674" class="sm">1 incidents</text><text x="40" y="694" class="sm" font-weight="bold" fill="#2563eb">MS-04</text>
-            <text x="170" y="694" class="sm">Adversarial robustness</text>
-            <text x="560" y="694" class="sm">1 deny </text>
-            <text x="720" y="694" class="sm">19 incidents</text><text x="40" y="714" class="sm" font-weight="bold" fill="#2563eb">MS-03</text>
-            <text x="170" y="714" class="sm">Supply chain security</text>
-            <text x="560" y="714" class="sm">3 deny </text>
-            <text x="720" y="714" class="sm">3 incidents</text><rect x="30" y="524" width="820" height="206" rx="4" fill="#059669" opacity="0.06"/>
-        <text x="40" y="536" class="cap" fill="#059669">IAM · Identity &amp; Access</text><text x="40" y="550" class="sm" font-weight="bold" fill="#059669">IAM-01</text>
-            <text x="170" y="550" class="sm">Agent identity management</text>
-            <text x="560" y="550" class="sm">2 deny </text>
-            <text x="720" y="550" class="sm">5 incidents</text><text x="40" y="570" class="sm" font-weight="bold" fill="#059669">IAM-04</text>
-            <text x="170" y="570" class="sm">Credential isolation</text>
-            <text x="560" y="570" class="sm">2 deny </text>
-            <text x="720" y="570" class="sm">4 incidents</text><text x="40" y="590" class="sm" font-weight="bold" fill="#059669">IAM-07</text>
-            <text x="170" y="590" class="sm">Transitive delegation chain enforcement</text>
-            <text x="560" y="590" class="sm">2 deny </text>
-            <text x="720" y="590" class="sm">1 incidents</text><text x="40" y="610" class="sm" font-weight="bold" fill="#059669">IAM-02</text>
-            <text x="170" y="610" class="sm">Scope-bound delegation</text>
-            <text x="560" y="610" class="sm">2 deny </text>
-            <text x="720" y="610" class="sm">10 incidents</text><text x="40" y="630" class="sm" font-weight="bold" fill="#059669">IAM-06</text>
-            <text x="170" y="630" class="sm">Cross-session boundary enforcement</text>
-            <text x="560" y="630" class="sm">2 deny </text>
-            <text x="720" y="630" class="sm">2 incidents</text><text x="40" y="650" class="sm" font-weight="bold" fill="#059669">IAM-03</text>
-            <text x="170" y="650" class="sm">Human oversight controls</text>
-            <text x="560" y="650" class="sm">3 deny </text>
-            <text x="720" y="650" class="sm">8 incidents</text><text x="40" y="670" class="sm" font-weight="bold" fill="#059669">IAM-10</text>
-            <text x="170" y="670" class="sm">Taint-tracked least-privilege subagent scoping</text>
-            <text x="560" y="670" class="sm">4 deny </text>
-            <text x="720" y="670" class="sm">2 incidents</text><text x="40" y="690" class="sm" font-weight="bold" fill="#059669">IAM-05</text>
-            <text x="170" y="690" class="sm">Just-in-time access</text>
-            <text x="560" y="690" class="sm">2 deny </text>
-            <text x="720" y="690" class="sm">0 incidents</text><text x="40" y="710" class="sm" font-weight="bold" fill="#059669">IAM-08</text>
-            <text x="170" y="710" class="sm">Credential scope narrowing</text>
-            <text x="560" y="710" class="sm">3 deny </text>
-            <text x="720" y="710" class="sm">1 incidents</text><text x="40" y="730" class="sm" font-weight="bold" fill="#059669">IAM-09</text>
-            <text x="170" y="730" class="sm">Multi-tenant agent platform isolation</text>
-            <text x="560" y="730" class="sm">2 deny </text>
-            <text x="720" y="730" class="sm">4 incidents</text><rect x="30" y="620" width="820" height="166" rx="4" fill="#d97706" opacity="0.06"/>
-        <text x="40" y="632" class="cap" fill="#d97706">DS · Data Security</text><text x="40" y="646" class="sm" font-weight="bold" fill="#d97706">DS-02</text>
-            <text x="170" y="646" class="sm">Inference data protection</text>
-            <text x="560" y="646" class="sm">3 deny </text>
-            <text x="720" y="646" class="sm">1 incidents</text><text x="40" y="666" class="sm" font-weight="bold" fill="#d97706">DS-03</text>
-            <text x="170" y="666" class="sm">Memory sanitisation</text>
-            <text x="560" y="666" class="sm">2 deny </text>
-            <text x="720" y="666" class="sm">2 incidents</text><text x="40" y="686" class="sm" font-weight="bold" fill="#d97706">DS-06</text>
-            <text x="170" y="686" class="sm">Requirement:** Output validation</text>
-            <text x="560" y="686" class="sm">2 deny </text>
-            <text x="720" y="686" class="sm">6 incidents</text><text x="40" y="706" class="sm" font-weight="bold" fill="#d97706">DS-04</text>
-            <text x="170" y="706" class="sm">Data minimisation</text>
-            <text x="560" y="706" class="sm">3 deny </text>
-            <text x="720" y="706" class="sm">2 incidents</text><text x="40" y="726" class="sm" font-weight="bold" fill="#d97706">DS-07</text>
-            <text x="170" y="726" class="sm">Requirement:** Agent-originated artifact publication</text>
-            <text x="560" y="726" class="sm">3 deny </text>
-            <text x="720" y="726" class="sm">1 incidents</text><text x="40" y="746" class="sm" font-weight="bold" fill="#d97706">DS-08</text>
-            <text x="170" y="746" class="sm">Requirement:** Destination and emergent-channel egre</text>
-            <text x="560" y="746" class="sm">6 deny </text>
-            <text x="720" y="746" class="sm">2 incidents</text><text x="40" y="766" class="sm" font-weight="bold" fill="#d97706">DS-01</text>
-            <text x="170" y="766" class="sm">Data classification and labelling</text>
-            <text x="560" y="766" class="sm">2 deny </text>
-            <text x="720" y="766" class="sm">3 incidents</text><text x="40" y="786" class="sm" font-weight="bold" fill="#d97706">DS-05</text>
-            <text x="170" y="786" class="sm">Training data governance</text>
-            <text x="560" y="786" class="sm">3 deny </text>
-            <text x="720" y="786" class="sm">0 incidents</text><rect x="30" y="1436" width="820" height="326" rx="4" fill="#7c3aed" opacity="0.06"/>
-        <text x="40" y="1448" class="cap" fill="#7c3aed">TP · Tool &amp; Pipeline Security</text><text x="40" y="1462" class="sm" font-weight="bold" fill="#7c3aed">TP-14</text>
-            <text x="170" y="1462" class="sm">Skill/plugin payload integrity and instruction-chann</text>
-            <text x="560" y="1462" class="sm">6 deny </text>
-            <text x="720" y="1462" class="sm">3 incidents</text><text x="40" y="1482" class="sm" font-weight="bold" fill="#7c3aed">TP-06</text>
-            <text x="170" y="1482" class="sm">Dependency scanning</text>
-            <text x="560" y="1482" class="sm">3 deny </text>
-            <text x="720" y="1482" class="sm">9 incidents</text><text x="40" y="1502" class="sm" font-weight="bold" fill="#7c3aed">TP-08</text>
-            <text x="170" y="1502" class="sm">API gateway infrastructure-isolation mode</text>
-            <text x="560" y="1502" class="sm">2 deny </text>
-            <text x="720" y="1502" class="sm">1 incidents</text><text x="40" y="1522" class="sm" font-weight="bold" fill="#7c3aed">TP-05</text>
-            <text x="170" y="1522" class="sm">Pipeline integrity</text>
-            <text x="560" y="1522" class="sm">4 deny </text>
-            <text x="720" y="1522" class="sm">8 incidents</text><text x="40" y="1542" class="sm" font-weight="bold" fill="#7c3aed">TP-07</text>
-            <text x="170" y="1542" class="sm">Cross-tool dependency analysis</text>
-            <text x="560" y="1542" class="sm">2 deny </text>
-            <text x="720" y="1542" class="sm">2 incidents</text><text x="40" y="1562" class="sm" font-weight="bold" fill="#7c3aed">TP-15</text>
-            <text x="170" y="1562" class="sm">In-process code-execution sandbox sufficiency</text>
-            <text x="560" y="1562" class="sm">5 deny </text>
-            <text x="720" y="1562" class="sm">11 incidents</text><text x="40" y="1582" class="sm" font-weight="bold" fill="#7c3aed">TP-12</text>
-            <text x="170" y="1582" class="sm">Tool-call provenance and dispatch verification</text>
-            <text x="560" y="1582" class="sm">4 deny </text>
-            <text x="720" y="1582" class="sm">8 incidents</text><text x="40" y="1602" class="sm" font-weight="bold" fill="#7c3aed">TP-01</text>
-            <text x="170" y="1602" class="sm">Tool inventory and registry</text>
-            <text x="560" y="1602" class="sm">2 deny </text>
-            <text x="720" y="1602" class="sm">10 incidents</text><text x="40" y="1622" class="sm" font-weight="bold" fill="#7c3aed">TP-02</text>
-            <text x="170" y="1622" class="sm">Tool access control</text>
-            <text x="560" y="1622" class="sm">3 deny </text>
-            <text x="720" y="1622" class="sm">0 incidents</text><text x="40" y="1642" class="sm" font-weight="bold" fill="#7c3aed">TP-13</text>
-            <text x="170" y="1642" class="sm">Agent dependency-install provenance verification</text>
-            <text x="560" y="1642" class="sm">6 deny </text>
-            <text x="720" y="1642" class="sm">7 incidents</text><text x="40" y="1662" class="sm" font-weight="bold" fill="#7c3aed">TP-10</text>
-            <text x="170" y="1662" class="sm">Agent platform inbound control-plane protection</text>
-            <text x="560" y="1662" class="sm">2 deny </text>
-            <text x="720" y="1662" class="sm">13 incidents</text><text x="40" y="1682" class="sm" font-weight="bold" fill="#7c3aed">TP-09</text>
-            <text x="170" y="1682" class="sm">Explicit tool registration — no implicit tool exposu</text>
-            <text x="560" y="1682" class="sm">2 deny </text>
-            <text x="720" y="1682" class="sm">5 incidents</text><text x="40" y="1702" class="sm" font-weight="bold" fill="#7c3aed">TP-11</text>
-            <text x="170" y="1702" class="sm">Agent browser and content-rendering isolation</text>
-            <text x="560" y="1702" class="sm">3 deny </text>
-            <text x="720" y="1702" class="sm">4 incidents</text><text x="40" y="1722" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
-            <text x="170" y="1722" class="sm">Tool-connection and launch-path integrity</text>
-            <text x="560" y="1722" class="sm">6 deny </text>
-            <text x="720" y="1722" class="sm">6 incidents</text><text x="40" y="1742" class="sm" font-weight="bold" fill="#7c3aed">TP-03</text>
-            <text x="170" y="1742" class="sm">API gateway security</text>
-            <text x="560" y="1742" class="sm">3 deny </text>
-            <text x="720" y="1742" class="sm">9 incidents</text><text x="40" y="1762" class="sm" font-weight="bold" fill="#7c3aed">TP-04</text>
-            <text x="170" y="1762" class="sm">Tool output validation</text>
-            <text x="560" y="1762" class="sm">4 deny </text>
-            <text x="720" y="1762" class="sm">13 incidents</text><rect x="30" y="772" width="820" height="126" rx="4" fill="#db2777" opacity="0.06"/>
-        <text x="40" y="784" class="cap" fill="#db2777">MIR · Monitoring, Logging &amp; IR</text><text x="40" y="798" class="sm" font-weight="bold" fill="#db2777">MIR-03</text>
-            <text x="170" y="798" class="sm">Prompt audit log</text>
-            <text x="560" y="798" class="sm">2 deny </text>
-            <text x="720" y="798" class="sm">1 incidents</text><text x="40" y="818" class="sm" font-weight="bold" fill="#db2777">MIR-06</text>
-            <text x="170" y="818" class="sm">Forensic readiness</text>
-            <text x="560" y="818" class="sm">1 deny </text>
-            <text x="720" y="818" class="sm">6 incidents</text><text x="40" y="838" class="sm" font-weight="bold" fill="#db2777">MIR-04</text>
-            <text x="170" y="838" class="sm">Incident response playbooks AI-specific IR procedure</text>
-            <text x="560" y="838" class="sm">2 deny </text>
-            <text x="720" y="838" class="sm">3 incidents</text><text x="40" y="858" class="sm" font-weight="bold" fill="#db2777">MIR-05</text>
-            <text x="170" y="858" class="sm">Mandatory reporting integration</text>
-            <text x="560" y="858" class="sm">1 deny </text>
-            <text x="720" y="858" class="sm">0 incidents</text><text x="40" y="878" class="sm" font-weight="bold" fill="#db2777">MIR-01</text>
-            <text x="170" y="878" class="sm">Agent activity logging</text>
-            <text x="560" y="878" class="sm">2 deny </text>
-            <text x="720" y="878" class="sm">10 incidents</text><text x="40" y="898" class="sm" font-weight="bold" fill="#db2777">MIR-02</text>
-            <text x="170" y="898" class="sm">Behavioural anomaly detection baseline per-agent beh</text>
-            <text x="560" y="898" class="sm">2 deny </text>
-            <text x="720" y="898" class="sm">18 incidents</text><rect x="30" y="908" width="820" height="126" rx="4" fill="#475569" opacity="0.06"/>
-        <text x="40" y="920" class="cap" fill="#475569">GRM · Governance &amp; Risk</text><text x="40" y="934" class="sm" font-weight="bold" fill="#475569">GRM-06</text>
-            <text x="170" y="934" class="sm">Requirement:** Board and executive reporting</text>
-            <text x="560" y="934" class="sm">2 deny </text>
-            <text x="720" y="934" class="sm">3 incidents</text><text x="40" y="954" class="sm" font-weight="bold" fill="#475569">GRM-04</text>
-            <text x="170" y="954" class="sm">Requirement:** Third-party AI risk management</text>
-            <text x="560" y="954" class="sm">3 deny </text>
-            <text x="720" y="954" class="sm">6 incidents</text><text x="40" y="974" class="sm" font-weight="bold" fill="#475569">GRM-03</text>
-            <text x="170" y="974" class="sm">Ethical use policy</text>
-            <text x="560" y="974" class="sm">2 deny </text>
-            <text x="720" y="974" class="sm">3 incidents</text><text x="40" y="994" class="sm" font-weight="bold" fill="#475569">GRM-02</text>
-            <text x="170" y="994" class="sm">Requirement:** AI risk register</text>
-            <text x="560" y="994" class="sm">2 deny </text>
-            <text x="720" y="994" class="sm">6 incidents</text><text x="40" y="1014" class="sm" font-weight="bold" fill="#475569">GRM-05</text>
-            <text x="170" y="1014" class="sm">Regulatory mapping and compliance reporting</text>
-            <text x="560" y="1014" class="sm">2 deny </text>
-            <text x="720" y="1014" class="sm">1 incidents</text><text x="40" y="1034" class="sm" font-weight="bold" fill="#475569">GRM-01</text>
-            <text x="170" y="1034" class="sm">AI governance body</text>
-            <text x="560" y="1034" class="sm">3 deny </text>
-            <text x="720" y="1034" class="sm">1 incidents</text><text x="440.0" y="508" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable verification depth (deny rules), and incident evidence per SHIELD-AI control</text>
+    <text x="720" y="84" class="cap">Incidents</text><rect x="30" y="100" width="820" height="182" rx="4" fill="#1a3a6b" opacity="0.06"/>
+        <text x="40" y="112" class="cap" fill="#1a3a6b">EE · Execution Environment</text><text x="40" y="126" class="sm" font-weight="bold" fill="#1a3a6b">EE-01</text>
+            <text x="170" y="126" class="sm">Execution environment boundary enforcement</text>
+            <text x="560" y="126" class="sm">1 deny rules</text>
+            <text x="720" y="126" class="sm">14 incidents</text><text x="40" y="146" class="sm" font-weight="bold" fill="#1a3a6b">EE-03</text>
+            <text x="170" y="146" class="sm">Resource usage limiting</text>
+            <text x="560" y="146" class="sm">3 deny rules</text>
+            <text x="720" y="146" class="sm">1 incidents</text><text x="40" y="166" class="sm" font-weight="bold" fill="#1a3a6b">EE-04</text>
+            <text x="170" y="166" class="sm">Evaluation sandbox integrity</text>
+            <text x="560" y="166" class="sm">3 deny rules</text>
+            <text x="720" y="166" class="sm">3 incidents</text><text x="40" y="186" class="sm" font-weight="bold" fill="#1a3a6b">EE-06</text>
+            <text x="170" y="186" class="sm">Fail-closed sandbox operation</text>
+            <text x="560" y="186" class="sm">3 deny rules</text>
+            <text x="720" y="186" class="sm">3 incidents</text><text x="40" y="206" class="sm" font-weight="bold" fill="#1a3a6b">EE-05</text>
+            <text x="170" y="206" class="sm">Host-trusted configuration file injection prevention</text>
+            <text x="560" y="206" class="sm">2 deny rules</text>
+            <text x="720" y="206" class="sm">10 incidents</text><text x="40" y="226" class="sm" font-weight="bold" fill="#1a3a6b">EE-07</text>
+            <text x="170" y="226" class="sm">Agent control-plane configuration integrity</text>
+            <text x="560" y="226" class="sm">2 deny rules</text>
+            <text x="720" y="226" class="sm">12 incidents</text><text x="40" y="246" class="sm" font-weight="bold" fill="#1a3a6b">EE-02</text>
+            <text x="170" y="246" class="sm">Infrastructure API access control</text>
+            <text x="560" y="246" class="sm">1 deny rules</text>
+            <text x="720" y="246" class="sm">3 incidents</text><text x="40" y="266" class="sm" font-weight="bold" fill="#1a3a6b">EE-08</text>
+            <text x="170" y="266" class="sm">Evaluation-harness isolation and integrity</text>
+            <text x="560" y="266" class="sm">3 deny rules</text>
+            <text x="720" y="266" class="sm">10 incidents</text><rect x="30" y="292" width="820" height="322" rx="4" fill="#2563eb" opacity="0.06"/>
+        <text x="40" y="304" class="cap" fill="#2563eb">MS · Model Security</text><text x="40" y="318" class="sm" font-weight="bold" fill="#2563eb">MS-02</text>
+            <text x="170" y="318" class="sm">Training data integrity</text>
+            <text x="560" y="318" class="sm">3 deny rules</text>
+            <text x="720" y="318" class="sm">1 incidents</text><text x="40" y="338" class="sm" font-weight="bold" fill="#2563eb">MS-05</text>
+            <text x="170" y="338" class="sm">Model behaviour validation</text>
+            <text x="560" y="338" class="sm">2 deny rules</text>
+            <text x="720" y="338" class="sm">4 incidents</text><text x="40" y="358" class="sm" font-weight="bold" fill="#2563eb">MS-01</text>
+            <text x="170" y="358" class="sm">Model weight protection</text>
+            <text x="560" y="358" class="sm">2 deny rules</text>
+            <text x="720" y="358" class="sm">1 incidents</text><text x="40" y="378" class="sm" font-weight="bold" fill="#2563eb">MS-04</text>
+            <text x="170" y="378" class="sm">Adversarial robustness</text>
+            <text x="560" y="378" class="sm">1 deny rules</text>
+            <text x="720" y="378" class="sm">19 incidents</text><text x="40" y="398" class="sm" font-weight="bold" fill="#2563eb">MS-11</text>
+            <text x="170" y="398" class="sm">Operational data-stream integrity</text>
+            <text x="560" y="398" class="sm">3 deny rules</text>
+            <text x="720" y="398" class="sm">4 incidents</text><text x="40" y="418" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
+            <text x="170" y="418" class="sm">Agent memory-store integrity</text>
+            <text x="560" y="418" class="sm">2 deny rules</text>
+            <text x="720" y="418" class="sm">7 incidents</text><text x="40" y="438" class="sm" font-weight="bold" fill="#2563eb">MS-06</text>
+            <text x="170" y="438" class="sm">Model inventory and lineage tracking</text>
+            <text x="560" y="438" class="sm">3 deny rules</text>
+            <text x="720" y="438" class="sm">1 incidents</text><text x="40" y="458" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
+            <text x="170" y="458" class="sm">Transcript and conversation authenticity</text>
+            <text x="560" y="458" class="sm">4 deny rules</text>
+            <text x="720" y="458" class="sm">3 incidents</text><text x="40" y="478" class="sm" font-weight="bold" fill="#2563eb">MS-12</text>
+            <text x="170" y="478" class="sm">MCP discovery-metadata and shared-cache integrity</text>
+            <text x="560" y="478" class="sm">6 deny rules</text>
+            <text x="720" y="478" class="sm">3 incidents</text><text x="40" y="498" class="sm" font-weight="bold" fill="#2563eb">MS-14</text>
+            <text x="170" y="498" class="sm">Self-replication barrier</text>
+            <text x="560" y="498" class="sm">4 deny rules</text>
+            <text x="720" y="498" class="sm">2 incidents</text><text x="40" y="518" class="sm" font-weight="bold" fill="#2563eb">MS-03</text>
+            <text x="170" y="518" class="sm">Supply chain security</text>
+            <text x="560" y="518" class="sm">3 deny rules</text>
+            <text x="720" y="518" class="sm">3 incidents</text><text x="40" y="538" class="sm" font-weight="bold" fill="#2563eb">MS-08</text>
+            <text x="170" y="538" class="sm">MCP</text>
+            <text x="560" y="538" class="sm">3 deny rules</text>
+            <text x="720" y="538" class="sm">19 incidents</text><text x="40" y="558" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
+            <text x="170" y="558" class="sm">Perception-fidelity enforcement for human-in-the-loo</text>
+            <text x="560" y="558" class="sm">2 deny rules</text>
+            <text x="720" y="558" class="sm">10 incidents</text><text x="40" y="578" class="sm" font-weight="bold" fill="#2563eb">MS-15</text>
+            <text x="170" y="578" class="sm">Cross-tenant agent memory and state isolation</text>
+            <text x="560" y="578" class="sm">8 deny rules</text>
+            <text x="720" y="578" class="sm">4 incidents</text><text x="40" y="598" class="sm" font-weight="bold" fill="#2563eb">MS-07</text>
+            <text x="170" y="598" class="sm">Deployment context obfuscation</text>
+            <text x="560" y="598" class="sm">2 deny rules</text>
+            <text x="720" y="598" class="sm">2 incidents</text><rect x="30" y="624" width="820" height="222" rx="4" fill="#059669" opacity="0.06"/>
+        <text x="40" y="636" class="cap" fill="#059669">IAM · Identity &amp; Access</text><text x="40" y="650" class="sm" font-weight="bold" fill="#059669">IAM-08</text>
+            <text x="170" y="650" class="sm">Credential scope narrowing</text>
+            <text x="560" y="650" class="sm">3 deny rules</text>
+            <text x="720" y="650" class="sm">1 incidents</text><text x="40" y="670" class="sm" font-weight="bold" fill="#059669">IAM-07</text>
+            <text x="170" y="670" class="sm">Transitive delegation chain enforcement</text>
+            <text x="560" y="670" class="sm">2 deny rules</text>
+            <text x="720" y="670" class="sm">1 incidents</text><text x="40" y="690" class="sm" font-weight="bold" fill="#059669">IAM-09</text>
+            <text x="170" y="690" class="sm">Multi-tenant agent platform isolation</text>
+            <text x="560" y="690" class="sm">2 deny rules</text>
+            <text x="720" y="690" class="sm">4 incidents</text><text x="40" y="710" class="sm" font-weight="bold" fill="#059669">IAM-01</text>
+            <text x="170" y="710" class="sm">Agent identity management</text>
+            <text x="560" y="710" class="sm">2 deny rules</text>
+            <text x="720" y="710" class="sm">5 incidents</text><text x="40" y="730" class="sm" font-weight="bold" fill="#059669">IAM-10</text>
+            <text x="170" y="730" class="sm">Taint-tracked least-privilege subagent scoping</text>
+            <text x="560" y="730" class="sm">4 deny rules</text>
+            <text x="720" y="730" class="sm">2 incidents</text><text x="40" y="750" class="sm" font-weight="bold" fill="#059669">IAM-04</text>
+            <text x="170" y="750" class="sm">Credential isolation</text>
+            <text x="560" y="750" class="sm">2 deny rules</text>
+            <text x="720" y="750" class="sm">4 incidents</text><text x="40" y="770" class="sm" font-weight="bold" fill="#059669">IAM-03</text>
+            <text x="170" y="770" class="sm">Human oversight controls</text>
+            <text x="560" y="770" class="sm">3 deny rules</text>
+            <text x="720" y="770" class="sm">8 incidents</text><text x="40" y="790" class="sm" font-weight="bold" fill="#059669">IAM-02</text>
+            <text x="170" y="790" class="sm">Scope-bound delegation</text>
+            <text x="560" y="790" class="sm">2 deny rules</text>
+            <text x="720" y="790" class="sm">10 incidents</text><text x="40" y="810" class="sm" font-weight="bold" fill="#059669">IAM-06</text>
+            <text x="170" y="810" class="sm">Cross-session boundary enforcement</text>
+            <text x="560" y="810" class="sm">2 deny rules</text>
+            <text x="720" y="810" class="sm">2 incidents</text><text x="40" y="830" class="sm" font-weight="bold" fill="#059669">IAM-05</text>
+            <text x="170" y="830" class="sm">Just-in-time access</text>
+            <text x="560" y="830" class="sm">2 deny rules</text>
+            <text x="720" y="830" class="sm">0 incidents</text><rect x="30" y="856" width="820" height="182" rx="4" fill="#d97706" opacity="0.06"/>
+        <text x="40" y="868" class="cap" fill="#d97706">DS · Data Security</text><text x="40" y="882" class="sm" font-weight="bold" fill="#d97706">DS-08</text>
+            <text x="170" y="882" class="sm">Requirement:** Destination and emergent-channel egre</text>
+            <text x="560" y="882" class="sm">6 deny rules</text>
+            <text x="720" y="882" class="sm">2 incidents</text><text x="40" y="902" class="sm" font-weight="bold" fill="#d97706">DS-01</text>
+            <text x="170" y="902" class="sm">Data classification and labelling</text>
+            <text x="560" y="902" class="sm">2 deny rules</text>
+            <text x="720" y="902" class="sm">3 incidents</text><text x="40" y="922" class="sm" font-weight="bold" fill="#d97706">DS-05</text>
+            <text x="170" y="922" class="sm">Training data governance</text>
+            <text x="560" y="922" class="sm">3 deny rules</text>
+            <text x="720" y="922" class="sm">0 incidents</text><text x="40" y="942" class="sm" font-weight="bold" fill="#d97706">DS-04</text>
+            <text x="170" y="942" class="sm">Data minimisation</text>
+            <text x="560" y="942" class="sm">3 deny rules</text>
+            <text x="720" y="942" class="sm">2 incidents</text><text x="40" y="962" class="sm" font-weight="bold" fill="#d97706">DS-06</text>
+            <text x="170" y="962" class="sm">Requirement:** Output validation</text>
+            <text x="560" y="962" class="sm">2 deny rules</text>
+            <text x="720" y="962" class="sm">6 incidents</text><text x="40" y="982" class="sm" font-weight="bold" fill="#d97706">DS-03</text>
+            <text x="170" y="982" class="sm">Memory sanitisation</text>
+            <text x="560" y="982" class="sm">2 deny rules</text>
+            <text x="720" y="982" class="sm">2 incidents</text><text x="40" y="1002" class="sm" font-weight="bold" fill="#d97706">DS-07</text>
+            <text x="170" y="1002" class="sm">Requirement:** Agent-originated artifact publication</text>
+            <text x="560" y="1002" class="sm">3 deny rules</text>
+            <text x="720" y="1002" class="sm">1 incidents</text><text x="40" y="1022" class="sm" font-weight="bold" fill="#d97706">DS-02</text>
+            <text x="170" y="1022" class="sm">Inference data protection</text>
+            <text x="560" y="1022" class="sm">3 deny rules</text>
+            <text x="720" y="1022" class="sm">1 incidents</text><rect x="30" y="1048" width="820" height="342" rx="4" fill="#7c3aed" opacity="0.06"/>
+        <text x="40" y="1060" class="cap" fill="#7c3aed">TP · Tool &amp; Pipeline Security</text><text x="40" y="1074" class="sm" font-weight="bold" fill="#7c3aed">TP-02</text>
+            <text x="170" y="1074" class="sm">Tool access control</text>
+            <text x="560" y="1074" class="sm">3 deny rules</text>
+            <text x="720" y="1074" class="sm">0 incidents</text><text x="40" y="1094" class="sm" font-weight="bold" fill="#7c3aed">TP-13</text>
+            <text x="170" y="1094" class="sm">Agent dependency-install provenance verification</text>
+            <text x="560" y="1094" class="sm">6 deny rules</text>
+            <text x="720" y="1094" class="sm">7 incidents</text><text x="40" y="1114" class="sm" font-weight="bold" fill="#7c3aed">TP-04</text>
+            <text x="170" y="1114" class="sm">Tool output validation</text>
+            <text x="560" y="1114" class="sm">4 deny rules</text>
+            <text x="720" y="1114" class="sm">13 incidents</text><text x="40" y="1134" class="sm" font-weight="bold" fill="#7c3aed">TP-12</text>
+            <text x="170" y="1134" class="sm">Tool-call provenance and dispatch verification</text>
+            <text x="560" y="1134" class="sm">4 deny rules</text>
+            <text x="720" y="1134" class="sm">8 incidents</text><text x="40" y="1154" class="sm" font-weight="bold" fill="#7c3aed">TP-07</text>
+            <text x="170" y="1154" class="sm">Cross-tool dependency analysis</text>
+            <text x="560" y="1154" class="sm">2 deny rules</text>
+            <text x="720" y="1154" class="sm">2 incidents</text><text x="40" y="1174" class="sm" font-weight="bold" fill="#7c3aed">TP-14</text>
+            <text x="170" y="1174" class="sm">Skill/plugin payload integrity and instruction-chann</text>
+            <text x="560" y="1174" class="sm">6 deny rules</text>
+            <text x="720" y="1174" class="sm">3 incidents</text><text x="40" y="1194" class="sm" font-weight="bold" fill="#7c3aed">TP-15</text>
+            <text x="170" y="1194" class="sm">In-process code-execution sandbox sufficiency</text>
+            <text x="560" y="1194" class="sm">5 deny rules</text>
+            <text x="720" y="1194" class="sm">11 incidents</text><text x="40" y="1214" class="sm" font-weight="bold" fill="#7c3aed">TP-08</text>
+            <text x="170" y="1214" class="sm">API gateway infrastructure-isolation mode</text>
+            <text x="560" y="1214" class="sm">2 deny rules</text>
+            <text x="720" y="1214" class="sm">1 incidents</text><text x="40" y="1234" class="sm" font-weight="bold" fill="#7c3aed">TP-01</text>
+            <text x="170" y="1234" class="sm">Tool inventory and registry</text>
+            <text x="560" y="1234" class="sm">2 deny rules</text>
+            <text x="720" y="1234" class="sm">10 incidents</text><text x="40" y="1254" class="sm" font-weight="bold" fill="#7c3aed">TP-05</text>
+            <text x="170" y="1254" class="sm">Pipeline integrity</text>
+            <text x="560" y="1254" class="sm">4 deny rules</text>
+            <text x="720" y="1254" class="sm">8 incidents</text><text x="40" y="1274" class="sm" font-weight="bold" fill="#7c3aed">TP-10</text>
+            <text x="170" y="1274" class="sm">Agent platform inbound control-plane protection</text>
+            <text x="560" y="1274" class="sm">2 deny rules</text>
+            <text x="720" y="1274" class="sm">13 incidents</text><text x="40" y="1294" class="sm" font-weight="bold" fill="#7c3aed">TP-09</text>
+            <text x="170" y="1294" class="sm">Explicit tool registration — no implicit tool exposu</text>
+            <text x="560" y="1294" class="sm">2 deny rules</text>
+            <text x="720" y="1294" class="sm">5 incidents</text><text x="40" y="1314" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
+            <text x="170" y="1314" class="sm">Tool-connection and launch-path integrity</text>
+            <text x="560" y="1314" class="sm">6 deny rules</text>
+            <text x="720" y="1314" class="sm">6 incidents</text><text x="40" y="1334" class="sm" font-weight="bold" fill="#7c3aed">TP-03</text>
+            <text x="170" y="1334" class="sm">API gateway security</text>
+            <text x="560" y="1334" class="sm">3 deny rules</text>
+            <text x="720" y="1334" class="sm">9 incidents</text><text x="40" y="1354" class="sm" font-weight="bold" fill="#7c3aed">TP-06</text>
+            <text x="170" y="1354" class="sm">Dependency scanning</text>
+            <text x="560" y="1354" class="sm">3 deny rules</text>
+            <text x="720" y="1354" class="sm">9 incidents</text><text x="40" y="1374" class="sm" font-weight="bold" fill="#7c3aed">TP-11</text>
+            <text x="170" y="1374" class="sm">Agent browser and content-rendering isolation</text>
+            <text x="560" y="1374" class="sm">3 deny rules</text>
+            <text x="720" y="1374" class="sm">4 incidents</text><rect x="30" y="1400" width="820" height="142" rx="4" fill="#db2777" opacity="0.06"/>
+        <text x="40" y="1412" class="cap" fill="#db2777">MIR · Monitoring, Logging &amp; IR</text><text x="40" y="1426" class="sm" font-weight="bold" fill="#db2777">MIR-03</text>
+            <text x="170" y="1426" class="sm">Prompt audit log</text>
+            <text x="560" y="1426" class="sm">2 deny rules</text>
+            <text x="720" y="1426" class="sm">1 incidents</text><text x="40" y="1446" class="sm" font-weight="bold" fill="#db2777">MIR-05</text>
+            <text x="170" y="1446" class="sm">Mandatory reporting integration</text>
+            <text x="560" y="1446" class="sm">1 deny rules</text>
+            <text x="720" y="1446" class="sm">0 incidents</text><text x="40" y="1466" class="sm" font-weight="bold" fill="#db2777">MIR-06</text>
+            <text x="170" y="1466" class="sm">Forensic readiness</text>
+            <text x="560" y="1466" class="sm">1 deny rules</text>
+            <text x="720" y="1466" class="sm">6 incidents</text><text x="40" y="1486" class="sm" font-weight="bold" fill="#db2777">MIR-01</text>
+            <text x="170" y="1486" class="sm">Agent activity logging</text>
+            <text x="560" y="1486" class="sm">2 deny rules</text>
+            <text x="720" y="1486" class="sm">10 incidents</text><text x="40" y="1506" class="sm" font-weight="bold" fill="#db2777">MIR-02</text>
+            <text x="170" y="1506" class="sm">Behavioural anomaly detection baseline per-agent beh</text>
+            <text x="560" y="1506" class="sm">2 deny rules</text>
+            <text x="720" y="1506" class="sm">18 incidents</text><text x="40" y="1526" class="sm" font-weight="bold" fill="#db2777">MIR-04</text>
+            <text x="170" y="1526" class="sm">Incident response playbooks AI-specific IR procedure</text>
+            <text x="560" y="1526" class="sm">2 deny rules</text>
+            <text x="720" y="1526" class="sm">3 incidents</text><rect x="30" y="1552" width="820" height="142" rx="4" fill="#475569" opacity="0.06"/>
+        <text x="40" y="1564" class="cap" fill="#475569">GRM · Governance &amp; Risk</text><text x="40" y="1578" class="sm" font-weight="bold" fill="#475569">GRM-05</text>
+            <text x="170" y="1578" class="sm">Regulatory mapping and compliance reporting</text>
+            <text x="560" y="1578" class="sm">2 deny rules</text>
+            <text x="720" y="1578" class="sm">1 incidents</text><text x="40" y="1598" class="sm" font-weight="bold" fill="#475569">GRM-01</text>
+            <text x="170" y="1598" class="sm">AI governance body</text>
+            <text x="560" y="1598" class="sm">3 deny rules</text>
+            <text x="720" y="1598" class="sm">1 incidents</text><text x="40" y="1618" class="sm" font-weight="bold" fill="#475569">GRM-06</text>
+            <text x="170" y="1618" class="sm">Requirement:** Board and executive reporting</text>
+            <text x="560" y="1618" class="sm">2 deny rules</text>
+            <text x="720" y="1618" class="sm">3 incidents</text><text x="40" y="1638" class="sm" font-weight="bold" fill="#475569">GRM-02</text>
+            <text x="170" y="1638" class="sm">Requirement:** AI risk register</text>
+            <text x="560" y="1638" class="sm">2 deny rules</text>
+            <text x="720" y="1638" class="sm">6 incidents</text><text x="40" y="1658" class="sm" font-weight="bold" fill="#475569">GRM-03</text>
+            <text x="170" y="1658" class="sm">Ethical use policy</text>
+            <text x="560" y="1658" class="sm">2 deny rules</text>
+            <text x="720" y="1658" class="sm">3 incidents</text><text x="40" y="1678" class="sm" font-weight="bold" fill="#475569">GRM-04</text>
+            <text x="170" y="1678" class="sm">Requirement:** Third-party AI risk management</text>
+            <text x="560" y="1678" class="sm">3 deny rules</text>
+            <text x="720" y="1678" class="sm">6 incidents</text><text x="440.0" y="1722" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable verification depth (deny rules), and incident evidence per SHIELD-AI control</text>
 </svg>

@@ -541,7 +541,7 @@ def _outcome(cid, title):
 
 
 def diagram_control_outcomes():
-    w, h = 880, 520
+    w = 880
     pol = load_policy_data()
     titles = load_control_titles()
     col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
@@ -556,19 +556,22 @@ def diagram_control_outcomes():
     <text x="200" y="84" class="cap">Outcome (what the policy verifies)</text>
     <text x="600" y="84" class="cap">Policy</text>
     <text x="760" y="84" class="cap">Rules · status</text>'''
-    yy = 92
     row_h = 20
+    block_head = 18
     groups = {p: [] for p in PILLARS}
     for cid, d in pol.items():
         groups[d["pillar"]].append((cid, d))
-    col_x = 0
+    groups = {p: v for p, v in groups.items() if v}
+    # Cumulative stacking: each pillar block = header line + N control rows.
+    y = 100
     for p in PILLARS:
-        if not groups[p]:
+        if p not in groups:
             continue
-        y0 = yy + (PILLARS.index(p)) * (len(groups[p]) * row_h + 14)
-        body += f'''<rect x="30" y="{y0}" width="820" height="{len(groups[p])*row_h+6}" rx="4" fill="{col[p]}" opacity="0.07"/>
-        <text x="40" y="{y0+14}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
-        iy = y0 + 20
+        block_h = block_head + len(groups[p]) * row_h
+        y0 = y
+        body += f'''<rect x="30" y="{y0}" width="820" height="{block_h+4}" rx="4" fill="{col[p]}" opacity="0.07"/>
+        <text x="40" y="{y0+12}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
+        iy = y0 + block_head
         for cid, d in groups[p]:
             title = titles.get(cid, "")
             body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
@@ -576,7 +579,9 @@ def diagram_control_outcomes():
             <text x="600" y="{iy+8}" class="sm">{d['file'].replace('shield_ai_','').replace('.rego','')}</text>
             <text x="760" y="{iy+8}" class="sm">{d['deny']} deny · {"✓" if d['implemented'] else "stub"}</text>'''
             iy += row_h
-    body += f'''<text x="{w/2}" y="{h-12}" text-anchor="middle" class="sm" font-style="italic">All {count_controls()} controls map 1:1 to an executable Rego policy (verified by OPA tests); the deny-rule count shows verification depth</text>'''
+        y += block_h + 14  # gap after each pillar block
+    h = y + 32
+    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">All {count_controls()} controls map 1:1 to an executable Rego policy (verified by OPA tests); the deny-rule count shows verification depth</text>'''
     return svg(w, h, group_title(body, w, "SHIELD-AI: Control → Outcome & Executable Verification"))
 
 
@@ -719,7 +724,7 @@ def md_technical_controls():
 def diagram_technical_sheet():
     """Per-pillar technical verification coverage: control, objective, deny
     rules, incident evidence, implemented status -- dense for specialists."""
-    w, h = 880, 520
+    w = 880
     pol = load_policy_data()
     titles = load_control_titles()
     links = load_incident_links()
@@ -734,30 +739,34 @@ def diagram_technical_sheet():
     <text x="170" y="84" class="cap">Objective (what must hold)</text>
     <text x="560" y="84" class="cap">Verify via policy</text>
     <text x="720" y="84" class="cap">Incidents</text>'''
-    yy = 92
     row_h = 20
+    block_head = 18
     groups = {p: [] for p in PILLARS}
     for cid in control_ids():
         groups[cid.split("-")[0]].append(cid)
     groups = {p: v for p, v in groups.items() if v}
-    # compute total rows to size canvas
-    total_rows = sum(len(v) for v in groups.values())
+    # Cumulative stacking: each pillar block = header line + N control rows.
+    y = 100
     for p in PILLARS:
         if p not in groups:
             continue
-        y0 = yy + (PILLARS.index(p)) * (len(groups[p]) * row_h + 16)
-        body += f'''<rect x="30" y="{y0}" width="820" height="{len(groups[p])*row_h+6}" rx="4" fill="{col[p]}" opacity="0.06"/>
+        block_h = block_head + len(groups[p]) * row_h
+        y0 = y
+        body += f'''<rect x="30" y="{y0}" width="820" height="{block_h+4}" rx="4" fill="{col[p]}" opacity="0.06"/>
         <text x="40" y="{y0+12}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
-        iy = y0 + 18
+        iy = y0 + block_head
         for cid in groups[p]:
             title = titles.get(cid, "")
             inc_count = len(links.get(cid, []))
+            deny = pol.get(cid, {}).get('deny', 0)
             body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
             <text x="170" y="{iy+8}" class="sm">{title[:52]}</text>
-            <text x="560" y="{iy+8}" class="sm">{pol.get(cid,{}).get('deny',0)} deny {"·"+str(inc_count)+" says" if False else ""}</text>
+            <text x="560" y="{iy+8}" class="sm">{deny} deny rules</text>
             <text x="720" y="{iy+8}" class="sm">{inc_count} incidents</text>'''
             iy += row_h
-    body += f'''<text x="{w/2}" y="{h-12}" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable verification depth (deny rules), and incident evidence per SHIELD-AI control</text>'''
+        y += block_h + 14  # gap after each pillar block
+    h = y + 32  # footer margin
+    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable verification depth (deny rules), and incident evidence per SHIELD-AI control</text>'''
     return svg(w, h, group_title(body, w, "SHIELD-AI: Control Technical Verification Field Guide"))
 
 

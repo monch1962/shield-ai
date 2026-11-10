@@ -167,6 +167,15 @@ def main():
             continue
         data = open(p, encoding="utf-8").read()
         check(f"reference view diagram {name} carries {needle}", needle in data)
+        # Guard against the viewport-clipping class of bug: every <text y=...>
+        # (and the deepest <rect>) must fall inside the viewBox height, or the
+        # rendered SVG silently drops controls past the hardcoded canvas edge.
+        _vb = re.search(r'viewBox="0 0 \d+ (\d+)"', data)
+        if _vb:
+            _h = int(_vb.group(1))
+            _ys = [int(y) for y in re.findall(r'y="(\d+)"', data)]
+            _max = max(_ys) if _ys else 0
+            check(f"reference view diagram {name} content fits viewport (max y {_max} <= {_h})", _max <= _h)
     _rv_docs = [
         "reference-views/01-pillar-control-atlas.md",
         "reference-views/02-controls-incidents.md",
