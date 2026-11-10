@@ -489,47 +489,6 @@ def load_incident_links():
     return out
 
 
-def split_controls(block):
-    """Split a framework document into {control_id: bullet text}."""
-    out = {}
-    cur = None
-    buf = []
-    for ln in block.split("\n"):
-        mm = re.match(r"^- ([A-Z]{2,5}-\d{2}):", ln)
-        if mm:
-            if cur:
-                out[cur] = "\n".join(buf)
-            cur = mm.group(1)
-            buf = [ln]
-            continue
-        if cur is not None and (ln.startswith("  ") or ln.startswith("\t") or ln.strip() == ""):
-            buf.append(ln)
-            continue
-        if cur is not None and ln.strip():
-            out[cur] = "\n".join(buf)
-            cur = None
-    if cur:
-        out[cur] = "\n".join(buf)
-    return out
-
-
-def extract_requirement(bullet):
-    """Return the normative technical text for a control.
-
-    For long controls take the first **Requirement:** block (the definitive
-    must-do statement); for short single-line controls fall back to the parent
-    bullet text. Whitespace-collapsed for clean rendering.
-    """
-    m = re.search(r"\*\*Requirement:\*\*\s*(.*?)(?=\n\s*\*\*|$)", bullet, re.S)
-    if m:
-        return " ".join(m.group(1).split()).strip()
-    # short control: strip the "- ID: title (" prefix and closing paren
-    body = re.sub(r"^-\s*[A-Z]{2,5}-\d{2}:\s*[^(]*\(?", "", bullet)
-    body = body.rstrip(" );").strip()
-    body = re.sub(r"\s*\*\*[A-Za-z /&]+:\*\*.*$", "", body).strip()
-    return " ".join(body.split()).strip()
-
-
 def load_policy_data():
     """Parse every policies/shield_ai_*.rego into {control_id: {...}}.
 
@@ -572,6 +531,32 @@ def load_policy_data():
         deny = (len(re.findall(r"\bdeny\s+contains\b", t))
                 + len(re.findall(r"\bdeny\s*\[[^\]]*\]\s*if\b", t))
                 + len(re.findall(r"(?<!count\()\bdeny\b\s+if\b", t)))
+        # Plain-language denial messages ("<cid> deny: <what fails>"), used to
+        # render human-readable "What to verify" checklists derived verbatim
+        # from the executable policy (never hand-paraphrased into new claims).
+        deny_msgs = []
+        # Plain messages: msg := "EE-01 deny: ..."
+        for pm in re.finditer(r"msg\s*:=\s*\"([^\"]+)\"", t):
+            deny_msgs.append(pm.group(1).strip())
+        # sprintf form: msg := sprintf("...%q...", [...]) -- take the format
+        # string, then soften the Rego %q/%v markers so the fragment reads
+        # naturally in prose (agent X kept, not agent %q).
+        for pm in re.finditer(r"msg\s*:=\s*sprintf\(\s*\"([^\"]+)\"", t):
+            fmt = pm.group(1).strip()
+            fmt = fmt.replace("%q", "'...'").replace("%v", "...").replace("%s", "...")
+            deny_msgs.append(fmt)
+        # normalise: strip per-control prefix, collapse whitespace, drop empties
+        _normed = []
+        for pm in deny_msgs:
+            pm = re.sub(rf"^{re.escape(cid)} deny:\s*", "", pm)
+            pm = " ".join(pm.split()).strip()
+            if pm:
+                _normed.append(pm)
+        # de-dupe preserving order
+        seen = set(); deny_msgs = []
+        for m in _normed:
+            if m not in seen:
+                deny_msgs.append(m); seen.add(m)
         implemented = "# IMPLEMENTED" in t
         out[cid] = {
             "pillar": pillar,
@@ -580,6 +565,7 @@ def load_policy_data():
             "maturity": mat_lv,
             "regulatory": regs,
             "deny": deny,
+            "deny_msgs": deny_msgs,
             "implemented": implemented,
         }
     return out
@@ -588,6 +574,29 @@ def load_policy_data():
 def _outcome(cid, title):
     """A one-line, business-readable statement of the outcome a control produces."""
     return f"Verify that {title.lower() if title else 'the control'} holds under agent action"
+
+
+def plain_verify(cid, title, pol_entry, cap=5):
+    """Human-readable "What to verify" block for a control.
+
+    Derived ONLY from the executable policy's deny-rule messages (verbatim,
+    fail-closed conditions) so the specialist gets a fluent checklist without
+    any hand-paraphrased safety claim. Returns (plain_stmt, [(check, raw)]).
+    """
+    msgs = pol_entry.get("deny_msgs", [])
+    plain = f"**What to verify:** {title} must hold. The executable policy "
+    if msgs:
+        plain += ("fails closed -- it blocks the action -- when any of the "
+                  "following is true, so confirm each is handled:")
+    else:
+        plain += f"asserts this condition; run `make test` ({pol_entry.get('file','policy')}) to verify it stays enforced."
+    checks = [m for m in msgs if m.strip()]
+    if len(checks) > cap:
+        shown = checks[:cap]
+        rest = len(checks) - cap
+    else:
+        shown, rest = checks, 0
+    return plain, shown, rest
 
 
 # ── Diagram 5: Control -> Outcome & Executable verification ─────────────
@@ -714,8 +723,6 @@ def md_technical_controls():
     titles = load_control_titles()
     pol = load_policy_data()
     links = load_incident_links()
-    txt = open(FRAMEWORK, encoding="utf-8").read()
-    bullet_of = split_controls(txt)
     lines = [
         "# 06 · Control Technical Verification Field Guide",
         "",
@@ -727,15 +734,33 @@ def md_technical_controls():
         "",
         "![Control technical sheet](../assets/diagrams/control-technical-sheet.svg)",
         "",
+        "![Control verification anatomy](../assets/diagrams/control-verification-anatomy.svg)",
+        "",
+        "## The anatomy of a control",
+        "",
+        "Every control is verified by an executable Rego policy. The anatomy sheet above",
+        "shows, for all 69 controls, the plain objective, the number of deny checks the",
+        "policy enforces, the policy file, and the incidents evidencing the control class.",
+        "The 'What to verify' checklist beneath each control is derived directly from",
+        "those deny rules.",
+        "",
+        "",
         "## How to use this field guide",
         "",
         "- **Control** is the stable identifier from the framework.",
-        "- **What to verify** is the requirement text (or, for single-line controls, the",
-        "  control's normative statement) — the concrete thing to check for/against.",
+        "- **What to verify** states the plain objective, then lists the fail-closed",
+        "  conditions the executable policy actually checks — each bullet is one `deny`",
+        "  rule in the policy, so nothing is paraphrased or softened.",
         "- **Executable policy** names the exact `policies/*.rego` file; open it for the",
-        "  input model and the `deny` rules that fail closed.",
+        "  input model and the full `deny` rules that fail closed.",
         "- **Incident evidence** links straight to the specific catalogue incident(s) that",
         "  demonstrated a failure of this control class.",
+        "",
+        "> **How to read the checks:** each bullet is a condition that, when true, makes the",
+        "> control *fail closed* (the action is blocked). To satisfy the control, confirm",
+        "> none of those conditions holds in your deployment, and that `make test` passes.",
+        "> `<name>` marks the runtime subject (agent, tool, server, or record) named in the",
+        "> actual deny message — substitute the real identifier when assessing a deployment.",
         "",
     ]
     for p in PILLARS:
@@ -744,15 +769,22 @@ def md_technical_controls():
         lines.append("")
         for cid in subs:
             title = titles.get(cid, "")
-            req = extract_requirement(bullet_of.get(cid, ""))
             pd = pol.get(cid, {})
             inc = links.get(cid, [])
+            plain, checks, rest = plain_verify(cid, title, pd)
             lines.append(f"### {cid}: {title}")
-            lines.append("")
-            lines.append(f"**What to verify:** {req}")
             lines.append("")
             lines.append(f"- **Executable policy:** `{pd.get('file','—')}` "
                          f"(package `{pd.get('package','—')}`, {pd.get('deny',0)} deny rules)")
+            lines.append("")
+            lines.append(plain)
+            if checks:
+                for chk in checks:
+                    chk_w = chk.replace("'...'", "<name>")
+                    lines.append(f"  - {chk_w}")
+                if rest:
+                    lines.append(f"  - *{rest} more fail-closed conditions in the policy.*")
+            lines.append("")
             if inc:
                 inc_links = ", ".join(
                     f"[{i['id']}](../framework/shield-ai-gap-analysis.md#{i['anchor']})"
@@ -772,6 +804,58 @@ def md_technical_controls():
         "",
     ]
     return "\n".join(lines)
+
+
+def diagram_control_anatomy():
+    """'Control verification anatomy' sheet: for each of the 69 controls, the
+    plain objective (title), the number of executable deny checks, the policy
+    file, and the incident evidence count -- a glanceable map of what each
+    control guards and how it is verified."""
+    import textwrap
+    w = 880
+    pol = load_policy_data()
+    titles = load_control_titles()
+    links = load_incident_links()
+    col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
+           "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
+    body = ""
+    body += f'''<text x="40" y="44" class="cap">Control verification anatomy</text>
+    <text x="40" y="60" class="label" font-weight="bold">{count_controls()} controls · objective + deny checks + policy + incident evidence</text>'''
+    body += f'''<text x="40" y="84" class="cap">Control</text>
+    <text x="200" y="84" class="cap">What it guards (plain objective)</text>
+    <text x="560" y="84" class="cap">Verify</text>
+    <text x="680" y="84" class="cap">Policy</text>
+    <text x="800" y="84" class="cap">Evidence</text>'''
+    row_h = 20
+    block_head = 18
+    groups = {p: [] for p in PILLARS}
+    for cid in control_ids():
+        groups[cid.split("-")[0]].append(cid)
+    groups = {p: v for p, v in groups.items() if v}
+    y = 100
+    for p in PILLARS:
+        if p not in groups:
+            continue
+        block_h = block_head + len(groups[p]) * row_h
+        y0 = y
+        body += f'''<rect x="30" y="{y0}" width="820" height="{block_h+4}" rx="4" fill="{col[p]}" opacity="0.06"/>
+        <text x="40" y="{y0+12}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
+        iy = y0 + block_head
+        for cid in groups[p]:
+            title = titles.get(cid, "")
+            n_checks = len(pol.get(cid, {}).get('deny_msgs', []))
+            n_inc = len(links.get(cid, []))
+            policy = pol.get(cid, {}).get('file', '').replace('shield_ai_', '').replace('.rego', '')
+            body += f'''<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>
+            <text x="200" y="{iy+8}" class="sm">{title[:46]}</text>
+            <text x="560" y="{iy+8}" class="sm">{n_checks} checks</text>
+            <text x="680" y="{iy+8}" class="sm">{policy[:26]}</text>
+            <text x="800" y="{iy+8}" class="sm">{n_inc} incidents</text>'''
+            iy += row_h
+        y += block_h + 14
+    h = y + 32
+    body += f'''<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">Each deny check is a fail-closed condition the executable policy enforces -- {sum(len(pol[c].get('deny_msgs',[])) for c in control_ids())} checks across {count_controls()} controls</text>'''
+    return svg(w, h, group_title(body, w, "SHIELD-AI: Control Verification Anatomy"))
 
 
 def diagram_technical_sheet():
@@ -913,6 +997,7 @@ DIAGRAMS = [
     ("pillar-maturity-heat.svg", diagram_maturity_heat),
     ("control-outcomes-diagram.svg", diagram_control_outcomes),
     ("control-technical-sheet.svg", diagram_technical_sheet),
+    ("control-verification-anatomy.svg", diagram_control_anatomy),
 ]
 
 
