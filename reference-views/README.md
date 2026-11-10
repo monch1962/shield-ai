@@ -1,6 +1,6 @@
 # SHIELD-AI Reference Views
 
-Seven cross-cutting views for presenting the framework to security architects
+Eleven cross-cutting views for presenting the framework to security architects
 and business stakeholders. Each view derives its content from the committed
 framework sources (see `tools/generate_reference_views.py`) so it can never
 drift from the main document; most ship as both a Markdown page and an SVG
@@ -15,6 +15,10 @@ diagram, and the index is maintained for both formats.
 | 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
 | 06 | [Control Technical Verification Field Guide](06-controls-technical.md) | What precisely must hold per control, and how is it verified? *(technical specialists)* | `control-technical-sheet.svg` |
 | 07 | [Incident Summaries](07-incident-summaries.md) | What happened in each catalogue incident, in one line, with which controls it evidences? | — |
+| 08 | [Policy Coverage Heatmap](08-policy-coverage-heat.md) | How deep is each control's executable verification? | `policy-coverage-heat.svg` |
+| 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
+| 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | — |
+| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | — |
 
 ## For business stakeholders (the 60-second story)
 

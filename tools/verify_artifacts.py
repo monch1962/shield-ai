@@ -159,6 +159,7 @@ def main():
         "pillar-maturity-heat.svg": control_count_text(),
         "control-outcomes-diagram.svg": control_count_text(),
         "control-technical-sheet.svg": control_count_text(),
+        "policy-coverage-heat.svg": control_count_text(),
     }
     for name, needle in _rv_diags.items():
         p = os.path.join("assets/diagrams", name)
@@ -192,8 +193,12 @@ def main():
         "reference-views/04-pillar-maturity.md",
         "reference-views/05-controls-outcomes.md",
         "reference-views/06-controls-technical.md",
-        "reference-views/07-incident-summaries.md",
-        "reference-views/README.md",
+            "reference-views/07-incident-summaries.md",
+            "reference-views/08-policy-coverage-heat.md",
+            "reference-views/09-assessment-scorecard.md",
+            "reference-views/10-implementation-roadmap.md",
+            "reference-views/11-executive-one-pager.md",
+            "reference-views/README.md",
     ]
     for p in _rv_docs:
         check(f"reference view {os.path.basename(p)} exists", os.path.exists(p))

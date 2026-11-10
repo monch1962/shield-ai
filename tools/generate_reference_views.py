@@ -1025,7 +1025,7 @@ def md_maturity():
 def md_readme():
     return """# SHIELD-AI Reference Views
 
-Seven cross-cutting views for presenting the framework to security architects
+Eleven cross-cutting views for presenting the framework to security architects
 and business stakeholders. Each view derives its content from the committed
 framework sources (see `tools/generate_reference_views.py`) so it can never
 drift from the main document; most ship as both a Markdown page and an SVG
@@ -1040,6 +1040,10 @@ diagram, and the index is maintained for both formats.
 | 05 | [Controls → Outcomes & Executable Verification](05-controls-outcomes.md) | What does the control guarantee, and which executable policy verifies it? | `control-outcomes-diagram.svg` |
 | 06 | [Control Technical Verification Field Guide](06-controls-technical.md) | What precisely must hold per control, and how is it verified? *(technical specialists)* | `control-technical-sheet.svg` |
 | 07 | [Incident Summaries](07-incident-summaries.md) | What happened in each catalogue incident, in one line, with which controls it evidences? | — |
+| 08 | [Policy Coverage Heatmap](08-policy-coverage-heat.md) | How deep is each control's executable verification? | `policy-coverage-heat.svg` |
+| 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
+| 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | — |
+| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | — |
 
 ## For business stakeholders (the 60-second story)
 
@@ -1062,6 +1066,170 @@ diagram, and the index is maintained for both formats.
 """
 
 
+
+def diagram_policy_coverage():
+    """Glanceable heat grid: per control, implementation status, deny-rule
+    depth, incident evidence, and a coverage-intensity bar. All cells derive
+    from the committed policies + incident catalogue (deterministic)."""
+    w = 880
+    pol = load_policy_data()
+    cov = load_incident_coverage()
+    col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
+           "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
+    body = ''
+    body += ('<text x="40" y="44" class="cap">Policy coverage heatmap</text>\n'
+             '    <text x="40" y="60" class="label" font-weight="bold">'
+             f'{count_controls()} controls · implementation × deny depth × incident evidence</text>')
+    body += ('<text x="40" y="84" class="cap">Control</text>'
+             '<text x="180" y="84" class="cap">Policy</text>'
+             '<text x="300" y="84" class="cap">Deny rules</text>'
+             '<text x="420" y="84" class="cap">Incidents</text>'
+             '<text x="520" y="84" class="cap">Coverage intensity</text>')
+    scores = {c: cov.get(c, 0) * 3 + pol[c].get('deny', 0) * 2 + (4 if pol[c].get('implemented') else 0) for c in control_ids()}
+    mx = max(scores.values()) or 1
+    y = 100; row_h = 16; block_head = 18
+    for p in PILLARS:
+        ids = [c for c in control_ids() if c.startswith(p)]
+        if not ids:
+            continue
+        bh = block_head + len(ids) * row_h; y0 = y
+        body += (f'<rect x="30" y="{y0}" width="820" height="{bh+4}" rx="4" '
+                 f'fill="{col[p]}" opacity="0.06"/>\n<text x="40" y="{y0+12}" '
+                 f'class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>')
+        iy = y0 + block_head
+        for cid in ids:
+            d = pol[cid]
+            st = "IMPL" if d.get('implemented') else "stub"
+            dn = d.get('deny', 0); ic = cov.get(cid, 0)
+            t = max(0.0, min(1.0, scores[cid] / mx))
+            r = int(200 * t + 40); g = int(150 * (1 - t) + 40); b = int(60 + 120 * (1 - t))
+            body += (f'<text x="40" y="{iy+8}" class="sm" font-weight="bold" fill="{col[p]}">{cid}</text>'
+                     f'<text x="180" y="{iy+8}" class="sm">{st}</text>'
+                     f'<text x="300" y="{iy+8}" class="sm">{dn}</text>'
+                     f'<text x="420" y="{iy+8}" class="sm">{ic}</text>'
+                     f'<rect x="520" y="{iy-2}" width="{int(280*t)}" height="10" rx="3" fill="#{r:02x}{g:02x}{b:02x}"/>')
+            iy += row_h
+        y += bh + 12
+    h = y + 40
+    body += (f'<text x="{w/2}" y="{y+18}" text-anchor="middle" class="sm" font-style="italic">'
+             'Intensity = incident evidence (x3) + deny-rule depth (x2) + implemented status (x4)</text>')
+    return svg(w, h, group_title(body, w, "SHIELD-AI: Policy Coverage Heatmap"))
+
+
+def md_policy_coverage():
+    pol = load_policy_data(); cov = load_incident_coverage()
+    lines = ["# 08 · Policy Coverage Heatmap", "",
+             "How deep is each control's executable verification? A glanceable grid of implementation status, deny-rule depth, and incident evidence per control, derived from the committed policies and incident catalogue so it stays current with the sources.", "",
+             "![Policy coverage heatmap](../assets/diagrams/policy-coverage-heat.svg)", "",
+             "## Verification depth by pillar", "", "| Pillar | Controls | Implemented | Deny rules | Incident refs |", "|---|---|---|---|---|"]
+    for p in PILLARS:
+        ids = [c for c in control_ids() if c.startswith(p)]
+        if not ids:
+            continue
+        imp = sum(1 for c in ids if pol[c].get('implemented'))
+        dn = sum(pol[c].get('deny', 0) for c in ids)
+        ic = sum(cov.get(c, 0) for c in ids)
+        lines.append(f"| **{p}** | {len(ids)} | {imp} | {dn} | {ic} |")
+    lines += ["", "## Reading the heat", "",
+              "- **Implementation status** - `IMPL` is an executable policy; `stub` is declared but not yet enforced.",
+              "- **Deny rules** - how many fail-closed conditions the policy enforces.",
+              "- **Incidents** - how many catalogue events evidence the control class; intensity shades cool (low) to hot (high).", ""]
+    return "\n".join(lines)
+
+
+def md_assessment_scorecard():
+    pol = load_policy_data(); titles = load_control_titles()
+    lines = ["# 09 · Self-Assessment Scorecard", "",
+             "A printable, per-control checklist for an adopting organisation to record its own posture. Every row is derived from the committed policy data - objective, implementation status, deny-rule depth, and the fail-closed conditions the executable policy enforces.", "",
+             "## How to use", "",
+             "- Work through each pillar below and mark the box when your organisation can evidence the condition.",
+             "- The fail-closed conditions come from the control's own deny rules - tick each you demonstrably meet.",
+             "- Cross-reference the field guide for the exact checks: [06 · Technical Verification](06-controls-technical.md).", ""]
+    for p in PILLARS:
+        ids = [c for c in control_ids() if c.startswith(p)]
+        if not ids:
+            continue
+        lines += [f"## {p} · {PILLAR_FULL[p]}", ""]
+        for cid in ids:
+            d = pol[cid]; t = titles.get(cid, "")
+            st = "implemented" if d.get('implemented') else "stub"
+            dn = d.get('deny', 0)
+            line = f"- [ ] **{cid}: {t}** - {_outcome(cid, t)} (policy {st}, {dn} deny rules)."
+            shown = d.get('deny_msgs', [])[:3]
+            if shown:
+                line += " *Fail-closed:* " + "; ".join(shown)
+                extra = len(d.get('deny_msgs', [])) - len(shown)
+                if extra > 0:
+                    line += f" (+{extra} more)."
+            lines.append(line)
+        lines.append("")
+    return "\n".join(lines)
+
+
+def md_implementation_roadmap():
+    pol = load_policy_data(); cov = load_incident_coverage(); titles = load_control_titles()
+    lines = ["# 10 · Implementation Roadmap", "",
+             "Which controls to harden first. Ranking is evidence-weighted from the committed sources - incident evidence and implementation gap - so the sequence is transparent and reproducible.", "",
+             "## Method", "",
+             "Priority score = incident evidence (x3) + implementation gap (x6 when the executable policy is missing). Controls are bucketed into three phases.", ""]
+    scored = []
+    for cid in control_ids():
+        d = pol[cid]
+        sc = cov.get(cid, 0) * 3 + (0 if d.get('implemented') else 6)
+        scored.append((cid, sc))
+    scored.sort(key=lambda x: (-x[1], x[0]))
+    mx = max(s for _, s in scored) or 1
+    phases = {"1": "Foundations (fix incident-evidenced gaps first)", "2": "Consolidation (raise maturity to L3)", "3": "Optimisation (deepen verification)"}
+    order = {cid: ("1" if sc >= 0.8 * mx else ("2" if sc >= 0.45 * mx else "3")) for cid, sc in scored}
+    for ph in ("1", "2", "3"):
+        bucket = [(cid, sc) for cid, sc in scored if order[cid] == ph]
+        if not bucket:
+            continue
+        lines += [f"## Phase {ph} · {phases[ph]}", "", "| Priority | Control | Title | Score | Focus |", "|---|---|---|---|---|"]
+        for rank, (cid, sc) in enumerate(bucket, 1):
+            d = pol[cid]
+            focus = "; ".join(d.get('deny_msgs', [])[:2]) or _outcome(cid, titles.get(cid, ""))
+            lines.append(f"| {rank} | **{cid}** | {titles.get(cid,'')[:44]} | {sc} | {focus[:90]} |")
+        lines.append("")
+    lines += ["", "See [06 · Technical Verification](06-controls-technical.md) for full per-control checklists.", ""]
+    return "\n".join(lines)
+
+
+def md_executive_one_pager():
+    pol = load_policy_data(); cov = load_incident_coverage(); links = load_incident_links()
+    titles = load_control_titles(); mat = load_maturity()
+    impl = sum(1 for c in control_ids() if pol[c].get('implemented'))
+    tot = len(control_ids())
+    dn = sum(pol[c].get('deny', 0) for c in control_ids())
+    trefs = sum(cov.values())
+    lines = ["# 11 · Executive One-Pager", "",
+             "A one-page view for a board member or senior executive, derived from the committed framework and incident evidence.", "",
+             "## The picture in numbers", "",
+             f"- **{tot} controls** across the seven pillars that protect the model, identity, data, tools, monitoring, and governance of agentic AI.",
+             f"- **{impl} controls ({int(100*impl/tot)}%)** already have an executable verification policy enforcing **{dn}** fail-closed conditions.",
+             f"- **{trefs} control-incident references** in the catalogue (92 events) show where real-world risk actually surfaces.", ""]
+    lines += ["## Top controls to harden", ""]
+    top = sorted(control_ids(), key=lambda c: (-cov.get(c, 0), c))[:3]
+    for cid in top:
+        inc = ""
+        if links.get(cid):
+            inc = " Evidence: [incident summary](07-incident-summaries.md#" + links[cid][0]["anchor"] + ")."
+        lines.append(f"- **{cid}: {titles.get(cid,'')}** - {_outcome(cid, titles.get(cid,''))} ({cov.get(cid,0)} incident refs).{inc}")
+    lines += ["", "## Recommended next steps", "",
+              "- Close the highest-evidenced gaps first - the controls most often shown up by real incidents are where hardening pays fastest.",
+              "- Raise each pillar toward **L3** (automated, board-reported security), the level regulated Australian entities target.",
+              "- Keep every control verified by an executable policy so posture is measured, not asserted.", "",
+              "## Where we stand", ""]
+    for p in PILLARS:
+        lv = mat.get(p, {})
+        desc = lv.get("L3", "")[:80]
+        if not desc:
+            continue
+        lines.append(f"- **{p} ({PILLAR_FULL[p]}):** target {desc}.")
+    lines.append("")
+    return "\n".join(lines)
+
+
 # ── Orchestration ────────────────────────────────────────────────────────
 
 VIEW_FILES = [
@@ -1072,6 +1240,10 @@ VIEW_FILES = [
     ("05-controls-outcomes.md", md_control_outcomes),
     ("06-controls-technical.md", md_technical_controls),
     ("07-incident-summaries.md", md_incident_summaries),
+    ("08-policy-coverage-heat.md", md_policy_coverage),
+    ("09-assessment-scorecard.md", md_assessment_scorecard),
+    ("10-implementation-roadmap.md", md_implementation_roadmap),
+    ("11-executive-one-pager.md", md_executive_one_pager),
     ("README.md", md_readme),
 ]
 
@@ -1082,6 +1254,7 @@ DIAGRAMS = [
     ("pillar-maturity-heat.svg", diagram_maturity_heat),
     ("control-outcomes-diagram.svg", diagram_control_outcomes),
     ("control-technical-sheet.svg", diagram_technical_sheet),
+    ("policy-coverage-heat.svg", diagram_policy_coverage),
 ]
 
 
