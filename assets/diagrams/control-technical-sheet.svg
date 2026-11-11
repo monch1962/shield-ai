@@ -170,15 +170,15 @@
             <text x="470" y="962" class="sm">3 deny rules</text>
             <text x="590" y="962" class="sm">ds_ds-05</text>
             <text x="780" y="962" class="sm">0 incidents</text><text x="40" y="982" class="sm" font-weight="bold" fill="#d97706">DS-06</text>
-            <text x="170" y="982" class="sm">Requirement:** Output validation</text>
+            <text x="170" y="982" class="sm">Output validation</text>
             <text x="470" y="982" class="sm">2 deny rules</text>
             <text x="590" y="982" class="sm">ds_ds-06</text>
             <text x="780" y="982" class="sm">6 incidents</text><text x="40" y="1002" class="sm" font-weight="bold" fill="#d97706">DS-07</text>
-            <text x="170" y="1002" class="sm">Requirement:** Agent-originated artifact publica</text>
+            <text x="170" y="1002" class="sm">Agent-originated artifact publication control</text>
             <text x="470" y="1002" class="sm">3 deny rules</text>
             <text x="590" y="1002" class="sm">ds_ds-07</text>
             <text x="780" y="1002" class="sm">1 incidents</text><text x="40" y="1022" class="sm" font-weight="bold" fill="#d97706">DS-08</text>
-            <text x="170" y="1022" class="sm">Requirement:** Destination and emergent-channel </text>
+            <text x="170" y="1022" class="sm">Destination and emergent-channel egress inventor</text>
             <text x="470" y="1022" class="sm">6 deny rules</text>
             <text x="590" y="1022" class="sm">ds_ds-08</text>
             <text x="780" y="1022" class="sm">2 incidents</text><rect x="30" y="1048" width="820" height="342" rx="4" fill="#7c3aed" opacity="0.06"/>
@@ -277,7 +277,7 @@
             <text x="470" y="1578" class="sm">3 deny rules</text>
             <text x="590" y="1578" class="sm">grm_grm-01</text>
             <text x="780" y="1578" class="sm">1 incidents</text><text x="40" y="1598" class="sm" font-weight="bold" fill="#475569">GRM-02</text>
-            <text x="170" y="1598" class="sm">Requirement:** AI risk register</text>
+            <text x="170" y="1598" class="sm">AI risk register</text>
             <text x="470" y="1598" class="sm">2 deny rules</text>
             <text x="590" y="1598" class="sm">grm_grm-02</text>
             <text x="780" y="1598" class="sm">6 incidents</text><text x="40" y="1618" class="sm" font-weight="bold" fill="#475569">GRM-03</text>
@@ -285,7 +285,7 @@
             <text x="470" y="1618" class="sm">2 deny rules</text>
             <text x="590" y="1618" class="sm">grm_grm-03</text>
             <text x="780" y="1618" class="sm">3 incidents</text><text x="40" y="1638" class="sm" font-weight="bold" fill="#475569">GRM-04</text>
-            <text x="170" y="1638" class="sm">Requirement:** Third-party AI risk management</text>
+            <text x="170" y="1638" class="sm">Third-party AI risk management</text>
             <text x="470" y="1638" class="sm">3 deny rules</text>
             <text x="590" y="1638" class="sm">grm_grm-04</text>
             <text x="780" y="1638" class="sm">6 incidents</text><text x="40" y="1658" class="sm" font-weight="bold" fill="#475569">GRM-05</text>
@@ -293,7 +293,7 @@
             <text x="470" y="1658" class="sm">2 deny rules</text>
             <text x="590" y="1658" class="sm">grm_grm-05</text>
             <text x="780" y="1658" class="sm">1 incidents</text><text x="40" y="1678" class="sm" font-weight="bold" fill="#475569">GRM-06</text>
-            <text x="170" y="1678" class="sm">Requirement:** Board and executive reporting</text>
+            <text x="170" y="1678" class="sm">Board and executive reporting</text>
             <text x="470" y="1678" class="sm">2 deny rules</text>
             <text x="590" y="1678" class="sm">grm_grm-06</text>
             <text x="780" y="1678" class="sm">3 incidents</text><text x="440.0" y="1722" text-anchor="middle" class="sm" font-style="italic">Specialist sheet: objective, executable policy + verification depth, and incident evidence per SHIELD-AI control</text>

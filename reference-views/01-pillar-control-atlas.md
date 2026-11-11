@@ -66,9 +66,9 @@ the foundation).
 | DS-03 | Memory sanitisation |
 | DS-04 | Data minimisation |
 | DS-05 | Training data governance |
-| DS-06 | Requirement:** Output validation |
-| DS-07 | Requirement:** Agent-originated artifact publication control |
-| DS-08 | Requirement:** Destination and emergent-channel egress inventory |
+| DS-06 | Output validation |
+| DS-07 | Agent-originated artifact publication control |
+| DS-08 | Destination and emergent-channel egress inventory |
 
 ### TP — Tool & Pipeline Security
 
@@ -107,11 +107,11 @@ the foundation).
 | ID | Control |
 |---|---|
 | GRM-01 | AI governance body |
-| GRM-02 | Requirement:** AI risk register |
+| GRM-02 | AI risk register |
 | GRM-03 | Ethical use policy |
-| GRM-04 | Requirement:** Third-party AI risk management |
+| GRM-04 | Third-party AI risk management |
 | GRM-05 | Regulatory mapping and compliance reporting |
-| GRM-06 | Requirement:** Board and executive reporting |
+| GRM-06 | Board and executive reporting |
 
 ## Signal for architects
 

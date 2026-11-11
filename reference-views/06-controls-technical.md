@@ -60,7 +60,7 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ee_ee-03.rego` (package `shield_ai.ee.resource_usage_limiting`, 3 deny rules)
 
 **What to verify:** Resource usage limiting must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
-  - agent <name> CPU usage ...%% exceeds limit ...%%
+  - agent <name> CPU usage ...% exceeds limit ...%
   - agent <name> network usage ... Mbps exceeds limit ... Mbps
   - agent <name> API rate ... exceeds limit ...
 
@@ -448,32 +448,32 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence:** none yet — baseline coverage, not yet demonstrated by a catalogue incident
 
-### DS-06: Requirement:** Output validation
+### DS-06: Output validation
 
 - **Executable policy:** `shield_ai_ds_ds-06.rego` (package `shield_ai.ds.output_validation`, 2 deny rules)
 
-**What to verify:** Requirement:** Output validation must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** Output validation must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - output not verified clean by the leakage scanner (fail closed)
   - output flagged for data leakage (PII, training data, system prompt, or credential)
 
 - **Incident evidence (6):** [INC-02](../reference-views/07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-51](../reference-views/07-incident-summaries.md#inc-51-ansi-escape-code-terminal-exfiltration), [INC-71](../reference-views/07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
-### DS-07: Requirement:** Agent-originated artifact publication control
+### DS-07: Agent-originated artifact publication control
 
 - **Executable policy:** `shield_ai_ds_ds-07.rego` (package `shield_ai.ds.agent_originated_artifact_publ`, 3 deny rules)
 
-**What to verify:** Requirement:** Agent-originated artifact publication control must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** Agent-originated artifact publication control must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - execution-bearing configuration write requires human-console approval (Kiro class)
   - agent publication to <name> lacks the required out-of-band approval
   - publication to <name> was approved on the agent channel; out-of-band human approval required
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
-### DS-08: Requirement:** Destination and emergent-channel egress inventory
+### DS-08: Destination and emergent-channel egress inventory
 
 - **Executable policy:** `shield_ai_ds_ds-08.rego` (package `shield_ai.ds.destination_and_emergent_channel_egress_inventory`, 6 deny rules)
 
-**What to verify:** Requirement:** Destination and emergent-channel egress inventory must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** Destination and emergent-channel egress inventory must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - agent <name> egress to destination not on the payload-blind allow-list
   - agent <name> egress through an un-inventoried sink (channel not enumerated/mapped to a control)
   - agent <name> egress rely on a content classifier rather than a payload-blind hard allow-list
@@ -742,11 +742,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
-### GRM-02: Requirement:** AI risk register
+### GRM-02: AI risk register
 
 - **Executable policy:** `shield_ai_grm_grm-02.rego` (package `shield_ai.grm.ai_risk_register`, 2 deny rules)
 
-**What to verify:** Requirement:** AI risk register must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** AI risk register must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - kill-switch capability not exercised (AI-speed response requires one rehearsed red button)
   - ... action not registered in the AI risk register
 
@@ -762,11 +762,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-42](../reference-views/07-incident-summaries.md#inc-42-rovoblast) -- opens each incident's human-readable summary (see doc 07)
 
-### GRM-04: Requirement:** Third-party AI risk management
+### GRM-04: Third-party AI risk management
 
 - **Executable policy:** `shield_ai_grm_grm-04.rego` (package `shield_ai.grm.third_party_ai_risk_management`, 3 deny rules)
 
-**What to verify:** Requirement:** Third-party AI risk management must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** Third-party AI risk management must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - action using third-party vendor <name> without security assessment
   - vendor <name> without contractual security control obligations
   - evaluation vendor <name> without right-to-audit (harness egress must be independently verified, never self-attested)
@@ -783,11 +783,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow) -- opens each incident's human-readable summary (see doc 07)
 
-### GRM-06: Requirement:** Board and executive reporting
+### GRM-06: Board and executive reporting
 
 - **Executable policy:** `shield_ai_grm_grm-06.rego` (package `shield_ai.grm.board_and_executive_reporting`, 2 deny rules)
 
-**What to verify:** Requirement:** Board and executive reporting must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
+**What to verify:** Board and executive reporting must hold. The executable policy fails closed -- it blocks the action -- when any of the following is true, so confirm each is handled:
   - no executive dashboard for AI security posture (maturity, findings, compliance, risk acceptances)
   - risk acceptance decision not logged in the executive reporting trail
 

@@ -66,8 +66,10 @@ def load_control_titles():
     out = {}
     for m in re.finditer(r"^- ([A-Z]{2,5}-\d{2}):\s*(.+)$", txt, re.M):
         title = re.split(r"\s*\(", m.group(2), maxsplit=1)[0].strip()
-        # strip any leading structural label left by the layout pass
-        title = re.sub(r"^\*\*(Requirement|Implementation|Rationale[^:]*|Mappings)\*\*:\s*\**", "", title)
+        # strip any leading structural label left by the layout pass. The source
+        # bold can be "**Requirement:**<space>title" (colon INSIDE the bold) or
+        # "**Requirement**:<space>title" (colon after), so accept both.
+        title = re.sub(r"^\*\*(Requirement|Implementation|Rationale[^:]*|Mappings)\*?\*?\s*:\s*\**", "", title)
         title = title.strip(" *")
         out[m.group(1)] = title
     return out
@@ -548,6 +550,10 @@ def load_policy_data():
         for pm in re.finditer(r"msg\s*:=\s*sprintf\(\s*\"([^\"]+)\"", t):
             fmt = pm.group(1).strip()
             fmt = fmt.replace("%q", "'...'").replace("%v", "...").replace("%s", "...")
+            # Rego sprintf uses %% for a literal percent sign; in prose it is a
+            # single % (e.g. "CPU usage 95% exceeds limit 90%"). Collapse every
+            # %% to % so the fragment reads naturally.
+            fmt = fmt.replace("%%", "%")
             deny_msgs.append(fmt)
         # normalise: strip per-control prefix, collapse whitespace, drop empties
         _normed = []
@@ -1042,7 +1048,7 @@ diagram, and the index is maintained for both formats.
 | 07 | [Incident Summaries](07-incident-summaries.md) | What happened in each catalogue incident, in one line, with which controls it evidences? | — |
 | 08 | [Policy Coverage Heatmap](08-policy-coverage-heat.md) | How deep is each control's executable verification? | `policy-coverage-heat.svg` |
 | 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
-| 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | — |
+| 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | `implementation-roadmap.svg` |
 | 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
 
 ## For business stakeholders (the 60-second story)
@@ -1221,18 +1227,77 @@ def md_implementation_roadmap():
     mx = max(s for _, s in scored) or 1
     phases = {"1": "Foundations (fix incident-evidenced gaps first)", "2": "Consolidation (raise maturity to L3)", "3": "Optimisation (deepen verification)"}
     order = {cid: ("1" if sc >= 0.8 * mx else ("2" if sc >= 0.45 * mx else "3")) for cid, sc in scored}
+    lines += ["", "![Implementation roadmap](../assets/diagrams/implementation-roadmap.svg)", ""]
     for ph in ("1", "2", "3"):
         bucket = [(cid, sc) for cid, sc in scored if order[cid] == ph]
         if not bucket:
             continue
-        lines += [f"## Phase {ph} · {phases[ph]}", "", "| Priority | Control | Title | Score | Focus |", "|---|---|---|---|---|"]
+        lines += [f"## Phase {ph} · {phases[ph]}", "",
+                  "| Priority | Control | Title | Score | Focus (fail-closed condition to address) |",
+                  "|---|---|---|---|---|"]
         for rank, (cid, sc) in enumerate(bucket, 1):
             d = pol[cid]
             focus = "; ".join(d.get('deny_msgs', [])[:2]) or _outcome(cid, titles.get(cid, ""))
-            lines.append(f"| {rank} | **{cid}** | {titles.get(cid,'')[:44]} | {sc} | {focus[:90]} |")
+            # Full title and full focus -- no mid-word truncation. GitHub wraps
+            # long table cells, so cutting to a fixed character count only ever
+            # lost information.
+            lines.append(f"| {rank} | **{cid}** | {titles.get(cid,'')} | {sc} | {focus} |")
         lines.append("")
+    lines += [""]
+    # Ranked top-ten summary for a quick scan
+    lines += ["## Ten highest-priority controls", ""]
+    for rank, (cid, sc) in enumerate(scored[:10], 1):
+        d = pol[cid]
+        focus = (d.get('deny_msgs', []) or [_outcome(cid, titles.get(cid, ""))])[0]
+        lines.append(f"{rank}. **{cid}** ({sc}) - {focus}")
     lines += ["", "See [06 · Technical Verification](06-controls-technical.md) for full per-control checklists.", ""]
     return "\n".join(lines)
+
+
+def diagram_implementation_roadmap():
+    """Three-phase roadmap as a horizontal pipeline: each phase bucket with its
+    control count, the phase's goal, and the top controls in that bucket. All
+    values derived from the same scoring used by the markdown view."""
+    import textwrap
+    w, h = 880, 300
+    pol = load_policy_data(); cov = load_incident_coverage()
+    scored = []
+    for cid in control_ids():
+        d = pol[cid]
+        sc = cov.get(cid, 0) * 3 + (0 if d.get('implemented') else 6)
+        scored.append((cid, sc))
+    scored.sort(key=lambda x: (-x[1], x[0]))
+    mx = max(s for _, s in scored) or 1
+    order = {cid: ("1" if sc >= 0.8 * mx else ("2" if sc >= 0.45 * mx else "3")) for cid, sc in scored}
+    buckets = {ph: [(c, s) for c, s in scored if order[c] == ph] for ph in ("1", "2", "3")}
+    titles = load_control_titles()
+    goals = {"1": "Foundations\nfix incident-evidenced gaps", "2": "Consolidation\nraise maturity toward L3", "3": "Optimisation\ndeepen verification"}
+    body = ""
+    body += f'<text x="40" y="44" class="cap">Implementation roadmap</text>'
+    body += ('<text x="40" y="60" class="label" font-weight="bold">'
+             'Priority = incident evidence (x3) + implementation gap (x6)</text>')
+    x = 40; box_w = 260; gap = 20; box_h = 190; top = 80
+    phase_col = {"1": "#c0392b", "2": "#b9770e", "3": "#1a3a6b"}
+    for ph in ("1", "2", "3"):
+        b = buckets[ph]
+        y = top
+        body += (f'<rect x="{x}" y="{y}" width="{box_w}" height="{box_h}" rx="8" '
+                 f'fill="{phase_col[ph]}" opacity="0.07"/>'
+                 f'<rect x="{x}" y="{y}" width="{box_w}" height="4" rx="2" fill="{phase_col[ph]}"/>'
+                 f'<text x="{x+12}" y="{y+26}" class="cap" fill="{phase_col[ph]}" font-size="10" font-weight="bold">Phase {ph} · {len(b)} controls</text>')
+        for j, gtext in enumerate(goals[ph].split("\n")):
+            body += f'<text x="{x+12}" y="{y+42+j*13}" class="sm" fill="{phase_col[ph]}">{gtext}</text>'
+        body += f'<line x1="{x+8}" x2="{x+box_w-8}" y1="{y+76}" y2="{y+76}" stroke="{phase_col[ph]}" stroke-width="1" opacity="0.3"/>'
+        iy = y + 92
+        for cid, sc in b[:6]:
+            body += (f'<text x="{x+12}" y="{iy}" class="sm" font-weight="bold">{cid}</text>'
+                     f'<text x="{x+box_w-90}" y="{iy}" class="sm">score {sc}</text>')
+            iy += 16
+        if len(b) > 6:
+            body += f'<text x="{x+12}" y="{iy}" class="sm" font-style="italic">+{len(b)-6} more in [doc 10](10-implementation-roadmap.md)</text>'
+        x += box_w + gap
+    w = x - gap + 20
+    return svg(w, h, group_title(body, w, "SHIELD-AI: Implementation Roadmap, Three Phases"))
 
 
 def md_executive_one_pager():
@@ -1319,6 +1384,7 @@ DIAGRAMS = [
     ("control-technical-sheet.svg", diagram_technical_sheet),
     ("policy-coverage-heat.svg", diagram_policy_coverage),
     ("shield-ai-at-a-glance.svg", diagram_shield_ai_at_a_glance),
+    ("implementation-roadmap.svg", diagram_implementation_roadmap),
 ]
 
 

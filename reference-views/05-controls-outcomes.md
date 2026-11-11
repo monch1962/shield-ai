@@ -78,9 +78,9 @@ policies (**69/69** marked IMPLEMENTED),
 | **DS-03** | Verify that memory sanitisation holds under agent action | `shield_ai_ds_ds-03.rego` | 2 (✓) | (none) | - |
 | **DS-04** | Verify that data minimisation holds under agent action | `shield_ai_ds_ds-04.rego` | 3 (✓) | (none) | - |
 | **DS-05** | Verify that training data governance holds under agent action | `shield_ai_ds_ds-05.rego` | 3 (✓) | (none) | - |
-| **DS-06** | Verify that requirement:** output validation holds under agent action | `shield_ai_ds_ds-06.rego` | 2 (✓) | L4 | - |
-| **DS-07** | Verify that requirement:** agent-originated artifact publication control holds under agent action | `shield_ai_ds_ds-07.rego` | 3 (✓) | L4 | NIST: SSDF; ISM: Software Integrity, Change Management; OWASP: LLM09 (Misuse of System Access) |
-| **DS-08** | Verify that requirement:** destination and emergent-channel egress inventory holds under agent action | `shield_ai_ds_ds-08.rego` | 6 (✓) | L4 | NIST: SSDF; ISM: Guidelines for Network Management; OWASP: LLM01 (Prompt Injection) |
+| **DS-06** | Verify that output validation holds under agent action | `shield_ai_ds_ds-06.rego` | 2 (✓) | L4 | - |
+| **DS-07** | Verify that agent-originated artifact publication control holds under agent action | `shield_ai_ds_ds-07.rego` | 3 (✓) | L4 | NIST: SSDF; ISM: Software Integrity, Change Management; OWASP: LLM09 (Misuse of System Access) |
+| **DS-08** | Verify that destination and emergent-channel egress inventory holds under agent action | `shield_ai_ds_ds-08.rego` | 6 (✓) | L4 | NIST: SSDF; ISM: Guidelines for Network Management; OWASP: LLM01 (Prompt Injection) |
 
 ## TP — Tool & Pipeline Security
 
@@ -119,11 +119,11 @@ policies (**69/69** marked IMPLEMENTED),
 | Control | Outcome | Executable policy | Deny rules | Maturity reach | Mappings |
 |---|---|---|---|---|---|
 | **GRM-01** | Verify that ai governance body holds under agent action | `shield_ai_grm_grm-01.rego` | 3 (✓) | (none) | - |
-| **GRM-02** | Verify that requirement:** ai risk register holds under agent action | `shield_ai_grm_grm-02.rego` | 2 (✓) | (none) | - |
+| **GRM-02** | Verify that ai risk register holds under agent action | `shield_ai_grm_grm-02.rego` | 2 (✓) | (none) | - |
 | **GRM-03** | Verify that ethical use policy holds under agent action | `shield_ai_grm_grm-03.rego` | 2 (✓) | (none) | - |
-| **GRM-04** | Verify that requirement:** third-party ai risk management holds under agent action | `shield_ai_grm_grm-04.rego` | 3 (✓) | (none) | - |
+| **GRM-04** | Verify that third-party ai risk management holds under agent action | `shield_ai_grm_grm-04.rego` | 3 (✓) | (none) | - |
 | **GRM-05** | Verify that regulatory mapping and compliance reporting holds under agent action | `shield_ai_grm_grm-05.rego` | 2 (✓) | (none) | - |
-| **GRM-06** | Verify that requirement:** board and executive reporting holds under agent action | `shield_ai_grm_grm-06.rego` | 2 (✓) | (none) | - |
+| **GRM-06** | Verify that board and executive reporting holds under agent action | `shield_ai_grm_grm-06.rego` | 2 (✓) | (none) | - |
 
 ## Reading the table
 
