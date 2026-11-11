@@ -18,7 +18,7 @@ diagram, and the index is maintained for both formats.
 | 08 | [Policy Coverage Heatmap](08-policy-coverage-heat.md) | How deep is each control's executable verification? | `policy-coverage-heat.svg` |
 | 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
 | 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | — |
-| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | — |
+| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
 
 ## For business stakeholders (the 60-second story)
 

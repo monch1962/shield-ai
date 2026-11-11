@@ -160,6 +160,7 @@ def main():
         "control-outcomes-diagram.svg": control_count_text(),
         "control-technical-sheet.svg": control_count_text(),
         "policy-coverage-heat.svg": control_count_text(),
+        "shield-ai-at-a-glance.svg": "seven pillars",
     }
     for name, needle in _rv_diags.items():
         p = os.path.join("assets/diagrams", name)

@@ -1043,7 +1043,7 @@ diagram, and the index is maintained for both formats.
 | 08 | [Policy Coverage Heatmap](08-policy-coverage-heat.md) | How deep is each control's executable verification? | `policy-coverage-heat.svg` |
 | 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
 | 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | — |
-| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | — |
+| 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
 
 ## For business stakeholders (the 60-second story)
 
@@ -1065,6 +1065,46 @@ diagram, and the index is maintained for both formats.
 > `make check` / `update_all.sh` so the views always reflect the framework.
 """
 
+
+
+def diagram_shield_ai_at_a_glance():
+    """'What SHIELD-AI protects' schematic: the seven pillars arranged in a
+    ring around a shielded agent + model core. A compact first-read visual that
+    gives a board member the mental model in one glance. All text and counts are
+    deterministic; the canvas is sized from content."""
+    import math
+    w, h = 880, 440
+    col = {"EE": "#1a3a6b", "MS": "#2563eb", "IAM": "#059669", "DS": "#d97706",
+           "TP": "#7c3aed", "MIR": "#db2777", "GRM": "#475569"}
+    short = {"EE": "the sandbox", "MS": "the model", "IAM": "who + what may act",
+             "DS": "the data", "TP": "the tools", "MIR": "the monitoring",
+             "GRM": "the governance"}
+    cx, cy = w / 2, h / 2 + 10
+    body = ''
+    # core badge: the shielded agent
+    body += (f'<circle cx="{cx}" cy="{cy}" r="58" fill="{NAVY}"/>'
+             f'<circle cx="{cx}" cy="{cy}" r="58" fill="none" stroke="{GOLD}" stroke-width="2" stroke-dasharray="4 3"/>'
+             f'<text x="{cx}" y="{cy-6}" text-anchor="middle" class="white" font-size="11" font-weight="bold">SHIELD-AI</text>'
+             f'<text x="{cx}" y="{cy+10}" text-anchor="middle" class="white" font-size="8">agentic AI,</text>'
+             f'<text x="{cx}" y="{cy+22}" text-anchor="middle" class="white" font-size="8">model + tool calls,</text>'
+             f'<text x="{cx}" y="{cy+32}" text-anchor="middle" class="white" font-size="8">contained and verified</text>')
+    # ring of pillars
+    n = len(PILLARS)
+    R = 150
+    for i, p in enumerate(PILLARS):
+        ang = -math.pi / 2 + i * (2 * math.pi / n)  # start at top, clockwise
+        x = cx + R * math.cos(ang)
+        y = cy + R * math.sin(ang)
+        bx, by, bw, bh = x - 58, y - 26, 116, 52
+        body += (f'<rect x="{bx:.0f}" y="{by:.0f}" width="{bw}" height="{bh}" rx="6" '
+                 f'fill="{col[p]}" opacity="0.10"/>'
+                 f'<rect x="{bx:.0f}" y="{by:.0f}" width="{bw}" height="3" rx="1.5" fill="{col[p]}"/>'
+                 f'<text x="{x:.0f}" y="{y-8:.0f}" text-anchor="middle" fill="{col[p]}" font-size="10" font-weight="bold">{p}</text>'
+                 f'<text x="{x:.0f}" y="{y+6:.0f}" text-anchor="middle" class="sm" fill="{col[p]}">{PILLAR_FULL[p]}</text>'
+                 f'<text x="{x:.0f}" y="{y+18:.0f}" text-anchor="middle" class="sm" fill="{MUTED}">{short[p]}</text>')
+    body += (f'<text x="{cx}" y="{h-14}" text-anchor="middle" class="sm" font-style="italic">'
+             f'seven pillars, {count_controls()} controls - each verified by an executable policy</text>')
+    return svg(w, h, group_title(body, w, "SHIELD-AI at a glance: the seven pillars that protect agentic AI"))
 
 
 def diagram_policy_coverage():
@@ -1208,25 +1248,48 @@ def md_executive_one_pager():
              f"- **{tot} controls** across the seven pillars that protect the model, identity, data, tools, monitoring, and governance of agentic AI.",
              f"- **{impl} controls ({int(100*impl/tot)}%)** already have an executable verification policy enforcing **{dn}** fail-closed conditions.",
              f"- **{trefs} control-incident references** in the catalogue (92 events) show where real-world risk actually surfaces.", ""]
+    # Where the same facts are stated in plain business language drawn from the
+    # control's own title (no invented claims): what the control does, how many
+    # catalogue incidents evidence it, and a link to a one-line human summary.
+    plain = {"MS-08": "limits what tools an AI agent may call (Model Context Protocol servers)",
+             "EE-01": "keeps every AI agent execution inside a defended sandbox",
+             "TP-15": "forces untrusted code the agent runs into an OS- or VM-isolated sandbox"}
     lines += ["## Top controls to harden", ""]
     top = sorted(control_ids(), key=lambda c: (-cov.get(c, 0), c))[:3]
     for cid in top:
         inc = ""
         if links.get(cid):
             inc = " Evidence: [incident summary](07-incident-summaries.md#" + links[cid][0]["anchor"] + ")."
-        lines.append(f"- **{cid}: {titles.get(cid,'')}** - {_outcome(cid, titles.get(cid,''))} ({cov.get(cid,0)} incident refs).{inc}")
+        why = plain.get(cid, _outcome(cid, titles.get(cid, "")))
+        lines.append(f"- **{cid}: {titles.get(cid,'')}** - {why}. Shown up by {cov.get(cid,0)} of the catalogue incidents.{inc}")
     lines += ["", "## Recommended next steps", "",
               "- Close the highest-evidenced gaps first - the controls most often shown up by real incidents are where hardening pays fastest.",
               "- Raise each pillar toward **L3** (automated, board-reported security), the level regulated Australian entities target.",
               "- Keep every control verified by an executable policy so posture is measured, not asserted.", "",
-              "## Where we stand", ""]
+              "## What SHIELD-AI protects",
+              "",
+              "![What SHIELD-AI protects](../assets/diagrams/shield-ai-at-a-glance.svg)",
+              "",
+              "The seven pillars wrap the agent and the model. Each pillar is a set of controls -",
+              "about the model, who and what it may touch, the data it handles, the tools it",
+              "invokes, the monitoring around it, the governance over it, and the sandbox that",
+              "contains it. Every control is verified by an executable policy you can run.",
+              "",
+              "## Where we stand",
+              "",
+              "![Where SHIELD-AI sits on the maturity curve](../assets/diagrams/pillar-maturity-heat.svg)",
+              "",
+              "The heat grid shows each pillar's position on the L1 (initial) to L4 (optimised)",
+              "maturity curve - the target for Australian regulated entities is **L3**, the level",
+              "at which security becomes automated and board-reported. The weakest pillar sets",
+              "the organisation's overall maturity.", ""]
     for p in PILLARS:
         lv = mat.get(p, {})
-        desc = lv.get("L3", "")[:80]
+        desc = lv.get("L3", "").strip()
         if not desc:
             continue
-        lines.append(f"- **{p} ({PILLAR_FULL[p]}):** target {desc}.")
-    lines.append("")
+        lines.append(f"- **{p} ({PILLAR_FULL[p]}):** L3 target - {desc}.")
+    lines += ["", "Every control in every pillar is verified by an executable policy, so posture is", "measured, not asserted. The field guide shows the exact checks: [06 · Technical", "Verification](06-controls-technical.md).", ""]
     return "\n".join(lines)
 
 
@@ -1255,6 +1318,7 @@ DIAGRAMS = [
     ("control-outcomes-diagram.svg", diagram_control_outcomes),
     ("control-technical-sheet.svg", diagram_technical_sheet),
     ("policy-coverage-heat.svg", diagram_policy_coverage),
+    ("shield-ai-at-a-glance.svg", diagram_shield_ai_at_a_glance),
 ]
 
 
