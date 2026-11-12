@@ -252,7 +252,7 @@
             <text x="470" y="1426" class="sm">2 deny rules</text>
             <text x="590" y="1426" class="sm">mir_mir-01</text>
             <text x="780" y="1426" class="sm">10 incidents</text><text x="40" y="1446" class="sm" font-weight="bold" fill="#db2777">MIR-02</text>
-            <text x="170" y="1446" class="sm">Behavioural anomaly detection baseline per-agent</text>
+            <text x="170" y="1446" class="sm">Anomaly detection</text>
             <text x="470" y="1446" class="sm">2 deny rules</text>
             <text x="590" y="1446" class="sm">mir_mir-02</text>
             <text x="780" y="1446" class="sm">18 incidents</text><text x="40" y="1466" class="sm" font-weight="bold" fill="#db2777">MIR-03</text>
@@ -260,7 +260,7 @@
             <text x="470" y="1466" class="sm">2 deny rules</text>
             <text x="590" y="1466" class="sm">mir_mir-03</text>
             <text x="780" y="1466" class="sm">1 incidents</text><text x="40" y="1486" class="sm" font-weight="bold" fill="#db2777">MIR-04</text>
-            <text x="170" y="1486" class="sm">Incident response playbooks AI-specific IR proce</text>
+            <text x="170" y="1486" class="sm">Incident response</text>
             <text x="470" y="1486" class="sm">2 deny rules</text>
             <text x="590" y="1486" class="sm">mir_mir-04</text>
             <text x="780" y="1486" class="sm">3 incidents</text><text x="40" y="1506" class="sm" font-weight="bold" fill="#db2777">MIR-05</text>

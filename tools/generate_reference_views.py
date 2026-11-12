@@ -75,6 +75,38 @@ def load_control_titles():
     return out
 
 
+def load_short_titles():
+    """{control_id: clean short title} from the framework's AU-mapping table.
+
+    Some 'ID: title' bullets carry the full requirement sentence (MIR-02,
+    MIR-04); the mapping table in the same committed file always names the
+    control tersely, so use that as the display title where a bullet title
+    looks like a requirement sentence (contains ';' or ' -- ').
+    """
+    txt = open(FRAMEWORK, encoding="utf-8").read()
+    short = {}
+    for m in re.finditer(r"\|\s*\*\*([A-Z]{2,5}-\d{2}):\s*([^|*]+?)\*\*\s*\|", txt):
+        short[m.group(1)] = m.group(2).strip()
+    return short
+
+
+def display_title(cid):
+    """The short display title for a control page/heading.
+
+    Uses the framework's own terser mapping-table name when the bullet title
+    is a requirement sentence; otherwise the bullet title itself.
+    """
+    t = load_control_titles()
+    base = t.get(cid, "")
+    if ";" in base or " -- " in base:
+        s = load_short_titles().get(cid, "")
+        if s:
+            return s
+        # fall back to the first clause of the requirement sentence
+        return re.split(r";|--", base)[0].strip().rstrip()
+    return base
+
+
 def load_incident_coverage():
     """{control_id: number of references across all incident coverage verdicts}."""
     txt = open(GAP, encoding="utf-8").read()
@@ -501,7 +533,8 @@ def load_policy_data():
     Extracts the control's executable-verification facts from the policy file
     itself so the deep-dive view is grounded in the real policies, not a
     paraphrase: package, rule counts, maturity indicators, regulatory
-    mappings, input model, and the IMPLEMENTED / stub status.
+    mappings, input model, purpose comment, named tool sets, and the
+    IMPLEMENTED / stub status.
     """
     import glob
     out = {}
@@ -568,6 +601,21 @@ def load_policy_data():
             if m not in seen:
                 deny_msgs.append(m); seen.add(m)
         implemented = "# IMPLEMENTED" in t
+        # Purpose comment: the first descriptive '# ...' sentence after the
+        # Pillar line (the control's plain objective, verbatim from the policy).
+        purpose = ""
+        pm = re.search(r"# SHIELD-AI\(TM\)[^\n]*\n# Pillar[^\n]*\n#[^\n]*\n#[ \t]*([^\n]+)\n", t)
+        if pm:
+            purpose = pm.group(1).strip()
+        # Input model line: what signals the policy reads (verbatim).
+        im = re.search(r"# Input model:[ \t]*(.+)", t)
+        input_model = im.group(1).strip() if im else ""
+        # Named tool/interface sets:  name := { "a", "b", ... } blocks.
+        tool_sets = {}
+        for sm in re.finditer(r"([a-z_][a-z0-9_]*)\s*:=\s*\{(?:[^{}]|\"[^\"]*\")*?\}", t):
+            items = [x.strip().strip('"') for x in sm.group(0).split("{")[1].split("}")[0].split(",") if x.strip()]
+            if len(items) >= 2:
+                tool_sets[sm.group(1)] = items
         out[cid] = {
             "pillar": pillar,
             "package": pkg.group(1) if pkg else "",
@@ -577,6 +625,9 @@ def load_policy_data():
             "deny": deny,
             "deny_msgs": deny_msgs,
             "implemented": implemented,
+            "purpose": purpose,
+            "input_model": input_model,
+            "tool_sets": tool_sets,
         }
     return out
 
@@ -604,24 +655,39 @@ def github_anchor(title):
 def plain_verify(cid, title, pol_entry, cap=5):
     """Human-readable "What to verify" block for a control.
 
-    Derived ONLY from the executable policy's deny-rule messages (verbatim,
-    fail-closed conditions) so the specialist gets a fluent checklist without
-    any hand-paraphrased safety claim. Returns (plain_stmt, [(check, raw)]).
+    Enriched for technical SMEs using ONLY information from the committed
+    repo:
+      - purpose: the control's plain objective, verbatim from the policy's
+        own comment block
+      - input_model: the signals the executable policy reads (verbatim)
+      - checks: each fail-closed deny message, expanded with the named
+        tool/interfacessets (if any) the policy references
+      - maturity target: the policy's own L3 descriptor
+    Returns (purpose, input_model, [(check, context or "")], rest, l3).
     """
     msgs = pol_entry.get("deny_msgs", [])
-    plain = f"**What to verify:** {title} must hold. The executable policy "
-    if msgs:
-        plain += ("fails closed -- it blocks the action -- when any of the "
-                  "following is true, so confirm each is handled:")
-    else:
-        plain += f"asserts this condition; run `make test` ({pol_entry.get('file','policy')}) to verify it stays enforced."
+    purpose = pol_entry.get("purpose", "") or ""
+    im = pol_entry.get("input_model", "") or ""
+    sets = pol_entry.get("tool_sets", {}) or {}
+    mat = pol_entry.get("maturity", {}) or {}
+    l3 = (mat.get("L3") or "").strip()
     checks = [m for m in msgs if m.strip()]
-    if len(checks) > cap:
-        shown = checks[:cap]
-        rest = len(checks) - cap
-    else:
-        shown, rest = checks, 0
-    return plain, shown, rest
+    shown = checks[:cap]
+    rest = max(0, len(checks) - cap)
+    # Expand each check with the policy's named sets when the message refers
+    # to one (keyword-matched on a normalised basis, so "high-risk tools"
+    # matches high_risk_tools -- the context is always the policy's own list).
+    expanded = []
+    for chk in shown:
+        ctx = ""
+        chk_norm = re.sub(r"[-_ ]+", " ", chk.lower())
+        for name, items in sets.items():
+            keyword = re.sub(r"[-_ ]+", " ", name).strip()
+            if keyword in chk_norm or keyword.rstrip("s") in chk_norm:
+                ctx = ", ".join(items)
+                break
+        expanded.append((chk, ctx))
+    return purpose, im, expanded, rest, l3
 
 
 def load_incident_briefs():
@@ -883,23 +949,27 @@ def md_technical_controls():
         "## How to use this field guide",
         "",
         "- **Control** is the stable identifier from the framework.",
-        "- **What to verify** states the plain objective, then lists the fail-closed",
-        "  conditions the executable policy actually checks — each bullet is one `deny`",
-        "  rule in the policy, so nothing is paraphrased or softened.",
-        "- **Executable policy** names the exact `policies/*.rego` file; open it for the",
-        "  input model and the full `deny` rules that fail closed.",
-        "- **Incident evidence** links each incident to its human-readable summary card in",
-        "  [07 · Incident Summaries](07-incident-summaries.md), which gives what happened in",
-        "  one sentence and then links the full catalogue detail in the gap-analysis — this",
-        "  keeps the control page scannable and the deep dive one click further out.",
-        "",
-        "> **How to read the checks:** each bullet is a condition that, when true, makes the",
-        "> control *fail closed* (the action is blocked). To satisfy the control, confirm",
-        "> none of those conditions holds in your deployment, and that `make test` passes.",
-        "> `<name>` marks the runtime subject (agent, tool, server, or record) named in the",
-        "> actual deny message — substitute the real identifier when assessing a deployment.",
-        "",
-    ]
+        "- **What to verify** is the enriched block for a technical specialist: it states the",
+                "  objective, adds the control's plain purpose (from the policy's own comment), names",
+                "  the **input model** the executable policy evaluates (so you know what to instrument",
+                "  and feed it), lists each fail-closed condition the policy actually checks, expands",
+                "  each with the concrete tool/interface set it references, and gives the **L3 maturity",
+                "  target** from the policy.",
+                "- **Executable policy** names the exact `policies/*.rego` file; open it for the full",
+                "  `deny` rules and the exact input schema.",
+                "- **Incident evidence** links each incident to its human-readable summary card in",
+                "  [07 · Incident Summaries](07-incident-summaries.md), which gives what happened in",
+                "  one sentence and then links the full catalogue detail in the gap-analysis — this",
+                "  keeps the control page scannable and the deep dive one click further out.",
+                "",
+                "> **How to read the checks:** each bullet is a condition that, when true, makes the",
+                "> control *fail closed* (the action is blocked). To satisfy the control, confirm",
+                "> none of those conditions holds in your deployment, and that `make test` passes.",
+                "> `<name>` marks the runtime subject (agent, tool, server, or record) named in the",
+                "> actual deny message — substitute the real identifier when assessing a deployment.",
+                "",
+            ]
+
     for p in PILLARS:
         subs = sorted([c for c in control_ids() if c.startswith(p)])
         lines.append(f"## {p} — {PILLAR_FULL[p]}")
@@ -908,19 +978,34 @@ def md_technical_controls():
             title = titles.get(cid, "")
             pd = pol.get(cid, {})
             inc = links.get(cid, [])
-            plain, checks, rest = plain_verify(cid, title, pd)
-            lines.append(f"### {cid}: {title}")
+            purpose, im, checks, rest, l3 = plain_verify(cid, title, pd)
+            lines.append(f"### {cid}: {display_title(cid)}")
             lines.append("")
             lines.append(f"- **Executable policy:** `{pd.get('file','—')}` "
                          f"(package `{pd.get('package','—')}`, {pd.get('deny',0)} deny rules)")
             lines.append("")
-            lines.append(plain)
+            intro = (f"**What to verify:** {display_title(cid)} must hold.")
+            if purpose:
+                intro += f" {purpose}"
+            if im:
+                intro += f" The policy evaluates `{im}` and fails closed -- blocks the action -- when any of the following is true:"
+            elif checks:
+                intro += " The executable policy fails closed -- blocks the action -- when any of the following is true:"
+            else:
+                intro += f" Confirm the condition holds and `make test` passes ({pd.get('file','policy')})."
+            lines.append(intro)
             if checks:
-                for chk in checks:
+                for chk, ctx in checks:
                     chk_w = chk.replace("'...'", "<name>")
-                    lines.append(f"  - {chk_w}")
+                    if ctx:
+                        lines.append(f"  - {chk_w}  *(relevant set: {ctx})*")
+                    else:
+                        lines.append(f"  - {chk_w}")
                 if rest:
                     lines.append(f"  - *{rest} more fail-closed conditions in the policy.*")
+            if l3:
+                lines.append("")
+                lines.append(f"- **Maturity target (L3):** {l3}")
             lines.append("")
             if inc:
                 inc_links = ", ".join(
@@ -980,7 +1065,7 @@ def diagram_technical_sheet():
         <text x="40" y="{y0+12}" class="cap" fill="{col[p]}">{p} · {PILLAR_FULL[p]}</text>'''
         iy = y0 + block_head
         for cid in groups[p]:
-            title = titles.get(cid, "")
+            title = display_title(cid)
             inc_count = len(links.get(cid, []))
             deny = pol.get(cid, {}).get('deny', 0)
             policy = pol.get(cid, {}).get('file', '').replace('shield_ai_', '').replace('.rego', '')
