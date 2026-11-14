@@ -1016,6 +1016,12 @@ def md_technical_controls():
             else:
                 lines.append("- **Incident evidence:** none yet — baseline coverage, "
                              "not yet demonstrated by a catalogue incident")
+            deep = github_anchor(f"{cid}: {display_title(cid)}")
+            lines.append("")
+            lines.append(f"→ **[Deeper guide, examples & what to look for]"
+                         f"(12-control-deep-dives.md#{deep})** — worked exploit/incident "
+                         f"examples and what a security architect should check in a typical "
+                         f"deployment.")
             lines.append("")
     lines += [
         "## Verification protocol",
@@ -1116,7 +1122,7 @@ def md_maturity():
 def md_readme():
     return """# SHIELD-AI Reference Views
 
-Eleven cross-cutting views for presenting the framework to security architects
+Twelve cross-cutting views for presenting the framework to security architects
 and business stakeholders. Each view derives its content from the committed
 framework sources (see `tools/generate_reference_views.py`) so it can never
 drift from the main document; most ship as both a Markdown page and an SVG
@@ -1135,6 +1141,7 @@ diagram, and the index is maintained for both formats.
 | 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
 | 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | `implementation-roadmap.svg` |
 | 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
+| 12 | [Control Deep Dives](12-control-deep-dives.md) | What do real exploits/incidents look like for each control, and what should I look for? | — |
 
 ## For business stakeholders (the 60-second story)
 
@@ -1445,6 +1452,161 @@ def md_executive_one_pager():
 
 # ── Orchestration ────────────────────────────────────────────────────────
 
+def load_exploit_map():
+    """{control_id: [ {file, title, severity, cves, incidents, anchor}, ... ]}
+    from the exploit catalog's per-entry 'Covering controls' field.
+
+    The catalog lives as one file per attack type (exploits/gNN-*.md); each
+    entry declares the SHIELD-AI controls it exercises plus canonical incidents
+    and CVEs. This inverts that into per-control real-world examples, all
+    verbatim from the committed catalog.
+    """
+    out = {}
+    expl_dir = os.path.join(REPO_ROOT, "exploits")
+    for f in sorted(os.listdir(expl_dir)):
+        if not f.endswith(".md") or f == "README.md":
+            continue
+        t = open(os.path.join(expl_dir, f), encoding="utf-8").read()
+        title = ""
+        m = re.search(r"^# G\d+[.:-]?\s*(.+)$", t, re.M)
+        if m:
+            title = m.group(1).strip()
+        cover = []
+        m = re.search(r"\*\*Covering controls\*\*\s*\|\s*(.+)", t)
+        if m:
+            cover = sorted(set(re.findall(
+                r"\b((?:EE|MS|IAM|DS|TP|MIR|GRM)-\d{2})\b", m.group(1))))
+        cves = []
+        m = re.search(r"\*\*CVEs\*\*\s*\|\s*(.+)", t)
+        if m and m.group(1).strip().lower() != "-" and m.group(1).strip():
+            cves = [c.strip() for c in m.group(1).replace("(", " (").split(",")][:4]
+        inc = []
+        m = re.search(r"\*\*Canonical incidents\*\*\s*\|\s*(.+)", t)
+        if m:
+            inc = [x.strip() for x in re.split(r"[;,]", m.group(1))
+                   if re.match(r"^INC-\d+$", x.strip())]
+        gidm = re.match(r"^(g\d+)", os.path.basename(f))
+        for c in cover:
+            out.setdefault(c, []).append({
+                "file": os.path.basename(f),
+                "gid": gidm.group(1).upper() if gidm else "",
+                "title": title,
+                "severity": "",
+                "cves": cves,
+                "incidents": inc,
+            })
+    return out
+
+
+def md_control_deep_dives():
+    """Document 12: per-control deep dive with examples and what-to-look-for.
+
+    One section per control under pillar headings. Each section is built
+    entirely from the committed repo:
+      - real-world examples: the exploit-catalog entries that cover this
+        control, plus their CVEs and canonical incidents
+      - what to look for: the policy's own input-model fields restated as
+        inspection points, plus the L3 maturity bar
+      - adjacent same-pillar controls to verify/monitor together
+    This is the destination of every 'deeper guide' link in doc 06.
+    """
+    pol = load_policy_data()
+    titles = load_control_titles()
+    links = load_incident_links()
+    ex_map = load_exploit_map()
+    briefs = load_incident_briefs()
+    ids = control_ids()
+    lines = [
+        "# 12 · Control Deep Dives: Examples & What to Look For",
+        "",
+        "A per-control field manual for security architects and technical SMEs. Each",
+        "section adds what a doc-06 [field guide](06-controls-technical.md) entry only",
+        "points at: **real-world examples** (from the exploit catalog and the incident",
+        "catalogue), **what to look for in a typical deployment**, and the **L3 bar**.",
+        "Every fact derives from the committed policies, exploit catalog, and incident",
+        "catalogue -- no general-knowledge claims.",
+        "",
+        "## Contents",
+        "",
+    ]
+    for p in PILLARS:
+        subs = [c for c in ids if c.startswith(p)]
+        lines.append(f"- **{p} · {PILLAR_FULL[p]}** ({len(subs)} controls)")
+        for cid in subs:
+            lines.append(f"  - [{cid} — {display_title(cid)}](#{github_anchor(f'{cid}: {display_title(cid)}')})")
+    lines += ["", "---", ""]
+    for p in PILLARS:
+        subs = [c for c in ids if c.startswith(p)]
+        lines.append(f"## {p} · {PILLAR_FULL[p]}")
+        lines.append("")
+        for cid in subs:
+            title = display_title(cid)
+            pd = pol.get(cid, {})
+            lines.append(f"### {cid}: {title}")
+            lines.append("")
+            lines.append(f"**{title} must hold.** {pd.get('purpose','')}".rstrip())
+            lines.append("")
+            examples = ex_map.get(cid, [])
+            incs = links.get(cid, [])
+            if examples:
+                lines.append("**Real-world examples from the exploit catalog:**")
+                lines.append("")
+                for e in examples:
+                    parts = [f"- **{e['gid']} — {e['title']}:** catalogued attack pattern "
+                             "that exercises this control. "]
+                    cvid = " · ".join(e['cves']) if e['cves'] else "(no CVE list)"
+                    parts.append(f"CVEs: {cvid}.")
+                    canon = ", ".join(e['incidents'][:4])
+                    if canon:
+                        parts.append(f" Canonical incidents: {canon}.")
+                    lines.append("".join(parts))
+                if incs:
+                    inc_links = ", ".join(
+                        f"[{i['id']}](07-incident-summaries.md#{i['anchor']})"
+                        for i in incs[:6])
+                    lines.append(f"- Further evidenced by {len(incs)} catalogue incident(s): "
+                                 f"{inc_links}.")
+                lines.append("")
+            elif incs:
+                lines.append("**Real-world examples from the incident catalogue:**")
+                lines.append("")
+                lines.append(f"- Not yet directly exercised by a catalogued exploit type, but "
+                             f"evidenced by {len(incs)} catalogue incident(s): "
+                             + ", ".join(f"[{i['id']}](07-incident-summaries.md#{i['anchor']})"
+                                         for i in incs[:6])
+                             + ".")
+                lines.append("")
+            else:
+                lines.append("**Real-world examples:** none yet catalogued for this control — "
+                             "baseline coverage, not yet a documented failure mode.")
+                lines.append("")
+            im = pd.get("input_model", "")
+            l3 = (pd.get("maturity", {}) or {}).get("L3", "").strip()
+            lines.append("**What to look for in a typical deployment:**")
+            lines.append("")
+            if im:
+                lines.append(f"- **Is the input signal ever missing?** The policy evaluates "
+                             f"`{im}` and fails closed if it is absent. Instrument every "
+                             f"deployment source to confirm this signal reaches the evaluator.")
+            lines.append(f"- **Where would you see a violation?** Confirm the fail-closed "
+                         f"conditions in [doc 06](06-controls-technical.md#{github_anchor(f'{cid}: {title}')}) "
+                         f"are wired into your detection/alerting pipeline, not only the "
+                         f"enforcement point.")
+            if l3:
+                lines.append(f"- **The L3 bar** (the maturity target): {l3}.")
+            lines.append("")
+            same_p = [c for c in subs if c != cid]
+            if same_p:
+                lines.append("**Often verified together:** " + ", ".join(
+                    f"[{c}](12-control-deep-dives.md#{github_anchor(f'{c}: {display_title(c)}')})"
+                    for c in same_p[:4]) + ".")
+                lines.append("")
+            lines.append("---")
+            lines.append("")
+    return "\n".join(lines)
+
+
+
 VIEW_FILES = [
     ("01-pillar-control-atlas.md", md_pillar_atlas),
     ("02-controls-incidents.md", md_incident_map),
@@ -1457,6 +1619,7 @@ VIEW_FILES = [
     ("09-assessment-scorecard.md", md_assessment_scorecard),
     ("10-implementation-roadmap.md", md_implementation_roadmap),
     ("11-executive-one-pager.md", md_executive_one_pager),
+    ("12-control-deep-dives.md", md_control_deep_dives),
     ("README.md", md_readme),
 ]
 

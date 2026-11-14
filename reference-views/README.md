@@ -1,6 +1,6 @@
 # SHIELD-AI Reference Views
 
-Eleven cross-cutting views for presenting the framework to security architects
+Twelve cross-cutting views for presenting the framework to security architects
 and business stakeholders. Each view derives its content from the committed
 framework sources (see `tools/generate_reference_views.py`) so it can never
 drift from the main document; most ship as both a Markdown page and an SVG
@@ -19,6 +19,7 @@ diagram, and the index is maintained for both formats.
 | 09 | [Self-Assessment Scorecard](09-assessment-scorecard.md) | How do we record our own posture, control by control? | — |
 | 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | `implementation-roadmap.svg` |
 | 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
+| 12 | [Control Deep Dives](12-control-deep-dives.md) | What do real exploits/incidents look like for each control, and what should I look for? | — |
 
 ## For business stakeholders (the 60-second story)
 

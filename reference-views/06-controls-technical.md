@@ -51,6 +51,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (14):** [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-13](../reference-views/07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-17](../reference-views/07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-18](../reference-views/07-incident-summaries.md#inc-18-deepseek-pythonexec), [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-29](../reference-views/07-incident-summaries.md#inc-29-chatmate-rpe), [INC-38](../reference-views/07-incident-summaries.md#inc-38-sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-57](../reference-views/07-incident-summaries.md#inc-57-docker-sandboxes-sandbox-escape-cves), [INC-58](../reference-views/07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass), [INC-59](../reference-views/07-incident-summaries.md#inc-59-trail-of-bits-vms-wont-contain-cyber-capable-agents), [INC-68](../reference-views/07-incident-summaries.md#inc-68-praisonai-cve-2026-57138), [INC-82](../reference-views/07-incident-summaries.md#inc-82-multi-tenant-ai-code-execution-hosting-escapes), [INC-91](../reference-views/07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-01-execution-environment-boundary-enforcement)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### EE-02: Infrastructure API access control
 
 - **Executable policy:** `shield_ai_ee_ee-02.rego` (package `shield_ai.ee.infrastructure_api_access_cont`, 1 deny rules)
@@ -61,6 +63,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Explicit tool registration required for infrastructure access; metadata service disabled; blocked attempts logged.
 
 - **Incident evidence (3):** [INC-39](../reference-views/07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-60](../reference-views/07-incident-summaries.md#inc-60-identity-confusion-by-design), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-02-infrastructure-api-access-control)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### EE-03: Resource usage limiting
 
@@ -75,6 +79,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-03-resource-usage-limiting)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### EE-04: Evaluation sandbox integrity
 
 - **Executable policy:** `shield_ai_ee_ee-04.rego` (package `shield_ai.ee.evaluation_sandbox_integrity`, 3 deny rules)
@@ -88,6 +94,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-04-evaluation-sandbox-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### EE-05: Host-trusted configuration file injection prevention
 
 - **Executable policy:** `shield_ai_ee_ee-05.rego` (package `shield_ai.ee.host_trusted_configuration_fil`, 2 deny rules)
@@ -99,6 +107,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Host-trusted paths excluded from agent writes; FIM on host-trusted directories; content scanning.
 
 - **Incident evidence (10):** [INC-03](../reference-views/07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-14](../reference-views/07-incident-summaries.md#inc-14-codex-cli-agent-self-configuration-poisoning), [INC-15](../reference-views/07-incident-summaries.md#inc-15-cve-2026-35603), [INC-41](../reference-views/07-incident-summaries.md#inc-41-ghostapproval), [INC-57](../reference-views/07-incident-summaries.md#inc-57-docker-sandboxes-sandbox-escape-cves), [INC-65](../reference-views/07-incident-summaries.md#inc-65-openai-codex-heapjack-overpatch), [INC-76](../reference-views/07-incident-summaries.md#inc-76-mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-84](../reference-views/07-incident-summaries.md#inc-84-visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-05-host-trusted-configuration-file-injection-prevention)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### EE-06: Fail-closed sandbox operation
 
@@ -113,6 +123,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-21](../reference-views/07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-61](../reference-views/07-incident-summaries.md#inc-61-authentication-off-by-default), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-06-fail-closed-sandbox-operation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### EE-07: Agent control-plane configuration integrity
 
 - **Executable policy:** `shield_ai_ee_ee-07.rego` (package `shield_ai.ee.agent_control_plane_configurat`, 2 deny rules)
@@ -124,6 +136,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Control-plane config read-only to the agent; world-writable paths rejected; integrity monitoring on control files.
 
 - **Incident evidence (12):** [INC-03](../reference-views/07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-15](../reference-views/07-incident-summaries.md#inc-15-cve-2026-35603), [INC-20](../reference-views/07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-39](../reference-views/07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-46](../reference-views/07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#inc-53-gitspawn), [INC-56](../reference-views/07-incident-summaries.md#inc-56-deepseek-harness-sandbox-escape), [INC-69](../reference-views/07-incident-summaries.md#inc-69-opencode-localhost-rce-cluster), [INC-75](../reference-views/07-incident-summaries.md#inc-75-comment-and-control), [INC-78](../reference-views/07-incident-summaries.md#inc-78-loopback-dns-rebinding-cluster), [INC-79](../reference-views/07-incident-summaries.md#inc-79-mcp-connection-path-oauth-rce), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-07-agent-control-plane-configuration-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### EE-08: Evaluation-harness isolation and integrity
 
@@ -138,6 +152,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (10):** [INC-26](../reference-views/07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-27](../reference-views/07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-28](../reference-views/07-incident-summaries.md#inc-28-moonshot-kimi-k3), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-40](../reference-views/07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-62](../reference-views/07-incident-summaries.md#inc-62-google-gemini), [INC-63](../reference-views/07-incident-summaries.md#inc-63-openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-64](../reference-views/07-incident-summaries.md#inc-64-openai-second-frontier-training-sandbox-escape-via-a-dns-filtering-gap), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ee-08-evaluation-harness-isolation-and-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ## MS — Model Security
 
 ### MS-01: Model weight protection
@@ -150,6 +166,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-01-model-weight-protection)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-02: Training data integrity
 
 - **Executable policy:** `shield_ai_ms_ms-02.rego` (package `shield_ai.ms.training_data_integrity`, 3 deny rules)
@@ -160,6 +178,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - training run without a clean poison-detection scan (fail closed)
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-02-training-data-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-03: Supply chain security
 
@@ -172,6 +192,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-01](../reference-views/07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-03-supply-chain-security)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-04: Adversarial robustness
 
 - **Executable policy:** `shield_ai_ms_ms-04.rego` (package `shield_ai.ms.adversarial_robustness`, 1 deny rules)
@@ -183,6 +205,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (19):** [INC-03](../reference-views/07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../reference-views/07-incident-summaries.md#inc-14-codex-cli-agent-self-configuration-poisoning), [INC-17](../reference-views/07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-20](../reference-views/07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-27](../reference-views/07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-29](../reference-views/07-incident-summaries.md#inc-29-chatmate-rpe), [INC-30](../reference-views/07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-33](../reference-views/07-incident-summaries.md#inc-33-ghostjacking), [INC-42](../reference-views/07-incident-summaries.md#inc-42-rovoblast), [INC-44](../reference-views/07-incident-summaries.md#inc-44-llmstxt-dangling-install-supply-chain-poisoning), [INC-51](../reference-views/07-incident-summaries.md#inc-51-ansi-escape-code-terminal-exfiltration), [INC-54](../reference-views/07-incident-summaries.md#inc-54-wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-71](../reference-views/07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-04-adversarial-robustness)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-05: Model behaviour validation
 
 - **Executable policy:** `shield_ai_ms_ms-05.rego` (package `shield_ai.ms.model_behaviour_validation`, 2 deny rules)
@@ -192,6 +216,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - output by agent <name> outside its configured behaviour scope
 
 - **Incident evidence (4):** [INC-06](../reference-views/07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-05-model-behaviour-validation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-06: Model inventory and lineage tracking
 
@@ -204,6 +230,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-06](../reference-views/07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-06-model-inventory-and-lineage-tracking)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-07: Deployment context obfuscation
 
 - **Executable policy:** `shield_ai_ms_ms-07.rego` (package `shield_ai.ms.deployment_context_obfuscation`, 2 deny rules)
@@ -213,6 +241,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - evaluation behaviour diverges from production for the same inputs (subversion indicator)
 
 - **Incident evidence (2):** [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-07-deployment-context-obfuscation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-08: MCP
 
@@ -227,6 +257,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (19):** [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-20](../reference-views/07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-37](../reference-views/07-incident-summaries.md#inc-37-mcp-discovery-metadata-and-cache-surface-injection), [INC-39](../reference-views/07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-43](../reference-views/07-incident-summaries.md#inc-43-sharelock), [INC-54](../reference-views/07-incident-summaries.md#inc-54-wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../reference-views/07-incident-summaries.md#inc-56-deepseek-harness-sandbox-escape), [INC-60](../reference-views/07-incident-summaries.md#inc-60-identity-confusion-by-design), [INC-61](../reference-views/07-incident-summaries.md#inc-61-authentication-off-by-default), [INC-76](../reference-views/07-incident-summaries.md#inc-76-mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-78](../reference-views/07-incident-summaries.md#inc-78-loopback-dns-rebinding-cluster), [INC-79](../reference-views/07-incident-summaries.md#inc-79-mcp-connection-path-oauth-rce), [INC-80](../reference-views/07-incident-summaries.md#inc-80-mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#inc-85-agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#inc-86-langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-87](../reference-views/07-incident-summaries.md#inc-87-seventeen-cve-agent-framework-rce-mega-cluster), [INC-88](../reference-views/07-incident-summaries.md#inc-88-mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-08-mcp)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-09: Perception-fidelity enforcement for human-in-the-loop approvals
 
 - **Executable policy:** `shield_ai_ms_ms-09.rego` (package `shield_ai.ms.perception_fidelity_enforcemen`, 2 deny rules)
@@ -238,6 +270,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Policy-as-code fidelity checks pre-approval; multimodal sanitisation; hidden-content stripping before agent context.
 
 - **Incident evidence (10):** [INC-25](../reference-views/07-incident-summaries.md#inc-25-android-on-device-agents), [INC-27](../reference-views/07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-30](../reference-views/07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-36](../reference-views/07-incident-summaries.md#inc-36-ai-assisted-exploit-development-acceleration), [INC-41](../reference-views/07-incident-summaries.md#inc-41-ghostapproval), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-71](../reference-views/07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-72](../reference-views/07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-84](../reference-views/07-incident-summaries.md#inc-84-visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-09-perception-fidelity-enforcement-for-human-in-the-loop-approvals)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-10: Agent memory-store integrity
 
@@ -251,6 +285,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (7):** [INC-31](../reference-views/07-incident-summaries.md#inc-31-ruflorufroot), [INC-33](../reference-views/07-incident-summaries.md#inc-33-ghostjacking), [INC-45](../reference-views/07-incident-summaries.md#inc-45-nemoclaw-cve-2026-65105), [INC-70](../reference-views/07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-81](../reference-views/07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-91](../reference-views/07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-10-agent-memory-store-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-11: Operational data-stream integrity
 
 - **Executable policy:** `shield_ai_ms_ms-11.rego` (package `shield_ai.ms.operational_data_stream_integr`, 3 deny rules)
@@ -263,6 +299,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Agent-visible operational content sanitised for instruction-bearing payloads before reasoning; independent non-log verification for log-triggered actions; ingestion pipelines authenticate producers; MIR-02 flags log-origin agent actions.
 
 - **Incident evidence (4):** [INC-33](../reference-views/07-incident-summaries.md#inc-33-ghostjacking), [INC-40](../reference-views/07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-67](../reference-views/07-incident-summaries.md#inc-67-sentry-seer-phantomfix), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-11-operational-data-stream-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-12: MCP discovery-metadata and shared-cache integrity
 
@@ -280,6 +318,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-37](../reference-views/07-incident-summaries.md#inc-37-mcp-discovery-metadata-and-cache-surface-injection), [INC-43](../reference-views/07-incident-summaries.md#inc-43-sharelock), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-12-mcp-discovery-metadata-and-shared-cache-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-13: Transcript and conversation authenticity
 
 - **Executable policy:** `shield_ai_ms_ms-13.rego` (package `shield_ai.ms.transcript_and_conversation_authenticity`, 4 deny rules)
@@ -294,6 +334,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-70](../reference-views/07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-83](../reference-views/07-incident-summaries.md#inc-83-cicd-agent-config-file-trust-ordering-and-marker-authorship), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-13-transcript-and-conversation-authenticity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MS-14: Self-replication barrier
 
 - **Executable policy:** `shield_ai_ms_ms-14.rego` (package `shield_ai.ms.self_replication_barrier`, 4 deny rules)
@@ -307,6 +349,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Fingerprint matching quarantine with human approval; one-channel-per-write and human-signoff-on-broadcast; blast-radius cap per hop.
 
 - **Incident evidence (2):** [INC-71](../reference-views/07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-14-self-replication-barrier)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MS-15: Cross-tenant agent memory and state isolation
 
@@ -324,6 +368,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (4):** [INC-81](../reference-views/07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-87](../reference-views/07-incident-summaries.md#inc-87-seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../reference-views/07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ms-15-cross-tenant-agent-memory-and-state-isolation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ## IAM — Identity & Access
 
 ### IAM-01: Agent identity management
@@ -336,6 +382,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (5):** [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow), [INC-35](../reference-views/07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](../reference-views/07-incident-summaries.md#inc-52-moltbook), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-01-agent-identity-management)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### IAM-02: Scope-bound delegation
 
 - **Executable policy:** `shield_ai_iam_iam-02.rego` (package `shield_ai.iam.scope_bound_delegation`, 2 deny rules)
@@ -345,6 +393,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - agent <name> has wildcard permissions
 
 - **Incident evidence (10):** [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#inc-05-claude-code-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-15](../reference-views/07-incident-summaries.md#inc-15-cve-2026-35603), [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow), [INC-42](../reference-views/07-incident-summaries.md#inc-42-rovoblast), [INC-47](../reference-views/07-incident-summaries.md#inc-47-wiz-red-agent), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-02-scope-bound-delegation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### IAM-03: Human oversight controls
 
@@ -359,6 +409,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (8):** [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-20](../reference-views/07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-21](../reference-views/07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-27](../reference-views/07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-34](../reference-views/07-incident-summaries.md#inc-34-corebreak), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-03-human-oversight-controls)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### IAM-04: Credential isolation
 
 - **Executable policy:** `shield_ai_iam_iam-04.rego` (package `shield_ai.iam.credential_isolation`, 2 deny rules)
@@ -368,6 +420,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - agent <name> compromise signal without credential rotation
 
 - **Incident evidence (4):** [INC-01](../reference-views/07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-21](../reference-views/07-incident-summaries.md#inc-21-openclaw-cve-2026-25253) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-04-credential-isolation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### IAM-05: Just-in-time access
 
@@ -379,6 +433,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence:** none yet — baseline coverage, not yet demonstrated by a catalogue incident
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-05-just-in-time-access)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### IAM-06: Cross-session boundary enforcement
 
 - **Executable policy:** `shield_ai_iam_iam-06.rego` (package `shield_ai.iam.cross_session_boundary_enforce`, 2 deny rules)
@@ -389,6 +445,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (2):** [INC-50](../reference-views/07-incident-summaries.md#inc-50-cve-2026-25536), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-06-cross-session-boundary-enforcement)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### IAM-07: Transitive delegation chain enforcement
 
 - **Executable policy:** `shield_ai_iam_iam-07.rego` (package `shield_ai.iam.transitive_delegation_chain_en`, 2 deny rules)
@@ -398,6 +456,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - delegation chain for agent <name> is not reconstructable from audit logs
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-07-transitive-delegation-chain-enforcement)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### IAM-08: Credential scope narrowing
 
@@ -410,6 +470,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-08-credential-scope-narrowing)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### IAM-09: Multi-tenant agent platform isolation
 
 - **Executable policy:** `shield_ai_iam_iam-09.rego` (package `shield_ai.iam.multi_tenant_agent_platform_is`, 2 deny rules)
@@ -419,6 +481,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - user-controlled object ID bypasses tenant scoping (CWE-639 IDOR class)
 
 - **Incident evidence (4):** [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-35](../reference-views/07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](../reference-views/07-incident-summaries.md#inc-52-moltbook), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-09-multi-tenant-agent-platform-isolation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### IAM-10: Taint-tracked least-privilege subagent scoping
 
@@ -434,6 +498,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (2):** [INC-72](../reference-views/07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#iam-10-taint-tracked-least-privilege-subagent-scoping)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ## DS — Data Security
 
 ### DS-01: Data classification and labelling
@@ -446,6 +512,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-02](../reference-views/07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-15](../reference-views/07-incident-summaries.md#inc-15-cve-2026-35603), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-01-data-classification-and-labelling)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### DS-02: Inference data protection
 
 - **Executable policy:** `shield_ai_ds_ds-02.rego` (package `shield_ai.ds.inference_data_protection`, 3 deny rules)
@@ -457,6 +525,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-02-inference-data-protection)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### DS-03: Memory sanitisation
 
 - **Executable policy:** `shield_ai_ds_ds-03.rego` (package `shield_ai.ds.memory_sanitisation`, 2 deny rules)
@@ -466,6 +536,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - agent <name> session ended without memory wipe (cross-session leakage risk)
 
 - **Incident evidence (2):** [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-03-memory-sanitisation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### DS-04: Data minimisation
 
@@ -478,6 +550,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (2):** [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-04-data-minimisation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### DS-05: Training data governance
 
 - **Executable policy:** `shield_ai_ds_ds-05.rego` (package `shield_ai.ds.training_data_governance`, 3 deny rules)
@@ -488,6 +562,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - training run without retention limits on source datasets
 
 - **Incident evidence:** none yet — baseline coverage, not yet demonstrated by a catalogue incident
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-05-training-data-governance)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### DS-06: Output validation
 
@@ -501,6 +577,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (6):** [INC-02](../reference-views/07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-51](../reference-views/07-incident-summaries.md#inc-51-ansi-escape-code-terminal-exfiltration), [INC-71](../reference-views/07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-06-output-validation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### DS-07: Agent-originated artifact publication control
 
 - **Executable policy:** `shield_ai_ds_ds-07.rego` (package `shield_ai.ds.agent_originated_artifact_publ`, 3 deny rules)
@@ -513,6 +591,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Signed, scanned, provenance-tracked publication pipeline; short-lived scoped credentials; agent cannot self-approve.
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-07-agent-originated-artifact-publication-control)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### DS-08: Destination and emergent-channel egress inventory
 
@@ -530,6 +610,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (2):** [INC-72](../reference-views/07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#ds-08-destination-and-emergent-channel-egress-inventory)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ## TP — Tool & Pipeline Security
 
 ### TP-01: Tool inventory and registry
@@ -543,6 +625,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (10):** [INC-03](../reference-views/07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#inc-05-claude-code-sandbox-bypass), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-17](../reference-views/07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-44](../reference-views/07-incident-summaries.md#inc-44-llmstxt-dangling-install-supply-chain-poisoning), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-01-tool-inventory-and-registry)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-02: Tool access control
 
 - **Executable policy:** `shield_ai_tp_tp-02.rego` (package `shield_ai.tp.tool_access_control`, 3 deny rules)
@@ -554,6 +638,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence:** none yet — baseline coverage, not yet demonstrated by a catalogue incident
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-02-tool-access-control)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-03: API gateway security
 
 - **Executable policy:** `shield_ai_tp_tp-03.rego` (package `shield_ai.tp.api_gateway_security`, 3 deny rules)
@@ -564,6 +650,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - tool <name> call not audit-logged by the gateway
 
 - **Incident evidence (9):** [INC-01](../reference-views/07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-04](../reference-views/07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-07](../reference-views/07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-21](../reference-views/07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-03-api-gateway-security)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### TP-04: Tool output validation
 
@@ -577,6 +665,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (13):** [INC-03](../reference-views/07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-05](../reference-views/07-incident-summaries.md#inc-05-claude-code-sandbox-bypass), [INC-09](../reference-views/07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-13](../reference-views/07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-14](../reference-views/07-incident-summaries.md#inc-14-codex-cli-agent-self-configuration-poisoning), [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow), [INC-17](../reference-views/07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-18](../reference-views/07-incident-summaries.md#inc-18-deepseek-pythonexec), [INC-20](../reference-views/07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-04-tool-output-validation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-05: Pipeline integrity
 
 - **Executable policy:** `shield_ai_tp_tp-05.rego` (package `shield_ai.tp.pipeline_integrity`, 4 deny rules)
@@ -589,6 +679,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (8):** [INC-01](../reference-views/07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#inc-05-claude-code-sandbox-bypass), [INC-07](../reference-views/07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-47](../reference-views/07-incident-summaries.md#inc-47-wiz-red-agent), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-05-pipeline-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-06: Dependency scanning
 
 - **Executable policy:** `shield_ai_tp_tp-06.rego` (package `shield_ai.tp.dependency_scanning`, 3 deny rules)
@@ -600,6 +692,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (9):** [INC-07](../reference-views/07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-13](../reference-views/07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-18](../reference-views/07-incident-summaries.md#inc-18-deepseek-pythonexec), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-38](../reference-views/07-incident-summaries.md#inc-38-sandbox-library-binding-layer-and-interpreter-escape-wave), [INC-44](../reference-views/07-incident-summaries.md#inc-44-llmstxt-dangling-install-supply-chain-poisoning), [INC-48](../reference-views/07-incident-summaries.md#inc-48-clawhavoc), [INC-58](../reference-views/07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-06-dependency-scanning)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-07: Cross-tool dependency analysis
 
 - **Executable policy:** `shield_ai_tp_tp-07.rego` (package `shield_ai.tp.cross_tool_dependency_analysis`, 2 deny rules)
@@ -610,6 +704,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (2):** [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-07-cross-tool-dependency-analysis)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-08: API gateway infrastructure-isolation mode
 
 - **Executable policy:** `shield_ai_tp_tp-08.rego` (package `shield_ai.tp.api_gateway_infrastructure_iso`, 2 deny rules)
@@ -619,6 +715,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - infrastructure control-plane API <name> not blocked by the gateway (infra-isolation mode off)
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-08-api-gateway-infrastructure-isolation-mode)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### TP-09: Explicit tool registration — no implicit tool exposure
 
@@ -632,6 +730,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (5):** [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-34](../reference-views/07-incident-summaries.md#inc-34-corebreak), [INC-46](../reference-views/07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-48](../reference-views/07-incident-summaries.md#inc-48-clawhavoc), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-09-explicit-tool-registration-no-implicit-tool-exposure)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-10: Agent platform inbound control-plane protection
 
 - **Executable policy:** `shield_ai_tp_tp-10.rego` (package `shield_ai.tp.agent_platform_inbound_control`, 2 deny rules)
@@ -643,6 +743,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Default-deny binding policy enforced; no standing allow rules; automated detection of new listeners; no operator-scope tokens readable from web context.
 
 - **Incident evidence (13):** [INC-24](../reference-views/07-incident-summaries.md#inc-24-metasploit-65-mcp-server-and-wiz-exposed-mcp-servers-research), [INC-30](../reference-views/07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-31](../reference-views/07-incident-summaries.md#inc-31-ruflorufroot), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-34](../reference-views/07-incident-summaries.md#inc-34-corebreak), [INC-39](../reference-views/07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-45](../reference-views/07-incident-summaries.md#inc-45-nemoclaw-cve-2026-65105), [INC-54](../reference-views/07-incident-summaries.md#inc-54-wiz-90-day-ai-infrastructure-honeypot-telemetry), [INC-56](../reference-views/07-incident-summaries.md#inc-56-deepseek-harness-sandbox-escape), [INC-60](../reference-views/07-incident-summaries.md#inc-60-identity-confusion-by-design), [INC-61](../reference-views/07-incident-summaries.md#inc-61-authentication-off-by-default), [INC-79](../reference-views/07-incident-summaries.md#inc-79-mcp-connection-path-oauth-rce), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-10-agent-platform-inbound-control-plane-protection)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### TP-11: Agent browser and content-rendering isolation
 
@@ -657,6 +759,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (4):** [INC-29](../reference-views/07-incident-summaries.md#inc-29-chatmate-rpe), [INC-30](../reference-views/07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-42](../reference-views/07-incident-summaries.md#inc-42-rovoblast), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-11-agent-browser-and-content-rendering-isolation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-12: Tool-call provenance and dispatch verification
 
 - **Executable policy:** `shield_ai_tp_tp-12.rego` (package `shield_ai.tp.tool_call_provenance_and_dispa`, 4 deny rules)
@@ -670,6 +774,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Tool calls carry cryptographically bound provenance (session, turn, model signature) verified before dispatch; session/event history authenticated; approval records bind to tool name and arguments and verify against the human approver channel; fail closed on unverifiable provenance.
 
 - **Incident evidence (8):** [INC-11](../reference-views/07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-34](../reference-views/07-incident-summaries.md#inc-34-corebreak), [INC-41](../reference-views/07-incident-summaries.md#inc-41-ghostapproval), [INC-44](../reference-views/07-incident-summaries.md#inc-44-llmstxt-dangling-install-supply-chain-poisoning), [INC-46](../reference-views/07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#inc-53-gitspawn), [INC-84](../reference-views/07-incident-summaries.md#inc-84-visual-prompt-injection-into-agent-ability-config), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-12-tool-call-provenance-and-dispatch-verification)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### TP-13: Agent dependency-install provenance verification
 
@@ -687,6 +793,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (7):** [INC-44](../reference-views/07-incident-summaries.md#inc-44-llmstxt-dangling-install-supply-chain-poisoning), [INC-48](../reference-views/07-incident-summaries.md#inc-48-clawhavoc), [INC-66](../reference-views/07-incident-summaries.md#inc-66-plugin4shell), [INC-80](../reference-views/07-incident-summaries.md#inc-80-mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#inc-85-agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#inc-86-langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-13-agent-dependency-install-provenance-verification)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-14: Skill/plugin payload integrity and instruction-channel isolation
 
 - **Executable policy:** `shield_ai_tp_tp-14.rego` (package `shield_ai.tp.skill_plugin_payload_integrity`, 6 deny rules)
@@ -703,6 +811,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (3):** [INC-48](../reference-views/07-incident-summaries.md#inc-48-clawhavoc), [INC-66](../reference-views/07-incident-summaries.md#inc-66-plugin4shell), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-14-skillplugin-payload-integrity-and-instruction-channel-isolation)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### TP-15: In-process code-execution sandbox sufficiency
 
 - **Executable policy:** `shield_ai_tp_tp-15.rego` (package `shield_ai.tp.in_process_code_execution_sandbox_sufficiency`, 5 deny rules)
@@ -717,6 +827,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** In-process sandboxes locked in the HIGH-RISK dependency class (TP-06) with automated blocking on critical findings; model-generated code executes only in the EE sandbox.
 
 - **Incident evidence (11):** [INC-58](../reference-views/07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass), [INC-65](../reference-views/07-incident-summaries.md#inc-65-openai-codex-heapjack-overpatch), [INC-68](../reference-views/07-incident-summaries.md#inc-68-praisonai-cve-2026-57138), [INC-74](../reference-views/07-incident-summaries.md#inc-74-gitlab-ai-gateway-cve-2026-90970), [INC-76](../reference-views/07-incident-summaries.md#inc-76-mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-77](../reference-views/07-incident-summaries.md#inc-77-vtcode-cve-2026-104247), [INC-80](../reference-views/07-incident-summaries.md#inc-80-mcp-tool-argument-command-injection-wave), [INC-85](../reference-views/07-incident-summaries.md#inc-85-agentscope-unpatched-mcp-command-injection-cluster), [INC-87](../reference-views/07-incident-summaries.md#inc-87-seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](../reference-views/07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-15-in-process-code-execution-sandbox-sufficiency)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### TP-16: Tool-connection and launch-path integrity
 
@@ -734,6 +846,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (6):** [INC-79](../reference-views/07-incident-summaries.md#inc-79-mcp-connection-path-oauth-rce), [INC-85](../reference-views/07-incident-summaries.md#inc-85-agentscope-unpatched-mcp-command-injection-cluster), [INC-86](../reference-views/07-incident-summaries.md#inc-86-langflow-auth-bypass-and-mcp-enumeration-rce-bulletin), [INC-88](../reference-views/07-incident-summaries.md#inc-88-mcp-protocol-pivoting-and-toolbox-ssrf-cluster), [INC-89](../reference-views/07-incident-summaries.md#inc-89-mcp-server-trust-boundary-measurement-wave), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#tp-16-tool-connection-and-launch-path-integrity)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ## MIR — Monitoring, Logging & IR
 
 ### MIR-01: Agent activity logging
@@ -748,6 +862,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (10):** [INC-01](../reference-views/07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-05](../reference-views/07-incident-summaries.md#inc-05-claude-code-sandbox-bypass), [INC-06](../reference-views/07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-12](../reference-views/07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-48](../reference-views/07-incident-summaries.md#inc-48-clawhavoc), [INC-56](../reference-views/07-incident-summaries.md#inc-56-deepseek-harness-sandbox-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-01-agent-activity-logging)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MIR-02: Anomaly detection
 
 - **Executable policy:** `shield_ai_mir_mir-02.rego` (package `shield_ai.mir.behavioural_anomaly_detection`, 2 deny rules)
@@ -759,6 +875,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Per-agent and per-class baselines. Automated alerting. Integration with SOC. Regular tuning.
 
 - **Incident evidence (18):** [INC-06](../reference-views/07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](../reference-views/07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-19](../reference-views/07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-23](../reference-views/07-incident-summaries.md#inc-23-unit-42), [INC-27](../reference-views/07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-28](../reference-views/07-incident-summaries.md#inc-28-moonshot-kimi-k3), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-35](../reference-views/07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-40](../reference-views/07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-43](../reference-views/07-incident-summaries.md#inc-43-sharelock), [INC-45](../reference-views/07-incident-summaries.md#inc-45-nemoclaw-cve-2026-65105), [INC-49](../reference-views/07-incident-summaries.md#inc-49-mexico-government-breach), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-56](../reference-views/07-incident-summaries.md#inc-56-deepseek-harness-sandbox-escape), [INC-63](../reference-views/07-incident-summaries.md#inc-63-openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-02-anomaly-detection)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MIR-03: Prompt audit log
 
@@ -772,6 +890,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-22](../reference-views/07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-03-prompt-audit-log)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MIR-04: Incident response
 
 - **Executable policy:** `shield_ai_mir_mir-04.rego` (package `shield_ai.mir.incident_response_playbooks`, 2 deny rules)
@@ -781,6 +901,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - ... incident without an automatic containment step (agent-speed response)
 
 - **Incident evidence (3):** [INC-07](../reference-views/07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-04-incident-response)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### MIR-05: Mandatory reporting integration
 
@@ -793,6 +915,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence:** none yet — baseline coverage, not yet demonstrated by a catalogue incident
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-05-mandatory-reporting-integration)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### MIR-06: Forensic readiness
 
 - **Executable policy:** `shield_ai_mir_mir-06.rego` (package `shield_ai.mir.forensic_readiness`, 1 deny rules)
@@ -803,6 +927,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Maturity target (L3):** Immutable logs with integrity verification. Full session reconstruction capability. Multi-agent chain reconstruction.
 
 - **Incident evidence (6):** [INC-07](../reference-views/07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-40](../reference-views/07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-46](../reference-views/07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](../reference-views/07-incident-summaries.md#inc-53-gitspawn), [INC-70](../reference-views/07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#mir-06-forensic-readiness)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ## GRM — Governance & Risk
 
@@ -817,6 +943,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-01-ai-governance-body)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### GRM-02: AI risk register
 
 - **Executable policy:** `shield_ai_grm_grm-02.rego` (package `shield_ai.grm.ai_risk_register`, 2 deny rules)
@@ -827,6 +955,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (6):** [INC-06](../reference-views/07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-35](../reference-views/07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-49](../reference-views/07-incident-summaries.md#inc-49-mexico-government-breach), [INC-55](../reference-views/07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-02-ai-risk-register)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### GRM-03: Ethical use policy
 
 - **Executable policy:** `shield_ai_grm_grm-03.rego` (package `shield_ai.grm.ethical_use_policy`, 2 deny rules)
@@ -836,6 +966,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - action <name> outside the documented acceptable-use boundary for agent <name>
 
 - **Incident evidence (3):** [INC-10](../reference-views/07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-32](../reference-views/07-incident-summaries.md#inc-32-abc-news), [INC-42](../reference-views/07-incident-summaries.md#inc-42-rovoblast) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-03-ethical-use-policy)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ### GRM-04: Third-party AI risk management
 
@@ -848,6 +980,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (6):** [INC-26](../reference-views/07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-62](../reference-views/07-incident-summaries.md#inc-62-google-gemini), [INC-63](../reference-views/07-incident-summaries.md#inc-63-openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-75](../reference-views/07-incident-summaries.md#inc-75-comment-and-control), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-04-third-party-ai-risk-management)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### GRM-05: Regulatory mapping and compliance reporting
 
 - **Executable policy:** `shield_ai_grm_grm-05.rego` (package `shield_ai.grm.regulatory_mapping_and_complia`, 2 deny rules)
@@ -858,6 +992,8 @@ verify' checklist beneath each control is derived directly from those deny rules
 
 - **Incident evidence (1):** [INC-16](../reference-views/07-incident-summaries.md#inc-16-langflow) -- opens each incident's human-readable summary (see doc 07)
 
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-05-regulatory-mapping-and-compliance-reporting)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
+
 ### GRM-06: Board and executive reporting
 
 - **Executable policy:** `shield_ai_grm_grm-06.rego` (package `shield_ai.grm.board_and_executive_reporting`, 2 deny rules)
@@ -867,6 +1003,8 @@ verify' checklist beneath each control is derived directly from those deny rules
   - risk acceptance decision not logged in the executive reporting trail
 
 - **Incident evidence (3):** [INC-73](../reference-views/07-incident-summaries.md#inc-73-anthropic-glm-53-assessment), [INC-90](../reference-views/07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-92](../reference-views/07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage) -- opens each incident's human-readable summary (see doc 07)
+
+→ **[Deeper guide, examples & what to look for](12-control-deep-dives.md#grm-06-board-and-executive-reporting)** — worked exploit/incident examples and what a security architect should check in a typical deployment.
 
 ## Verification protocol
 

@@ -99,6 +99,8 @@ build_doc reference-views/06-controls-technical.md \
   "SHIELD-AI(TM) Technical Field Guide -- Control Verification for Security Specialists"
 build_doc reference-views/07-incident-summaries.md \
   "SHIELD-AI(TM) Incident Summaries -- 92 Catalogue Events in One Line Each"
+build_doc reference-views/12-control-deep-dives.md \
+  "SHIELD-AI(TM) Control Deep Dives -- Real-World Examples and What to Look For"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 

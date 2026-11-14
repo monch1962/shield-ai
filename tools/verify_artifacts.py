@@ -200,6 +200,7 @@ def main():
             "reference-views/09-assessment-scorecard.md",
             "reference-views/10-implementation-roadmap.md",
             "reference-views/11-executive-one-pager.md",
+            "reference-views/12-control-deep-dives.md",
             "reference-views/README.md",
     ]
     for p in _rv_docs:
