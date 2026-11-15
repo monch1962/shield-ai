@@ -16,6 +16,6 @@
     "aware-super-alignment"
   ],
   "builder": "client-specific/aware-super/build_deck.py",
-  "commit": "ccd6be5",
-  "built_at": "2026-11-15T21:15:30+00:00"
+  "commit": "47fb566",
+  "built_at": "2026-11-15T21:18:12+00:00"
 }
