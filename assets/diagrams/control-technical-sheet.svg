@@ -9,7 +9,7 @@
   </style>
   <text x="440.0" y="24" text-anchor="middle" class="title">SHIELD-AI: Control Technical Verification Field Guide</text>
     <text x="40" y="44" class="cap">Technical verification field guide</text>
-    <text x="40" y="60" class="label" font-weight="bold">69 controls · 195 deny rules · 360 control-incident links</text><text x="40" y="84" class="cap">Control</text>
+    <text x="40" y="60" class="label" font-weight="bold">69 controls · 195 deny rules · 368 control-incident links</text><text x="40" y="84" class="cap">Control</text>
     <text x="170" y="84" class="cap">Objective (what must hold)</text>
     <text x="470" y="84" class="cap">Verify via policy</text>
     <text x="590" y="84" class="cap">Policy file</text>
@@ -79,11 +79,11 @@
             <text x="170" y="458" class="sm">MCP</text>
             <text x="470" y="458" class="sm">3 deny rules</text>
             <text x="590" y="458" class="sm">ms_ms-08</text>
-            <text x="780" y="458" class="sm">19 incidents</text><text x="40" y="478" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
+            <text x="780" y="458" class="sm">21 incidents</text><text x="40" y="478" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
             <text x="170" y="478" class="sm">Perception-fidelity enforcement for human-in-the</text>
             <text x="470" y="478" class="sm">2 deny rules</text>
             <text x="590" y="478" class="sm">ms_ms-09</text>
-            <text x="780" y="478" class="sm">10 incidents</text><text x="40" y="498" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
+            <text x="780" y="478" class="sm">11 incidents</text><text x="40" y="498" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
             <text x="170" y="498" class="sm">Agent memory-store integrity</text>
             <text x="470" y="498" class="sm">2 deny rules</text>
             <text x="590" y="498" class="sm">ms_ms-10</text>
@@ -95,7 +95,7 @@
             <text x="170" y="538" class="sm">MCP discovery-metadata and shared-cache integrit</text>
             <text x="470" y="538" class="sm">6 deny rules</text>
             <text x="590" y="538" class="sm">ms_ms-12</text>
-            <text x="780" y="538" class="sm">3 incidents</text><text x="40" y="558" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
+            <text x="780" y="538" class="sm">4 incidents</text><text x="40" y="558" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
             <text x="170" y="558" class="sm">Transcript and conversation authenticity</text>
             <text x="470" y="558" class="sm">4 deny rules</text>
             <text x="590" y="558" class="sm">ms_ms-13</text>
@@ -148,7 +148,7 @@
             <text x="170" y="830" class="sm">Taint-tracked least-privilege subagent scoping</text>
             <text x="470" y="830" class="sm">4 deny rules</text>
             <text x="590" y="830" class="sm">iam_iam-10</text>
-            <text x="780" y="830" class="sm">2 incidents</text><rect x="30" y="856" width="820" height="182" rx="4" fill="#d97706" opacity="0.06"/>
+            <text x="780" y="830" class="sm">3 incidents</text><rect x="30" y="856" width="820" height="182" rx="4" fill="#d97706" opacity="0.06"/>
         <text x="40" y="868" class="cap" fill="#d97706">DS · Data Security</text><text x="40" y="882" class="sm" font-weight="bold" fill="#d97706">DS-01</text>
             <text x="170" y="882" class="sm">Data classification and labelling</text>
             <text x="470" y="882" class="sm">2 deny rules</text>
@@ -222,7 +222,7 @@
             <text x="170" y="1254" class="sm">Agent platform inbound control-plane protection</text>
             <text x="470" y="1254" class="sm">2 deny rules</text>
             <text x="590" y="1254" class="sm">tp_tp-10</text>
-            <text x="780" y="1254" class="sm">13 incidents</text><text x="40" y="1274" class="sm" font-weight="bold" fill="#7c3aed">TP-11</text>
+            <text x="780" y="1254" class="sm">14 incidents</text><text x="40" y="1274" class="sm" font-weight="bold" fill="#7c3aed">TP-11</text>
             <text x="170" y="1274" class="sm">Agent browser and content-rendering isolation</text>
             <text x="470" y="1274" class="sm">3 deny rules</text>
             <text x="590" y="1274" class="sm">tp_tp-11</text>
@@ -242,11 +242,11 @@
             <text x="170" y="1354" class="sm">In-process code-execution sandbox sufficiency</text>
             <text x="470" y="1354" class="sm">5 deny rules</text>
             <text x="590" y="1354" class="sm">tp_tp-15</text>
-            <text x="780" y="1354" class="sm">11 incidents</text><text x="40" y="1374" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
+            <text x="780" y="1354" class="sm">12 incidents</text><text x="40" y="1374" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
             <text x="170" y="1374" class="sm">Tool-connection and launch-path integrity</text>
             <text x="470" y="1374" class="sm">6 deny rules</text>
             <text x="590" y="1374" class="sm">tp_tp-16</text>
-            <text x="780" y="1374" class="sm">6 incidents</text><rect x="30" y="1400" width="820" height="142" rx="4" fill="#db2777" opacity="0.06"/>
+            <text x="780" y="1374" class="sm">7 incidents</text><rect x="30" y="1400" width="820" height="142" rx="4" fill="#db2777" opacity="0.06"/>
         <text x="40" y="1412" class="cap" fill="#db2777">MIR · Monitoring, Logging &amp; IR</text><text x="40" y="1426" class="sm" font-weight="bold" fill="#db2777">MIR-01</text>
             <text x="170" y="1426" class="sm">Agent activity logging</text>
             <text x="470" y="1426" class="sm">2 deny rules</text>

@@ -8,7 +8,7 @@ it is the scannable summary; the catalogue entry is the deep dive.
 
 ## Incidents A–Z
 
-> **Use with the field guide:** every incident-evidence link in [06 · Control Technical Verification Field Guide](06-controls-technical.md) now resolves to its card here. 92 incidents, 304 control references across the set.
+> **Use with the field guide:** every incident-evidence link in [06 · Control Technical Verification Field Guide](06-controls-technical.md) now resolves to its card here. 96 incidents, 311 control references across the set.
 
 
 ### INC-01: OpenAI Model Sandbox Escape
@@ -654,6 +654,34 @@ it is the scannable summary; the catalogue entry is the deep dive.
 
 - **Controls evidenced:** **IAM-10**, **MS-09**, **TP-16**
 - **Full detail:** [view the INC-92 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-92-agent-swarm-cooperation-lure-secret-leakage)
+
+### INC-93: fast-agent MCP Serve Unauthenticated RCE
+
+**In brief:** `fast-agent serve` exposed the agent over MCP using HTTP bound to `0.0.0.0` (all interfaces) on port 8000 with `auth=None` by default and no documented warning.
+
+- **Controls evidenced:** **MS-08**, **TP-10**
+- **Full detail:** [view the INC-93 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-93-fast-agent-mcp-serve-unauthenticated-rce)
+
+### INC-94: AG2 Shell-Tool Allowlist Newline Bypass
+
+**In brief:** AG2's `SandboxShellTool` in restricted mode (`allowed=[...]` command allowlist) and read-only mode (an implicit allowlist of read-only commands) both filtered only the head command on a single line of the command string — checking for shell metacharacters that could appear on one line — then executed the raw untrusted string through `sh -c`. A shell treats an embedded newline (`\n`), and `&`, `\r`, `<`, as a statement separator, so an agent (or content steering it via prompt injection) could run arbitrary commands even when the tool permitted a single command prefix.
+
+- **Controls evidenced:** **TP-15**
+- **Full detail:** [view the INC-94 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-94-ag2-shell-tool-allowlist-newline-bypass)
+
+### INC-95: MCP OAuth Protected-Resource-Metadata Token Theft
+
+**In brief:** Two MCP client libraries (mark3labs/mcp-go and ChatCLI) implementing OAuth 2.0 Protected Resource Metadata (RFC 9728) enforced the §3.3 `resource` binding check — which constrains what audience an RFC 8707 audience-bound token may be minted for — only when the metadata URL was discovered from a `WWW-Authenticate` header.
+
+- **Controls evidenced:** **MS-08**, **MS-12**
+- **Full detail:** [view the INC-95 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-95-mcp-oauth-protected-resource-metadata-token-theft)
+
+### INC-96: Langflow Auto-Login Superuser RCE
+
+**In brief:** Langflow shipped with `LANGFLOW_AUTO_LOGIN=true` as the default, so any client hitting `/api/v1/auto_login` received a superuser JWT with no credentials.
+
+- **Controls evidenced:** **TP-10**, **TP-15**
+- **Full detail:** [view the INC-96 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-96-langflow-auto-login-superuser-rce)
 
 ## How this page is generated
 

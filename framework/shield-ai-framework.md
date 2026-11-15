@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 subtitle: "Framework Definition and Reference Implementation"
 author: "Security Architecture Practice"
-date: "November 9, 2026"
+date: "November 16, 2026"
 abstract: "A comprehensive framework for securing agentic AI systems in Australian enterprises and government, aligned with all relevant Australian regulatory and industry frameworks, and defined as a deployable component model with full implementation guidance."
 ---
 
@@ -170,6 +170,7 @@ SHIELD-AI defines seven security pillars, each with its own control objectives, 
     **Requirement:** monitoring must cover model-originated writes to execution-bearing locations and publication channels — such as MCP server registries whose entries are launch commands (AWS Kiro CVE-2026-10591) — with alerting on any write, because a log without alerting is not a control;
     **Requirement:** MCP discovery metadata (the instructions field, tool descriptions, list responses) and shared response caches are a distinct protocol surface covered by MS-12 (MCP discovery-metadata and shared-cache integrity), which treats server-supplied discovery content as untrusted input and requires cacheScope claims to be verified, never trusted);
     **Requirement:** MCP gateway and model-gateway authentication must fail closed — a failed local credential check never downgrades to an anonymous or unrestricted session, any OAuth2-passthrough fallback executes only when the target server's configured authentication mode is verified (never on the mere presence of an Authorization header), and default gateway credentials are prohibited;
+    **Requirement:** MCP OAuth Protected Resource Metadata (RFC 9728, the /.well-known/oauth-protected-resource path) — the §3.3 resource-binding check that constrains what audience an RFC 8707 audience-bound token may be minted for must be enforced on the well-known discovery path identically to metadata discovered from a WWW-Authenticate header, so a server-declared resource URL never causes the client to mint an OAuth token for a victim service and hand it to the requesting server (INC-95, CVE-2026-123272/123271); connect-time OAuth discovery metadata is untrusted protocol-layer input; 
     **Requirement:** MCP test and configuration endpoints that accept stdio command definitions from callers are administrative surfaces restricted to authenticated administrators and removed from public network reachability;
     **Requirement:** protocol-layer identifiers — session IDs, conversation tokens, cache keys, object handles — are never credentials: authentication must verify a real client identity at a transport boundary (bearer token, mTLS, OAuth2) and must never treat a server-generated or client-supplied session/conversation identity claim as proof of authorisation, because the MCP-spec's `Mcp-Session-Id` is defined for conversation-state tracking and its conflation with authentication is a systemic confused-deputy failure (Grafana mcp-grafana, CVE-2026-19516, CVSS 9.1);
     **Requirement:** authentication and network binding must default to a secure state and fail closed on missing configuration — an agent, automation, or MCP server must refuse to start an unauthenticated listener when any required authentication/config flag is absent, a missing environment variable or config file is a blocking startup error never a silent downgrade to an open all-interfaces listener (AutoAgent CVE-2026-86124, Cua CVE-2026-86121, excel-mcp-server CVE-2026-85661, TEN CVE-2026-85688, all CVSS 9.8);
@@ -434,7 +435,12 @@ SHIELD-AI defines seven security pillars, each with its own control objectives, 
     a heap snapshot with `v8.getHeapSnapshot()`, then injected its own requests onto the same pipe the trusted context used to reach the
     native, unsandboxed parent process — host command execution with no approval from Codex's strictest read-only mode), so in-process
     trusted/untrusted separation must be replaced by process-, container-, or VM-level isolation where untrusted code communicates
-    across an OS-enforced boundary and any authorisation secret is held outside the untrusted memory space
+    across an OS-enforced boundary and any authorisation secret is held outside the untrusted memory space; the in-process gate rule
+    also extends to shell-tool command allowlists and read-only command filters that validate a single line (or the head command) of a
+    command string while passing the raw string to a shell: because a shell treats an embedded newline or shell metacharacter the token
+    scan misses as a statement separator, such gates must validate the PARSED argument list (never the raw string) and execute through a
+    kernel-enforced boundary or without a shell, and a read-only-named command is not trusted merely because its name looks read-only
+    (find/exec, sort -o, git diff --output, env/program invocations write or execute in practice — INC-94, AG2; INC-85, AgentScope);
     **Rationale / evidence:** the denylist-sandbox bypass wave — PraisonAI CVE-2026-47392 (the execute_code() "subprocess sandbox mode" in praisonaiagents was
     fully defeated via print.__self__ to recover the real CPython builtins module, then vars() and runtime string concatenation
     "_"+"_import_"+"_" to reach __import__ and os.popen, surviving all prior patches for CVE-2026-39888 frame traversal, CVE-2026-34938
@@ -1082,6 +1088,6 @@ This capability transforms SHIELD-AI from a point-in-time assessment into an ong
 
 ---
 
-*SHIELD-AI v1.22  --  November 9, 2026*
+*SHIELD-AI v1.23  --  November 16, 2026*
 *Authored by the Security Architecture Practice*
 *For enquiries: practice-lead@consultancy.example.com*
