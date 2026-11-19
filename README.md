@@ -37,6 +37,8 @@ shield-ai/
 │   └── retailer/          Retail-sector briefing
 ├── exploits/             Novel AI exploit catalog (G1–G34, one entry per type)
 ├── policies/             Policy-as-code controls (69 Rego/OPA, deny-override)
+├── oscal/                OSCAL 1.2.0 documents: catalog, component definition, 800-53 mapping
+├── crosswalk/            SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk data + fit report (draft)
 ├── case-studies/         Sanitised field-validation records
 ├── reference-impl/       Milestone 2: runnable Go sidecar + OPA + telemetry
 ├── demo/                 Demo policies + OPA inputs/tests + docker-compose
