@@ -1,5 +1,5 @@
 {
-  "_about": "Curated SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk (EE, IAM and TP pillars). DRAFT: AI-assisted, NOT yet reviewed by a control SME. Source of truth for oscal/shield-ai-to-800-53r5-mapping.json (built by tools/generate_oscal_crosswalk.py). Matching rationale is 'functional' (NIST IR 8477). Direction: source = SHIELD-AI control, target = 800-53 control; 'subset-of' means every SHIELD requirement is within the 800-53 target.",
+  "_about": "Curated SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk (all seven pillars). DRAFT: AI-assisted, NOT yet reviewed by a control SME. Source of truth for oscal/shield-ai-to-800-53r5-mapping.json (built by tools/generate_oscal_crosswalk.py). Matching rationale is 'functional' (NIST IR 8477). Direction: source = SHIELD-AI control, target = 800-53 control; 'subset-of' means every SHIELD requirement is within the 800-53 target.",
   "_fit_values": {
     "direct": "An org meeting the mapped 800-53 controls, with agents in scope as subjects and sensible ODPs, substantially meets the SHIELD control. No residual requirement.",
     "partial": "The core of the control maps to 800-53, but SHIELD adds requirements 800-53 does not state. Residual is recorded.",
@@ -14,7 +14,16 @@
     "**One 800-53 control, two different fits (SI-10.6).** Its mechanism (parameterized interfaces, output escaping) presumes a data/code boundary. TP-16 has one (an OS launch path), so SI-10.6 fits well. TP-04 does not: an LLM context has no such boundary, so the same control gives weak cover. Recorded as a qualifier on TP-04.",
     "**TP-15: 800-53 permits the weak reading.** SC-39 (separate execution domain per process) arguably excludes an in-process denylist sandbox, but never says so; an assessor could accept a hardened interpreter as an 'execution domain'. SHIELD-AI's value here is the explicit negative.",
     "**Supply-chain controls transfer best.** TP-05, TP-13 and TP-14 map onto the SR family, CM-14 and SI-7.15, where 800-53's provenance and authenticity vocabulary predates agent skill marketplaces but still applies. The residual is that the payload is natural-language instructions and runtime-fetchable instruction channels, not just code.",
-    "**TP-07 is a borderline partial/novel.** RA-3 and SA-11.2 would cover analysis of tool composition only if the organisation chose to scope threat modelling that way; nothing in 800-53 asks for it."
+    "**TP-07 is a borderline partial/novel.** RA-3 and SA-11.2 would cover analysis of tool composition only if the organisation chose to scope threat modelling that way; nothing in 800-53 asks for it.",
+    "**Coverage tracks how generic the control is.** The governance, monitoring and incident-response controls map best because 800-53's PM, CA, AU and IR families are technology-neutral and apply to AI systems unchanged. The novel controls cluster where the model itself is the attack surface (MS-04, MS-07, MS-09, MS-14), with IAM-07, IAM-10, TP-11 and GRM-03 as the others.",
+    "**800-53 Rev 5.2 has no vocabulary for AI as a thing to be secured.** A keyword search of non-withdrawn statements and guidance finds no hits for 'training data', 'poison', 'tenant', 'ethic', 'autonom', 'human oversight' or 'playbook'. 'Artificial intelligence' appears only in RA-3.4 and SI-3, as a detection technique. A missing word is evidence of a vocabulary gap, not proof of no coverage.",
+    "**Integrity controls do not detect authorised poison.** MS-02 (training data), MS-10 (agent memory) and MS-13 (transcripts) all involve data that is written through a legitimate path. SI-7 and SR-4 detect unauthorised change and provenance breaks; a malicious but authorised write is neither. An organisation could report SI-7 as met while the threat is untouched. Recorded as a qualifier on MS-02.",
+    "**Human approval of agent action is a recurring gap, not a single one.** IAM-03 (approval before high-risk action), TP-12 (approval bound to the exact call), MS-09 (fidelity of what the approver sees) and DS-07 (approval the agent cannot trigger) all rest on a human-in-the-loop concept that 800-53 lacks. The nearest controls (AC-4.9, AC-3.2, AC-5) are written for information flows and for people.",
+    "**MS-07 pushes the opposite way from 800-53's test-environment controls.** CM-4.1 and SA-3.1 require test environments to be separate and protected; nothing asks that they be undetectable. An organisation can satisfy CM-4.1 with an obviously labelled test environment that a model can recognise. Recorded as a qualifier.",
+    "**DS-08: the egress that matters may leave from the client.** SC-7.5 and SC-7.10 govern the network boundary, but a rendered image tag or link unfurl is fetched by the user's client or a third-party service. SC-31 covert channel analysis is the best fit, but it is a design-time analysis, so it does not by itself keep an emergent-channel inventory current.",
+    "**MIR-03 creates a privacy obligation.** AU-14 requires consultation with legal counsel and AU-3.3 ties retained PII to a privacy risk assessment. A full prompt/response log is a new sensitive data store, so the control cannot be considered met without that assessment. Recorded as a qualifier.",
+    "**Governance controls rate direct only if AI is in scope.** GRM-01, GRM-04 and GRM-05 map to organisation-level controls (PM-29, SA-9, CA-7). An existing programme meets them only if it already covers AI systems and AI vendors; 800-53 does not require that.",
+    "**The privacy mappings are PII-scoped.** DS-04 and DS-05 rely on 800-53's privacy controls (PT, SI-12, PM-25), which concern personal data. DS-04 extends to all sensitive data in a context window, and DS-05 to training data in general. Alignment with the Privacy Act 1988 and the Australian Privacy Principles is not assessed here."
   ],
   "controls": {
     "EE-01": {
@@ -405,6 +414,459 @@
         {"t": "cm-7.5",  "rel": "intersects-with", "conf": "medium", "why": "Deny-all, permit-by-exception for programs that may execute: allowlisted launch commands."},
         {"t": "cm-7.2",  "rel": "intersects-with", "conf": "low",    "why": "Prevent program execution per policy."},
         {"t": "ca-3",    "rel": "intersects-with", "conf": "low",    "why": "Managed information exchange with connected systems; onboarding and reconnection of tool servers."}
+      ]
+    },
+    "MS-01": {
+      "fit": "direct",
+      "fit_basis": "Model weights are information at rest and in transit; SC-28.1, SC-12 and SC-8.1 cover encryption and key management, and the HSM-backed requirement is an ODP choice under SC-12. The only interpretation needed is that weights are a protected information type. Remote attestation for edge deployments has no exact analogue; SI-7 integrity verification is the nearest and is recorded at low confidence.",
+      "residual": null,
+      "mappings": [
+        {"t": "sc-28.1", "rel": "intersects-with", "conf": "high", "why": "Cryptographic protection of information at rest: weights at rest."},
+        {"t": "sc-12", "rel": "intersects-with", "conf": "high", "why": "Key establishment and management; HSM-backed management is an organisation-defined requirement."},
+        {"t": "sc-8.1", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic protection during transmission: weights in transit."},
+        {"t": "sc-13", "rel": "intersects-with", "conf": "medium", "why": "Determining and implementing the cryptography required for each use."},
+        {"t": "si-7", "rel": "intersects-with", "conf": "low", "why": "Integrity verification; nearest home for attestation of weights on edge devices."}
+      ]
+    },
+    "MS-02": {
+      "fit": "partial",
+      "fit_basis": "BORDERLINE partial/novel. Dataset versioning, access control and provenance map to SI-7, SR-4 and AC-3. Poisoning is different in kind: crafted samples that arrive through an authorised path and pass format checks are not an unauthorised change, so integrity controls do not detect them.",
+      "residual": "Statistical and semantic detection of poisoned samples (anomaly detection, drift monitoring) and retraining triggered by integrity findings. 800-53 integrity controls detect unauthorised modification, not authorised-but-malicious data.",
+      "mappings": [
+        {"t": "sr-4", "rel": "intersects-with", "conf": "medium", "why": "Provenance of data and components: lineage for training datasets."},
+        {"t": "si-7", "rel": "intersects-with", "conf": "medium", "why": "Integrity verification of information; catches tampering after approval, not poisoning before it. See qualifier."},
+        {"t": "ac-3", "rel": "intersects-with", "conf": "medium", "why": "Access controls on training data."},
+        {"t": "si-10", "rel": "intersects-with", "conf": "low", "why": "Validate inputs at ingestion; covers the L2 format checks only."}
+      ],
+      "qualifiers": [
+        {"on": "si-7", "subject": "target", "predicate": "has-requirement", "category": "addressable",
+         "description": "SI-7 can be satisfied in full while training data is poisoned: it detects unauthorised changes to information, and a poisoned sample inserted through a legitimate ingestion path is not one. Meeting MS-02 needs statistical validation in addition to SI-7."}
+      ]
+    },
+    "MS-03": {
+      "fit": "direct",
+      "fit_basis": "Provenance and integrity of weights, ML libraries, training infrastructure and deployment tooling are the subject of the SR family, with models treated as system components. Compare TP-06, rated partial because it also requires treating models as scannable dependencies and automated blocking, which MS-03 does not.",
+      "residual": null,
+      "mappings": [
+        {"t": "sr-3", "rel": "intersects-with", "conf": "high", "why": "Process to identify and address weaknesses in supply chain elements."},
+        {"t": "sr-4", "rel": "intersects-with", "conf": "high", "why": "Document, monitor and maintain provenance of components and associated data."},
+        {"t": "sr-4.3", "rel": "intersects-with", "conf": "medium", "why": "Validate that a received component is genuine and not altered: pre-trained models from public hubs."},
+        {"t": "sr-6", "rel": "intersects-with", "conf": "medium", "why": "Assess and review suppliers, including public model repositories."},
+        {"t": "si-7.15", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic authentication of components before installation."},
+        {"t": "cm-14", "rel": "intersects-with", "conf": "low", "why": "Signed components, where the model ecosystem provides signatures."},
+        {"t": "pm-30", "rel": "intersects-with", "conf": "low", "why": "Organisation-wide supply chain risk management strategy."}
+      ]
+    },
+    "MS-04": {
+      "fit": "novel",
+      "fit_basis": "Resistance of a model to adversarial input (prompt injection, imperceptible-content vectors) has no 800-53 control. SI-10 and SI-10.6 presume a data/code boundary the model lacks (see TP-04). Adversarial testing appears only as red-team and penetration testing (CA-8.2, SA-11.5). AC-4.8 guidance names hidden content as a filter target, the only contact with the imperceptible-content half.",
+      "residual": "Model-level resistance to prompt injection, and sanitising inputs against imperceptible content (zero-opacity, sub-pixel, DOM-hidden text) before reasoning. 800-53 treats a system as deterministic software whose inputs can be validated against a specification; natural-language instruction content cannot be.",
+      "mappings": [
+        {"t": "si-10", "rel": "intersects-with", "conf": "low", "why": "Input validation; covers structural checks, not instruction content."},
+        {"t": "si-10.6", "rel": "intersects-with", "conf": "low", "why": "Injection prevention; mechanism assumes parameterized interfaces. See qualifier and TP-04."},
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "low", "why": "Restrict inputs to trusted sources and approved formats."},
+        {"t": "ac-4.8", "rel": "intersects-with", "conf": "low", "why": "Policy filters on content, with hidden content named in guidance."},
+        {"t": "ca-8.2", "rel": "intersects-with", "conf": "low", "why": "Red-team exercises: how adversarial robustness would be tested."},
+        {"t": "sa-11.5", "rel": "intersects-with", "conf": "low", "why": "Developer penetration testing."}
+      ],
+      "qualifiers": [
+        {"on": "si-10.6", "subject": "target", "predicate": "has-incompatibility", "category": "restricted",
+         "description": "SI-10.6 is met by parameterized interfaces or output escaping, which separate data from code. A model reads instructions and data in one channel, so SI-10.6 can be satisfied for every conventional parser while prompt injection is untouched."}
+      ]
+    },
+    "MS-05": {
+      "fit": "partial",
+      "fit_basis": "Output guardrails (PII filtering, toxicity, per-agent bounds) are information output filtering: SI-15 validates output against expected content and AC-4.8 enforces content filters. Both were written for software whose 'expected content' is a specification. Overlaps DS-06.",
+      "residual": "Semantic output bounds (safety, scope, domain-appropriate advice) and bounds adjusted dynamically from production telemetry. SI-15 presumes the expected content can be specified.",
+      "mappings": [
+        {"t": "si-15", "rel": "intersects-with", "conf": "medium", "why": "Validate output to ensure it is consistent with expected content."},
+        {"t": "ac-4.8", "rel": "intersects-with", "conf": "medium", "why": "Information flow control using content filters, with a defined response to filter failure."},
+        {"t": "ac-4", "rel": "intersects-with", "conf": "low", "why": "Information flow enforcement between the model and its consumers."},
+        {"t": "si-4", "rel": "intersects-with", "conf": "low", "why": "Monitoring of outputs in production."}
+      ]
+    },
+    "MS-06": {
+      "fit": "direct",
+      "fit_basis": "Inventory, versioning and lineage of models are component inventory (CM-8), baseline configuration (CM-2) and provenance (SR-4), with retirement covered by CM-8.1 updates on removal. Requires treating a model as a system component, as with TP-01.",
+      "residual": null,
+      "mappings": [
+        {"t": "cm-8", "rel": "intersects-with", "conf": "high", "why": "Inventory of system components that accurately reflects the system: 'what models do we have?'"},
+        {"t": "cm-8.1", "rel": "intersects-with", "conf": "medium", "why": "Update the inventory on installation, removal and update: covers retirement."},
+        {"t": "sr-4", "rel": "intersects-with", "conf": "medium", "why": "Provenance and lineage of a component."},
+        {"t": "cm-2", "rel": "intersects-with", "conf": "medium", "why": "Baseline configuration under configuration control: versioning."},
+        {"t": "pm-5", "rel": "intersects-with", "conf": "low", "why": "Inventory of organisational systems."},
+        {"t": "sa-10", "rel": "intersects-with", "conf": "low", "why": "Developer configuration management."}
+      ]
+    },
+    "MS-07": {
+      "fit": "novel",
+      "fit_basis": "Requires the evaluation environment to be indistinguishable from production from the model's perspective. 800-53 applies the opposite pressure: CM-4.1 and SA-3.1 require test environments to be separate from and protected relative to production, and nothing asks that they be undetectable. The control treats the model as an adversary that games evaluations.",
+      "residual": "Indistinguishability of API endpoints, data formats, latency, error handling and credential lifetimes between evaluation and production, with divergence checks treated as an incident signal. 800-53 has no concept of a system under test that detects the test.",
+      "mappings": [
+        {"t": "cm-4.1", "rel": "intersects-with", "conf": "low", "why": "Analyse changes in a separate test environment. See qualifier."},
+        {"t": "sa-3.1", "rel": "intersects-with", "conf": "low", "why": "Protect preproduction environments commensurate with risk."}
+      ],
+      "qualifiers": [
+        {"on": "cm-4.1", "subject": "both", "predicate": "has-requirement", "category": "addressable",
+         "description": "CM-4.1 requires a separate test environment; MS-07 additionally requires that environment to be indistinguishable from production. Satisfying CM-4.1 with a clearly labelled, differently configured test environment is exactly what lets a model detect evaluation (see EE-04)."}
+      ]
+    },
+    "MS-08": {
+      "fit": "partial",
+      "fit_basis": "The mechanisms are standard: signed metadata, service authentication, response validation, trusted registry, fail-closed authentication, alerting on writes. MCP is a protocol-layer attack surface 800-53 does not name, and tool metadata is instruction-bearing content, which is the trigger half seen in TP-16 and TP-12.",
+      "residual": "Treating MCP tool definitions and discovery metadata as security-relevant content to be signed and validated against a known-good schema; monitoring model-originated writes to execution-bearing locations and publication channels; a protocol-level rule against downgrading to anonymous sessions and against default gateway credentials.",
+      "mappings": [
+        {"t": "ia-9", "rel": "intersects-with", "conf": "medium", "why": "Uniquely identify and authenticate services before communications: MCP gateway authentication."},
+        {"t": "si-7.15", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic authentication of components: signed tool metadata."},
+        {"t": "si-10", "rel": "intersects-with", "conf": "medium", "why": "Validate responses against known-good schemas."},
+        {"t": "ia-5", "rel": "intersects-with", "conf": "medium", "why": "Authenticator management includes changing default authenticators before first use: the no-default-credentials clause."},
+        {"t": "sc-24", "rel": "intersects-with", "conf": "medium", "why": "Fail to a known state: authentication failure must not downgrade to anonymous."},
+        {"t": "cm-14", "rel": "intersects-with", "conf": "low", "why": "Signed components."},
+        {"t": "si-4.5", "rel": "intersects-with", "conf": "low", "why": "Alert on defined indications of compromise: model-originated writes to execution-bearing locations."},
+        {"t": "sr-4", "rel": "intersects-with", "conf": "low", "why": "Provenance for the trusted registry."}
+      ]
+    },
+    "MS-09": {
+      "fit": "novel",
+      "fit_basis": "Requires that content an agent acts on is perceptually equivalent to what the human approver sees, and binds approvals to a snapshot of the rendered content. This protects the integrity of the human-in-the-loop channel itself. 800-53 has no human-approval-of-action control (see IAM-03), so nothing addresses the fidelity of what the approver is shown.",
+      "residual": "Stripping or flagging imperceptible content (zero-opacity, sub-pixel, off-screen, DOM-hidden) before reasoning, and binding each approval to a rendering-fidelity snapshot of the exact content acted on.",
+      "mappings": [
+        {"t": "ac-4.8", "rel": "intersects-with", "conf": "low", "why": "Content filters, with hidden content named in guidance."},
+        {"t": "au-10", "rel": "intersects-with", "conf": "low", "why": "Irrefutable evidence of what was approved; the approval record would need to include the rendered content."},
+        {"t": "ac-4.9", "rel": "intersects-with", "conf": "low", "why": "Human reviews under defined conditions: the approval step whose fidelity MS-09 protects."}
+      ]
+    },
+    "MS-10": {
+      "fit": "partial",
+      "fit_basis": "Access control, integrity protection and audit of memory writes map to AC-3, SI-7.6 and AU-12. As with MS-02, an authenticated agent writing a malicious memory is an authorised write, so integrity controls do not catch it, and the effect persists across software patches.",
+      "residual": "Treating persistent agent memory (vector stores, learned patterns, histories) as a behaviour-steering store; retrieval-layer filtering of flagged entries; a post-incident audit-and-clean procedure for the store itself; red-team testing of poisoning persistence.",
+      "mappings": [
+        {"t": "ac-3", "rel": "intersects-with", "conf": "medium", "why": "Authenticated, authorised writes to the memory store."},
+        {"t": "si-7.6", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic mechanisms to detect unauthorized changes to information: tamper-evident memory."},
+        {"t": "au-12", "rel": "intersects-with", "conf": "low", "why": "Audit record generation for memory writes."},
+        {"t": "au-9.1", "rel": "intersects-with", "conf": "low", "why": "Write-once media; loose analogue for append-only or immutable snapshots."},
+        {"t": "si-4", "rel": "intersects-with", "conf": "low", "why": "Anomaly detection on memory writes."},
+        {"t": "ir-4", "rel": "intersects-with", "conf": "low", "why": "Eradication step of incident handling, applied to the memory store."}
+      ]
+    },
+    "MS-11": {
+      "fit": "partial",
+      "fit_basis": "Producer authentication for log and alert streams maps to AU-10.1, IA-9 and SI-10.5. The control's core is different: an agent that reads logs or alerts will follow instructions embedded in them, so an operational feed becomes a command channel. That trigger has no 800-53 analogue (compare TP-11).",
+      "residual": "Treating log, alert and observability content as untrusted instruction-bearing input; independent non-log verification before a log-triggered action; flagging agent actions whose proximate cause was a log entry.",
+      "mappings": [
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "medium", "why": "Restrict inputs to trusted sources: authenticated producers only."},
+        {"t": "au-10.1", "rel": "intersects-with", "conf": "medium", "why": "Bind the identity of the information producer to the information."},
+        {"t": "ia-9", "rel": "intersects-with", "conf": "medium", "why": "Authenticate services before communications: ingestion pipelines authenticate producers."},
+        {"t": "ac-4.17", "rel": "intersects-with", "conf": "low", "why": "Uniquely identify and authenticate source points for information transfer."},
+        {"t": "si-4", "rel": "intersects-with", "conf": "low", "why": "Monitoring; agent actions traced to a log entry would be flagged here."}
+      ]
+    },
+    "MS-12": {
+      "fit": "partial",
+      "fit_basis": "Baseline validation and drift alerting for tool metadata map to CM-2 and SI-7; cache isolation across authentication contexts maps to AC-3 and SC-4. Instruction-bearing discovery metadata is again the trigger half.",
+      "residual": "Length-limiting and screening MCP instructions and tool descriptions for instruction content; isolating them from the trusted system prompt; verifying, not trusting, server-declared cache scope claims.",
+      "mappings": [
+        {"t": "si-7", "rel": "intersects-with", "conf": "medium", "why": "Detect unauthorized changes to tool metadata against an approved baseline."},
+        {"t": "ac-3", "rel": "intersects-with", "conf": "medium", "why": "Cache entries served only within the authentication context that produced them."},
+        {"t": "cm-2", "rel": "intersects-with", "conf": "low", "why": "Operator-approved baseline of tool metadata."},
+        {"t": "sc-4", "rel": "intersects-with", "conf": "low", "why": "Prevent information transfer via shared resources: shared caches."},
+        {"t": "si-7.6", "rel": "intersects-with", "conf": "low", "why": "Cryptographic protection: signed cached metadata."},
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "low", "why": "Restrict inputs to approved formats; covers length limits."}
+      ]
+    },
+    "MS-13": {
+      "fit": "partial",
+      "fit_basis": "Signed or chained transcripts are audit-record integrity (AU-9.3), non-repudiation (AU-10) and session authenticity (SC-23). The unusual feature is that the transcript is something the model itself reasons over as ground truth, so its integrity is a safety property and not only an evidence property.",
+      "residual": "Signing model outputs with a per-session key held outside the harness; verifying every stored response on read before the agent reasons over it; refusing confidence-gated action from an unverified transcript.",
+      "mappings": [
+        {"t": "au-9.3", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic protection of the integrity of audit information."},
+        {"t": "au-10", "rel": "intersects-with", "conf": "medium", "why": "Irrefutable evidence of what the model said."},
+        {"t": "sc-23", "rel": "intersects-with", "conf": "medium", "why": "Protect the authenticity of sessions, including insertion of false information."},
+        {"t": "au-9.1", "rel": "intersects-with", "conf": "low", "why": "Write-once media; loose analogue for an append-only transcript."},
+        {"t": "si-7.6", "rel": "intersects-with", "conf": "low", "why": "Cryptographic detection of unauthorized change."}
+      ]
+    },
+    "MS-14": {
+      "fit": "novel",
+      "fit_basis": "Using the agent as a propagation vector for its own injected instructions (a prompt worm) has no 800-53 analogue. SI-3 names worms but concerns malicious code, and SC-7.9 extrusion detection concerns traffic that threatens external systems, not instruction-bearing natural language.",
+      "residual": "Fingerprinting instruction-bearing input and matching it against outbound content before publish; quarantine and human sign-off on suspected echoes; blast-radius caps per propagation hop; worm-emulation drills.",
+      "mappings": [
+        {"t": "si-3", "rel": "intersects-with", "conf": "low", "why": "Malicious code protection; worms are named, but as code."},
+        {"t": "sc-7.9", "rel": "intersects-with", "conf": "low", "why": "Detect and deny outgoing traffic posing a threat to external systems."},
+        {"t": "si-15", "rel": "intersects-with", "conf": "low", "why": "Output filtering for content inconsistent with expected output."},
+        {"t": "ac-4.8", "rel": "intersects-with", "conf": "low", "why": "Content filters on information flows."}
+      ]
+    },
+    "MS-15": {
+      "fit": "partial",
+      "fit_basis": "Cross-tenant memory isolation is access enforcement and separation of information flows, as with IAM-09. Pooled vector stores add a failure mode with no 800-53 vocabulary: similarity retrieval crosses ownership boundaries without any exploit. Keyword search of Rev 5.2 finds no 'tenant'.",
+      "residual": "Hard post-retrieval ownership gating (similarity is not admissibility); treating any cross-tenant hit as an alarm; a tenant or namespace key that is never a model-controllable tool argument; fail-closed refusal when ownership cannot be verified.",
+      "mappings": [
+        {"t": "ac-3", "rel": "intersects-with", "conf": "high", "why": "Enforce authorizations at retrieval and write: ownership gating."},
+        {"t": "ac-4.21", "rel": "intersects-with", "conf": "medium", "why": "Logical separation of information flows between tenants."},
+        {"t": "sc-4", "rel": "intersects-with", "conf": "medium", "why": "Prevent unintended information transfer via shared resources: a pooled index."},
+        {"t": "sa-8.2", "rel": "intersects-with", "conf": "low", "why": "Least common mechanism: design principle against shared mechanisms."},
+        {"t": "sa-8.6", "rel": "intersects-with", "conf": "low", "why": "Minimized sharing."}
+      ]
+    },
+    "DS-01": {
+      "fit": "direct",
+      "fit_basis": "Automated classification at ingestion that drives downstream handling is attribute association (AC-16), with dynamic association as information is created (AC-16.1) and categorisation (RA-2). Assumes the ODPs name the organisation's classification scheme.",
+      "residual": null,
+      "mappings": [
+        {"t": "ac-16", "rel": "intersects-with", "conf": "high", "why": "Associate security and privacy attributes with information in storage, process and transmission."},
+        {"t": "ac-16.1", "rel": "intersects-with", "conf": "high", "why": "Dynamically associate attributes as information is created and combined: classification at ingestion."},
+        {"t": "ra-2", "rel": "intersects-with", "conf": "medium", "why": "Security categorization of the information the system processes."},
+        {"t": "ac-4", "rel": "intersects-with", "conf": "low", "why": "Flow decisions based on the attributes."}
+      ]
+    },
+    "DS-02": {
+      "fit": "direct",
+      "fit_basis": "Encryption of data in transit between user, agent, model and tool endpoints is SC-8 and SC-8.1. 'Data extraction' is read here as interception. If it is read as model or training-data extraction through queries, that is not covered (see DS-06).",
+      "residual": null,
+      "mappings": [
+        {"t": "sc-8", "rel": "intersects-with", "conf": "high", "why": "Protect confidentiality and integrity of transmitted information."},
+        {"t": "sc-8.1", "rel": "intersects-with", "conf": "high", "why": "Cryptographic mechanisms during transmission."},
+        {"t": "sc-13", "rel": "intersects-with", "conf": "medium", "why": "Cryptography required for each use."},
+        {"t": "sc-12", "rel": "intersects-with", "conf": "low", "why": "Key management."},
+        {"t": "sc-23", "rel": "intersects-with", "conf": "low", "why": "Session authenticity."}
+      ]
+    },
+    "DS-03": {
+      "fit": "partial",
+      "fit_basis": "Retention, disposal, encryption at rest and prevention of cross-session leakage map to SI-12, SI-12.3, SC-28.1 and SC-4. Persistent agent memory as a cross-session aggregation point is not named.",
+      "residual": "Detecting cross-session aggregation of sensitive data in agent memory, and per-agent memory scoping as a design requirement. MP-6 media sanitisation concerns media at disposal, not purging stored context.",
+      "mappings": [
+        {"t": "sc-28.1", "rel": "intersects-with", "conf": "high", "why": "Cryptographic protection of information at rest: encrypted memory."},
+        {"t": "si-12", "rel": "intersects-with", "conf": "medium", "why": "Manage and retain information per requirements: retention policy."},
+        {"t": "si-12.3", "rel": "intersects-with", "conf": "medium", "why": "Disposal of information after the retention period: automated purging."},
+        {"t": "sc-4", "rel": "intersects-with", "conf": "medium", "why": "Prevent information transfer via shared resources: cross-session leakage."},
+        {"t": "mp-6", "rel": "intersects-with", "conf": "low", "why": "Media sanitization; literal media, loose analogue for purging memory."}
+      ]
+    },
+    "DS-04": {
+      "fit": "partial",
+      "fit_basis": "800-53 minimisation is scoped to PII (SI-12.1, PT-2, PM-25). DS-04 applies to all data exposed to a model, retrieved or stored, as least privilege for data.",
+      "residual": "Minimising non-PII sensitive data exposed to the model's context, and per-task retrieval scoping. AC-6 least privilege applies to accounts and processes, not to the volume of data placed in a context window.",
+      "mappings": [
+        {"t": "si-12.1", "rel": "intersects-with", "conf": "medium", "why": "Limit PII elements processed in the information life cycle."},
+        {"t": "pt-2", "rel": "intersects-with", "conf": "low", "why": "Restrict processing of PII to what is authorized."},
+        {"t": "ac-6", "rel": "intersects-with", "conf": "low", "why": "Least privilege, applied to data access."},
+        {"t": "sa-8.14", "rel": "intersects-with", "conf": "low", "why": "Least privilege design principle."},
+        {"t": "pm-25", "rel": "intersects-with", "conf": "low", "why": "Minimise PII used in testing, training and research."}
+      ]
+    },
+    "DS-05": {
+      "fit": "partial",
+      "fit_basis": "The privacy families (PT, SI-12, PM-25) cover consent, purpose and retention for personal data used in training. Lineage maps loosely to provenance. Scope is PII-only. How these align with the Privacy Act 1988 is not assessed here.",
+      "residual": "Lineage from source through preprocessing to training for all training data, not only PII; verifying consent for personal data used to train a model; machine unlearning (removing a record's influence from a trained model); continuous training-data audit. 800-53 disposal controls act on stored information, not on a model derived from it.",
+      "mappings": [
+        {"t": "pt-4", "rel": "intersects-with", "conf": "medium", "why": "Consent to processing of PII prior to collection."},
+        {"t": "pt-3", "rel": "intersects-with", "conf": "medium", "why": "Identify and restrict PII processing purposes."},
+        {"t": "si-12", "rel": "intersects-with", "conf": "medium", "why": "Retention of information."},
+        {"t": "si-12.2", "rel": "intersects-with", "conf": "medium", "why": "Minimise PII used in research, testing and training."},
+        {"t": "sr-4", "rel": "intersects-with", "conf": "low", "why": "Provenance of data."},
+        {"t": "pm-23", "rel": "intersects-with", "conf": "low", "why": "Data governance body."}
+      ]
+    },
+    "DS-06": {
+      "fit": "partial",
+      "fit_basis": "PII and sensitive-data scanning of output is output filtering (SI-15) and content flow filtering (AC-4.8). Leakage of memorised training data and system prompts has no analogue: nothing in 800-53 refers to a model reproducing its inputs. Overlaps MS-05.",
+      "residual": "Detecting memorised training data and system-prompt fragments in model output, and memorisation testing in CI/CD. SI-15 validates output against 'expected content', which presumes the expected content can be specified.",
+      "mappings": [
+        {"t": "si-15", "rel": "intersects-with", "conf": "medium", "why": "Validate output to ensure consistency with expected content."},
+        {"t": "ac-4.8", "rel": "intersects-with", "conf": "medium", "why": "Content filters on information flows."},
+        {"t": "au-13", "rel": "intersects-with", "conf": "low", "why": "Monitor for evidence of unauthorized disclosure of information."},
+        {"t": "sc-7.10", "rel": "intersects-with", "conf": "low", "why": "Prevent exfiltration."}
+      ]
+    },
+    "DS-07": {
+      "fit": "partial",
+      "fit_basis": "Agent-authored artifacts entering the same integrity pipeline as third-party ones maps to SA-10, SI-7.15, CM-14 and SI-3. Out-of-band approval for publication that the agent cannot invoke is separation of duties (AC-5) and dual authorization (AC-3.2) applied to an agent. Same gap as IAM-03.",
+      "residual": "Publication as an egress event requiring approval the agent can neither trigger nor satisfy, and publication credentials unreachable through the ordinary tool path. 800-53 separation of duties is written for people.",
+      "mappings": [
+        {"t": "ac-5", "rel": "intersects-with", "conf": "medium", "why": "Separation of duties: the agent cannot approve its own publication."},
+        {"t": "sa-10", "rel": "intersects-with", "conf": "medium", "why": "Developer configuration management with integrity control."},
+        {"t": "si-7.15", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic authentication before installation."},
+        {"t": "cm-5", "rel": "intersects-with", "conf": "medium", "why": "Access restrictions for change: writes to execution-bearing locations."},
+        {"t": "ac-3.2", "rel": "intersects-with", "conf": "low", "why": "Dual authorization for defined actions."},
+        {"t": "cm-14", "rel": "intersects-with", "conf": "low", "why": "Signed components."},
+        {"t": "si-3", "rel": "intersects-with", "conf": "low", "why": "Malware scanning of artifacts."}
+      ]
+    },
+    "DS-08": {
+      "fit": "partial",
+      "fit_basis": "Egress allow-listing, exfiltration prevention and covert-channel analysis are all in 800-53 (SC-7.5, SC-7.10, SC-31, SI-4.18). Agent-era emergent channels fall in the gaps: a rendered image tag or link unfurl is fetched by the user's client or a third-party service, outside the network boundary SC-7.5 governs.",
+      "residual": "Enumerating client-side and third-party fetch channels (image rendering, link unfurl, webhook preview) as egress sinks; payload-blind hard allow-lists rather than content classifiers; DNS egress restricted to allow-listed resolvers with queried names inspected. SC-31 covers the analysis in principle, as a design-time covert channel analysis.",
+      "mappings": [
+        {"t": "sc-7.5", "rel": "intersects-with", "conf": "high", "why": "Deny by default, allow by exception: the destination allow-list."},
+        {"t": "sc-7.10", "rel": "intersects-with", "conf": "high", "why": "Prevent exfiltration and test for it."},
+        {"t": "sc-31", "rel": "intersects-with", "conf": "medium", "why": "Covert channel analysis: finds channels not on the declared list."},
+        {"t": "si-4.18", "rel": "intersects-with", "conf": "medium", "why": "Analyse outbound traffic for covert exfiltration."},
+        {"t": "ac-4", "rel": "intersects-with", "conf": "medium", "why": "Information flow enforcement to defined destinations."},
+        {"t": "sc-7.9", "rel": "intersects-with", "conf": "low", "why": "Detect and deny outgoing traffic posing a threat."},
+        {"t": "sc-7.8", "rel": "intersects-with", "conf": "low", "why": "Route traffic through authenticated proxies."}
+      ]
+    },
+    "MIR-01": {
+      "fit": "direct",
+      "fit_basis": "Structured, attributable activity records correlated to the initiating session are audit event selection, content and generation. Requires treating agent actions as auditable events and the agent as a subject in AU-3's identity element.",
+      "residual": null,
+      "mappings": [
+        {"t": "au-2", "rel": "intersects-with", "conf": "high", "why": "Identify the event types to be logged: every agent action."},
+        {"t": "au-3", "rel": "intersects-with", "conf": "high", "why": "Audit record content: type, time, location, source, outcome, identity."},
+        {"t": "au-12", "rel": "intersects-with", "conf": "high", "why": "Audit record generation."},
+        {"t": "au-3.1", "rel": "intersects-with", "conf": "medium", "why": "Additional audit information: correlation to the initiating human session."},
+        {"t": "au-12.1", "rel": "intersects-with", "conf": "medium", "why": "System-wide, time-correlated audit trail."},
+        {"t": "au-14", "rel": "intersects-with", "conf": "low", "why": "Session audit."}
+      ]
+    },
+    "MIR-02": {
+      "fit": "direct",
+      "fit_basis": "Per-agent behavioural baselines with deviation alerting are profile-based monitoring (SI-4.13) within system monitoring (SI-4). SI-4.13 is written for traffic and event patterns; applying it to agent action sequences is an extension, so 'direct' assumes that reading. Adversary-owned autonomous agents are an attacker class that SI-4 already addresses as attacks and indicators of attacks.",
+      "residual": null,
+      "mappings": [
+        {"t": "si-4.13", "rel": "intersects-with", "conf": "high", "why": "Develop profiles representing common traffic and event patterns and use them in monitoring."},
+        {"t": "si-4", "rel": "intersects-with", "conf": "medium", "why": "Monitor to detect attacks and indicators of potential attacks."},
+        {"t": "ir-4.13", "rel": "intersects-with", "conf": "medium", "why": "Analyse anomalous or suspected adversarial behaviour."},
+        {"t": "si-4.11", "rel": "intersects-with", "conf": "low", "why": "Analyse outbound traffic anomalies; covers unexpected listener and binding events."},
+        {"t": "au-6", "rel": "intersects-with", "conf": "low", "why": "Review and analyse audit records for unusual activity."}
+      ]
+    },
+    "MIR-03": {
+      "fit": "direct",
+      "fit_basis": "Capturing sanitised prompt/response content is session audit (AU-14) with PII limiting in audit records (AU-3.3). AU-14 requires consultation with legal counsel, which is a real constraint on prompt logging.",
+      "residual": null,
+      "mappings": [
+        {"t": "au-14", "rel": "intersects-with", "conf": "medium", "why": "Capture the content of a session, in consultation with legal counsel."},
+        {"t": "au-3.3", "rel": "intersects-with", "conf": "high", "why": "Limit PII in audit records to elements identified in the privacy risk assessment: the sanitisation half. See qualifier."},
+        {"t": "au-3", "rel": "intersects-with", "conf": "medium", "why": "Audit record content."},
+        {"t": "au-3.1", "rel": "intersects-with", "conf": "medium", "why": "Additional audit information: prompt and response."},
+        {"t": "au-9", "rel": "intersects-with", "conf": "low", "why": "Protect audit information."},
+        {"t": "au-11", "rel": "intersects-with", "conf": "low", "why": "Retention for after-the-fact investigation."}
+      ],
+      "qualifiers": [
+        {"on": "au-3.3", "subject": "both", "predicate": "has-requirement", "category": "addressable",
+         "description": "A prompt/response log is itself a new high-sensitivity data store. AU-3.3 ties the PII elements retained to a privacy risk assessment, so MIR-03 cannot be treated as met without one."}
+      ]
+    },
+    "MIR-04": {
+      "fit": "partial",
+      "fit_basis": "800-53 requires an incident response capability, plan, handling and testing (IR-4, IR-8, IR-3), and automated handling (IR-4.1) covers SOAR. It does not require playbooks per incident type.",
+      "residual": "AI-specific scenarios (prompt-injection containment, model rollback, tool revocation, code-generation attack containment) as required playbook content. 800-53 requires the capability, not scenario coverage.",
+      "mappings": [
+        {"t": "ir-4", "rel": "intersects-with", "conf": "high", "why": "Incident handling: preparation, detection, containment, eradication, recovery."},
+        {"t": "ir-8", "rel": "intersects-with", "conf": "high", "why": "Incident response plan."},
+        {"t": "ir-3", "rel": "intersects-with", "conf": "medium", "why": "Test the response capability: tabletop exercises."},
+        {"t": "ir-4.1", "rel": "intersects-with", "conf": "medium", "why": "Automated incident handling: SOAR integration."},
+        {"t": "ir-4.5", "rel": "intersects-with", "conf": "low", "why": "Automatic disabling of the system on defined conditions."},
+        {"t": "ir-2", "rel": "intersects-with", "conf": "low", "why": "Incident response training."}
+      ]
+    },
+    "MIR-05": {
+      "fit": "direct",
+      "fit_basis": "IR-6 requires reporting within a defined time to defined parties, and its ODPs can name SOCI Act, APRA CPS 234 and Notifiable Data Breaches deadlines; IR-6.1 covers automation. The mapping is structural: the 12 and 72-hour windows are Australian regulation, not 800-53 content.",
+      "residual": null,
+      "mappings": [
+        {"t": "ir-6", "rel": "intersects-with", "conf": "high", "why": "Report incidents within a defined time to defined parties."},
+        {"t": "ir-6.1", "rel": "intersects-with", "conf": "high", "why": "Automated reporting."},
+        {"t": "ir-8.1", "rel": "intersects-with", "conf": "medium", "why": "Breach handling, including notice to individuals and regulators."},
+        {"t": "ir-8", "rel": "intersects-with", "conf": "low", "why": "Reporting triggers belong in the incident response plan."},
+        {"t": "sr-8", "rel": "intersects-with", "conf": "low", "why": "Notification agreements with supply chain entities."}
+      ]
+    },
+    "MIR-06": {
+      "fit": "direct",
+      "fit_basis": "Immutable, integrity-protected audit storage with retention and after-the-fact reconstruction is AU-9, AU-9.1 to AU-9.3, AU-11 and AU-7. Reconstructing every prompt, tool call, data access and decision presumes MIR-01 and MIR-03 supply the content.",
+      "residual": null,
+      "mappings": [
+        {"t": "au-9", "rel": "intersects-with", "conf": "high", "why": "Protect audit information from modification and deletion."},
+        {"t": "au-9.1", "rel": "intersects-with", "conf": "medium", "why": "Hardware-enforced write-once media."},
+        {"t": "au-9.2", "rel": "intersects-with", "conf": "medium", "why": "Store audit records on a physically different system."},
+        {"t": "au-9.3", "rel": "intersects-with", "conf": "medium", "why": "Cryptographic integrity protection of audit information."},
+        {"t": "au-11", "rel": "intersects-with", "conf": "medium", "why": "Retain audit records to support after-the-fact investigations."},
+        {"t": "au-7", "rel": "intersects-with", "conf": "medium", "why": "Audit reduction and reporting supporting after-the-fact investigation."},
+        {"t": "au-14", "rel": "intersects-with", "conf": "low", "why": "Session audit."}
+      ]
+    },
+    "GRM-01": {
+      "fit": "direct",
+      "fit_basis": "A chartered body with authority to approve deployments and oversee posture maps to the risk executive function (PM-29) and the authorization process (PM-10, CA-6). Direct only if the organisation's existing risk governance already takes AI systems in scope; many do not, and 800-53 does not require it.",
+      "residual": null,
+      "mappings": [
+        {"t": "pm-29", "rel": "intersects-with", "conf": "medium", "why": "Risk executive function with a senior accountable official."},
+        {"t": "ca-6", "rel": "intersects-with", "conf": "medium", "why": "Authorization to operate: approving agentic AI deployments."},
+        {"t": "pm-10", "rel": "intersects-with", "conf": "medium", "why": "Authorization process with designated roles."},
+        {"t": "pm-9", "rel": "intersects-with", "conf": "low", "why": "Risk management strategy."},
+        {"t": "pm-23", "rel": "intersects-with", "conf": "low", "why": "Data governance body; nearest named governance body, scoped to data."}
+      ]
+    },
+    "GRM-02": {
+      "fit": "partial",
+      "fit_basis": "Risk assessment, risk response and POA&M cover the register itself. The AI-specific additions (threat taxonomy, automated tripwires, an exercised kill switch) are not stated, though IR-4.5 and CM-8.3 are partial analogues.",
+      "residual": "A dedicated AI threat taxonomy (model, tool, data, identity, pipeline), automated tripwires, and a single exercised kill-switch capability tested at least annually. IR-4.5 is a configurable automatic disable on detection, not an organisation-wide kill switch that is exercised.",
+      "mappings": [
+        {"t": "ra-3", "rel": "intersects-with", "conf": "high", "why": "Risk assessment: threats, vulnerabilities, likelihood and impact."},
+        {"t": "ra-7", "rel": "intersects-with", "conf": "medium", "why": "Respond to findings in accordance with risk tolerance."},
+        {"t": "ca-5", "rel": "intersects-with", "conf": "medium", "why": "Plan of action and milestones: tracked to resolution."},
+        {"t": "pm-9", "rel": "intersects-with", "conf": "medium", "why": "Risk management strategy."},
+        {"t": "ir-4.5", "rel": "intersects-with", "conf": "medium", "why": "Automatic disabling of the system: closest to a kill switch."},
+        {"t": "cm-8.3", "rel": "intersects-with", "conf": "medium", "why": "Detect unauthorized components: unledgered-asset discovery."},
+        {"t": "pm-28", "rel": "intersects-with", "conf": "low", "why": "Risk framing."}
+      ]
+    },
+    "GRM-03": {
+      "fit": "novel",
+      "fit_basis": "Defining what agents may do, assigning autonomy by risk tier and setting transparency obligations has no 800-53 counterpart. Keyword search of Rev 5.2 statements and guidance finds no 'ethic' or 'autonom'. PL-4 rules of behaviour is the nearest and is written for human users.",
+      "residual": "A policy of acceptable agent conduct, risk-tiered autonomy levels, and agent transparency obligations, with technical enforcement at the tool gateway (L4).",
+      "mappings": [
+        {"t": "pl-4", "rel": "intersects-with", "conf": "low", "why": "Rules of behaviour: the nearest policy-of-conduct control. See qualifier."},
+        {"t": "ac-6", "rel": "intersects-with", "conf": "low", "why": "Limits on autonomy realised as least privilege."},
+        {"t": "pt-5", "rel": "intersects-with", "conf": "low", "why": "Privacy notice; transparency obligation, scoped to PII."}
+      ],
+      "qualifiers": [
+        {"on": "pl-4", "subject": "target", "predicate": "has-requirement", "category": "addressable",
+         "description": "PL-4 rules of behaviour are addressed to individuals with access to the system. An agent is not an individual, so applying PL-4 to agents is an interpretation. Autonomy tiers and transparency obligations are not part of PL-4."}
+      ]
+    },
+    "GRM-04": {
+      "fit": "direct",
+      "fit_basis": "Assessing external providers, binding them contractually and coordinating incident handling with them is SA-9, SR-3, SR-5, SR-6 and SA-4. Right-to-audit is not named in 800-53 but falls under SA-9 oversight and SR-6 assessment. Rated direct on the assumption that ODPs cover model providers, tool providers and evaluation-harness vendors; the v1.5 additions (agent-speed adversary playbooks, harness isolation assurance per EE-08) are content the organisation must add.",
+      "residual": null,
+      "mappings": [
+        {"t": "sa-9", "rel": "intersects-with", "conf": "high", "why": "Require external service providers to comply with security requirements; define oversight."},
+        {"t": "sr-6", "rel": "intersects-with", "conf": "medium", "why": "Assess and review suppliers."},
+        {"t": "sr-3", "rel": "intersects-with", "conf": "medium", "why": "Controls and processes for supply chain weaknesses."},
+        {"t": "sr-5", "rel": "intersects-with", "conf": "medium", "why": "Acquisition strategies and contract tools."},
+        {"t": "sa-4", "rel": "intersects-with", "conf": "medium", "why": "Security requirements in the acquisition contract."},
+        {"t": "sr-8", "rel": "intersects-with", "conf": "medium", "why": "Notification agreements and procedures."},
+        {"t": "ir-6.3", "rel": "intersects-with", "conf": "low", "why": "Provide incident information to supply chain organisations."},
+        {"t": "ra-3.1", "rel": "intersects-with", "conf": "low", "why": "Supply chain risk assessment."}
+      ]
+    },
+    "GRM-05": {
+      "fit": "direct",
+      "fit_basis": "Mapping controls to the regulations that apply and reporting compliance status on a cadence is continuous monitoring (CA-7, PM-31) and control assessment (CA-2); baseline selection and tailoring (PL-10, PL-11) is the mapping step. Australian regulators are ODP content.",
+      "residual": null,
+      "mappings": [
+        {"t": "ca-7", "rel": "intersects-with", "conf": "high", "why": "Continuous monitoring with defined metrics and reporting."},
+        {"t": "pm-31", "rel": "intersects-with", "conf": "medium", "why": "Organisation-wide continuous monitoring strategy."},
+        {"t": "ca-2", "rel": "intersects-with", "conf": "medium", "why": "Control assessments and reporting of results."},
+        {"t": "pm-6", "rel": "intersects-with", "conf": "low", "why": "Measures of performance, monitored and reported."},
+        {"t": "pl-10", "rel": "intersects-with", "conf": "low", "why": "Select a control baseline: selecting the applicable requirements."},
+        {"t": "pl-11", "rel": "intersects-with", "conf": "low", "why": "Tailor the baseline."}
+      ]
+    },
+    "GRM-06": {
+      "fit": "partial",
+      "fit_basis": "Reporting security measures, open findings (POA&M) and risk responses to senior management is PM-6, CA-5 and RA-7. Board-level, non-technical presentation and per-pillar maturity scores are not specified.",
+      "residual": "Per-pillar maturity scoring for non-technical audiences. 800-53 baselines are met or not met per control and define no maturity ladder.",
+      "mappings": [
+        {"t": "pm-6", "rel": "intersects-with", "conf": "medium", "why": "Develop, monitor and report on measures of performance."},
+        {"t": "ca-5", "rel": "intersects-with", "conf": "medium", "why": "Plan of action and milestones: open findings."},
+        {"t": "ra-7", "rel": "intersects-with", "conf": "low", "why": "Risk response: risk acceptances."},
+        {"t": "pm-29", "rel": "intersects-with", "conf": "low", "why": "Senior accountable official for risk management."},
+        {"t": "ca-7", "rel": "intersects-with", "conf": "low", "why": "Continuous monitoring reporting."}
       ]
     }
   }

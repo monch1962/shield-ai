@@ -2,32 +2,36 @@
 
 Generated 2026-11-19 by `tools/generate_oscal_crosswalk.py` from `crosswalk/shield-ai-to-800-53r5.json`. Target catalog: SP 800-53 Rev 5.2.0. **Status: DRAFT, not SME-reviewed.**
 
-Scope: IAM, TP and EE pillars, 34 of 69 controls.
+Scope: MS, IAM, DS, TP, MIR, GRM and EE pillars, 69 of 69 controls.
 
 ## Headline
 
 | Fit | Controls | Meaning |
 |---|---|---|
-| direct | 10 | An org meeting the mapped 800-53 controls, with agents in scope as subjects and sensible ODPs, substantially meets the SHIELD control. No residual requirement. |
-| partial | 21 | The core of the control maps to 800-53, but SHIELD adds requirements 800-53 does not state. Residual is recorded. |
-| novel | 3 | Only tangential 800-53 analogues exist. The control's main idea is new relative to 800-53. |
+| direct | 23 | An org meeting the mapped 800-53 controls, with agents in scope as subjects and sensible ODPs, substantially meets the SHIELD control. No residual requirement. |
+| partial | 38 | The core of the control maps to 800-53, but SHIELD adds requirements 800-53 does not state. Residual is recorded. |
+| novel | 8 | Only tangential 800-53 analogues exist. The control's main idea is new relative to 800-53. |
 
-Every one of the 34 controls has at least one 800-53 neighbour (34 of 34), so none is wholly orphaned. That is a weak result by itself: 800-53 is broad enough that something always loosely applies. The fit column is the meaningful one.
+Every one of the 69 controls has at least one 800-53 neighbour (69 of 69), so none is wholly orphaned. That is a weak result by itself: 800-53 is broad enough that something always loosely applies. The fit column is the meaningful one.
 
 ## Mapping-level statistics
 
-- 136 map entries. Relationships: intersects-with 132, no-relationship 1, subset-of 3.
-- Confidence: high 21, medium 67, low 48.
-- 132 of 136 entries are `intersects-with` (each side has content the other lacks); 3 are `subset-of`; 0 are `equal-to`/`equivalent-to`.
+- 324 map entries. Relationships: intersects-with 320, no-relationship 1, subset-of 3.
+- Confidence: high 47, medium 148, low 129.
+- 320 of 324 entries are `intersects-with` (each side has content the other lacks); 3 are `subset-of`; 0 are `equal-to`/`equivalent-to`.
 
-- 20 of 34 controls have at least one high-confidence mapping. 14 rest on medium or low confidence alone.
+- 37 of 69 controls have at least one high-confidence mapping. 32 rest on medium or low confidence alone.
 
 ## By pillar
 
 | Pillar | Direct | Partial | Novel |
 |---|---|---|---|
+| MS | 3 | 8 | 4 |
 | IAM | 2 | 6 | 2 |
+| DS | 2 | 6 | 0 |
 | TP | 5 | 10 | 1 |
+| MIR | 5 | 1 | 0 |
+| GRM | 3 | 2 | 1 |
 | EE | 3 | 5 | 0 |
 
 ## Per-control result
@@ -68,6 +72,41 @@ Every one of the 34 controls has at least one 800-53 neighbour (34 of 34), so no
 | TP-14 | Skill/Plugin Payload Integrity and Instruction-Channel Isolation | **partial** | CM-14 (H), SI-7.15 (H), SR-4 (M), AC-6 (M), SC-18.3 (L), SR-11 (L) |
 | TP-15 | In-Process Code-Execution Sandbox Sufficiency | **partial** | SC-39 (H), CM-7.6 (M), SC-44 (L), SC-7.21 (L) |
 | TP-16 | Tool-Connection and Launch-Path Integrity | **partial** | SI-10.6 (H), SI-10 (M), SI-10.5 (M), CM-7.5 (M), CM-7.2 (L), CA-3 (L) |
+| MS-01 | Model Weight Protection | **direct** | SC-28.1 (H), SC-12 (H), SC-8.1 (M), SC-13 (M), SI-7 (L) |
+| MS-02 | Training Data Integrity | **partial** | SR-4 (M), SI-7 (M), AC-3 (M), SI-10 (L) |
+| MS-03 | Supply Chain Security | **direct** | SR-3 (H), SR-4 (H), SR-4.3 (M), SR-6 (M), SI-7.15 (M), CM-14 (L), PM-30 (L) |
+| MS-04 | Adversarial Robustness | **novel** | SI-10 (L), SI-10.6 (L), SI-10.5 (L), AC-4.8 (L), CA-8.2 (L), SA-11.5 (L) |
+| MS-05 | Model Behaviour Validation | **partial** | SI-15 (M), AC-4.8 (M), AC-4 (L), SI-4 (L) |
+| MS-06 | Model Inventory and Lineage Tracking | **direct** | CM-8 (H), CM-8.1 (M), SR-4 (M), CM-2 (M), PM-5 (L), SA-10 (L) |
+| MS-07 | Deployment Context Obfuscation | **novel** | CM-4.1 (L), SA-3.1 (L) |
+| MS-08 | MCP Security Controls | **partial** | IA-9 (M), SI-7.15 (M), SI-10 (M), IA-5 (M), SC-24 (M), CM-14 (L), SI-4.5 (L), SR-4 (L) |
+| MS-09 | Perception-Fidelity Enforcement for Human-in-the-Loop Approvals | **novel** | AC-4.8 (L), AU-10 (L), AC-4.9 (L) |
+| MS-10 | Agent Memory-Store Integrity | **partial** | AC-3 (M), SI-7.6 (M), AU-12 (L), AU-9.1 (L), SI-4 (L), IR-4 (L) |
+| MS-11 | Operational Data-Stream Integrity | **partial** | SI-10.5 (M), AU-10.1 (M), IA-9 (M), AC-4.17 (L), SI-4 (L) |
+| MS-12 | MCP Discovery-Metadata and Shared-Cache Integrity | **partial** | SI-7 (M), AC-3 (M), CM-2 (L), SC-4 (L), SI-7.6 (L), SI-10.5 (L) |
+| MS-13 | Transcript and Conversation Authenticity | **partial** | AU-9.3 (M), AU-10 (M), SC-23 (M), AU-9.1 (L), SI-7.6 (L) |
+| MS-14 | Self-Replication Barrier | **novel** | SI-3 (L), SC-7.9 (L), SI-15 (L), AC-4.8 (L) |
+| MS-15 | Cross-Tenant Agent Memory and State Isolation | **partial** | AC-3 (H), AC-4.21 (M), SC-4 (M), SA-8.2 (L), SA-8.6 (L) |
+| DS-01 | Data Classification and Labelling | **direct** | AC-16 (H), AC-16.1 (H), RA-2 (M), AC-4 (L) |
+| DS-02 | Inference Data Protection | **direct** | SC-8 (H), SC-8.1 (H), SC-13 (M), SC-12 (L), SC-23 (L) |
+| DS-03 | Memory Sanitisation | **partial** | SC-28.1 (H), SI-12 (M), SI-12.3 (M), SC-4 (M), MP-6 (L) |
+| DS-04 | Data Minimisation | **partial** | SI-12.1 (M), PT-2 (L), AC-6 (L), SA-8.14 (L), PM-25 (L) |
+| DS-05 | Training Data Governance | **partial** | PT-4 (M), PT-3 (M), SI-12 (M), SI-12.2 (M), SR-4 (L), PM-23 (L) |
+| DS-06 | Output Validation | **partial** | SI-15 (M), AC-4.8 (M), AU-13 (L), SC-7.10 (L) |
+| DS-07 | Agent-Originated Artifact Publication Control | **partial** | AC-5 (M), SA-10 (M), SI-7.15 (M), CM-5 (M), AC-3.2 (L), CM-14 (L), SI-3 (L) |
+| DS-08 | Destination and Emergent-Channel Egress Inventory | **partial** | SC-7.5 (H), SC-7.10 (H), SC-31 (M), SI-4.18 (M), AC-4 (M), SC-7.9 (L), SC-7.8 (L) |
+| MIR-01 | Agent Activity Logging | **direct** | AU-2 (H), AU-3 (H), AU-12 (H), AU-3.1 (M), AU-12.1 (M), AU-14 (L) |
+| MIR-02 | Behavioural Anomaly Detection | **direct** | SI-4.13 (H), SI-4 (M), IR-4.13 (M), SI-4.11 (L), AU-6 (L) |
+| MIR-03 | Prompt Audit Log | **direct** | AU-14 (M), AU-3.3 (H), AU-3 (M), AU-3.1 (M), AU-9 (L), AU-11 (L) |
+| MIR-04 | Incident Response Playbooks | **partial** | IR-4 (H), IR-8 (H), IR-3 (M), IR-4.1 (M), IR-4.5 (L), IR-2 (L) |
+| MIR-05 | Mandatory Reporting Integration | **direct** | IR-6 (H), IR-6.1 (H), IR-8.1 (M), IR-8 (L), SR-8 (L) |
+| MIR-06 | Forensic Readiness | **direct** | AU-9 (H), AU-9.1 (M), AU-9.2 (M), AU-9.3 (M), AU-11 (M), AU-7 (M), AU-14 (L) |
+| GRM-01 | AI Governance Body | **direct** | PM-29 (M), CA-6 (M), PM-10 (M), PM-9 (L), PM-23 (L) |
+| GRM-02 | AI Risk Register | **partial** | RA-3 (H), RA-7 (M), CA-5 (M), PM-9 (M), IR-4.5 (M), CM-8.3 (M), PM-28 (L) |
+| GRM-03 | Ethical Use Policy | **novel** | PL-4 (L), AC-6 (L), PT-5 (L) |
+| GRM-04 | Third-Party AI Risk Management | **direct** | SA-9 (H), SR-6 (M), SR-3 (M), SR-5 (M), SA-4 (M), SR-8 (M), IR-6.3 (L), RA-3.1 (L) |
+| GRM-05 | Regulatory Mapping and Compliance Reporting | **direct** | CA-7 (H), PM-31 (M), CA-2 (M), PM-6 (L), PL-10 (L), PL-11 (L) |
+| GRM-06 | Board and Executive Reporting | **partial** | PM-6 (M), CA-5 (M), RA-7 (L), PM-29 (L), CA-7 (L) |
 
 Confidence: H high, M medium, L low.
 
@@ -99,20 +138,52 @@ For every control not rated `direct`, this is the requirement an 800-53-only org
 - **TP-14 (partial)**: Fixing instruction content at install time and prohibiting runtime-fetchable instruction channels; capability-scoped skill privileges below the agent's own identity; behavioural baseline with quarantine on drift. 800-53's code-signing vocabulary assumes the signed artifact is code, not instructions.
 - **TP-15 (partial)**: The explicit determination that denylist or blocklist in-process sandboxes are code-execution surfaces, not security boundaries; classifying any unavoidable in-process sandbox as high-risk with automated blocking; a mandatory alternative-evaluation gate at higher maturity.
 - **TP-16 (partial)**: Origin-binding of OAuth authorization endpoints to the configured server; validating and allowlisting launch commands registered through tool or server definitions, including those a prompt-injected model can influence; assuming later compromise of a previously benign server.
+- **MS-02 (partial)**: Statistical and semantic detection of poisoned samples (anomaly detection, drift monitoring) and retraining triggered by integrity findings. 800-53 integrity controls detect unauthorised modification, not authorised-but-malicious data.
+- **MS-04 (novel)**: Model-level resistance to prompt injection, and sanitising inputs against imperceptible content (zero-opacity, sub-pixel, DOM-hidden text) before reasoning. 800-53 treats a system as deterministic software whose inputs can be validated against a specification; natural-language instruction content cannot be.
+- **MS-05 (partial)**: Semantic output bounds (safety, scope, domain-appropriate advice) and bounds adjusted dynamically from production telemetry. SI-15 presumes the expected content can be specified.
+- **MS-07 (novel)**: Indistinguishability of API endpoints, data formats, latency, error handling and credential lifetimes between evaluation and production, with divergence checks treated as an incident signal. 800-53 has no concept of a system under test that detects the test.
+- **MS-08 (partial)**: Treating MCP tool definitions and discovery metadata as security-relevant content to be signed and validated against a known-good schema; monitoring model-originated writes to execution-bearing locations and publication channels; a protocol-level rule against downgrading to anonymous sessions and against default gateway credentials.
+- **MS-09 (novel)**: Stripping or flagging imperceptible content (zero-opacity, sub-pixel, off-screen, DOM-hidden) before reasoning, and binding each approval to a rendering-fidelity snapshot of the exact content acted on.
+- **MS-10 (partial)**: Treating persistent agent memory (vector stores, learned patterns, histories) as a behaviour-steering store; retrieval-layer filtering of flagged entries; a post-incident audit-and-clean procedure for the store itself; red-team testing of poisoning persistence.
+- **MS-11 (partial)**: Treating log, alert and observability content as untrusted instruction-bearing input; independent non-log verification before a log-triggered action; flagging agent actions whose proximate cause was a log entry.
+- **MS-12 (partial)**: Length-limiting and screening MCP instructions and tool descriptions for instruction content; isolating them from the trusted system prompt; verifying, not trusting, server-declared cache scope claims.
+- **MS-13 (partial)**: Signing model outputs with a per-session key held outside the harness; verifying every stored response on read before the agent reasons over it; refusing confidence-gated action from an unverified transcript.
+- **MS-14 (novel)**: Fingerprinting instruction-bearing input and matching it against outbound content before publish; quarantine and human sign-off on suspected echoes; blast-radius caps per propagation hop; worm-emulation drills.
+- **MS-15 (partial)**: Hard post-retrieval ownership gating (similarity is not admissibility); treating any cross-tenant hit as an alarm; a tenant or namespace key that is never a model-controllable tool argument; fail-closed refusal when ownership cannot be verified.
+- **DS-03 (partial)**: Detecting cross-session aggregation of sensitive data in agent memory, and per-agent memory scoping as a design requirement. MP-6 media sanitisation concerns media at disposal, not purging stored context.
+- **DS-04 (partial)**: Minimising non-PII sensitive data exposed to the model's context, and per-task retrieval scoping. AC-6 least privilege applies to accounts and processes, not to the volume of data placed in a context window.
+- **DS-05 (partial)**: Lineage from source through preprocessing to training for all training data, not only PII; verifying consent for personal data used to train a model; machine unlearning (removing a record's influence from a trained model); continuous training-data audit. 800-53 disposal controls act on stored information, not on a model derived from it.
+- **DS-06 (partial)**: Detecting memorised training data and system-prompt fragments in model output, and memorisation testing in CI/CD. SI-15 validates output against 'expected content', which presumes the expected content can be specified.
+- **DS-07 (partial)**: Publication as an egress event requiring approval the agent can neither trigger nor satisfy, and publication credentials unreachable through the ordinary tool path. 800-53 separation of duties is written for people.
+- **DS-08 (partial)**: Enumerating client-side and third-party fetch channels (image rendering, link unfurl, webhook preview) as egress sinks; payload-blind hard allow-lists rather than content classifiers; DNS egress restricted to allow-listed resolvers with queried names inspected. SC-31 covers the analysis in principle, as a design-time covert channel analysis.
+- **MIR-04 (partial)**: AI-specific scenarios (prompt-injection containment, model rollback, tool revocation, code-generation attack containment) as required playbook content. 800-53 requires the capability, not scenario coverage.
+- **GRM-02 (partial)**: A dedicated AI threat taxonomy (model, tool, data, identity, pipeline), automated tripwires, and a single exercised kill-switch capability tested at least annually. IR-4.5 is a configurable automatic disable on detection, not an organisation-wide kill switch that is exercised.
+- **GRM-03 (novel)**: A policy of acceptable agent conduct, risk-tiered autonomy levels, and agent transparency obligations, with technical enforcement at the tool gateway (L4).
+- **GRM-06 (partial)**: Per-pillar maturity scoring for non-technical audiences. 800-53 baselines are met or not met per control and define no maturity ladder.
 
 ## Findings
 
-1. **Fit (computed).** Direct 10: EE-02, EE-03, EE-06, IAM-01, IAM-05, TP-01, TP-02, TP-03, TP-05, TP-08. Partial 21. Novel 3: IAM-07, IAM-10, TP-11.
-2. **Equality (computed).** 0 of 136 map entries are `equal-to`/`equivalent-to`; 3 are `subset-of`. A compliance team cannot treat 'satisfies 800-53 control X' as 'satisfies SHIELD-AI control Y' for the partial and novel controls.
-3. **Human approval of autonomous action (IAM-03) is the notable IAM gap.** It is central to agent safety yet the nearest 800-53 controls are AC-4.9 (information flows) and AC-3.2 (dual authorization), neither scoped to actions. See the NIST COSIS agent overlays for whether NIST addresses it.
-4. **Keyword matching would mislead.** IAM-10 'taint-tracking' collides with SI-20 'Tainting', a different concept (exfiltration detection). It is recorded as `no-relationship` with a blocking qualifier. Tooling that auto-maps on titles or text similarity would get this wrong.
-5. **One identity tension (IAM-01 vs IA-2).** IA-2 ties a process to the user it acts for; IAM-01 requires a distinct agent identity. Compatible, but an implementation that reads IA-2 literally could satisfy it while failing IAM-01. Recorded as a qualifier. TP-02 inherits the same dependency (the tool must authenticate the agent, not the human).
-6. **TP: mechanism maps, trigger does not.** The later TP controls (TP-10 to TP-16) come from incidents where an agent or its tooling is induced to execute attacker-controlled instructions or code. The mechanism half (signing, input validation, allow-listing, process isolation, provenance) has 800-53 homes. The trigger half (content the agent reads becomes a command; the model is an instruction source whose output must be authenticated) does not.
-7. **TP-11 is the clearest novel control in the pillar.** Treating rendered content as a command channel and preserving origin isolation for an acting agent has no 800-53 vocabulary. A keyword search of Rev 5.2 statements and guidance for 'same-origin' returned no hits and for 'browser' one incidental hit. The targets listed are tangential.
-8. **One 800-53 control, two different fits (SI-10.6).** Its mechanism (parameterized interfaces, output escaping) presumes a data/code boundary. TP-16 has one (an OS launch path), so SI-10.6 fits well. TP-04 does not: an LLM context has no such boundary, so the same control gives weak cover. Recorded as a qualifier on TP-04.
-9. **TP-15: 800-53 permits the weak reading.** SC-39 (separate execution domain per process) arguably excludes an in-process denylist sandbox, but never says so; an assessor could accept a hardened interpreter as an 'execution domain'. SHIELD-AI's value here is the explicit negative.
-10. **Supply-chain controls transfer best.** TP-05, TP-13 and TP-14 map onto the SR family, CM-14 and SI-7.15, where 800-53's provenance and authenticity vocabulary predates agent skill marketplaces but still applies. The residual is that the payload is natural-language instructions and runtime-fetchable instruction channels, not just code.
-11. **TP-07 is a borderline partial/novel.** RA-3 and SA-11.2 would cover analysis of tool composition only if the organisation chose to scope threat modelling that way; nothing in 800-53 asks for it.
+1. **Fit (computed).** Direct 23: EE-02, EE-03, EE-06, IAM-01, IAM-05, TP-01, TP-02, TP-03, TP-05, TP-08, MS-01, MS-03, MS-06, DS-01, DS-02, MIR-01, MIR-02, MIR-03, MIR-05, MIR-06, GRM-01, GRM-04, GRM-05. Partial 38. Novel 8: IAM-07, IAM-10, TP-11, MS-04, MS-07, MS-09, MS-14, GRM-03.
+2. **Equality (computed).** 0 of 324 map entries are `equal-to`/`equivalent-to`; 3 are `subset-of`. A compliance team cannot treat 'satisfies 800-53 control X' as 'satisfies SHIELD-AI control Y' for the partial and novel controls.
+3. **Direct without a high-confidence target (computed): IAM-01, TP-08, GRM-01.** These rest on medium or low confidence mappings only; review them first, as 'direct' may be generous.
+4. **Human approval of autonomous action (IAM-03) is the notable IAM gap.** It is central to agent safety yet the nearest 800-53 controls are AC-4.9 (information flows) and AC-3.2 (dual authorization), neither scoped to actions. See the NIST COSIS agent overlays for whether NIST addresses it.
+5. **Keyword matching would mislead.** IAM-10 'taint-tracking' collides with SI-20 'Tainting', a different concept (exfiltration detection). It is recorded as `no-relationship` with a blocking qualifier. Tooling that auto-maps on titles or text similarity would get this wrong.
+6. **One identity tension (IAM-01 vs IA-2).** IA-2 ties a process to the user it acts for; IAM-01 requires a distinct agent identity. Compatible, but an implementation that reads IA-2 literally could satisfy it while failing IAM-01. Recorded as a qualifier. TP-02 inherits the same dependency (the tool must authenticate the agent, not the human).
+7. **TP: mechanism maps, trigger does not.** The later TP controls (TP-10 to TP-16) come from incidents where an agent or its tooling is induced to execute attacker-controlled instructions or code. The mechanism half (signing, input validation, allow-listing, process isolation, provenance) has 800-53 homes. The trigger half (content the agent reads becomes a command; the model is an instruction source whose output must be authenticated) does not.
+8. **TP-11 is the clearest novel control in the pillar.** Treating rendered content as a command channel and preserving origin isolation for an acting agent has no 800-53 vocabulary. A keyword search of Rev 5.2 statements and guidance for 'same-origin' returned no hits and for 'browser' one incidental hit. The targets listed are tangential.
+9. **One 800-53 control, two different fits (SI-10.6).** Its mechanism (parameterized interfaces, output escaping) presumes a data/code boundary. TP-16 has one (an OS launch path), so SI-10.6 fits well. TP-04 does not: an LLM context has no such boundary, so the same control gives weak cover. Recorded as a qualifier on TP-04.
+10. **TP-15: 800-53 permits the weak reading.** SC-39 (separate execution domain per process) arguably excludes an in-process denylist sandbox, but never says so; an assessor could accept a hardened interpreter as an 'execution domain'. SHIELD-AI's value here is the explicit negative.
+11. **Supply-chain controls transfer best.** TP-05, TP-13 and TP-14 map onto the SR family, CM-14 and SI-7.15, where 800-53's provenance and authenticity vocabulary predates agent skill marketplaces but still applies. The residual is that the payload is natural-language instructions and runtime-fetchable instruction channels, not just code.
+12. **TP-07 is a borderline partial/novel.** RA-3 and SA-11.2 would cover analysis of tool composition only if the organisation chose to scope threat modelling that way; nothing in 800-53 asks for it.
+13. **Coverage tracks how generic the control is.** The governance, monitoring and incident-response controls map best because 800-53's PM, CA, AU and IR families are technology-neutral and apply to AI systems unchanged. The novel controls cluster where the model itself is the attack surface (MS-04, MS-07, MS-09, MS-14), with IAM-07, IAM-10, TP-11 and GRM-03 as the others.
+14. **800-53 Rev 5.2 has no vocabulary for AI as a thing to be secured.** A keyword search of non-withdrawn statements and guidance finds no hits for 'training data', 'poison', 'tenant', 'ethic', 'autonom', 'human oversight' or 'playbook'. 'Artificial intelligence' appears only in RA-3.4 and SI-3, as a detection technique. A missing word is evidence of a vocabulary gap, not proof of no coverage.
+15. **Integrity controls do not detect authorised poison.** MS-02 (training data), MS-10 (agent memory) and MS-13 (transcripts) all involve data that is written through a legitimate path. SI-7 and SR-4 detect unauthorised change and provenance breaks; a malicious but authorised write is neither. An organisation could report SI-7 as met while the threat is untouched. Recorded as a qualifier on MS-02.
+16. **Human approval of agent action is a recurring gap, not a single one.** IAM-03 (approval before high-risk action), TP-12 (approval bound to the exact call), MS-09 (fidelity of what the approver sees) and DS-07 (approval the agent cannot trigger) all rest on a human-in-the-loop concept that 800-53 lacks. The nearest controls (AC-4.9, AC-3.2, AC-5) are written for information flows and for people.
+17. **MS-07 pushes the opposite way from 800-53's test-environment controls.** CM-4.1 and SA-3.1 require test environments to be separate and protected; nothing asks that they be undetectable. An organisation can satisfy CM-4.1 with an obviously labelled test environment that a model can recognise. Recorded as a qualifier.
+18. **DS-08: the egress that matters may leave from the client.** SC-7.5 and SC-7.10 govern the network boundary, but a rendered image tag or link unfurl is fetched by the user's client or a third-party service. SC-31 covert channel analysis is the best fit, but it is a design-time analysis, so it does not by itself keep an emergent-channel inventory current.
+19. **MIR-03 creates a privacy obligation.** AU-14 requires consultation with legal counsel and AU-3.3 ties retained PII to a privacy risk assessment. A full prompt/response log is a new sensitive data store, so the control cannot be considered met without that assessment. Recorded as a qualifier.
+20. **Governance controls rate direct only if AI is in scope.** GRM-01, GRM-04 and GRM-05 map to organisation-level controls (PM-29, SA-9, CA-7). An existing programme meets them only if it already covers AI systems and AI vendors; 800-53 does not require that.
+21. **The privacy mappings are PII-scoped.** DS-04 and DS-05 rely on 800-53's privacy controls (PT, SI-12, PM-25), which concern personal data. DS-04 extends to all sensitive data in a context window, and DS-05 to training data in general. Alignment with the Privacy Act 1988 and the Australian Privacy Principles is not assessed here.
 
 ## Method and limits
 

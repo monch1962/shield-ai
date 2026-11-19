@@ -2,7 +2,7 @@
   "mapping-collection": {
     "uuid": "f3d5471a-2331-5860-86f1-55d1b922d771",
     "metadata": {
-      "title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, IAM, TP and EE pillars)",
+      "title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, MS, IAM, DS, TP, MIR, GRM and EE pillars)",
       "last-modified": "2026-11-19T00:00:00+00:00",
       "version": "1.23-draft",
       "oscal-version": "1.2.0",
@@ -12,12 +12,12 @@
       "method": "hybrid",
       "matching-rationale": "functional",
       "status": "draft",
-      "mapping-description": "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev 5.2.0. Scope: IAM, TP and EE pillars (34 of 69 controls). One map entry per control pair so each relationship and confidence is individually reviewable. Targets are base controls or enhancements, mapped at control level, not statement level.",
+      "mapping-description": "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev 5.2.0. Scope: MS, IAM, DS, TP, MIR, GRM and EE pillars (69 of 69 controls). One map entry per control pair so each relationship and confidence is individually reviewable. Targets are base controls or enhancements, mapped at control level, not statement level.",
       "props": [
         {
           "name": "fit-summary",
           "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
-          "value": "{\"direct\": 10, \"novel\": 3, \"partial\": 21}"
+          "value": "{\"direct\": 23, \"novel\": 8, \"partial\": 38}"
         }
       ]
     },
@@ -2923,53 +2923,3996 @@
               "STRVALUE": "low"
             },
             "remarks": "Managed information exchange with connected systems; onboarding and reconnection of tool servers."
+          },
+          {
+            "uuid": "8f3e7165-a5ce-5ba7-986b-1f8f943a8096",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-28.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Cryptographic protection of information at rest: weights at rest."
+          },
+          {
+            "uuid": "a6c01c98-9528-5882-a2f7-94638239c43f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Key establishment and management; HSM-backed management is an organisation-defined requirement."
+          },
+          {
+            "uuid": "18ab7ef6-f41e-59e4-aa5d-1672e2f32e0a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-8.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic protection during transmission: weights in transit."
+          },
+          {
+            "uuid": "6b4aa754-4e0c-5145-91af-21cb2fa00ad1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-13"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Determining and implementing the cryptography required for each use."
+          },
+          {
+            "uuid": "e4d5e284-8e22-57b5-82c0-7242fdc9adb4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Integrity verification; nearest home for attestation of weights on edge devices."
+          },
+          {
+            "uuid": "ef7efa80-0a1d-5b5b-be20-2a0a377ebc95",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Provenance of data and components: lineage for training datasets."
+          },
+          {
+            "uuid": "05478c13-7fbc-52e0-bd95-d7598d762c0e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Integrity verification of information; catches tampering after approval, not poisoning before it. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "target",
+                "predicate": "has-requirement",
+                "category": "addressable",
+                "description": "SI-7 can be satisfied in full while training data is poisoned: it detects unauthorised changes to information, and a poisoned sample inserted through a legitimate ingestion path is not one. Meeting MS-02 needs statistical validation in addition to SI-7."
+              }
+            ]
+          },
+          {
+            "uuid": "7f37a8a7-98fe-541f-9dc4-3634ce897afd",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Access controls on training data."
+          },
+          {
+            "uuid": "3a24cbf5-8287-59f8-a83a-a91576f7962e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Validate inputs at ingestion; covers the L2 format checks only."
+          },
+          {
+            "uuid": "10890901-fb7f-55ba-b720-10764686053a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Process to identify and address weaknesses in supply chain elements."
+          },
+          {
+            "uuid": "fa8118dd-753e-572d-b315-dfd3c5ecd9e4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Document, monitor and maintain provenance of components and associated data."
+          },
+          {
+            "uuid": "60b361f2-c821-5cd8-807f-b07daf125676",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate that a received component is genuine and not altered: pre-trained models from public hubs."
+          },
+          {
+            "uuid": "52ba778b-3df3-504a-b222-1e291750b9c9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Assess and review suppliers, including public model repositories."
+          },
+          {
+            "uuid": "c15eea33-705d-5a94-ab0b-dd22b9ad0041",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic authentication of components before installation."
+          },
+          {
+            "uuid": "39dec2c8-4350-53c4-903d-93097eea1ddf",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Signed components, where the model ecosystem provides signatures."
+          },
+          {
+            "uuid": "cdfa8a4b-b3c3-5ea6-ab95-251a8b3d6fe9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-30"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Organisation-wide supply chain risk management strategy."
+          },
+          {
+            "uuid": "a72d1ce5-e741-59b7-8875-d63721077561",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Input validation; covers structural checks, not instruction content."
+          },
+          {
+            "uuid": "bbc48e05-b127-5a78-97c2-bc6daae6f639",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Injection prevention; mechanism assumes parameterized interfaces. See qualifier and TP-04.",
+            "qualifiers": [
+              {
+                "subject": "target",
+                "predicate": "has-incompatibility",
+                "category": "restricted",
+                "description": "SI-10.6 is met by parameterized interfaces or output escaping, which separate data from code. A model reads instructions and data in one channel, so SI-10.6 can be satisfied for every conventional parser while prompt injection is untouched."
+              }
+            ]
+          },
+          {
+            "uuid": "3ddd8deb-6148-5ccc-8672-3c85ffde658e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Restrict inputs to trusted sources and approved formats."
+          },
+          {
+            "uuid": "b33631ee-16a7-5d42-8181-b265424a37c5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Policy filters on content, with hidden content named in guidance."
+          },
+          {
+            "uuid": "f7a057b1-b227-5b9a-8b19-d61b19165663",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-8.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Red-team exercises: how adversarial robustness would be tested."
+          },
+          {
+            "uuid": "003bb1f2-0513-5fd9-8b21-038a616376eb",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-11.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Developer penetration testing."
+          },
+          {
+            "uuid": "47ae4e07-ea7d-58ae-9349-527b2161e418",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate output to ensure it is consistent with expected content."
+          },
+          {
+            "uuid": "d7636cad-2f41-5320-8df5-cd9f6dad4116",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Information flow control using content filters, with a defined response to filter failure."
+          },
+          {
+            "uuid": "70a503af-e39e-5c82-a842-0eba5ffe7323",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Information flow enforcement between the model and its consumers."
+          },
+          {
+            "uuid": "18077136-a649-59ef-8999-fda840555362",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Monitoring of outputs in production."
+          },
+          {
+            "uuid": "1d8cdb1a-eb3d-593c-b3df-854cc935a09c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Inventory of system components that accurately reflects the system: 'what models do we have?'"
+          },
+          {
+            "uuid": "5dcd17ab-442d-5671-8623-35c3613f34f3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Update the inventory on installation, removal and update: covers retirement."
+          },
+          {
+            "uuid": "248e3f12-1892-56a0-a2f1-2f0dac50bc5e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Provenance and lineage of a component."
+          },
+          {
+            "uuid": "51cea181-15e8-5a38-8a31-b979328b75ad",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Baseline configuration under configuration control: versioning."
+          },
+          {
+            "uuid": "6fd38d1d-3c88-514d-b413-7748fbd4d335",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Inventory of organisational systems."
+          },
+          {
+            "uuid": "4116f416-22a6-5edc-aa1c-0f198935971b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Developer configuration management."
+          },
+          {
+            "uuid": "9ed90065-a99d-59cf-b08f-3a59eea7e0ad",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-4.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Analyse changes in a separate test environment. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "both",
+                "predicate": "has-requirement",
+                "category": "addressable",
+                "description": "CM-4.1 requires a separate test environment; MS-07 additionally requires that environment to be indistinguishable from production. Satisfying CM-4.1 with a clearly labelled, differently configured test environment is exactly what lets a model detect evaluation (see EE-04)."
+              }
+            ]
+          },
+          {
+            "uuid": "6e55c5fa-f4d9-5ff2-af13-b2d0a78545b4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Protect preproduction environments commensurate with risk."
+          },
+          {
+            "uuid": "7038d9a7-2316-51a9-8143-0ac6a6b7fef3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Uniquely identify and authenticate services before communications: MCP gateway authentication."
+          },
+          {
+            "uuid": "1682229a-299d-5c03-8d72-1807f807454c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic authentication of components: signed tool metadata."
+          },
+          {
+            "uuid": "76e4a566-955e-5dc7-aed1-dc67ea3c5bc8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate responses against known-good schemas."
+          },
+          {
+            "uuid": "5659b0ed-c70c-5361-b03d-6f44e1adbb3b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authenticator management includes changing default authenticators before first use: the no-default-credentials clause."
+          },
+          {
+            "uuid": "665ed4c1-a1bd-53c7-a527-c10eb655f56b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-24"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Fail to a known state: authentication failure must not downgrade to anonymous."
+          },
+          {
+            "uuid": "4c667c83-835d-53e9-a5c2-608ac24e50e8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Signed components."
+          },
+          {
+            "uuid": "99f0de2e-c1e1-5384-b1ae-238f41393755",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Alert on defined indications of compromise: model-originated writes to execution-bearing locations."
+          },
+          {
+            "uuid": "90b98852-3e2d-5b7f-856e-07c2dae56064",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Provenance for the trusted registry."
+          },
+          {
+            "uuid": "ec428cf2-a08b-5930-bb40-64a734948a64",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Content filters, with hidden content named in guidance."
+          },
+          {
+            "uuid": "727b4eee-e134-5e67-880c-28c7d4d2f4ac",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Irrefutable evidence of what was approved; the approval record would need to include the rendered content."
+          },
+          {
+            "uuid": "81c7c6b7-947f-544f-9c81-6d5f5ab907d8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.9"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Human reviews under defined conditions: the approval step whose fidelity MS-09 protects."
+          },
+          {
+            "uuid": "052b5cd1-5a89-530d-ae92-e432ebbba895",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authenticated, authorised writes to the memory store."
+          },
+          {
+            "uuid": "963bb1bf-570d-53d2-800a-e9e159c7a918",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic mechanisms to detect unauthorized changes to information: tamper-evident memory."
+          },
+          {
+            "uuid": "b18552f3-d8de-5941-9cc1-1888ca31079d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Audit record generation for memory writes."
+          },
+          {
+            "uuid": "7a372bd9-f83b-545b-b007-a66e3ed94931",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Write-once media; loose analogue for append-only or immutable snapshots."
+          },
+          {
+            "uuid": "6f0ca966-af95-5874-91c4-8f9c8f6fe0db",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Anomaly detection on memory writes."
+          },
+          {
+            "uuid": "efadde72-ce57-58ed-aa4b-d77f40faf832",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Eradication step of incident handling, applied to the memory store."
+          },
+          {
+            "uuid": "9701c10d-5100-5c6e-a864-9942ef4fcfca",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Restrict inputs to trusted sources: authenticated producers only."
+          },
+          {
+            "uuid": "438aa2f7-e123-5963-b4f5-8597d086a3a5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-10.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Bind the identity of the information producer to the information."
+          },
+          {
+            "uuid": "9fb632b8-6916-56af-a3b1-ebb02fe71cdf",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authenticate services before communications: ingestion pipelines authenticate producers."
+          },
+          {
+            "uuid": "a3c5e65d-7a3e-5eed-a3d4-ceef607383b8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.17"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Uniquely identify and authenticate source points for information transfer."
+          },
+          {
+            "uuid": "166bdadd-eaed-5dd2-bff6-38ed6198ba4b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Monitoring; agent actions traced to a log entry would be flagged here."
+          },
+          {
+            "uuid": "c3927290-0920-5de1-925b-a8bb1669c4f0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Detect unauthorized changes to tool metadata against an approved baseline."
+          },
+          {
+            "uuid": "94283785-7888-5923-945a-9aae1e4cc044",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cache entries served only within the authentication context that produced them."
+          },
+          {
+            "uuid": "a0c14dc2-ed06-5934-b353-f22feb67dfad",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Operator-approved baseline of tool metadata."
+          },
+          {
+            "uuid": "c2f6a5f9-e63a-54c3-94e6-724de4b62a2a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prevent information transfer via shared resources: shared caches."
+          },
+          {
+            "uuid": "6f952f49-46ee-5677-89df-a343e1fbf35d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Cryptographic protection: signed cached metadata."
+          },
+          {
+            "uuid": "ffbc1f70-044d-5849-a27e-c1c2f3d203bd",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Restrict inputs to approved formats; covers length limits."
+          },
+          {
+            "uuid": "150f45ad-2389-565b-b926-8b65cdfe1ddc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic protection of the integrity of audit information."
+          },
+          {
+            "uuid": "bd42262e-f43f-5c4c-99d7-ec9440e642a1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Irrefutable evidence of what the model said."
+          },
+          {
+            "uuid": "3a257934-322a-5104-9b1b-e4821057728f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protect the authenticity of sessions, including insertion of false information."
+          },
+          {
+            "uuid": "5e0fa402-0e47-5333-b7d2-214c966f932e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Write-once media; loose analogue for an append-only transcript."
+          },
+          {
+            "uuid": "bf032ab7-99ac-5768-88f4-c91f4958a3be",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Cryptographic detection of unauthorized change."
+          },
+          {
+            "uuid": "19c0df9f-3fd1-5eed-9a46-2a1fc69235ff",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Malicious code protection; worms are named, but as code."
+          },
+          {
+            "uuid": "23456420-20a9-5ea6-a67b-9c9ba53bed2f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.9"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Detect and deny outgoing traffic posing a threat to external systems."
+          },
+          {
+            "uuid": "65f286ee-5330-5d5c-acc0-f2b658e8aab3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-15"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Output filtering for content inconsistent with expected output."
+          },
+          {
+            "uuid": "99545129-ebe7-55f8-a768-e84caefc577d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Content filters on information flows."
+          },
+          {
+            "uuid": "83c61ab9-8467-562f-a07d-74c9575c85f3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Enforce authorizations at retrieval and write: ownership gating."
+          },
+          {
+            "uuid": "ac27b166-d4f3-51b2-9a1a-b2e67b85b439",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.21"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Logical separation of information flows between tenants."
+          },
+          {
+            "uuid": "c4d7aaf9-eb82-5625-9a5e-d668ecda62c1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Prevent unintended information transfer via shared resources: a pooled index."
+          },
+          {
+            "uuid": "ed7f7dfb-ae12-50b0-b590-fd390a818ef2",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-8.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Least common mechanism: design principle against shared mechanisms."
+          },
+          {
+            "uuid": "e9c011a7-6081-5511-ae3e-74dd1b00134e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-8.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Minimized sharing."
+          },
+          {
+            "uuid": "15e086ca-448c-5b05-896c-fbcfdc1dc14b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-16"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Associate security and privacy attributes with information in storage, process and transmission."
+          },
+          {
+            "uuid": "738ecfd8-95b3-5382-9532-e0bfbb0543fd",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-16.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Dynamically associate attributes as information is created and combined: classification at ingestion."
+          },
+          {
+            "uuid": "17685d36-7cbc-5339-b0e4-e4069ec527ac",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Security categorization of the information the system processes."
+          },
+          {
+            "uuid": "7f15946e-fff9-5b6b-b140-8e29185e319d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Flow decisions based on the attributes."
+          },
+          {
+            "uuid": "1685d547-d6c0-5454-ba54-732f2240c5cf",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Protect confidentiality and integrity of transmitted information."
+          },
+          {
+            "uuid": "8dfda6d0-bf8d-534f-9378-c215d6b25a1a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-8.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Cryptographic mechanisms during transmission."
+          },
+          {
+            "uuid": "beed8d0c-4ce9-56fb-baf1-c5c1d275d505",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-13"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptography required for each use."
+          },
+          {
+            "uuid": "199e9538-ca1a-511d-85ce-551765fdbfc2",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Key management."
+          },
+          {
+            "uuid": "18da6544-6a33-5ef3-969c-e6a7fee900c2",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Session authenticity."
+          },
+          {
+            "uuid": "539c2ee8-744d-5d00-9951-60542533742d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-28.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Cryptographic protection of information at rest: encrypted memory."
+          },
+          {
+            "uuid": "0fbcb637-b950-517f-8dfd-d1d6ba0a4d1e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Manage and retain information per requirements: retention policy."
+          },
+          {
+            "uuid": "76cbdcd4-66ea-5f59-9ec6-5c6a438cb696",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-12.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Disposal of information after the retention period: automated purging."
+          },
+          {
+            "uuid": "14861de9-ebf0-5e61-a13a-3478b5852dce",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Prevent information transfer via shared resources: cross-session leakage."
+          },
+          {
+            "uuid": "33f5707f-a09d-50c5-ac57-db0af688fb2a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "mp-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Media sanitization; literal media, loose analogue for purging memory."
+          },
+          {
+            "uuid": "8e1f0ffb-8f68-56c8-a37f-9bd101c48934",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-12.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Limit PII elements processed in the information life cycle."
+          },
+          {
+            "uuid": "9877fa7e-10f4-5700-b84c-f2b89b8ce202",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pt-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Restrict processing of PII to what is authorized."
+          },
+          {
+            "uuid": "b5d78eb2-d0d1-5a04-b64f-461dcedccdb9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Least privilege, applied to data access."
+          },
+          {
+            "uuid": "e144f2a5-0c79-55ef-b96e-790d077581ec",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-8.14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Least privilege design principle."
+          },
+          {
+            "uuid": "b89d019f-fc68-572f-9bc5-615e29c9be39",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-25"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Minimise PII used in testing, training and research."
+          },
+          {
+            "uuid": "cbddad48-7b04-50ef-ab07-2b5ea84e5f6a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pt-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Consent to processing of PII prior to collection."
+          },
+          {
+            "uuid": "736c7027-68b9-552c-a44e-09b12bbcec47",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pt-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Identify and restrict PII processing purposes."
+          },
+          {
+            "uuid": "dbaa7bed-0be4-5507-ae91-05ebd52ad162",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Retention of information."
+          },
+          {
+            "uuid": "b5f703f9-aa04-562a-a16c-ee370196f251",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-12.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Minimise PII used in research, testing and training."
+          },
+          {
+            "uuid": "ef37d916-d8bf-5b4a-afb5-0eb7669c0141",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Provenance of data."
+          },
+          {
+            "uuid": "ce7c52ef-8ba8-5c68-907f-2a3856c7b475",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Data governance body."
+          },
+          {
+            "uuid": "55cbaf5d-6ec9-546c-a557-64d705a0c103",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate output to ensure consistency with expected content."
+          },
+          {
+            "uuid": "ba29d5d2-357e-593d-b394-ab1102c33b76",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Content filters on information flows."
+          },
+          {
+            "uuid": "45d5d2f2-89da-5432-94d1-c25daf05530c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-13"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Monitor for evidence of unauthorized disclosure of information."
+          },
+          {
+            "uuid": "650938af-b601-5988-bb20-581bb501f7d8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prevent exfiltration."
+          },
+          {
+            "uuid": "db9389bc-b298-53c6-9a7e-f2856d47b5bc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Separation of duties: the agent cannot approve its own publication."
+          },
+          {
+            "uuid": "6413cb9c-13aa-552e-8195-4a312d4b99a7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Developer configuration management with integrity control."
+          },
+          {
+            "uuid": "0f4645d7-efe7-59d6-b248-443c86b5e590",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic authentication before installation."
+          },
+          {
+            "uuid": "d6f5980c-6f66-50a0-9a19-bfa836b93527",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Access restrictions for change: writes to execution-bearing locations."
+          },
+          {
+            "uuid": "e56fdcec-dbd3-5260-9b0d-b9230a374a48",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Dual authorization for defined actions."
+          },
+          {
+            "uuid": "cce477fd-d228-543d-8a6e-69e557818476",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Signed components."
+          },
+          {
+            "uuid": "f357969a-c8aa-5b0e-8c23-9e528e624a19",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Malware scanning of artifacts."
+          },
+          {
+            "uuid": "291c99fd-7310-5917-b5ac-0b5dee895b16",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Deny by default, allow by exception: the destination allow-list."
+          },
+          {
+            "uuid": "716b0f0b-7ab1-5025-be55-455ea9cd448d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.10"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Prevent exfiltration and test for it."
+          },
+          {
+            "uuid": "fa3bd13e-5d23-561a-8ab9-c5d3f10f4896",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-31"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Covert channel analysis: finds channels not on the declared list."
+          },
+          {
+            "uuid": "f79f9a96-a04a-507a-bd7c-d32904d5d819",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4.18"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Analyse outbound traffic for covert exfiltration."
+          },
+          {
+            "uuid": "fc985f61-4074-5fb9-99a6-3fc4155b41fa",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Information flow enforcement to defined destinations."
+          },
+          {
+            "uuid": "0cef7d4c-1ef1-5409-a47c-fec108dba8e4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.9"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Detect and deny outgoing traffic posing a threat."
+          },
+          {
+            "uuid": "57d61a19-acf6-5af0-b5a7-b99d09270f78",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ds-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Route traffic through authenticated proxies."
+          },
+          {
+            "uuid": "9ee941ef-b0cf-555c-861a-c581aab50dc1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Identify the event types to be logged: every agent action."
+          },
+          {
+            "uuid": "88ec7b9f-a4a2-5cb9-a378-3b2c6871b338",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Audit record content: type, time, location, source, outcome, identity."
+          },
+          {
+            "uuid": "60acb590-1ba9-5c6f-8321-309b172eb528",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Audit record generation."
+          },
+          {
+            "uuid": "d258d897-4983-5b64-9d3c-9a51672c53fc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Additional audit information: correlation to the initiating human session."
+          },
+          {
+            "uuid": "55ebc5fe-b9db-5c8c-8be4-1c7674246f0e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-12.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "System-wide, time-correlated audit trail."
+          },
+          {
+            "uuid": "5f828c59-b099-5ef5-adb2-8e7b2ccbadc5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Session audit."
+          },
+          {
+            "uuid": "a4dda876-78eb-5e39-bc79-ceadc822aa72",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Develop profiles representing common traffic and event patterns and use them in monitoring."
+          },
+          {
+            "uuid": "3c223fca-c366-5d8b-b99c-8caadc7dcff9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Monitor to detect attacks and indicators of potential attacks."
+          },
+          {
+            "uuid": "2914144c-0a87-5517-9336-8c5262b67990",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Analyse anomalous or suspected adversarial behaviour."
+          },
+          {
+            "uuid": "78b43b8e-b5fe-5c4c-9de3-36d14d42c66c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4.11"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Analyse outbound traffic anomalies; covers unexpected listener and binding events."
+          },
+          {
+            "uuid": "68f51988-ecec-5b22-86b8-15992806ae19",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Review and analyse audit records for unusual activity."
+          },
+          {
+            "uuid": "308a0d6b-981b-56d0-bc17-48ed2014b1d7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Capture the content of a session, in consultation with legal counsel."
+          },
+          {
+            "uuid": "b039d19c-fe42-5923-9e2c-39432025ab75",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Limit PII in audit records to elements identified in the privacy risk assessment: the sanitisation half. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "both",
+                "predicate": "has-requirement",
+                "category": "addressable",
+                "description": "A prompt/response log is itself a new high-sensitivity data store. AU-3.3 ties the PII elements retained to a privacy risk assessment, so MIR-03 cannot be treated as met without one."
+              }
+            ]
+          },
+          {
+            "uuid": "93909101-698f-504d-9b5c-7da3888645ed",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Audit record content."
+          },
+          {
+            "uuid": "68125207-1fa8-5004-b531-4b8447b6725c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Additional audit information: prompt and response."
+          },
+          {
+            "uuid": "8f683734-2093-5096-87a3-1464071b6fb8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Protect audit information."
+          },
+          {
+            "uuid": "1542380e-5ffb-59fe-9e7a-da2484cee29e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Retention for after-the-fact investigation."
+          },
+          {
+            "uuid": "f89d10bd-58e1-5c77-abd8-5a45d5d53627",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Incident handling: preparation, detection, containment, eradication, recovery."
+          },
+          {
+            "uuid": "0305964e-1d45-58a2-ad95-6f2d6f4ba657",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Incident response plan."
+          },
+          {
+            "uuid": "4270b96f-28a8-5797-8438-291e3b0c8bbe",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Test the response capability: tabletop exercises."
+          },
+          {
+            "uuid": "8e200eaf-6d0e-5122-abd4-a3ddc6e1993d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Automated incident handling: SOAR integration."
+          },
+          {
+            "uuid": "c46c0207-3c04-5016-ba88-78c2ad62c860",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Automatic disabling of the system on defined conditions."
+          },
+          {
+            "uuid": "f7a23158-5375-5df8-93b7-cadef09a3f1a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Incident response training."
+          },
+          {
+            "uuid": "c32e9246-6355-5932-892e-671e50959a11",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Report incidents within a defined time to defined parties."
+          },
+          {
+            "uuid": "3aec5df0-e889-51ba-993f-be4701ef8138",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-6.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Automated reporting."
+          },
+          {
+            "uuid": "80da8a34-301e-5960-8daa-becbffed20a0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-8.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Breach handling, including notice to individuals and regulators."
+          },
+          {
+            "uuid": "a7abbaf5-d7e2-5129-874e-7f3879070cce",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Reporting triggers belong in the incident response plan."
+          },
+          {
+            "uuid": "8c7e8c03-1bc8-5068-989b-fec2b63ba55a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Notification agreements with supply chain entities."
+          },
+          {
+            "uuid": "7ed2cc50-784a-5a04-b6db-d6a629455fb9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Protect audit information from modification and deletion."
+          },
+          {
+            "uuid": "a94dff31-a60d-5153-82e0-d5e760d2c3e0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Hardware-enforced write-once media."
+          },
+          {
+            "uuid": "370a345c-41c1-5d60-a27b-5efe4ae930ba",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Store audit records on a physically different system."
+          },
+          {
+            "uuid": "4583e29a-ec23-5f0d-9840-b3b686da47fc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-9.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Cryptographic integrity protection of audit information."
+          },
+          {
+            "uuid": "8d6e4851-e352-531e-a2b2-600dadac7e43",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Retain audit records to support after-the-fact investigations."
+          },
+          {
+            "uuid": "7592356c-6da2-5732-b92a-8fc6f1866783",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Audit reduction and reporting supporting after-the-fact investigation."
+          },
+          {
+            "uuid": "126ed8c3-e1a0-59ab-bfd7-7f0b97b2762c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "mir-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Session audit."
+          },
+          {
+            "uuid": "d8c54381-83c7-5443-a986-5b96d3386e0d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-29"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Risk executive function with a senior accountable official."
+          },
+          {
+            "uuid": "274f7419-36e3-536c-a788-82b14c408d31",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authorization to operate: approving agentic AI deployments."
+          },
+          {
+            "uuid": "aa3881dd-272e-5cd4-a321-42a834019327",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authorization process with designated roles."
+          },
+          {
+            "uuid": "17d3b9ac-cda7-52a0-8c7b-c5db2d116b39",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Risk management strategy."
+          },
+          {
+            "uuid": "7e460582-8f3a-5441-9e3a-8dcbbead45ff",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Data governance body; nearest named governance body, scoped to data."
+          },
+          {
+            "uuid": "1f6f81ae-11d0-5f44-b933-b9882b0a241f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Risk assessment: threats, vulnerabilities, likelihood and impact."
+          },
+          {
+            "uuid": "50f2a37b-4980-5ab3-8ab1-6f2f635f5870",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Respond to findings in accordance with risk tolerance."
+          },
+          {
+            "uuid": "a71ad433-34d6-563d-8aa9-c81cf0e12777",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Plan of action and milestones: tracked to resolution."
+          },
+          {
+            "uuid": "990ccf1b-69db-5152-849a-5a6273eeca16",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Risk management strategy."
+          },
+          {
+            "uuid": "bb874e21-7927-5075-b36e-e6470e5e6b3c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-4.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Automatic disabling of the system: closest to a kill switch."
+          },
+          {
+            "uuid": "98d34b0b-da34-508a-b015-c064c2ade234",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Detect unauthorized components: unledgered-asset discovery."
+          },
+          {
+            "uuid": "5f4a85dd-8608-5dcb-a063-019b524702c4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-28"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Risk framing."
+          },
+          {
+            "uuid": "d94da04a-5b55-53fc-b2d1-a12d077afa45",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pl-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Rules of behaviour: the nearest policy-of-conduct control. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "target",
+                "predicate": "has-requirement",
+                "category": "addressable",
+                "description": "PL-4 rules of behaviour are addressed to individuals with access to the system. An agent is not an individual, so applying PL-4 to agents is an interpretation. Autonomy tiers and transparency obligations are not part of PL-4."
+              }
+            ]
+          },
+          {
+            "uuid": "5632537c-344e-5550-8264-c696d477e2d5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Limits on autonomy realised as least privilege."
+          },
+          {
+            "uuid": "5cd73a88-a684-5904-830e-20bcb83074f9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pt-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Privacy notice; transparency obligation, scoped to PII."
+          },
+          {
+            "uuid": "62ba7011-5b7c-512b-a997-df05f3b204e9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Require external service providers to comply with security requirements; define oversight."
+          },
+          {
+            "uuid": "790f9392-4ebd-58ce-a6ee-ab123379eaa5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Assess and review suppliers."
+          },
+          {
+            "uuid": "4054cd44-2c39-5e81-8399-6a54d508fb58",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Controls and processes for supply chain weaknesses."
+          },
+          {
+            "uuid": "8fca5b54-edc3-5882-95d7-f69f67d0deb6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Acquisition strategies and contract tools."
+          },
+          {
+            "uuid": "87dcc8ab-bfee-5934-a998-743182598f0d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Security requirements in the acquisition contract."
+          },
+          {
+            "uuid": "ebd7aede-f4cc-5522-8aa9-5777338b67ef",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Notification agreements and procedures."
+          },
+          {
+            "uuid": "2f496ce3-75a7-5338-a49e-c77dd184ad6a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ir-6.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Provide incident information to supply chain organisations."
+          },
+          {
+            "uuid": "6251f635-7543-5663-a0b6-643ada83fc00",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Supply chain risk assessment."
+          },
+          {
+            "uuid": "a3b93327-6a7c-551c-bfe7-504162643131",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Continuous monitoring with defined metrics and reporting."
+          },
+          {
+            "uuid": "37fa205e-a0ee-5cf5-9a0e-74b0fa9bc103",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-31"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Organisation-wide continuous monitoring strategy."
+          },
+          {
+            "uuid": "17f641cb-0027-5f42-9552-8340cb87cfad",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Control assessments and reporting of results."
+          },
+          {
+            "uuid": "b6f039c0-9b78-5c2e-a77a-bda0fc69fc03",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Measures of performance, monitored and reported."
+          },
+          {
+            "uuid": "a1ce9f15-37b3-515d-861f-1a57404a35ed",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pl-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Select a control baseline: selecting the applicable requirements."
+          },
+          {
+            "uuid": "b8faac7c-e447-58f3-920a-08f6fedacf2a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pl-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Tailor the baseline."
+          },
+          {
+            "uuid": "a305a880-00d1-547f-ab4f-51e6371467b1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Develop, monitor and report on measures of performance."
+          },
+          {
+            "uuid": "da7cab20-766f-5afd-a48a-ded7fd9925e1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Plan of action and milestones: open findings."
+          },
+          {
+            "uuid": "6060427b-e0bc-59cd-8abd-f0405bf3ec27",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Risk response: risk acceptances."
+          },
+          {
+            "uuid": "ce8d0647-b2f4-5864-9219-f17373d6eb3f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "pm-29"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Senior accountable official for risk management."
+          },
+          {
+            "uuid": "ae2f692d-cbf4-5841-b83e-60c21b4ee4e0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "grm-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Continuous monitoring reporting."
           }
-        ],
-        "source-gap-summary": {
-          "uuid": "8b7bc468-c203-5ebd-a8e7-9e3afa39ece3",
-          "unmapped-controls": [
-            {
-              "with-child-controls": "no",
-              "with-ids": [
-                "ms-01",
-                "ms-02",
-                "ms-03",
-                "ms-04",
-                "ms-05",
-                "ms-06",
-                "ms-07",
-                "ms-08",
-                "ms-09",
-                "ms-10",
-                "ms-11",
-                "ms-12",
-                "ms-13",
-                "ms-14",
-                "ms-15",
-                "ds-01",
-                "ds-02",
-                "ds-03",
-                "ds-04",
-                "ds-05",
-                "ds-06",
-                "ds-07",
-                "ds-08",
-                "mir-01",
-                "mir-02",
-                "mir-03",
-                "mir-04",
-                "mir-05",
-                "mir-06",
-                "grm-01",
-                "grm-02",
-                "grm-03",
-                "grm-04",
-                "grm-05",
-                "grm-06"
-              ]
-            }
-          ]
-        }
+        ]
       }
     ]
   }

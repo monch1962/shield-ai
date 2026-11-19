@@ -86,6 +86,8 @@ def main():
         quals = {}
         for q in e.get("qualifiers", []):
             quals.setdefault(q["on"], []).append(q)
+        seen_t = collections.Counter(m["t"] for m in e["mappings"])
+        errors += [f"{cid}: duplicate target {t!r}" for t, n in seen_t.items() if n > 1]
         mapped_targets = {m["t"] for m in e["mappings"]}
         for q in quals:
             if q not in mapped_targets:
@@ -151,9 +153,11 @@ def main():
             "uuid": uid("mapping"), "method": "hybrid", "matching-rationale": "functional", "status": "draft",
             "source-resource": {"type": "catalog", "href": "shield-ai-catalog.json"},
             "target-resource": {"type": "catalog", "href": NIST_HREF},
-            "maps": maps,
-            "source-gap-summary": {"uuid": uid("gap", "source"),
-                                   "unmapped-controls": [{"with-child-controls": "no", "with-ids": unmapped}]}}]}}
+            "maps": maps}]}}
+    if unmapped:  # schema requires with-ids to be non-empty, so omit the summary when everything is mapped
+        doc["mapping-collection"]["mappings"][0]["source-gap-summary"] = {
+            "uuid": uid("gap", "source"),
+            "unmapped-controls": [{"with-child-controls": "no", "with-ids": unmapped}]}
     out = os.path.join(ROOT, "oscal", "shield-ai-to-800-53r5-mapping.json")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     json.dump(doc, open(out, "w"), indent=2)
@@ -250,7 +254,13 @@ def findings(ctrls, maps, rels, curated):
            f"2. **Equality (computed).** {eq} of {len(maps)} map entries are `equal-to`/`equivalent-to`; "
            f"{rels.get('subset-of', 0)} are `subset-of`. A compliance team cannot treat 'satisfies 800-53 control X' "
            "as 'satisfies SHIELD-AI control Y' for the partial and novel controls."]
-    out += [f"{n}. {t}" for n, t in enumerate(curated, start=3)]
+    weak = [c for c in by["direct"] if not any(m["conf"] == "high" for m in ctrls[c]["mappings"])]
+    n0 = 3
+    if weak:
+        out.append(f"3. **Direct without a high-confidence target (computed): {', '.join(weak)}.** "
+                   "These rest on medium or low confidence mappings only; review them first, as 'direct' may be generous.")
+        n0 = 4
+    out += [f"{n}. {t}" for n, t in enumerate(curated, start=n0)]
     return out
 
 
