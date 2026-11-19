@@ -1,0 +1,204 @@
+{
+  "_about": "Curated SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk (EE and IAM pillars). DRAFT: AI-assisted, NOT yet reviewed by a control SME. Source of truth for oscal/shield-ai-to-800-53r5-mapping.json (built by tools/generate_oscal_crosswalk.py). Matching rationale is 'functional' (NIST IR 8477). Direction: source = SHIELD-AI control, target = 800-53 control; 'subset-of' means every SHIELD requirement is within the 800-53 target.",
+  "_fit_values": {
+    "direct": "An org meeting the mapped 800-53 controls, with agents in scope as subjects and sensible ODPs, substantially meets the SHIELD control. No residual requirement.",
+    "partial": "The core of the control maps to 800-53, but SHIELD adds requirements 800-53 does not state. Residual is recorded.",
+    "novel": "Only tangential 800-53 analogues exist. The control's main idea is new relative to 800-53."
+  },
+  "controls": {
+    "EE-01": {
+      "fit": "partial",
+      "fit_basis": "SC-39/SC-7.21/SC-24 cover isolation and failure behaviour; the prescriptive container-era requirements are not in 800-53.",
+      "residual": "No shared host mounts/IPC/network namespaces and immutable infrastructure are prescriptive technical requirements. 800-53 leaves them to ODPs; no 800-53 control names immutable infrastructure (closest: CM-2, CM-6, SI-7).",
+      "mappings": [
+        {"t": "sc-39",   "rel": "intersects-with", "conf": "high",   "why": "Separate execution domain per process is the generic form of one sandbox per agent."},
+        {"t": "sc-7.21", "rel": "intersects-with", "conf": "medium", "why": "Boundary mechanisms isolating supporting components; sandbox boundary is one such mechanism."},
+        {"t": "sc-24",   "rel": "intersects-with", "conf": "medium", "why": "Fail in a known state covers the 'fail-closed on isolation breach' clause only."},
+        {"t": "cm-2",    "rel": "intersects-with", "conf": "low",    "why": "Baseline configuration is the nearest home for the immutable-infrastructure clause; it does not require immutability."}
+      ]
+    },
+    "EE-02": {
+      "fit": "direct",
+      "fit_basis": "Default-deny, explicit-registration access to infrastructure APIs is access enforcement and least privilege applied to an agent subject. AC-6 explicitly covers 'processes acting on behalf of users'.",
+      "residual": null,
+      "mappings": [
+        {"t": "ac-3",   "rel": "subset-of",       "conf": "high",   "why": "Enforcing approved authorizations for access to infrastructure APIs."},
+        {"t": "ac-6",   "rel": "subset-of",       "conf": "medium", "why": "No implicit access beyond what the registered tool requires is least privilege."},
+        {"t": "sc-7.5", "rel": "intersects-with", "conf": "low",    "why": "Deny-by-default is network-level in 800-53; EE-02 is API-level. Related, not equivalent."}
+      ]
+    },
+    "EE-03": {
+      "fit": "direct",
+      "fit_basis": "Per-agent CPU/memory/network/storage/API-rate quotas are resource allocation (SC-6) with alerting (SI-4). Agent-as-insider framing is new but the mechanism is not.",
+      "residual": null,
+      "mappings": [
+        {"t": "sc-6",  "rel": "intersects-with", "conf": "high",   "why": "Allocating resources by quota is the core requirement."},
+        {"t": "sc-5",  "rel": "intersects-with", "conf": "medium", "why": "Resource exhaustion/DoS; SC-5 is oriented to external DoS events, EE-03 also covers a compromised agent as the source."},
+        {"t": "si-4",  "rel": "intersects-with", "conf": "low",    "why": "Alerting when limits are exceeded is a monitoring function."}
+      ]
+    },
+    "EE-04": {
+      "fit": "partial",
+      "fit_basis": "Isolation of evaluation from production maps to CM-4.1/SA-3.1. The 'model must not distinguish evaluation from production' requirement has no analogue.",
+      "residual": "Requirement that models must not be able to distinguish evaluation from production (links to MS-07) has no 800-53 analogue.",
+      "mappings": [
+        {"t": "cm-4.1", "rel": "intersects-with", "conf": "high",   "why": "Analyse changes in a separate test environment before production."},
+        {"t": "sa-3.1", "rel": "intersects-with", "conf": "medium", "why": "Protect preproduction environments commensurate with risk."}
+      ]
+    },
+    "EE-05": {
+      "fit": "partial",
+      "fit_basis": "Write-path restriction and integrity monitoring map to CM-5 and SI-7; the specific attack class (agent writes a file the host later trusts and executes) is not named.",
+      "residual": "Agent-writable paths the host later loads as trusted configuration (shell profiles, IDE config, cron, systemd units). 800-53 has no control for this write-then-execute-as-trusted path.",
+      "mappings": [
+        {"t": "cm-5",   "rel": "intersects-with", "conf": "medium", "why": "Logical access restrictions on changes to the system."},
+        {"t": "si-7",   "rel": "intersects-with", "conf": "medium", "why": "Integrity verification tools (the filesystem integrity monitoring clause)."},
+        {"t": "cm-7.5", "rel": "intersects-with", "conf": "low",    "why": "Allow-by-exception for what may execute; adjacent to the write-path allowlist."}
+      ]
+    },
+    "EE-06": {
+      "fit": "direct",
+      "fit_basis": "Verify the strongest isolation mode at runtime (SI-6), halt and alert rather than degrade (SC-24, SI-17). With ODPs set to 'halt agent execution' this is fully expressible.",
+      "residual": null,
+      "mappings": [
+        {"t": "sc-24", "rel": "intersects-with", "conf": "high",   "why": "Fail in a known state; EE-06 specifies the state (halted, alerting)."},
+        {"t": "si-6",  "rel": "intersects-with", "conf": "medium", "why": "Verify correct operation of security functions and alert on failure."},
+        {"t": "si-17", "rel": "intersects-with", "conf": "medium", "why": "Fail-safe procedures when failures occur."}
+      ]
+    },
+    "EE-07": {
+      "fit": "partial",
+      "fit_basis": "Restricting who can change security configuration is core 800-53 (CM-5, AC-6.1). The agent-era attack classes it lists are not.",
+      "residual": "Self-configuration poisoning by the agent, MCP registry entries as auto-run launch commands, and repository-supplied VCS config executing before the workspace-trust boundary are agent-era attack classes 800-53 does not name.",
+      "mappings": [
+        {"t": "cm-5",   "rel": "intersects-with", "conf": "high",   "why": "Enforce access restrictions associated with changes to the system."},
+        {"t": "ac-6.1", "rel": "intersects-with", "conf": "medium", "why": "Authorize access to security functions; the agent must not hold it for its own controls."},
+        {"t": "cm-3",   "rel": "intersects-with", "conf": "medium", "why": "Configuration change control and approval."},
+        {"t": "cm-6",   "rel": "intersects-with", "conf": "medium", "why": "Documented, approved configuration settings and deviations."}
+      ]
+    },
+    "EE-08": {
+      "fit": "partial",
+      "fit_basis": "The environment-separation core maps to CM-4.1; the active verification, target collision-checking and cross-run separation are the substance and are not in 800-53.",
+      "residual": "Active egress test before and during runs, collision-checking evaluation targets against real domains, and cryptographic separation of runs to prevent cross-run contamination are not in 800-53.",
+      "mappings": [
+        {"t": "cm-4.1", "rel": "intersects-with", "conf": "medium", "why": "Separate test environments."},
+        {"t": "sa-3.1", "rel": "intersects-with", "conf": "low",    "why": "Protecting preproduction environments."},
+        {"t": "si-6",   "rel": "intersects-with", "conf": "low",    "why": "Verifying a control is operating, here by active test, is related to function verification."}
+      ]
+    },
+    "IAM-01": {
+      "fit": "direct",
+      "fit_basis": "Unique, auditable identity for an agent is identifier management for a non-person entity; IA-13 names NPEs. One tension to flag, recorded as a qualifier on IA-2.",
+      "residual": null,
+      "mappings": [
+        {"t": "ia-4",  "rel": "subset-of",       "conf": "medium", "why": "Identifiers may be assigned to an individual, group, role, service or device; uniqueness is required."},
+        {"t": "ia-13", "rel": "intersects-with", "conf": "medium", "why": "Identity providers managing non-person entity (NPE) identities: the closest 800-53 term for agents."},
+        {"t": "ia-9",  "rel": "intersects-with", "conf": "medium", "why": "Uniquely identify and authenticate services before communications."},
+        {"t": "au-3",  "rel": "intersects-with", "conf": "medium", "why": "Audit records carry the identity of the subject, which is how actions are attributed to an agent."},
+        {"t": "ia-2",  "rel": "intersects-with", "conf": "low",    "why": "Associates the user's identification with processes acting for them. See qualifier."}
+      ],
+      "qualifiers": [
+        {"on": "ia-2", "subject": "both", "predicate": "has-incompatibility", "category": "addressable",
+         "description": "IA-2 binds a process to the identity of the user it acts for; IAM-01 requires an agent identity distinct from the human's. These are compatible if the agent has its own identity and a delegation link to the user, but an implementer who satisfies IA-2 by letting agents run under the user's identity would fail IAM-01."}
+      ]
+    },
+    "IAM-02": {
+      "fit": "partial",
+      "fit_basis": "Least privilege and no self-escalation are AC-6/AC-3. Agent-to-agent delegation limits are not addressed.",
+      "residual": "Constraint that an agent cannot grant other agents permissions beyond its own scope. 800-53 has no delegation-of-privilege concept.",
+      "mappings": [
+        {"t": "ac-6",    "rel": "intersects-with", "conf": "high",   "why": "Least privilege for processes acting on behalf of users."},
+        {"t": "ac-3",    "rel": "intersects-with", "conf": "medium", "why": "Enforcing approved authorizations, including no self-escalation."},
+        {"t": "ac-3.13", "rel": "intersects-with", "conf": "low",    "why": "Attribute-based policy is one way to express per-agent tool/data scope."}
+      ]
+    },
+    "IAM-03": {
+      "fit": "partial",
+      "fit_basis": "800-53 has no general requirement for human approval of autonomous action. AC-4.9 (information flows) and AC-3.2 (dual authorization) are the nearest, and neither is scoped to agent actions. Central agentic concept with weak coverage.",
+      "residual": "Human approval before high-risk autonomous agent actions is the central concept and has no direct 800-53 control. AC-4.9 is scoped to information flows; AC-3.2 is dual authorization between people.",
+      "mappings": [
+        {"t": "ac-4.9", "rel": "intersects-with", "conf": "medium", "why": "Human reviews under defined conditions; scoped to information flows, not arbitrary actions."},
+        {"t": "ac-5",   "rel": "intersects-with", "conf": "medium", "why": "Separation of duties covers the 'agent cannot approve its own action' clause."},
+        {"t": "ia-5.6", "rel": "intersects-with", "conf": "medium", "why": "Protecting authenticators; covers the gateway/operator token clause."},
+        {"t": "ac-3.2", "rel": "intersects-with", "conf": "low",    "why": "Dual authorization; a human approval gate is similar in shape but not in definition."}
+      ]
+    },
+    "IAM-04": {
+      "fit": "partial",
+      "fit_basis": "Authenticator management applies to agents. The explicit separation of agent and human credential stores and rotation domains is not required.",
+      "residual": "Separate storage, management and rotation of agent versus human credentials, so that compromise of one does not compromise the other.",
+      "mappings": [
+        {"t": "ia-5",   "rel": "intersects-with", "conf": "high",   "why": "Authenticator management: storage, protection, change."},
+        {"t": "ia-5.6", "rel": "intersects-with", "conf": "medium", "why": "Protection of authenticators commensurate with the access they grant."}
+      ]
+    },
+    "IAM-05": {
+      "fit": "direct",
+      "fit_basis": "Ephemeral, auto-expiring credentials are IA-5 lifetime management plus AC-2.2 automatic removal of temporary accounts, given suitable ODPs.",
+      "residual": null,
+      "mappings": [
+        {"t": "ac-2.2",  "rel": "intersects-with", "conf": "high",   "why": "Automatically remove or disable temporary accounts after a defined period."},
+        {"t": "ia-5",    "rel": "intersects-with", "conf": "medium", "why": "Authenticator lifetime and refresh."},
+        {"t": "ia-5.13", "rel": "intersects-with", "conf": "low",    "why": "Prohibits use of cached authenticators after a period; related to stale-credential replay."}
+      ]
+    },
+    "IAM-06": {
+      "fit": "partial",
+      "fit_basis": "SC-4 and AC-4.21 supply the isolation vocabulary. Whether an LLM context window or memory store is a 'shared system resource' is an interpretation the control makes explicit and 800-53 does not.",
+      "residual": "Per-session independent security context for agent memory and context, including between sessions of the same user. Agent context is not named as a shared resource.",
+      "mappings": [
+        {"t": "sc-4",    "rel": "intersects-with", "conf": "medium", "why": "Prevent unintended information transfer via shared system resources."},
+        {"t": "ac-4.21", "rel": "intersects-with", "conf": "medium", "why": "Separation of information flows by type."},
+        {"t": "ac-3",    "rel": "intersects-with", "conf": "low",    "why": "No session may exercise access authorised to another."}
+      ]
+    },
+    "IAM-07": {
+      "fit": "novel",
+      "fit_basis": "Transitive delegation depth limits and chain reconstruction have no 800-53 analogue. Only the audit-attribution fragment maps.",
+      "residual": "Maximum delegation depth (two hops), blocking downstream proxying of the agent's identity, and reconstructing the chain with originating identity. 800-53 has no concept of transitive delegation (cf. OAuth token exchange / on-behalf-of).",
+      "mappings": [
+        {"t": "au-3",    "rel": "intersects-with", "conf": "medium", "why": "Audit records identifying subjects; covers only the chain-reconstruction fragment."},
+        {"t": "au-10",   "rel": "intersects-with", "conf": "low",    "why": "Non-repudiation of actions performed by a process on behalf of an individual."},
+        {"t": "ac-6",    "rel": "intersects-with", "conf": "low",    "why": "Limiting what a delegated principal can do; does not address depth."}
+      ]
+    },
+    "IAM-08": {
+      "fit": "partial",
+      "fit_basis": "Minimum-scope credentials and revocation are AC-6, IA-5 and AC-3.8. Per-tool token minting and cascade revocation through a delegation chain are not stated.",
+      "residual": "Short-lived per-tool tokens and revocation that cascades through the delegation chain.",
+      "mappings": [
+        {"t": "ac-6",   "rel": "intersects-with", "conf": "high",   "why": "Least privilege applied to credential scope."},
+        {"t": "ia-5",   "rel": "intersects-with", "conf": "medium", "why": "Authenticator lifecycle."},
+        {"t": "ac-3.8", "rel": "intersects-with", "conf": "medium", "why": "Revocation of access authorizations when attributes change."}
+      ]
+    },
+    "IAM-09": {
+      "fit": "partial",
+      "fit_basis": "Access enforcement and execution isolation cover the intent. 800-53 has no explicit multi-tenancy control and nothing on IDOR-class tenant scoping.",
+      "residual": "Server-side tenant-ID scoping on every execution, tool call and query, with no user-controlled object IDs able to bypass it (CWE-639). 800-53 has no explicit multi-tenancy control.",
+      "mappings": [
+        {"t": "ac-3",    "rel": "intersects-with", "conf": "high",   "why": "Enforce authorizations for logical access; tenant scoping is an access-control decision."},
+        {"t": "sc-39",   "rel": "intersects-with", "conf": "medium", "why": "Separate execution domains; covers 'cross-tenant execution impossible'."},
+        {"t": "ac-4.21", "rel": "intersects-with", "conf": "medium", "why": "Logical separation of information flows between tenants."},
+        {"t": "sc-4",    "rel": "intersects-with", "conf": "low",    "why": "Cross-tenant leakage via shared resources."}
+      ]
+    },
+    "IAM-10": {
+      "fit": "novel",
+      "fit_basis": "Narrowing a subagent's privilege dynamically based on the taint of the data it processes is an information-flow-control model. 800-53 supplies vocabulary (labels, flows, least privilege) but no such control. Note the SI-20 'Tainting' name collision.",
+      "residual": "Taint-marking untrusted records at ingestion and dynamically narrowing the subagent's grants while it processes tainted data. AC-16, AC-4 and AC-6 supply labelling, flow and least-privilege vocabulary only.",
+      "mappings": [
+        {"t": "ac-6",    "rel": "intersects-with", "conf": "medium", "why": "Least privilege; here dynamic and task-scoped."},
+        {"t": "ac-16",   "rel": "intersects-with", "conf": "medium", "why": "Associating security attributes with information; a taint mark is such an attribute."},
+        {"t": "ac-4",    "rel": "intersects-with", "conf": "low",    "why": "Information flow enforcement between trust zones."},
+        {"t": "ac-3.13", "rel": "intersects-with", "conf": "low",    "why": "Attribute-based access control is the mechanism class that could enforce it."},
+        {"t": "si-20",   "rel": "no-relationship", "conf": "high",   "why": "Name collision. SI-20 'Tainting' embeds markers to detect exfiltration of organisational data. IAM-10 taint-tracks inbound untrusted data to constrain privilege. Different concept."}
+      ],
+      "qualifiers": [
+        {"on": "si-20", "subject": "both", "predicate": "has-incompatibility", "category": "blocked",
+         "description": "Do not treat these as equivalent on the strength of the shared word 'taint'. A reviewer mapping by title or keyword would wrongly report IAM-10 as covered by SI-20."}
+      ]
+    }
+  }
+}

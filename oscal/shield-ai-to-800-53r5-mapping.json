@@ -1,0 +1,1380 @@
+{
+  "mapping-collection": {
+    "uuid": "f3d5471a-2331-5860-86f1-55d1b922d771",
+    "metadata": {
+      "title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, EE and IAM pillars)",
+      "last-modified": "2026-11-19T00:00:00+00:00",
+      "version": "1.23-draft",
+      "oscal-version": "1.2.0",
+      "remarks": "AI-assisted draft. Not reviewed by a control SME. See crosswalk/REPORT.md for fit and residuals."
+    },
+    "provenance": {
+      "method": "hybrid",
+      "matching-rationale": "functional",
+      "status": "draft",
+      "mapping-description": "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev 5.2.0. Scope: EE and IAM pillars (18 of 69 controls). One map entry per control pair so each relationship and confidence is individually reviewable. Targets are base controls or enhancements, mapped at control level, not statement level.",
+      "props": [
+        {
+          "name": "fit-summary",
+          "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+          "value": "{\"direct\": 5, \"novel\": 2, \"partial\": 11}"
+        }
+      ]
+    },
+    "mappings": [
+      {
+        "uuid": "17252459-5272-56b2-a7f6-e65b4eb9062f",
+        "method": "hybrid",
+        "matching-rationale": "functional",
+        "status": "draft",
+        "source-resource": {
+          "type": "catalog",
+          "href": "shield-ai-catalog.json"
+        },
+        "target-resource": {
+          "type": "catalog",
+          "href": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        "maps": [
+          {
+            "uuid": "e8a4c6a8-330b-5e0a-ab1b-68310e7fcbce",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-39"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Separate execution domain per process is the generic form of one sandbox per agent."
+          },
+          {
+            "uuid": "e5419267-17b7-540c-a787-ee302a081cf7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.21"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Boundary mechanisms isolating supporting components; sandbox boundary is one such mechanism."
+          },
+          {
+            "uuid": "1a7015a1-6a14-5a61-b41d-6a5dacd71a38",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-24"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Fail in a known state covers the 'fail-closed on isolation breach' clause only."
+          },
+          {
+            "uuid": "0437f833-6205-56d1-9546-9646cae90eaf",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Baseline configuration is the nearest home for the immutable-infrastructure clause; it does not require immutability."
+          },
+          {
+            "uuid": "1d246a5a-62c9-5b31-bbbe-b37065126832",
+            "relationship": "subset-of",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Enforcing approved authorizations for access to infrastructure APIs."
+          },
+          {
+            "uuid": "49fcf0b3-6aac-504e-8c22-0c3e610dce56",
+            "relationship": "subset-of",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "No implicit access beyond what the registered tool requires is least privilege."
+          },
+          {
+            "uuid": "1383e0c5-d3e8-5fac-9e4c-ae6836a3c03b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Deny-by-default is network-level in 800-53; EE-02 is API-level. Related, not equivalent."
+          },
+          {
+            "uuid": "d6d91b8d-942e-59a8-985a-2e40527b7757",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Allocating resources by quota is the core requirement."
+          },
+          {
+            "uuid": "94729a46-97ee-53f6-80df-5206bcfab728",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Resource exhaustion/DoS; SC-5 is oriented to external DoS events, EE-03 also covers a compromised agent as the source."
+          },
+          {
+            "uuid": "be08a940-f467-51b9-9375-68f9860e75f4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Alerting when limits are exceeded is a monitoring function."
+          },
+          {
+            "uuid": "6ded6b84-0990-57c7-b6e6-e364eedc941b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-4.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Analyse changes in a separate test environment before production."
+          },
+          {
+            "uuid": "c25ab39f-6773-5516-9db9-f040114c330b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protect preproduction environments commensurate with risk."
+          },
+          {
+            "uuid": "b13c2fdd-6f74-5b9a-9286-9cfc35c9bd8d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Logical access restrictions on changes to the system."
+          },
+          {
+            "uuid": "89c7bd7e-53dd-577c-9921-833eead84587",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Integrity verification tools (the filesystem integrity monitoring clause)."
+          },
+          {
+            "uuid": "c6435af8-1cca-5ff4-a023-bb2f416c0afe",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Allow-by-exception for what may execute; adjacent to the write-path allowlist."
+          },
+          {
+            "uuid": "63a3d897-9878-5117-86a0-9c44f210edb6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-24"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Fail in a known state; EE-06 specifies the state (halted, alerting)."
+          },
+          {
+            "uuid": "03ab1d10-80d8-5c4c-9e7b-f106f920f9fe",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Verify correct operation of security functions and alert on failure."
+          },
+          {
+            "uuid": "54d91401-6799-5a3d-8bb6-2929a17203f7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-17"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Fail-safe procedures when failures occur."
+          },
+          {
+            "uuid": "1211439f-88b8-5dbd-a81c-75bc6bc28511",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Enforce access restrictions associated with changes to the system."
+          },
+          {
+            "uuid": "060f96d2-13b1-5a52-ad04-002f5c66cc76",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authorize access to security functions; the agent must not hold it for its own controls."
+          },
+          {
+            "uuid": "e7861647-007b-558e-ba0d-0e3852cce5c6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Configuration change control and approval."
+          },
+          {
+            "uuid": "92227c5a-fbbf-5dd3-90c9-1f7196aa3344",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Documented, approved configuration settings and deviations."
+          },
+          {
+            "uuid": "22fe0fad-9b9c-5a52-ab16-c44897c749c4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-4.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Separate test environments."
+          },
+          {
+            "uuid": "20d9466b-04de-5772-b6e2-9c1770724ad0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-3.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Protecting preproduction environments."
+          },
+          {
+            "uuid": "b748a4a6-afd3-5c8d-8081-0140b1b7a104",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ee-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Verifying a control is operating, here by active test, is related to function verification."
+          },
+          {
+            "uuid": "46d856df-bc16-59b5-81cc-5897c2b5af5d",
+            "relationship": "subset-of",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Identifiers may be assigned to an individual, group, role, service or device; uniqueness is required."
+          },
+          {
+            "uuid": "438063fa-c896-5cf8-92fd-187c112db4d4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-13"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Identity providers managing non-person entity (NPE) identities: the closest 800-53 term for agents."
+          },
+          {
+            "uuid": "bdb7bf30-12be-5a2c-9f3c-c0c5260deb9c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Uniquely identify and authenticate services before communications."
+          },
+          {
+            "uuid": "0c96fe60-6542-5290-9593-b7025ed55bc8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Audit records carry the identity of the subject, which is how actions are attributed to an agent."
+          },
+          {
+            "uuid": "1fef7035-cf77-5642-9287-a961dc856a00",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Associates the user's identification with processes acting for them. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "both",
+                "predicate": "has-incompatibility",
+                "category": "addressable",
+                "description": "IA-2 binds a process to the identity of the user it acts for; IAM-01 requires an agent identity distinct from the human's. These are compatible if the agent has its own identity and a delegation link to the user, but an implementer who satisfies IA-2 by letting agents run under the user's identity would fail IAM-01."
+              }
+            ]
+          },
+          {
+            "uuid": "a55ad13d-e5f3-5ffd-b713-a3e44bdac400",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Least privilege for processes acting on behalf of users."
+          },
+          {
+            "uuid": "5e597675-19b2-5ee9-8a7f-bf4d4bcbf4f4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Enforcing approved authorizations, including no self-escalation."
+          },
+          {
+            "uuid": "13ae397b-eb22-52ec-82f5-4bf937e076c1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Attribute-based policy is one way to express per-agent tool/data scope."
+          },
+          {
+            "uuid": "19c3f12c-b738-5e03-9ba6-e672ed527dd8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Human reviews under defined conditions; scoped to information flows, not arbitrary actions."
+          },
+          {
+            "uuid": "c6bac45a-a8f7-5e17-b276-fc64a8a596ad",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Separation of duties covers the 'agent cannot approve its own action' clause."
+          },
+          {
+            "uuid": "d9f8d203-93a5-5ca8-9217-c44d4f8ec6e6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protecting authenticators; covers the gateway/operator token clause."
+          },
+          {
+            "uuid": "93231c96-ecc0-5943-9709-fe1a5b218030",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Dual authorization; a human approval gate is similar in shape but not in definition."
+          },
+          {
+            "uuid": "119d6b4e-d72c-56e2-b9af-df55eb85e0e1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Authenticator management: storage, protection, change."
+          },
+          {
+            "uuid": "aba08529-bab2-5920-adff-5cec36d660a2",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protection of authenticators commensurate with the access they grant."
+          },
+          {
+            "uuid": "865c2ec6-40e8-5b98-88e9-1635c50cf727",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-2.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Automatically remove or disable temporary accounts after a defined period."
+          },
+          {
+            "uuid": "fdaf616a-16f4-5e27-a0a2-67d69b042f19",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authenticator lifetime and refresh."
+          },
+          {
+            "uuid": "2268bd0d-9bd1-5337-8d2e-2ea5284382ac",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prohibits use of cached authenticators after a period; related to stale-credential replay."
+          },
+          {
+            "uuid": "febdb430-adb0-5caf-8c49-07802d6dac72",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Prevent unintended information transfer via shared system resources."
+          },
+          {
+            "uuid": "c891b841-7e7d-5fab-bb4d-b72f5bc69d2c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.21"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Separation of information flows by type."
+          },
+          {
+            "uuid": "e6f8996e-682f-5467-b1be-a4d0e6c68b59",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "No session may exercise access authorised to another."
+          },
+          {
+            "uuid": "22b25396-90c6-5437-889e-68513fdaca4d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Audit records identifying subjects; covers only the chain-reconstruction fragment."
+          },
+          {
+            "uuid": "3cdafccf-26a2-5aba-8d33-ea803971241e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Non-repudiation of actions performed by a process on behalf of an individual."
+          },
+          {
+            "uuid": "656587da-7960-5181-9a0f-98eed312ab79",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Limiting what a delegated principal can do; does not address depth."
+          },
+          {
+            "uuid": "18ae5549-787f-57a0-ad99-75c262abb787",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Least privilege applied to credential scope."
+          },
+          {
+            "uuid": "1bfe0b33-d701-57da-955a-0c2a35c4e992",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Authenticator lifecycle."
+          },
+          {
+            "uuid": "7ff50ebd-cb99-5488-bbf9-a3dcc2492701",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.8"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Revocation of access authorizations when attributes change."
+          },
+          {
+            "uuid": "f21de475-4752-59ec-853d-d966ba964261",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Enforce authorizations for logical access; tenant scoping is an access-control decision."
+          },
+          {
+            "uuid": "d98336d7-55f9-5157-9306-386433cefc7a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-39"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Separate execution domains; covers 'cross-tenant execution impossible'."
+          },
+          {
+            "uuid": "ea3c7adc-1721-5cae-86bb-8e65ae7f7611",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.21"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Logical separation of information flows between tenants."
+          },
+          {
+            "uuid": "cdc76dc5-b399-50f8-8745-20f14be1996b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Cross-tenant leakage via shared resources."
+          },
+          {
+            "uuid": "f683dd23-a3ae-5f0b-b1e0-808fea47acff",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Least privilege; here dynamic and task-scoped."
+          },
+          {
+            "uuid": "80669d30-49fb-5eea-982c-139904f71dc6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-16"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Associating security attributes with information; a taint mark is such an attribute."
+          },
+          {
+            "uuid": "841c2511-9d44-559b-81be-0a0f35feb92f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Information flow enforcement between trust zones."
+          },
+          {
+            "uuid": "5c990bff-d8ab-5bd6-8e52-88b132be6570",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Attribute-based access control is the mechanism class that could enforce it."
+          },
+          {
+            "uuid": "9ad2f41b-6e9d-5301-afcf-689ede7ba9a4",
+            "relationship": "no-relationship",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-20"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Name collision. SI-20 'Tainting' embeds markers to detect exfiltration of organisational data. IAM-10 taint-tracks inbound untrusted data to constrain privilege. Different concept.",
+            "qualifiers": [
+              {
+                "subject": "both",
+                "predicate": "has-incompatibility",
+                "category": "blocked",
+                "description": "Do not treat these as equivalent on the strength of the shared word 'taint'. A reviewer mapping by title or keyword would wrongly report IAM-10 as covered by SI-20."
+              }
+            ]
+          }
+        ],
+        "source-gap-summary": {
+          "uuid": "8b7bc468-c203-5ebd-a8e7-9e3afa39ece3",
+          "unmapped-controls": [
+            {
+              "with-child-controls": "no",
+              "with-ids": [
+                "ms-01",
+                "ms-02",
+                "ms-03",
+                "ms-04",
+                "ms-05",
+                "ms-06",
+                "ms-07",
+                "ms-08",
+                "ms-09",
+                "ms-10",
+                "ms-11",
+                "ms-12",
+                "ms-13",
+                "ms-14",
+                "ms-15",
+                "ds-01",
+                "ds-02",
+                "ds-03",
+                "ds-04",
+                "ds-05",
+                "ds-06",
+                "ds-07",
+                "ds-08",
+                "tp-01",
+                "tp-02",
+                "tp-03",
+                "tp-04",
+                "tp-05",
+                "tp-06",
+                "tp-07",
+                "tp-08",
+                "tp-09",
+                "tp-10",
+                "tp-11",
+                "tp-12",
+                "tp-13",
+                "tp-14",
+                "tp-15",
+                "tp-16",
+                "mir-01",
+                "mir-02",
+                "mir-03",
+                "mir-04",
+                "mir-05",
+                "mir-06",
+                "grm-01",
+                "grm-02",
+                "grm-03",
+                "grm-04",
+                "grm-05",
+                "grm-06"
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

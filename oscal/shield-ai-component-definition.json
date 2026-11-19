@@ -1,0 +1,1132 @@
+{
+  "component-definition": {
+    "uuid": "2df543c0-73a7-5df4-9029-6489b87d0ff0",
+    "metadata": {
+      "title": "SHIELD-AI OPA Policy Bundle",
+      "last-modified": "2026-11-19T00:00:00+00:00",
+      "version": "1.23",
+      "oscal-version": "1.2.0"
+    },
+    "components": [
+      {
+        "uuid": "41e6ad14-7694-5782-9a67-7f8c510341a5",
+        "type": "software",
+        "title": "SHIELD-AI OPA policy bundle + Go sidecar",
+        "description": "Deny-override Rego policies evaluated by OPA behind a tool-gateway sidecar.",
+        "control-implementations": [
+          {
+            "uuid": "509a16ea-a83c-5e8d-8f7a-c9ed9cf996c6",
+            "source": "shield-ai-catalog.json",
+            "description": "All SHIELD-AI controls implemented as policy-as-code.",
+            "implemented-requirements": [
+              {
+                "uuid": "0763c5c5-052d-556f-a0df-c9b7d186b943",
+                "control-id": "ms-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "63ec227e-8c5b-5217-bf90-5f05eba0feda",
+                "control-id": "ms-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "67f7f63f-0365-5d87-8255-a8147d8253e6",
+                "control-id": "ms-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "47057ad5-61c9-5d76-a303-d1765740bb62",
+                "control-id": "ms-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "78913ebf-28f6-59ab-b0b8-b78df3cd3e49",
+                "control-id": "ms-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "2ac16a89-1ac6-50d0-9ece-91c43b640fbe",
+                "control-id": "ms-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "c3c16e5e-5692-5b89-abcc-f3721cc95e0e",
+                "control-id": "ms-07",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-07.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "dc6773cc-fbd6-5362-b7db-ab32e4c2b016",
+                "control-id": "ms-08",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-08.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "654d36f4-2d68-504b-ba50-3186a0f00a39",
+                "control-id": "ms-09",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-09.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "aeab7db0-c81c-563a-9afe-6e2fe0b7c34c",
+                "control-id": "ms-10",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-10.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "cbfd4133-92ac-54fc-a85e-91c2c9a6f335",
+                "control-id": "ms-11",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-11.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "72b38c4d-909b-558e-94a4-41a7c17d5387",
+                "control-id": "ms-12",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-12.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "e3093dfc-204c-5c2d-9ffe-b4a94064b6d0",
+                "control-id": "ms-13",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-13.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "4c89d978-d357-519b-81f8-65d5bcdfb85b",
+                "control-id": "ms-14",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-14.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "0d8ce6f1-abd7-56fd-9830-7fd2f9338012",
+                "control-id": "ms-15",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ms-15.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "069517fe-03a7-5216-9366-825d0e98eff1",
+                "control-id": "iam-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "0e3c3bcf-1bc5-5215-9e46-3fa823ea67c3",
+                "control-id": "iam-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "7e8fd90e-20d2-52df-904d-f1e72c53397d",
+                "control-id": "iam-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "3de88b67-0f64-5ad5-b100-028f5ee56421",
+                "control-id": "iam-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "516e27a1-eef0-5515-bedc-68a222a3cfe1",
+                "control-id": "iam-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "528e3cf3-668c-5f7a-9fcc-6b59d0c53ea8",
+                "control-id": "iam-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "ccdc4f81-3827-59a1-a965-d8f6a0c743bd",
+                "control-id": "iam-07",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-07.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "49924942-3266-5a3f-bd59-4e3731349a6f",
+                "control-id": "iam-08",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-08.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "5ada0088-b3a8-5262-b2b6-cfcdbd43c85e",
+                "control-id": "iam-09",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-09.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "295a6245-e0c5-532b-a0c8-f756b1bf8826",
+                "control-id": "iam-10",
+                "description": "Deny-override Rego policy policies/shield_ai_*_iam-10.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "73904698-aca8-5d16-8517-15bcf2bad58e",
+                "control-id": "ds-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "5a768d12-bbc9-5500-bc8e-135209d34849",
+                "control-id": "ds-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "e69ef6f4-0b88-54f7-8d1f-6dd27c2f121b",
+                "control-id": "ds-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "455febcd-a3c4-5c0e-b632-2c82adb0dcd6",
+                "control-id": "ds-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "b1c84291-d518-518e-8d7b-bb7826645784",
+                "control-id": "ds-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "8c6ba095-e3b2-5c03-99c3-f272185e595f",
+                "control-id": "ds-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "5f57b91b-b3aa-5eb4-a3b6-562a92eb1d03",
+                "control-id": "ds-07",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-07.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "7ed1d736-b8d7-583e-a678-a6dbc8caeca6",
+                "control-id": "ds-08",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ds-08.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "94b9c068-0609-50b3-ac21-f91742d16973",
+                "control-id": "tp-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "750d99f5-bdf6-5856-9823-204af61a9ab5",
+                "control-id": "tp-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "2f3ab734-9ee5-5581-abb4-e4fa296f0563",
+                "control-id": "tp-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "0275adb6-fe92-51eb-8929-4c26ec99eec5",
+                "control-id": "tp-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "33a675f9-13f1-512e-851f-9fdbe1d9a79e",
+                "control-id": "tp-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "3dc60522-b49e-5756-b2b1-bf7a287c4bf5",
+                "control-id": "tp-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "87c9b630-f647-5de2-92a4-d1c86c9f72a0",
+                "control-id": "tp-07",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-07.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "a42a9a32-97ae-51a1-a834-10c743776be8",
+                "control-id": "tp-08",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-08.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "e9b67adc-95fd-5de3-9173-3d4634767d48",
+                "control-id": "tp-09",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-09.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "59df8b7a-9863-5305-9ef9-51788fc204ac",
+                "control-id": "tp-10",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-10.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "3b113933-0e05-5fc9-8361-f8172489c03e",
+                "control-id": "tp-11",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-11.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "1ab22565-356c-55ed-a41e-48cafd7fa330",
+                "control-id": "tp-12",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-12.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "dd91b4b0-ce8b-5cf1-92ff-6c808c53f65e",
+                "control-id": "tp-13",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-13.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "da083858-f4d6-526a-a6ea-c9f1c31ec567",
+                "control-id": "tp-14",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-14.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "2fc88f0c-3365-5575-8f4f-384703465fe4",
+                "control-id": "tp-15",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-15.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "49da33aa-c3d2-591b-99e9-848963c671f1",
+                "control-id": "tp-16",
+                "description": "Deny-override Rego policy policies/shield_ai_*_tp-16.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "601a44d9-a1dc-5927-a453-460371d006fd",
+                "control-id": "mir-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "6fd0d4da-058a-523f-88d3-3b16d125a03f",
+                "control-id": "mir-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "07367113-1c37-5528-b1d4-71483f6a0717",
+                "control-id": "mir-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "cef732ff-d14c-50c6-ac21-06603d16ec28",
+                "control-id": "mir-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "0f59b1fd-8879-5d64-b10f-575c88f6c85c",
+                "control-id": "mir-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "eb2fee30-c8e3-5e3f-b019-3ed02a562f98",
+                "control-id": "mir-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_mir-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "5f9c81c8-fcbe-5583-ad6f-5f27aa1c5c0d",
+                "control-id": "grm-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "f964b6bc-55a1-5162-a1c4-56c3ee45b559",
+                "control-id": "grm-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "9be94c3c-8818-5230-b0b0-e864a9979398",
+                "control-id": "grm-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "7b7eaddc-925c-5e96-b58e-aa38a25739da",
+                "control-id": "grm-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "b7db6509-b59c-51b0-9a1c-b5c12b7e1192",
+                "control-id": "grm-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "2148f43d-7dfe-5866-8e98-d94d8580e2c2",
+                "control-id": "grm-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_grm-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "255d709f-5cd9-589c-ad0d-26138e8fab89",
+                "control-id": "ee-01",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-01.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "38e04976-b36d-575d-8863-35817e99c718",
+                "control-id": "ee-02",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-02.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "02824e5b-67e0-5dba-b82e-013b0d8459f1",
+                "control-id": "ee-03",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-03.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "6d08aa1e-fa13-5fa8-ab45-a5e3c7e41e05",
+                "control-id": "ee-04",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-04.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "7e37062a-000e-5a8c-86fd-ce55d7ae1ed3",
+                "control-id": "ee-05",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-05.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "9c2f2040-1734-5033-97a0-760c88cab9a4",
+                "control-id": "ee-06",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-06.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "4eb8f56e-e2f7-5f80-bb5c-607eb5e1ee06",
+                "control-id": "ee-07",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-07.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              },
+              {
+                "uuid": "82c8908a-24c4-5999-82ec-ce8dcbd206d8",
+                "control-id": "ee-08",
+                "description": "Deny-override Rego policy policies/shield_ai_*_ee-08.rego, verified by OPA test vectors.",
+                "props": [
+                  {
+                    "name": "implementation-status",
+                    "value": "implemented"
+                  },
+                  {
+                    "name": "enforcement-point",
+                    "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
+                    "value": "opa-pdp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
