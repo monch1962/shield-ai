@@ -1,10 +1,21 @@
 {
-  "_about": "Curated SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk (EE and IAM pillars). DRAFT: AI-assisted, NOT yet reviewed by a control SME. Source of truth for oscal/shield-ai-to-800-53r5-mapping.json (built by tools/generate_oscal_crosswalk.py). Matching rationale is 'functional' (NIST IR 8477). Direction: source = SHIELD-AI control, target = 800-53 control; 'subset-of' means every SHIELD requirement is within the 800-53 target.",
+  "_about": "Curated SHIELD-AI -> NIST SP 800-53 Rev 5 crosswalk (EE, IAM and TP pillars). DRAFT: AI-assisted, NOT yet reviewed by a control SME. Source of truth for oscal/shield-ai-to-800-53r5-mapping.json (built by tools/generate_oscal_crosswalk.py). Matching rationale is 'functional' (NIST IR 8477). Direction: source = SHIELD-AI control, target = 800-53 control; 'subset-of' means every SHIELD requirement is within the 800-53 target.",
   "_fit_values": {
     "direct": "An org meeting the mapped 800-53 controls, with agents in scope as subjects and sensible ODPs, substantially meets the SHIELD control. No residual requirement.",
     "partial": "The core of the control maps to 800-53, but SHIELD adds requirements 800-53 does not state. Residual is recorded.",
     "novel": "Only tangential 800-53 analogues exist. The control's main idea is new relative to 800-53."
   },
+  "findings": [
+    "**Human approval of autonomous action (IAM-03) is the notable IAM gap.** It is central to agent safety yet the nearest 800-53 controls are AC-4.9 (information flows) and AC-3.2 (dual authorization), neither scoped to actions. See the NIST COSIS agent overlays for whether NIST addresses it.",
+    "**Keyword matching would mislead.** IAM-10 'taint-tracking' collides with SI-20 'Tainting', a different concept (exfiltration detection). It is recorded as `no-relationship` with a blocking qualifier. Tooling that auto-maps on titles or text similarity would get this wrong.",
+    "**One identity tension (IAM-01 vs IA-2).** IA-2 ties a process to the user it acts for; IAM-01 requires a distinct agent identity. Compatible, but an implementation that reads IA-2 literally could satisfy it while failing IAM-01. Recorded as a qualifier. TP-02 inherits the same dependency (the tool must authenticate the agent, not the human).",
+    "**TP: mechanism maps, trigger does not.** The later TP controls (TP-10 to TP-16) come from incidents where an agent or its tooling is induced to execute attacker-controlled instructions or code. The mechanism half (signing, input validation, allow-listing, process isolation, provenance) has 800-53 homes. The trigger half (content the agent reads becomes a command; the model is an instruction source whose output must be authenticated) does not.",
+    "**TP-11 is the clearest novel control in the pillar.** Treating rendered content as a command channel and preserving origin isolation for an acting agent has no 800-53 vocabulary. A keyword search of Rev 5.2 statements and guidance for 'same-origin' returned no hits and for 'browser' one incidental hit. The targets listed are tangential.",
+    "**One 800-53 control, two different fits (SI-10.6).** Its mechanism (parameterized interfaces, output escaping) presumes a data/code boundary. TP-16 has one (an OS launch path), so SI-10.6 fits well. TP-04 does not: an LLM context has no such boundary, so the same control gives weak cover. Recorded as a qualifier on TP-04.",
+    "**TP-15: 800-53 permits the weak reading.** SC-39 (separate execution domain per process) arguably excludes an in-process denylist sandbox, but never says so; an assessor could accept a hardened interpreter as an 'execution domain'. SHIELD-AI's value here is the explicit negative.",
+    "**Supply-chain controls transfer best.** TP-05, TP-13 and TP-14 map onto the SR family, CM-14 and SI-7.15, where 800-53's provenance and authenticity vocabulary predates agent skill marketplaces but still applies. The residual is that the payload is natural-language instructions and runtime-fetchable instruction channels, not just code.",
+    "**TP-07 is a borderline partial/novel.** RA-3 and SA-11.2 would cover analysis of tool composition only if the organisation chose to scope threat modelling that way; nothing in 800-53 asks for it."
+  ],
   "controls": {
     "EE-01": {
       "fit": "partial",
@@ -198,6 +209,202 @@
       "qualifiers": [
         {"on": "si-20", "subject": "both", "predicate": "has-incompatibility", "category": "blocked",
          "description": "Do not treat these as equivalent on the strength of the shared word 'taint'. A reviewer mapping by title or keyword would wrongly report IAM-10 as covered by SI-20."}
+      ]
+    },
+    "TP-01": {
+      "fit": "direct",
+      "fit_basis": "A registry of approved, versioned tools is a component inventory plus allow-by-exception. Assumes each agent-callable tool is treated as a component or external service; the unit of inventory is a judgement the control leaves to the implementer.",
+      "residual": null,
+      "mappings": [
+        {"t": "cm-8",   "rel": "intersects-with", "conf": "high",   "why": "Inventory of system components that accurately reflects the system; an unregistered tool is an inventory gap."},
+        {"t": "cm-7.5", "rel": "intersects-with", "conf": "medium", "why": "Deny-all, permit-by-exception for what may execute: the registry is the allowlist."},
+        {"t": "cm-8.3", "rel": "intersects-with", "conf": "medium", "why": "Detect unauthorized components and act on them: covers the unregistered-tool blind-spot clause."},
+        {"t": "cm-3",   "rel": "intersects-with", "conf": "low",    "why": "Security approval before a tool enters service is configuration change control."}
+      ]
+    },
+    "TP-02": {
+      "fit": "direct",
+      "fit_basis": "Per-agent authorisation to invoke a tool is access enforcement and least privilege; the tool authenticating the calling agent is service authentication. Depends on a distinct agent identity (IAM-01); see the IA-2 tension recorded there.",
+      "residual": null,
+      "mappings": [
+        {"t": "ac-3",    "rel": "intersects-with", "conf": "high",   "why": "Enforce approved authorizations for access to the tool."},
+        {"t": "ac-6",    "rel": "intersects-with", "conf": "medium", "why": "Only the tools the agent's function requires."},
+        {"t": "ia-9",    "rel": "intersects-with", "conf": "medium", "why": "Uniquely identify and authenticate the calling service or application before communications."},
+        {"t": "ac-3.13", "rel": "intersects-with", "conf": "low",    "why": "Attribute-based policy is one way to bind agent to permitted tools."}
+      ]
+    },
+    "TP-03": {
+      "fit": "direct",
+      "fit_basis": "Rate limiting, payload validation, schema enforcement and audit logging at the API edge are each standard 800-53 mechanisms. SC-7.17 (enforce protocol formats) is a good match for schema enforcement.",
+      "residual": null,
+      "mappings": [
+        {"t": "si-10",   "rel": "intersects-with", "conf": "high",   "why": "Check validity of inputs: payload validation."},
+        {"t": "sc-7",    "rel": "intersects-with", "conf": "medium", "why": "Monitor and control communications at managed interfaces: the gateway is the managed interface."},
+        {"t": "sc-7.17", "rel": "intersects-with", "conf": "medium", "why": "Enforce adherence to protocol formats: schema enforcement."},
+        {"t": "sc-5",    "rel": "intersects-with", "conf": "medium", "why": "Rate limiting as denial-of-service protection."},
+        {"t": "au-12",   "rel": "intersects-with", "conf": "medium", "why": "Audit record generation for gateway events."}
+      ]
+    },
+    "TP-04": {
+      "fit": "partial",
+      "fit_basis": "Structural validation of tool output maps to SI-15 (output consistent with expected content) and SI-10. The injection-prevention intent does not carry over: SI-10.6's mechanism assumes data and code can be separated, which an LLM context cannot do.",
+      "residual": "Sanitising tool output against instruction content that the model will follow (tool-output prompt injection). 800-53's injection controls rely on parameterized interfaces or escaping; natural-language instructions inside a context window cannot be escaped that way.",
+      "mappings": [
+        {"t": "si-15",   "rel": "intersects-with", "conf": "medium", "why": "Validate output from programs to ensure it is consistent with expected content: structural validation of tool output."},
+        {"t": "si-10",   "rel": "intersects-with", "conf": "medium", "why": "From the agent's side, tool output is an information input to be checked for validity."},
+        {"t": "si-10.6", "rel": "intersects-with", "conf": "low",    "why": "Prevent untrusted data injections: right intent, wrong mechanism for an LLM context. See qualifier."},
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "low",    "why": "Restrict inputs to trusted sources and approved formats; covers the structural half only."}
+      ],
+      "qualifiers": [
+        {"on": "si-10.6", "subject": "target", "predicate": "has-incompatibility", "category": "restricted",
+         "description": "SI-10.6 is met by parameterized interfaces or output escaping, which separate data from code. A model reading tool output has no such separation: instructions and data share one channel. SI-10.6 can be satisfied literally (every conventional parser is protected) while tool-output injection into the model is unaddressed."}
+      ]
+    },
+    "TP-05": {
+      "fit": "direct",
+      "fit_basis": "Signed, attested, gated pipelines that deploy an agent are developer configuration management and software integrity verification. The agent is simply the deployed software. 'Attestation' is SLSA/in-toto vocabulary; SR-4.3 and SI-7.15 cover the same verification intent.",
+      "residual": null,
+      "mappings": [
+        {"t": "sa-10",   "rel": "intersects-with", "conf": "medium", "why": "Developer configuration management with integrity control over changes."},
+        {"t": "si-7.15", "rel": "intersects-with", "conf": "high",   "why": "Cryptographic authentication of software components before installation."},
+        {"t": "cm-14",   "rel": "intersects-with", "conf": "medium", "why": "Prevent installation of components without verification of a digital signature."},
+        {"t": "sa-10.1", "rel": "intersects-with", "conf": "medium", "why": "Enable integrity verification of software components."},
+        {"t": "sr-4.3",  "rel": "intersects-with", "conf": "low",    "why": "Validate that a received component is genuine and not altered: the attestation clause."},
+        {"t": "sa-11",   "rel": "intersects-with", "conf": "low",    "why": "Security validation gates in the pipeline are developer testing and evaluation."}
+      ]
+    },
+    "TP-06": {
+      "fit": "partial",
+      "fit_basis": "Continuous vulnerability scanning of libraries is RA-5 and SI-2. Models and model registries as scannable dependency artifacts, and automated blocking on critical findings, are not stated.",
+      "residual": "Treating models and model registries as dependencies to be scanned (e.g. serialized model files that execute code on load), and an automated block on critical findings. RA-5 requires scanning and timely remediation, not a blocking gate.",
+      "mappings": [
+        {"t": "ra-5",    "rel": "intersects-with", "conf": "high",   "why": "Monitor and scan for vulnerabilities in the system and hosted applications; remediate."},
+        {"t": "si-2",    "rel": "intersects-with", "conf": "medium", "why": "Identify, report and correct flaws: the remediation half."},
+        {"t": "sa-15.7", "rel": "intersects-with", "conf": "low",    "why": "Automated vulnerability analysis in development, where the organisation is the developer."},
+        {"t": "sr-3",    "rel": "intersects-with", "conf": "low",    "why": "Identify and address weaknesses in supply chain elements."},
+        {"t": "si-3",    "rel": "intersects-with", "conf": "low",    "why": "Malicious code protection is the nearest analogue for malicious model artifacts."}
+      ]
+    },
+    "TP-07": {
+      "fit": "partial",
+      "fit_basis": "BORDERLINE partial/novel. Threat modelling and risk assessment are umbrella controls under which tool-composition analysis could sit, but nothing in 800-53 asks for it. Rated partial only because the generic analysis exists; confidence is low.",
+      "residual": "Combinatorial analysis of registered tools for escape, privilege-escalation and exfiltration chains, and explicit risk acceptance of escape-class chains. 800-53 has no concept of analysing capability composition across components.",
+      "mappings": [
+        {"t": "ra-3",    "rel": "intersects-with", "conf": "low", "why": "Risk assessment identifying threats and vulnerabilities; generic umbrella."},
+        {"t": "sa-11.2", "rel": "intersects-with", "conf": "low", "why": "Threat modelling and vulnerability analyses during development; applies where the organisation develops the agent system."},
+        {"t": "cm-4",    "rel": "intersects-with", "conf": "low", "why": "Impact analysis before a change: adding a tool to the registry is such a change."},
+        {"t": "ac-5",    "rel": "intersects-with", "conf": "low", "why": "Separation of duties addresses conflicting capability combinations in people; the analogy to tools is loose."}
+      ]
+    },
+    "TP-08": {
+      "fit": "direct",
+      "fit_basis": "An endpoint allow-list at the agent gateway that excludes control-plane APIs is deny-by-default with exceptions; treating blocked calls as compromise indicators is monitoring and alerting. Largely the same as EE-02 viewed from the gateway.",
+      "residual": null,
+      "mappings": [
+        {"t": "sc-7.5",  "rel": "intersects-with", "conf": "medium", "why": "Deny communications by default and allow by exception: the endpoint allow-list at the gateway."},
+        {"t": "sc-7",    "rel": "intersects-with", "conf": "medium", "why": "Boundary protection at the managed interface."},
+        {"t": "si-4.5",  "rel": "intersects-with", "conf": "medium", "why": "Alert on defined indications of compromise: a non-tool API call is one."},
+        {"t": "au-12",   "rel": "intersects-with", "conf": "low",    "why": "Blocked calls are logged."}
+      ]
+    },
+    "TP-09": {
+      "fit": "partial",
+      "fit_basis": "Least functionality and secure defaults state the principle. The specific failure (an agent framework reflecting over internal helpers and exposing them as callable tools) is an agent-era implementation hazard 800-53 does not name.",
+      "residual": "Prohibiting attribute-based, reflection-based or discovery-based registration of internal functions and SDK helpers as agent-callable tools; every callable must be explicitly declared.",
+      "mappings": [
+        {"t": "cm-7",    "rel": "intersects-with", "conf": "medium", "why": "Configure the system to provide only essential capabilities."},
+        {"t": "cm-7.5",  "rel": "intersects-with", "conf": "medium", "why": "Allow-by-exception for what may be invoked."},
+        {"t": "sa-8.23", "rel": "intersects-with", "conf": "medium", "why": "Secure defaults: nothing callable unless explicitly enabled."},
+        {"t": "cm-8",    "rel": "intersects-with", "conf": "low",    "why": "Registry is the inventory (see TP-01)."}
+      ]
+    },
+    "TP-10": {
+      "fit": "partial",
+      "fit_basis": "Default-deny listeners, closing unneeded ports and protocols, and session authenticity are all 800-53. Treating the agent platform's loopback gateway as an attack surface, origin-bound tokens against cross-site WebSocket hijack, and agent-initiated service binding are not.",
+      "residual": "Origin-bound gateway tokens that cannot be read from browser context (cross-site WebSocket hijack resistance), and detecting and blocking service binding initiated by the agent itself. 800-53 assumes administrators, not the agent, open listeners.",
+      "mappings": [
+        {"t": "cm-7",    "rel": "intersects-with", "conf": "medium", "why": "Prohibit or restrict functions, ports, protocols and services."},
+        {"t": "sc-7.11", "rel": "intersects-with", "conf": "medium", "why": "Only allow incoming communications from defined sources: the inbound deny-by-default policy."},
+        {"t": "sc-7.5",  "rel": "intersects-with", "conf": "medium", "why": "Deny by default, allow by exception."},
+        {"t": "sc-23",   "rel": "intersects-with", "conf": "medium", "why": "Protect session authenticity, including against session hijacking: nearest home for origin-bound session handling."},
+        {"t": "si-4",    "rel": "intersects-with", "conf": "low",    "why": "Detect unauthorized local, network and remote connections."},
+        {"t": "ia-5.6",  "rel": "intersects-with", "conf": "low",    "why": "Protect authenticators: covers the token-not-readable clause."}
+      ]
+    },
+    "TP-11": {
+      "fit": "novel",
+      "fit_basis": "The core is that content an agent perceives (rendered pages, uploaded documents, hidden text) becomes a command channel, and that origin isolation must hold for an agent acting across sites. 800-53 has no vocabulary for untrusted instruction-bearing content or same-origin policy. Only fragments (mobile code, detonation, input validation) apply.",
+      "residual": "Classifying rendered content as untrusted, stripping imperceptible instruction vectors before agent action, preserving origin and content isolation for an agent acting across sites, and keeping credential material out of the browser/session layer. No 800-53 control is built on content-as-command.",
+      "mappings": [
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "low", "why": "Restrict inputs to trusted sources: the untrusted-content classification, without the instruction-stripping."},
+        {"t": "sc-18",   "rel": "intersects-with", "conf": "low", "why": "Mobile code control and monitoring: covers scripts in pages, not hidden text instructions."},
+        {"t": "sc-44",   "rel": "intersects-with", "conf": "low", "why": "Detonation chambers for untrusted attachments: relevant to document-upload sanitisation."},
+        {"t": "sc-39",   "rel": "intersects-with", "conf": "low", "why": "Process isolation for the rendering component; does not address origin isolation."}
+      ]
+    },
+    "TP-12": {
+      "fit": "partial",
+      "fit_basis": "BORDERLINE partial/novel. Session authenticity and a reference monitor give vocabulary for 'dispatch must be mediated and session events must be authentic'. Cryptographically bound model-turn provenance for tool calls, and approvals bound to exact tool name and arguments, have no 800-53 analogue.",
+      "residual": "Verifying that a tool call originated from an authorised model turn (session, turn, model signature) before dispatch; binding approval records to the exact tool name and arguments; verifying approvals against the human channel, never against agent-writable session history. 800-53 does not treat a model as an authorised source of instructions.",
+      "mappings": [
+        {"t": "sc-23",  "rel": "intersects-with", "conf": "medium", "why": "Protect authenticity of sessions including against insertion of false information: forged session events."},
+        {"t": "ac-25",  "rel": "intersects-with", "conf": "medium", "why": "Reference monitor: tamperproof, always invoked; the dispatch layer is this."},
+        {"t": "au-10",  "rel": "intersects-with", "conf": "low",    "why": "Irrefutable evidence an action was performed by an identified party; relevant to approval records."},
+        {"t": "ac-3",   "rel": "intersects-with", "conf": "low",    "why": "Enforcement of authorizations at dispatch."},
+        {"t": "si-7",   "rel": "intersects-with", "conf": "low",    "why": "Integrity of the events and history the dispatcher trusts."}
+      ]
+    },
+    "TP-13": {
+      "fit": "partial",
+      "fit_basis": "Governing software installation and validating component provenance are CM-11 and SR-4. The trigger (install commands lifted from ingested documentation) and the checks (does the package exist in the registry, does the namespace belong to the vendor, has the documented domain expired) are not stated.",
+      "residual": "Refusing to treat ingested documentation (README, llms.txt) as an authoritative install script; registry-existence, namespace-ownership and domain-expiry checks before install; treating dangling references as findings.",
+      "mappings": [
+        {"t": "cm-11",  "rel": "intersects-with", "conf": "medium", "why": "Policy governing software installation, with enforcement and monitoring."},
+        {"t": "sr-4",   "rel": "intersects-with", "conf": "medium", "why": "Document, monitor and maintain valid provenance of components."},
+        {"t": "cm-7.5", "rel": "intersects-with", "conf": "medium", "why": "Operator allowlist of authorized software."},
+        {"t": "sr-4.3", "rel": "intersects-with", "conf": "low",    "why": "Validate a received component is genuine and not altered."},
+        {"t": "cm-14",  "rel": "intersects-with", "conf": "low",    "why": "Signed-component verification, where the package ecosystem provides signatures."}
+      ]
+    },
+    "TP-14": {
+      "fit": "partial",
+      "fit_basis": "Signed immutable payloads and provenance map well to CM-14, SI-7.15 and SR-4. The payload being natural-language instructions, and runtime-fetchable instruction channels being a C2 path invisible to tool-call monitoring, are not addressed.",
+      "residual": "Fixing instruction content at install time and prohibiting runtime-fetchable instruction channels; capability-scoped skill privileges below the agent's own identity; behavioural baseline with quarantine on drift. 800-53's code-signing vocabulary assumes the signed artifact is code, not instructions.",
+      "mappings": [
+        {"t": "cm-14",   "rel": "intersects-with", "conf": "high",   "why": "Prevent installation without verification of a recognised digital signature."},
+        {"t": "si-7.15", "rel": "intersects-with", "conf": "high",   "why": "Cryptographically authenticate components before installation."},
+        {"t": "sr-4",    "rel": "intersects-with", "conf": "medium", "why": "Provenance end to end, publisher to artifact."},
+        {"t": "ac-6",    "rel": "intersects-with", "conf": "medium", "why": "Skill privileges scoped to declared capability, not the agent's full identity."},
+        {"t": "sc-18.3", "rel": "intersects-with", "conf": "low",    "why": "Prevent download and execution of defined mobile code: relates to the runtime-fetch prohibition."},
+        {"t": "sr-11",   "rel": "intersects-with", "conf": "low",    "why": "Component authenticity; framed around counterfeit, so only loosely applicable to malicious marketplace listings."}
+      ]
+    },
+    "TP-15": {
+      "fit": "partial",
+      "fit_basis": "Running untrusted code in an isolated execution domain is SC-39, CM-7.6 and SC-44. The control's substance is a negative assertion (a denylist in-process sandbox is not a boundary) that 800-53 does not make, so an assessor could accept a weak sandbox as satisfying SC-39.",
+      "residual": "The explicit determination that denylist or blocklist in-process sandboxes are code-execution surfaces, not security boundaries; classifying any unavoidable in-process sandbox as high-risk with automated blocking; a mandatory alternative-evaluation gate at higher maturity.",
+      "mappings": [
+        {"t": "sc-39",  "rel": "intersects-with", "conf": "high",   "why": "Separate execution domain per process: an in-process sandbox shares the host process, so arguably fails. See qualifier."},
+        {"t": "cm-7.6", "rel": "intersects-with", "conf": "medium", "why": "Execute in a confined physical or virtual environment with limited privileges."},
+        {"t": "sc-44",  "rel": "intersects-with", "conf": "low",    "why": "Detonation chamber: isolated sandbox for executing untrusted code."},
+        {"t": "sc-7.21","rel": "intersects-with", "conf": "low",    "why": "Boundary mechanisms isolating components; see EE-01."}
+      ],
+      "qualifiers": [
+        {"on": "sc-39", "subject": "both", "predicate": "has-requirement", "category": "addressable",
+         "description": "To make SC-39 equivalent to TP-15, an assessor must interpret 'execution domain' as OS- or VM-enforced separation and reject in-process interpreter gates. SC-39 does not say so; an implementation using a hardened interpreter could be argued to pass SC-39 while failing TP-15."}
+      ]
+    },
+    "TP-16": {
+      "fit": "partial",
+      "fit_basis": "A server-supplied string reaching an OS launch primitive is classic command injection: SI-10 and SI-10.6 fit this case well, since a launch path is a real parser boundary. The agent-era residue is MCP/OAuth metadata as the untrusted input and model-influenced server definitions registering launch commands.",
+      "residual": "Origin-binding of OAuth authorization endpoints to the configured server; validating and allowlisting launch commands registered through tool or server definitions, including those a prompt-injected model can influence; assuming later compromise of a previously benign server.",
+      "mappings": [
+        {"t": "si-10.6", "rel": "intersects-with", "conf": "high",   "why": "Prevent untrusted data injections via parameterized interfaces: the launch path is a genuine data/code boundary, unlike TP-04."},
+        {"t": "si-10",   "rel": "intersects-with", "conf": "medium", "why": "Validate inputs: peer-supplied protocol metadata."},
+        {"t": "si-10.5", "rel": "intersects-with", "conf": "medium", "why": "Restrict inputs to trusted sources and approved formats: origin-bound endpoints."},
+        {"t": "cm-7.5",  "rel": "intersects-with", "conf": "medium", "why": "Deny-all, permit-by-exception for programs that may execute: allowlisted launch commands."},
+        {"t": "cm-7.2",  "rel": "intersects-with", "conf": "low",    "why": "Prevent program execution per policy."},
+        {"t": "ca-3",    "rel": "intersects-with", "conf": "low",    "why": "Managed information exchange with connected systems; onboarding and reconnection of tool servers."}
       ]
     }
   }

@@ -2,7 +2,7 @@
   "mapping-collection": {
     "uuid": "f3d5471a-2331-5860-86f1-55d1b922d771",
     "metadata": {
-      "title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, EE and IAM pillars)",
+      "title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, IAM, TP and EE pillars)",
       "last-modified": "2026-11-19T00:00:00+00:00",
       "version": "1.23-draft",
       "oscal-version": "1.2.0",
@@ -12,12 +12,12 @@
       "method": "hybrid",
       "matching-rationale": "functional",
       "status": "draft",
-      "mapping-description": "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev 5.2.0. Scope: EE and IAM pillars (18 of 69 controls). One map entry per control pair so each relationship and confidence is individually reviewable. Targets are base controls or enhancements, mapped at control level, not statement level.",
+      "mapping-description": "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev 5.2.0. Scope: IAM, TP and EE pillars (34 of 69 controls). One map entry per control pair so each relationship and confidence is individually reviewable. Targets are base controls or enhancements, mapped at control level, not statement level.",
       "props": [
         {
           "name": "fit-summary",
           "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
-          "value": "{\"direct\": 5, \"novel\": 2, \"partial\": 11}"
+          "value": "{\"direct\": 10, \"novel\": 3, \"partial\": 21}"
         }
       ]
     },
@@ -1311,6 +1311,1618 @@
                 "description": "Do not treat these as equivalent on the strength of the shared word 'taint'. A reviewer mapping by title or keyword would wrongly report IAM-10 as covered by SI-20."
               }
             ]
+          },
+          {
+            "uuid": "91a645a9-fee5-5425-bf41-62d063005150",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Inventory of system components that accurately reflects the system; an unregistered tool is an inventory gap."
+          },
+          {
+            "uuid": "175828f9-ff29-5e5d-a3a1-27351597b7b8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Deny-all, permit-by-exception for what may execute: the registry is the allowlist."
+          },
+          {
+            "uuid": "8668441a-4733-5926-a400-6ee365503eae",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Detect unauthorized components and act on them: covers the unregistered-tool blind-spot clause."
+          },
+          {
+            "uuid": "259515a5-a472-5080-a6dd-0451cd3c1733",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-01"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Security approval before a tool enters service is configuration change control."
+          },
+          {
+            "uuid": "5c7c98f0-699d-52a9-8026-8a36164403c1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Enforce approved authorizations for access to the tool."
+          },
+          {
+            "uuid": "1759f5d2-17fe-5f42-8025-7c20682f4c4a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Only the tools the agent's function requires."
+          },
+          {
+            "uuid": "684b322c-9e3b-52f0-8de1-854d1f018913",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-9"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Uniquely identify and authenticate the calling service or application before communications."
+          },
+          {
+            "uuid": "ab512eee-c5d8-5a77-8080-c0c8a9d1b3aa",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-02"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3.13"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Attribute-based policy is one way to bind agent to permitted tools."
+          },
+          {
+            "uuid": "494d4f71-22ee-536f-bd88-5073ec4d82f7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Check validity of inputs: payload validation."
+          },
+          {
+            "uuid": "0121fa6e-0924-5a0d-ad23-36f7780e30d4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Monitor and control communications at managed interfaces: the gateway is the managed interface."
+          },
+          {
+            "uuid": "0fdebbb1-da0f-5390-b9ba-1f17ecce07c4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.17"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Enforce adherence to protocol formats: schema enforcement."
+          },
+          {
+            "uuid": "c65b61a6-3d90-571c-8ef7-0038c8e8b954",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Rate limiting as denial-of-service protection."
+          },
+          {
+            "uuid": "24e49b00-5054-5f25-b330-23bae49b4170",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-03"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Audit record generation for gateway events."
+          },
+          {
+            "uuid": "4b7f0c1d-56d2-5893-913e-04258db9eb37",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-15"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate output from programs to ensure it is consistent with expected content: structural validation of tool output."
+          },
+          {
+            "uuid": "8e3cd9cd-c268-535f-8d51-e851e957eef0",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "From the agent's side, tool output is an information input to be checked for validity."
+          },
+          {
+            "uuid": "955b96ed-d6ba-5e8e-b7c9-01af9eadd829",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prevent untrusted data injections: right intent, wrong mechanism for an LLM context. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "target",
+                "predicate": "has-incompatibility",
+                "category": "restricted",
+                "description": "SI-10.6 is met by parameterized interfaces or output escaping, which separate data from code. A model reading tool output has no such separation: instructions and data share one channel. SI-10.6 can be satisfied literally (every conventional parser is protected) while tool-output injection into the model is unaddressed."
+              }
+            ]
+          },
+          {
+            "uuid": "2a00c237-f4b6-5473-9e43-d62a3027560e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Restrict inputs to trusted sources and approved formats; covers the structural half only."
+          },
+          {
+            "uuid": "0b3e217a-cda0-5e38-9213-a62ee0470cbc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Developer configuration management with integrity control over changes."
+          },
+          {
+            "uuid": "8dc81661-42e7-5466-bb35-cb8474b5923d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.15"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Cryptographic authentication of software components before installation."
+          },
+          {
+            "uuid": "48b8a4c6-1c69-573f-822b-50ec95ac9ff5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Prevent installation of components without verification of a digital signature."
+          },
+          {
+            "uuid": "dcd2769c-d935-5bb3-8806-1527578ce053",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-10.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Enable integrity verification of software components."
+          },
+          {
+            "uuid": "0d6a8b6a-1b34-58b8-94b4-9076715e2eff",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Validate that a received component is genuine and not altered: the attestation clause."
+          },
+          {
+            "uuid": "ed77fcff-e708-57c5-815b-654fea366a0c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-05"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Security validation gates in the pipeline are developer testing and evaluation."
+          },
+          {
+            "uuid": "837523e6-7f88-5f69-92f5-c60f1974e371",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Monitor and scan for vulnerabilities in the system and hosted applications; remediate."
+          },
+          {
+            "uuid": "b953a0ae-3eb7-53e6-878e-401f1018f1f5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-2"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Identify, report and correct flaws: the remediation half."
+          },
+          {
+            "uuid": "ef03961e-b9e9-5efc-9cbc-42520e17f6c3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-15.7"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Automated vulnerability analysis in development, where the organisation is the developer."
+          },
+          {
+            "uuid": "3680d262-49dc-5401-bf98-3afea10ee558",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Identify and address weaknesses in supply chain elements."
+          },
+          {
+            "uuid": "30c949a4-72c6-53ec-ab01-285ca94c342d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-06"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Malicious code protection is the nearest analogue for malicious model artifacts."
+          },
+          {
+            "uuid": "ea1824f6-dadc-50f4-ba65-39e650f28e62",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ra-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Risk assessment identifying threats and vulnerabilities; generic umbrella."
+          },
+          {
+            "uuid": "45928c80-da60-5e27-a0cc-3ce1792a0b11",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-11.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Threat modelling and vulnerability analyses during development; applies where the organisation develops the agent system."
+          },
+          {
+            "uuid": "58b154ae-c3a7-5f8c-bb36-7e6a0dcdfb14",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Impact analysis before a change: adding a tool to the registry is such a change."
+          },
+          {
+            "uuid": "5681e8a5-543c-518a-a1dd-e401cd895761",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Separation of duties addresses conflicting capability combinations in people; the analogy to tools is loose."
+          },
+          {
+            "uuid": "04ac15a3-39ee-54e4-8c66-d444429e1dee",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Deny communications by default and allow by exception: the endpoint allow-list at the gateway."
+          },
+          {
+            "uuid": "3e3f044a-3a82-5a51-b359-76690a869040",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Boundary protection at the managed interface."
+          },
+          {
+            "uuid": "750f824f-8d6f-5a04-a0af-58a8ac9b8777",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Alert on defined indications of compromise: a non-tool API call is one."
+          },
+          {
+            "uuid": "8413f022-5f92-5c62-99cf-d4b1f0f96900",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-08"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-12"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Blocked calls are logged."
+          },
+          {
+            "uuid": "db611f43-2513-580e-9c52-22dc58732b1b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Configure the system to provide only essential capabilities."
+          },
+          {
+            "uuid": "da05bd3c-1c71-5838-99f1-f68e05e5b6eb",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Allow-by-exception for what may be invoked."
+          },
+          {
+            "uuid": "f6f51fc3-cafd-521a-ba38-cc9b3f27bac5",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-8.23"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Secure defaults: nothing callable unless explicitly enabled."
+          },
+          {
+            "uuid": "3dcb77b4-b470-5933-9d70-3cfae8af2506",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-09"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Registry is the inventory (see TP-01)."
+          },
+          {
+            "uuid": "ce243521-85a6-5b4e-9b65-a262326214e1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Prohibit or restrict functions, ports, protocols and services."
+          },
+          {
+            "uuid": "3632ab90-ba62-50c8-b5cd-0ee9cda7d977",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.11"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Only allow incoming communications from defined sources: the inbound deny-by-default policy."
+          },
+          {
+            "uuid": "a285128e-77d1-5f2e-8d93-ebd79be95189",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Deny by default, allow by exception."
+          },
+          {
+            "uuid": "fede464a-e6a5-5f3e-b659-df4bcf4fe36f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protect session authenticity, including against session hijacking: nearest home for origin-bound session handling."
+          },
+          {
+            "uuid": "e3368223-7249-53ee-b0da-fa6a0fe77fba",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Detect unauthorized local, network and remote connections."
+          },
+          {
+            "uuid": "578b664b-c1eb-592d-823e-3f8be39aa0a3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ia-5.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Protect authenticators: covers the token-not-readable clause."
+          },
+          {
+            "uuid": "c624358c-b3c5-5e19-98ee-9c40f90be139",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Restrict inputs to trusted sources: the untrusted-content classification, without the instruction-stripping."
+          },
+          {
+            "uuid": "a819f21e-453a-5efa-83e5-55571c095a96",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-18"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Mobile code control and monitoring: covers scripts in pages, not hidden text instructions."
+          },
+          {
+            "uuid": "db0a6914-5d8b-53e0-9003-e61ad41383ca",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-44"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Detonation chambers for untrusted attachments: relevant to document-upload sanitisation."
+          },
+          {
+            "uuid": "cbe7ae8f-cbd4-5a6b-aa1a-9e81742aabde",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-11"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-39"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Process isolation for the rendering component; does not address origin isolation."
+          },
+          {
+            "uuid": "d8a0985e-8de6-5831-9ba8-04edd5dde035",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-23"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Protect authenticity of sessions including against insertion of false information: forged session events."
+          },
+          {
+            "uuid": "20089d3e-0101-5d00-868c-dbfc941945c8",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-25"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Reference monitor: tamperproof, always invoked; the dispatch layer is this."
+          },
+          {
+            "uuid": "0495497a-53ae-5cc9-8e4c-cacb0fcb0c5c",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "au-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Irrefutable evidence an action was performed by an identified party; relevant to approval records."
+          },
+          {
+            "uuid": "cc0800dd-cfa5-5831-af66-4611a907b0dc",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Enforcement of authorizations at dispatch."
+          },
+          {
+            "uuid": "6fd3db65-a824-583d-8858-f2c49704d085",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-12"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Integrity of the events and history the dispatcher trusts."
+          },
+          {
+            "uuid": "feb647b4-1b6b-5d15-a516-0630733794a9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Policy governing software installation, with enforcement and monitoring."
+          },
+          {
+            "uuid": "184beb30-bdff-529f-b35e-e98e9fe215d6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Document, monitor and maintain valid provenance of components."
+          },
+          {
+            "uuid": "dfe272ce-24ca-55ac-9e49-4a3074dfc55f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Operator allowlist of authorized software."
+          },
+          {
+            "uuid": "29599acc-a57b-5a11-a11b-6f26b97e06f9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Validate a received component is genuine and not altered."
+          },
+          {
+            "uuid": "ec51120e-b1c5-5267-9e94-de23dfaf8e6b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-13"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Signed-component verification, where the package ecosystem provides signatures."
+          },
+          {
+            "uuid": "7efda25b-9720-5fdc-aa6d-85c058de75b4",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-14"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Prevent installation without verification of a recognised digital signature."
+          },
+          {
+            "uuid": "5c52f31c-5fa2-5ef9-8d4c-bb138c82f494",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-7.15"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Cryptographically authenticate components before installation."
+          },
+          {
+            "uuid": "78482e8b-681d-5505-893c-2e0920a2b739",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-4"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Provenance end to end, publisher to artifact."
+          },
+          {
+            "uuid": "586f3de1-8f94-516c-9fd1-3772c711e557",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Skill privileges scoped to declared capability, not the agent's full identity."
+          },
+          {
+            "uuid": "3fe40e24-b489-5382-bd74-be1fced28e0a",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-18.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prevent download and execution of defined mobile code: relates to the runtime-fetch prohibition."
+          },
+          {
+            "uuid": "ba0059ec-800f-5fa9-870e-995e4e5e347d",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-14"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sr-11"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Component authenticity; framed around counterfeit, so only loosely applicable to malicious marketplace listings."
+          },
+          {
+            "uuid": "9e4ae831-0458-54e6-88f0-e89cb91ba13f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-39"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Separate execution domain per process: an in-process sandbox shares the host process, so arguably fails. See qualifier.",
+            "qualifiers": [
+              {
+                "subject": "both",
+                "predicate": "has-requirement",
+                "category": "addressable",
+                "description": "To make SC-39 equivalent to TP-15, an assessor must interpret 'execution domain' as OS- or VM-enforced separation and reject in-process interpreter gates. SC-39 does not say so; an implementation using a hardened interpreter could be argued to pass SC-39 while failing TP-15."
+              }
+            ]
+          },
+          {
+            "uuid": "6a2de16d-1410-50d7-bb54-b18868536262",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Execute in a confined physical or virtual environment with limited privileges."
+          },
+          {
+            "uuid": "2b48bfc2-8768-5266-82f1-56c17b5c2720",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-44"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Detonation chamber: isolated sandbox for executing untrusted code."
+          },
+          {
+            "uuid": "3b9e03e9-af70-5cc6-8442-a530d8e3d44e",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-15"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sc-7.21"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Boundary mechanisms isolating components; see EE-01."
+          },
+          {
+            "uuid": "790f0d66-6f93-5fd0-a73c-f8d38973f6e9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.6"
+              }
+            ],
+            "confidence-score": {
+              "category": "high",
+              "STRVALUE": "high"
+            },
+            "remarks": "Prevent untrusted data injections via parameterized interfaces: the launch path is a genuine data/code boundary, unlike TP-04."
+          },
+          {
+            "uuid": "ba3717b2-5de5-5e87-9768-351b4a37f5c1",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Validate inputs: peer-supplied protocol metadata."
+          },
+          {
+            "uuid": "e7d2b74a-2245-5281-a063-3f467c21ce8f",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-10.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Restrict inputs to trusted sources and approved formats: origin-bound endpoints."
+          },
+          {
+            "uuid": "61649ab4-c166-51f6-a0d4-9de78d080fd6",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.5"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Deny-all, permit-by-exception for programs that may execute: allowlisted launch commands."
+          },
+          {
+            "uuid": "7011e235-3013-541d-b773-47f1039f15c7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "cm-7.2"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Prevent program execution per policy."
+          },
+          {
+            "uuid": "fabb1f15-c4d0-506d-a5d6-71b72de2f9e7",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "tp-16"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Managed information exchange with connected systems; onboarding and reconnection of tool servers."
           }
         ],
         "source-gap-summary": {
@@ -1342,22 +2954,6 @@
                 "ds-06",
                 "ds-07",
                 "ds-08",
-                "tp-01",
-                "tp-02",
-                "tp-03",
-                "tp-04",
-                "tp-05",
-                "tp-06",
-                "tp-07",
-                "tp-08",
-                "tp-09",
-                "tp-10",
-                "tp-11",
-                "tp-12",
-                "tp-13",
-                "tp-14",
-                "tp-15",
-                "tp-16",
                 "mir-01",
                 "mir-02",
                 "mir-03",

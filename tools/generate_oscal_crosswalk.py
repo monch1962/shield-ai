@@ -50,15 +50,18 @@ def fetch(url, dest):
 
 def load_800_53():
     cat = json.load(open(fetch(NIST_CATALOG_URL, os.path.join(CACHE, "nist-800-53r5-catalog.json"))))["catalog"]
-    idx = {}
+    idx, withdrawn = {}, {}
 
     def walk(cs):
         for c in cs:
             idx[c["id"]] = c["title"]
+            if any(p["name"] == "status" and p["value"] == "withdrawn" for p in c.get("props", [])):
+                withdrawn[c["id"]] = [l["href"].lstrip("#") for l in c.get("links", [])
+                                      if l.get("rel") in ("moved-to", "incorporated-into")]
             walk(c.get("controls", []))
     for g in cat["groups"]:
         walk(g.get("controls", []))
-    return idx, cat["metadata"].get("version", "?")
+    return idx, withdrawn, cat["metadata"].get("version", "?")
 
 
 def main():
@@ -68,7 +71,7 @@ def main():
 
     cw = json.load(open(os.path.join(ROOT, "crosswalk", "shield-ai-to-800-53r5.json")))
     src = json.load(open(os.path.join(ROOT, "assets", "shield-ai-control-schema.json")))
-    nist, nist_ver = load_800_53()
+    nist, withdrawn, nist_ver = load_800_53()
 
     errors = []
     maps = []
@@ -91,6 +94,8 @@ def main():
             t = m["t"]
             if t not in nist:
                 errors.append(f"{cid}: 800-53 id {t!r} not in Rev {nist_ver} catalog")
+            if t in withdrawn:
+                errors.append(f"{cid}: 800-53 id {t!r} is WITHDRAWN (see {withdrawn[t] or 'no successor listed'})")
             if m["rel"] not in RELS:
                 errors.append(f"{cid}->{t}: bad relationship {m['rel']!r}")
             if m["conf"] not in CONFS:
@@ -108,10 +113,19 @@ def main():
                                         "category": q["category"], "description": q["description"]}
                                        for q in quals[t]]
             maps.append(entry)
+    for t in cw.get("findings", []):
+        for ref in re.findall(r"\b(?:MS|IAM|DS|TP|MIR|GRM|EE)-\d{2}\b", t):
+            if ref not in src["controls"]:
+                errors.append(f"findings cite unknown SHIELD-AI control {ref}")
+            elif ref not in cw["controls"]:
+                errors.append(f"findings cite {ref} which is not mapped in this crosswalk")
     if errors:
         print("ERRORS:\n  " + "\n  ".join(errors), file=sys.stderr)
         return 1
 
+    order = list(src["pillars"])
+    scope = [p for p in order if any(c.startswith(p + "-") for c in cw["controls"])]
+    scope_txt = ", ".join(scope[:-1]) + " and " + scope[-1] if len(scope) > 1 else scope[0]
     mapped_src = {m["sources"][0]["id-ref"] for m in maps}
     all_src = [c.lower() for p in src["pillars"].values() for c in p["control_ids"]]
     unmapped = [c for c in all_src if c not in mapped_src]
@@ -120,7 +134,7 @@ def main():
 
     doc = {"mapping-collection": {
         "uuid": uid("mapping-collection"),
-        "metadata": {"title": "SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, EE and IAM pillars)",
+        "metadata": {"title": f"SHIELD-AI to NIST SP 800-53 Rev 5 (DRAFT, {scope_txt} pillars)",
                      "last-modified": a.stamp, "version": f"{src['meta']['version']}-draft",
                      "oscal-version": OSCAL_VERSION,
                      "remarks": "AI-assisted draft. Not reviewed by a control SME. See crosswalk/REPORT.md for fit and residuals."},
@@ -128,7 +142,7 @@ def main():
             "method": "hybrid", "matching-rationale": "functional", "status": "draft",
             "mapping-description": (
                 "Functional mapping (NIST IR 8477) from SHIELD-AI controls to SP 800-53 Rev "
-                f"{nist_ver}. Scope: EE and IAM pillars ({len(cw['controls'])} of {len(all_src)} controls). "
+                f"{nist_ver}. Scope: {scope_txt} pillars ({len(cw['controls'])} of {len(all_src)} controls). "
                 "One map entry per control pair so each relationship and confidence is individually reviewable. "
                 "Targets are base controls or enhancements, mapped at control level, not statement level."),
             "props": [{"name": "fit-summary", "ns": NS_URI,
@@ -160,13 +174,13 @@ def main():
     except ImportError:
         print("schema: SKIPPED (pip install jsonschema)", file=sys.stderr)
 
-    write_report(cw, src, nist, nist_ver, maps, unmapped, covering, a.stamp)
+    write_report(cw, src, nist, nist_ver, maps, unmapped, covering, a.stamp, scope, scope_txt)
     print(f"wrote {os.path.relpath(out, ROOT)}: {len(maps)} map entries over {len(cw['controls'])} controls "
           f"(800-53 Rev {nist_ver})")
     return 0
 
 
-def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp):
+def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp, scope, scope_txt):
     L = []
     ctrls = cw["controls"]
     fits = collections.Counter(e["fit"] for e in ctrls.values())
@@ -174,7 +188,7 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp):
     L += ["# SHIELD-AI to NIST SP 800-53 Rev 5: crosswalk fit report", "",
           f"Generated {stamp[:10]} by `tools/generate_oscal_crosswalk.py` from `crosswalk/shield-ai-to-800-53r5.json`. "
           f"Target catalog: SP 800-53 Rev {nist_ver}. **Status: DRAFT, not SME-reviewed.**", "",
-          f"Scope: EE and IAM pillars, {n} of {sum(len(p['control_ids']) for p in src['pillars'].values())} controls.", "",
+          f"Scope: {scope_txt} pillars, {n} of {sum(len(p['control_ids']) for p in src['pillars'].values())} controls.", "",
           "## Headline", "",
           "| Fit | Controls | Meaning |", "|---|---|---|"]
     for f in FITS:
@@ -188,14 +202,15 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp):
     L += ["## Mapping-level statistics", "",
           f"- {len(maps)} map entries. Relationships: " + ", ".join(f"{k} {v}" for k, v in sorted(rels.items())) + ".",
           f"- Confidence: " + ", ".join(f"{k} {confs.get(k, 0)}" for k in ("high", "medium", "low")) + ".",
-          f"- Only {rels.get('subset-of', 0)} entries are `subset-of`, and no entry is `equal-to` or `equivalent-to`. "
-          "Mappings overwhelmingly `intersects-with`: each side has content the other lacks.", ""]
+          f"- {rels.get('intersects-with', 0)} of {len(maps)} entries are `intersects-with` (each side has content the other lacks); "
+          f"{rels.get('subset-of', 0)} are `subset-of`; "
+          f"{rels.get('equal-to', 0) + rels.get('equivalent-to', 0)} are `equal-to`/`equivalent-to`.", ""]
     hi = sum(1 for e in ctrls.values() if any(m["conf"] == "high" for m in e["mappings"]))
     L += [f"- {hi} of {n} controls have at least one high-confidence mapping. "
           f"{n - hi} rest on medium or low confidence alone.", ""]
 
     L += ["## By pillar", "", "| Pillar | Direct | Partial | Novel |", "|---|---|---|---|"]
-    for pid in ("EE", "IAM"):
+    for pid in scope:
         pc = collections.Counter(e["fit"] for c, e in ctrls.items() if c.startswith(pid + "-"))
         L.append(f"| {pid} | {pc.get('direct', 0)} | {pc.get('partial', 0)} | {pc.get('novel', 0)} |")
 
@@ -211,7 +226,7 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp):
         if e["fit"] != "direct":
             L += [f"- **{cid} ({e['fit']})**: {e['residual']}"]
     L += ["", "## Findings", ""]
-    L += findings(ctrls, maps)
+    L += findings(ctrls, maps, rels, cw.get("findings", []))
     L += ["", "## Method and limits", "",
           "- Matching rationale `functional` (NIST IR 8477): compares what the controls do, not their wording.",
           "- Mapped at control level. NIST recommends statement level; control-level mappings are coarser and will over-state overlap.",
@@ -220,33 +235,23 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp):
           "- 800-53 statements were read from the catalog for the candidate targets. "
           "Many have unfilled organisation-defined parameters (ODPs), so 'direct' assumes sensible ODP values.",
           "- Ratings are one analyst's judgement, AI-assisted. They need review by someone who has assessed against 800-53.",
-          "- Out of scope: the other five pillars (MS, DS, TP, MIR, GRM); the NIST COSAIS/COSIS agent overlays; "
+          "- Out of scope: the pillars not listed above; the NIST COSAIS/COSIS agent overlays; "
           "800-53 baselines (low/moderate/high), which would change what 'covered' means in practice.", ""]
     open(os.path.join(ROOT, "crosswalk", "REPORT.md"), "w").write("\n".join(L))
 
 
-def findings(ctrls, maps):
-    f = []
-    d = [c for c, e in ctrls.items() if e["fit"] == "direct"]
-    nv = [c for c, e in ctrls.items() if e["fit"] == "novel"]
-    f.append(f"1. **Mechanism maps cleanly; agent semantics do not.** The {len(d)} `direct` controls ({', '.join(d)}) "
-             "are classic security engineering (access enforcement, resource limits, fail-safe, ephemeral credentials) "
-             "where the agent is just a new subject. The weak spots are where the agent changes the threat model.")
-    f.append(f"2. **Genuinely new relative to 800-53:** {', '.join(nv)}. Delegation-chain depth and taint-driven "
-             "privilege narrowing are not stateable with 800-53 vocabulary without stretching it.")
-    f.append("3. **Human approval of autonomous action (IAM-03) is the notable gap.** It is central to agent safety yet "
-             "the nearest 800-53 controls are AC-4.9 (information flows) and AC-3.2 (dual authorization), "
-             "neither scoped to actions. See the NIST COSIS agent overlays for whether NIST addresses it.")
-    f.append("4. **Keyword matching would mislead.** IAM-10 'taint-tracking' collides with SI-20 'Tainting', "
-             "a different concept (exfiltration detection). It is recorded as `no-relationship` with a blocking qualifier. "
-             "Any tooling that auto-maps on titles or text similarity would get this wrong.")
-    f.append("5. **Mappings are almost never equal.** No `equal-to`; `subset-of` is rare. A compliance team cannot treat "
-             "'satisfies 800-53 control X' as 'satisfies SHIELD-AI control Y' for the partial and novel controls: "
-             "SHIELD-AI is not redundant with 800-53 for the agent-specific content.")
-    f.append("6. **One identity tension (IAM-01 vs IA-2).** IA-2 ties a process to the user it acts for; "
-             "IAM-01 requires a distinct agent identity. Compatible, but an implementation that reads IA-2 literally "
-             "could satisfy it while failing IAM-01. Recorded as a qualifier.")
-    return f
+def findings(ctrls, maps, rels, curated):
+    """Computed bullets first (numbers derived from data), then curated prose from the data file.
+    Curated text must not quote counts; they would drift."""
+    by = {f: [c for c, e in ctrls.items() if e["fit"] == f] for f in FITS}
+    eq = rels.get("equal-to", 0) + rels.get("equivalent-to", 0)
+    out = [f"1. **Fit (computed).** Direct {len(by['direct'])}: {', '.join(by['direct']) or 'none'}. "
+           f"Partial {len(by['partial'])}. Novel {len(by['novel'])}: {', '.join(by['novel']) or 'none'}.",
+           f"2. **Equality (computed).** {eq} of {len(maps)} map entries are `equal-to`/`equivalent-to`; "
+           f"{rels.get('subset-of', 0)} are `subset-of`. A compliance team cannot treat 'satisfies 800-53 control X' "
+           "as 'satisfies SHIELD-AI control Y' for the partial and novel controls."]
+    out += [f"{n}. {t}" for n, t in enumerate(curated, start=3)]
+    return out
 
 
 if __name__ == "__main__":
