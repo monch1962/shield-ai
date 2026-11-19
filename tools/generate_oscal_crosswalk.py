@@ -115,6 +115,23 @@ def main():
                                         "category": q["category"], "description": q["description"]}
                                        for q in quals[t]]
             maps.append(entry)
+    sources = cw.get("cross_check_sources", {})
+    verdicts = {"reclassified", "confirmed-novel", "converging", "threat-recognised"}
+    for cid, e in cw["controls"].items():
+        cc = e.get("cross_check")
+        if not cc:
+            continue
+        if cc.get("verdict") not in verdicts:
+            errors.append(f"{cid}: cross_check verdict {cc.get('verdict')!r} not in {sorted(verdicts)}")
+        if not cc.get("evidence") and not cc.get("not_found"):
+            errors.append(f"{cid}: cross_check has neither evidence nor not_found")
+        for ev in cc.get("evidence", []):
+            if ev.get("source") not in sources:
+                errors.append(f"{cid}: cross_check cites unknown source {ev.get('source')!r}")
+            if not ev.get("quote"):
+                errors.append(f"{cid}: cross_check evidence without a quote")
+        if cc.get("verdict") == "reclassified" and e["fit"] == "novel":
+            errors.append(f"{cid}: verdict 'reclassified' but fit is still novel")
     for t in cw.get("findings", []):
         for ref in re.findall(r"\b(?:MS|IAM|DS|TP|MIR|GRM|EE)-\d{2}\b", t):
             if ref not in src["controls"]:
@@ -231,6 +248,7 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp, scope
             L += [f"- **{cid} ({e['fit']})**: {e['residual']}"]
     L += ["", "## Findings", ""]
     L += findings(ctrls, maps, rels, cw.get("findings", []))
+    L += cross_check_section(cw, ctrls)
     L += ["", "## Method and limits", "",
           "- Matching rationale `functional` (NIST IR 8477): compares what the controls do, not their wording.",
           "- Mapped at control level. NIST recommends statement level; control-level mappings are coarser and will over-state overlap.",
@@ -239,9 +257,38 @@ def write_report(cw, src, nist, nist_ver, maps, unmapped, covering, stamp, scope
           "- 800-53 statements were read from the catalog for the candidate targets. "
           "Many have unfilled organisation-defined parameters (ODPs), so 'direct' assumes sensible ODP values.",
           "- Ratings are one analyst's judgement, AI-assisted. They need review by someone who has assessed against 800-53.",
-          "- Out of scope: the pillars not listed above; the NIST COSAIS/COSIS agent overlays; "
+          "- Out of scope: the pillars not listed above; a mapping to NIST agent overlays (none published; see the NIST cross-check, which covers only the novel ratings); "
           "800-53 baselines (low/moderate/high), which would change what 'covered' means in practice.", ""]
     open(os.path.join(ROOT, "crosswalk", "REPORT.md"), "w").write("\n".join(L))
+
+
+def cross_check_section(cw, ctrls):
+    cc = {c: e["cross_check"] for c, e in ctrls.items() if e.get("cross_check")}
+    if not cc:
+        return []
+    src = cw.get("cross_check_sources", {})
+    L = ["", "## NIST cross-check", "",
+         "Each control rated novel (plus any later reclassified) was checked against NIST material published or reachable at the time of "
+         "writing. This is a check on the 'novel' ratings, not an endorsement of them. NIST has not published an agent overlay "
+         "(NISTIR 8605D), so none of this is a NIST control mapping.", "",
+         "| Control | Fit now | Verdict | Summary |", "|---|---|---|---|"]
+    for c, x in cc.items():
+        L.append(f"| {c} | {ctrls[c]['fit']} | {x['verdict']} | {x['summary']} |")
+    L += ["", "Verdicts: `reclassified` = rating changed; `confirmed-novel` = NIST material contradicts nothing and addresses nothing; "
+          "`converging` = NIST material states the principle or a related goal but no control; `threat-recognised` = NIST documents "
+          "the attack but no control or mitigation maps to the SHIELD-AI requirement.", "", "### Sources and their weight", "",
+          "| Key | Source | Status | Weight |", "|---|---|---|---|"]
+    for k, v in src.items():
+        L.append(f"| `{k}` | [{v['title']}]({v['url']}) | {v['status']} | {v['weight']} |")
+    L += ["", "### Per-control evidence", ""]
+    for c, x in cc.items():
+        L += [f"**{c}** ({x['verdict']}): {x['note']}", ""]
+        for ev in x.get("evidence", []):
+            L.append(f"- `{ev['source']}`, {ev['where']}: \"{ev['quote']}\"")
+        for nf in x.get("not_found", []):
+            L.append(f"- Not found: {nf}")
+        L.append("")
+    return L
 
 
 def findings(ctrls, maps, rels, curated):

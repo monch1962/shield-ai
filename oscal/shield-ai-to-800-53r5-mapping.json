@@ -17,7 +17,7 @@
         {
           "name": "fit-summary",
           "ns": "https://github.com/monch1962/shield-ai/ns/oscal",
-          "value": "{\"direct\": 23, \"novel\": 8, \"partial\": 38}"
+          "value": "{\"direct\": 23, \"novel\": 7, \"partial\": 39}"
         }
       ]
     },
@@ -990,6 +990,27 @@
             "remarks": "No session may exercise access authorised to another."
           },
           {
+            "uuid": "2d7dd0a3-67e2-5103-9688-15f9fb471300",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-07"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "sa-8.22"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Accountability and traceability design principle: trace security-relevant actions to the entity on whose behalf they are taken; covers the chain-reconstruction clause."
+          },
+          {
             "uuid": "22b25396-90c6-5437-889e-68513fdaca4d",
             "relationship": "intersects-with",
             "sources": [
@@ -1242,6 +1263,27 @@
             "remarks": "Associating security attributes with information; a taint mark is such an attribute."
           },
           {
+            "uuid": "cf8d792f-d977-5aa2-941b-48ee5b9ff4db",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-16.1"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Dynamically associate attributes as information is created and combined: the vocabulary for taint marking at ingestion and propagation."
+          },
+          {
             "uuid": "841c2511-9d44-559b-81be-0a0f35feb92f",
             "relationship": "intersects-with",
             "sources": [
@@ -1261,6 +1303,27 @@
               "STRVALUE": "low"
             },
             "remarks": "Information flow enforcement between trust zones."
+          },
+          {
+            "uuid": "0d687065-19fa-5feb-aae3-6c0dba03f2b3",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "iam-10"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ac-4.3"
+              }
+            ],
+            "confidence-score": {
+              "category": "low",
+              "STRVALUE": "low"
+            },
+            "remarks": "Dynamic information flow control: enforcement that changes with conditions, including detection of potentially harmful events."
           },
           {
             "uuid": "5c990bff-d8ab-5bd6-8e52-88b132be6570",
@@ -3269,6 +3332,27 @@
             "remarks": "Organisation-wide supply chain risk management strategy."
           },
           {
+            "uuid": "54dbb03f-dee5-57e7-aa1c-63c0cc7d774b",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "ca-8"
+              }
+            ],
+            "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Penetration testing: the periodic adversarial testing requirement. Also listed in NIST's predictive-AI overlay outline."
+          },
+          {
             "uuid": "a72d1ce5-e741-59b7-8875-d63721077561",
             "relationship": "intersects-with",
             "sources": [
@@ -3376,10 +3460,10 @@
               }
             ],
             "confidence-score": {
-              "category": "low",
-              "STRVALUE": "low"
+              "category": "medium",
+              "STRVALUE": "medium"
             },
-            "remarks": "Red-team exercises: how adversarial robustness would be tested."
+            "remarks": "Red-team exercises: the L3/L4 red-teaming requirement."
           },
           {
             "uuid": "003bb1f2-0513-5fd9-8b21-038a616376eb",
@@ -3397,10 +3481,31 @@
               }
             ],
             "confidence-score": {
+              "category": "medium",
+              "STRVALUE": "medium"
+            },
+            "remarks": "Developer penetration testing: the pre-deployment adversarial test requirement. Also listed in NIST's predictive-AI overlay outline."
+          },
+          {
+            "uuid": "3caab963-80a2-593a-b437-04c23128c9a9",
+            "relationship": "intersects-with",
+            "sources": [
+              {
+                "type": "control",
+                "id-ref": "ms-04"
+              }
+            ],
+            "targets": [
+              {
+                "type": "control",
+                "id-ref": "si-15"
+              }
+            ],
+            "confidence-score": {
               "category": "low",
               "STRVALUE": "low"
             },
-            "remarks": "Developer penetration testing."
+            "remarks": "Output filtering: covers the L3 proxy-layer output guardrails only."
           },
           {
             "uuid": "47ae4e07-ea7d-58ae-9349-527b2161e418",
