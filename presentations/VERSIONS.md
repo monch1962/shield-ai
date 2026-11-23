@@ -20,6 +20,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.20 | 2026-11-23 | Updated to framework v1.24 (69 controls): INC-97..INC-99 (Meta Muse Sentinel egress-gate bypass and VM kernel escape; Gemini 4 Argon evaluation containment failure at Epoch AI; Depi Codex GitHub Action pipeline backdoor), DS-08/MS-13/EE-01 guidance extensions, footer version bumped |
 | 1.19 | 2026-11-09 | Updated to framework v1.22 (69 controls): INC-91..INC-92 (CPython/Jinja chat-template sandbox escape reaching BYOM serving processes; agent-swarm cooperation-lure secret leakage), TP-15/MS-10/TP-16 guidance extensions, footer version bumped |
 | 1.18 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.17 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84 (MCP connection-path OAuth RCE, MCP tool-argument injection wave, cross-tenant memory leakage, multi-tenant hosting escapes, CI config-file trust-ordering, visual prompt injection), new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
@@ -45,6 +46,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.17 | 2026-11-23 | Updated to framework v1.24 (69 controls): INC-97..INC-99 (Meta Muse Sentinel egress-gate bypass and VM kernel escape; Gemini 4 Argon evaluation containment failure at Epoch AI; Depi Codex GitHub Action pipeline backdoor), DS-08/MS-13/EE-01 guidance extensions, footer version bumped |
 | 1.16 | 2026-11-09 | Updated to framework v1.22 (69 controls): INC-91..INC-92 (CPython/Jinja chat-template sandbox escape; agent-swarm cooperation-lure secret leakage), TP-15/MS-10/TP-16 guidance extensions, footer version bumped |
 | 1.15 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.14 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
@@ -67,6 +69,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.14 | 2026-11-23 | Updated to framework v1.24 (69 controls): INC-97..INC-99 (Meta Muse Sentinel egress-gate bypass and VM kernel escape; Gemini 4 Argon evaluation containment failure at Epoch AI; Depi Codex GitHub Action pipeline backdoor), DS-08/MS-13/EE-01 guidance extensions, footer version bumped |
 | 1.13 | 2026-11-09 | Updated to framework v1.22 (69 controls): INC-91..INC-92 (CPython/Jinja chat-template sandbox escape; agent-swarm cooperation-lure secret leakage), TP-15/MS-10/TP-16 guidance extensions, footer version bumped |
 | 1.12 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.11 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
@@ -86,6 +89,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.15 | 2026-11-23 | Updated to framework v1.24 (69 controls): INC-97..INC-99 (Meta Muse Sentinel egress-gate bypass and VM kernel escape; Gemini 4 Argon evaluation containment failure at Epoch AI; Depi Codex GitHub Action pipeline backdoor), DS-08/MS-13/EE-01 guidance extensions, footer version bumped |
 | 1.14 | 2026-11-09 | Updated to framework v1.22 (69 controls): INC-91..INC-92 (CPython/Jinja chat-template sandbox escape; agent-swarm cooperation-lure secret leakage), TP-15/MS-10/TP-16 guidance extensions, footer version bumped |
 | 1.13 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.12 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |
@@ -98,6 +102,7 @@ version.
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.14 | 2026-11-23 | Updated to framework v1.24 (69 controls): INC-97..INC-99 (Meta Muse Sentinel egress-gate bypass and VM kernel escape; Gemini 4 Argon evaluation containment failure at Epoch AI; Depi Codex GitHub Action pipeline backdoor), DS-08/MS-13/EE-01 guidance extensions, footer version bumped |
 | 1.13 | 2026-11-09 | Updated to framework v1.22 (69 controls): INC-91..INC-92 (CPython/Jinja chat-template sandbox escape; agent-swarm cooperation-lure secret leakage), TP-15/MS-10/TP-16 guidance extensions, footer version bumped |
 | 1.12 | 2026-11-08 | Updated to framework v1.21 (69 controls): INC-85..INC-90 (AgentScope unpatched MCP command injection, Langflow auth-bypass/MCP-enumeration RCE, seventeen-CVE framework RCE mega-cluster, MCP protocol pivoting, MCP trust-boundary measurement, WorkOS ARTEX escape), TP-16/MS-08/TP-15 guidance extensions, footer version bumped |
 | 1.11 | 2026-11-07 | Updated to framework v1.20 (69 controls): INC-79..INC-84, new controls TP-16/MS-15, EE-01/MS-09/MS-13 extensions, footer version bumped |

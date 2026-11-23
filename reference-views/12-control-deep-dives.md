@@ -99,7 +99,7 @@ catalogue -- no general-knowledge claims.
 - **G01 — Execution-Environment Escape (Container / VM Sandbox Breakout):** catalogued attack pattern that exercises this control. CVEs: CVE-2026-77179 · CVE-2026-79994 · CVE-2026-32193 · CVE-2026-53359  (Januscape). Canonical incidents: INC-01, INC-02, INC-03, INC-05.
 - **G27 — In-Process Denylist/Blocklist Code-Execution Sandbox Bypass:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-47392  (PraisonAI · Critical) · CVE-2026-37008  (CrewAI · 8.1). Canonical incidents: INC-58, INC-68, INC-74, INC-76.
 - **G34 — Cross-Tenant Isolation in Pooled Agent Memory and Execution:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-2018 · CVE-2026-2104 · CVE-2026-120306 · CVE-2026-120307. Canonical incidents: INC-81.
-- Further evidenced by 14 catalogue incident(s): [INC-11](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-13](07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-17](07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-18](07-incident-summaries.md#inc-18-deepseek-pythonexec), [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-29](07-incident-summaries.md#inc-29-chatmate-rpe).
+- Further evidenced by 15 catalogue incident(s): [INC-11](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-13](07-incident-summaries.md#inc-13-crewai-fail-open-sandbox-fallback-rce-chain), [INC-17](07-incident-summaries.md#inc-17-implicit-tool-exposure), [INC-18](07-incident-summaries.md#inc-18-deepseek-pythonexec), [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-29](07-incident-summaries.md#inc-29-chatmate-rpe).
 
 **What to look for in a typical deployment:**
 
@@ -118,7 +118,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G03 — Infrastructure API vs Tool API Confusion:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-04, INC-07.
-- Further evidenced by 3 catalogue incident(s): [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-60](07-incident-summaries.md#inc-60-identity-confusion-by-design), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 3 catalogue incident(s): [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-60](07-incident-summaries.md#inc-60-identity-confusion-by-design), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -137,7 +137,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G01 — Execution-Environment Escape (Container / VM Sandbox Breakout):** catalogued attack pattern that exercises this control. CVEs: CVE-2026-77179 · CVE-2026-79994 · CVE-2026-32193 · CVE-2026-53359  (Januscape). Canonical incidents: INC-01, INC-02, INC-03, INC-05.
-- Further evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -156,7 +156,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G06 — Evaluation and Test Sandbox Controls:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01.
-- Further evidenced by 3 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 3 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -194,7 +194,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G10 — Fail-Open Sandbox Fallback:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-13.
-- Further evidenced by 3 catalogue incident(s): [INC-21](07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-61](07-incident-summaries.md#inc-61-authentication-off-by-default), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 3 catalogue incident(s): [INC-21](07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-61](07-incident-summaries.md#inc-61-authentication-off-by-default), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -214,7 +214,7 @@ catalogue -- no general-knowledge claims.
 
 - **G11 — Agent Control-Plane Configuration Integrity:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-35603 · CVE-2026-12537 · CVE-2026-54316 · CVE-2026-72718. Canonical incidents: INC-14, INC-15, INC-46, INC-53.
 - **G14 — Inbound Agent-Platform Control-Plane Hijack:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-25253 · CVE-2026-59726 · CVE-2026-65105 · CVE-2026-82533. Canonical incidents: INC-21, INC-23, INC-24, INC-31.
-- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20.
+- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20, INC-27.
 - Further evidenced by 12 catalogue incident(s): [INC-03](07-incident-summaries.md#inc-03-cursor-ide-sandbox-escape-via-prompt-injection), [INC-15](07-incident-summaries.md#inc-15-cve-2026-35603), [INC-20](07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-46](07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](07-incident-summaries.md#inc-53-gitspawn).
 
 **What to look for in a typical deployment:**
@@ -234,7 +234,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G17 — Evaluation-Harness Integrity:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-01, INC-26, INC-27.
-- Further evidenced by 10 catalogue incident(s): [INC-26](07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-27](07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-28](07-incident-summaries.md#inc-28-moonshot-kimi-k3), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-62](07-incident-summaries.md#inc-62-google-gemini).
+- Further evidenced by 11 catalogue incident(s): [INC-26](07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-27](07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-28](07-incident-summaries.md#inc-28-moonshot-kimi-k3), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-62](07-incident-summaries.md#inc-62-google-gemini).
 
 **What to look for in a typical deployment:**
 
@@ -254,7 +254,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -271,7 +271,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -288,7 +288,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-01](07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-01](07-incident-summaries.md#inc-01-openai-model-sandbox-escape), [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -325,7 +325,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G05 — Deployment-Context Awareness:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-06.
-- Further evidenced by 4 catalogue incident(s): [INC-06](07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-09](07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-06](07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-09](07-incident-summaries.md#inc-09-cross-platform-sandbox-bypasses), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -360,7 +360,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G05 — Deployment-Context Awareness:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-06.
-- Further evidenced by 2 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 2 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -378,7 +378,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G09 — MCP Protocol-Layer Injection:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-12, INC-37, INC-54, INC-76.
-- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20.
+- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20, INC-27.
 - **G24 — MCP Discovery-Metadata and Shared-Cache Injection:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-75130  (Context7) |. Canonical incidents: INC-37.
 - **G33 — Tool-Connection and Launch-Path Execution:** catalogued attack pattern that exercises this control. CVEs: CVE-2025-6514 · CVE-2026-103572 · CVE-2026-123022 · CVE-2026-110186. Canonical incidents: INC-79, INC-80, INC-85, INC-86.
 - Further evidenced by 21 catalogue incident(s): [INC-12](07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-20](07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-37](07-incident-summaries.md#inc-37-mcp-discovery-metadata-and-cache-surface-injection), [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure), [INC-43](07-incident-summaries.md#inc-43-sharelock), [INC-54](07-incident-summaries.md#inc-54-wiz-90-day-ai-infrastructure-honeypot-telemetry).
@@ -419,10 +419,10 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the exploit catalog:**
 
-- **G20 — Agent Memory-Store Poisoning:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-59726  (CVSS 10.0) · CVE-2026-65105 |. Canonical incidents: INC-31.
+- **G20 — Agent Memory-Store Poisoning:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-59726  (CVSS 10.0) · CVE-2026-65105 |. Canonical incidents: INC-31, INC-45, INC-97.
 - **G27 — In-Process Denylist/Blocklist Code-Execution Sandbox Bypass:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-47392  (PraisonAI · Critical) · CVE-2026-37008  (CrewAI · 8.1). Canonical incidents: INC-58, INC-68, INC-74, INC-76.
 - **G34 — Cross-Tenant Isolation in Pooled Agent Memory and Execution:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-2018 · CVE-2026-2104 · CVE-2026-120306 · CVE-2026-120307. Canonical incidents: INC-81.
-- Further evidenced by 7 catalogue incident(s): [INC-31](07-incident-summaries.md#inc-31-ruflorufroot), [INC-33](07-incident-summaries.md#inc-33-ghostjacking), [INC-45](07-incident-summaries.md#inc-45-nemoclaw-cve-2026-65105), [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-81](07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-91](07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape).
+- Further evidenced by 8 catalogue incident(s): [INC-31](07-incident-summaries.md#inc-31-ruflorufroot), [INC-33](07-incident-summaries.md#inc-33-ghostjacking), [INC-45](07-incident-summaries.md#inc-45-nemoclaw-cve-2026-65105), [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-81](07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-91](07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape).
 
 **What to look for in a typical deployment:**
 
@@ -441,7 +441,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G22 — Operational Data-Stream Poisoning:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-33.
-- Further evidenced by 4 catalogue incident(s): [INC-33](07-incident-summaries.md#inc-33-ghostjacking), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-67](07-incident-summaries.md#inc-67-sentry-seer-phantomfix), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-33](07-incident-summaries.md#inc-33-ghostjacking), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-67](07-incident-summaries.md#inc-67-sentry-seer-phantomfix), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -461,7 +461,7 @@ catalogue -- no general-knowledge claims.
 
 - **G09 — MCP Protocol-Layer Injection:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-12, INC-37, INC-54, INC-76.
 - **G24 — MCP Discovery-Metadata and Shared-Cache Injection:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-75130  (Context7) |. Canonical incidents: INC-37.
-- Further evidenced by 4 catalogue incident(s): [INC-37](07-incident-summaries.md#inc-37-mcp-discovery-metadata-and-cache-surface-injection), [INC-43](07-incident-summaries.md#inc-43-sharelock), [INC-95](07-incident-summaries.md#inc-95-mcp-oauth-protected-resource-metadata-token-theft), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-37](07-incident-summaries.md#inc-37-mcp-discovery-metadata-and-cache-surface-injection), [INC-43](07-incident-summaries.md#inc-43-sharelock), [INC-95](07-incident-summaries.md#inc-95-mcp-oauth-protected-resource-metadata-token-theft), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -478,8 +478,8 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the exploit catalog:**
 
-- **G28 — Agent Transcript / Conversation-History Authenticity:** catalogued attack pattern that exercises this control. CVEs: None  (architectural; vendor-side signing required) |.
-- Further evidenced by 3 catalogue incident(s): [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-83](07-incident-summaries.md#inc-83-cicd-agent-config-file-trust-ordering-and-marker-authorship), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- **G28 — Agent Transcript / Conversation-History Authenticity:** catalogued attack pattern that exercises this control. CVEs: None  (architectural; vendor-side signing required) |. Canonical incidents: INC-70.
+- Further evidenced by 4 catalogue incident(s): [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-83](07-incident-summaries.md#inc-83-cicd-agent-config-file-trust-ordering-and-marker-authorship), [INC-97](07-incident-summaries.md#inc-97-meta-muse-sentinel-egress-gate-bypass-and-vm-kernel-escape), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -497,7 +497,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G29 — Self-Replication Barrier — Agent Output as a Worm-Class Propagation Vector:** catalogued attack pattern that exercises this control. CVEs: None |.
-- Further evidenced by 2 catalogue incident(s): [INC-71](07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 2 catalogue incident(s): [INC-71](07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -515,7 +515,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G34 — Cross-Tenant Isolation in Pooled Agent Memory and Execution:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-2018 · CVE-2026-2104 · CVE-2026-120306 · CVE-2026-120307. Canonical incidents: INC-81.
-- Further evidenced by 4 catalogue incident(s): [INC-81](07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-87](07-incident-summaries.md#inc-87-seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-81](07-incident-summaries.md#inc-81-cross-tenant-agent-memory-leakage), [INC-87](07-incident-summaries.md#inc-87-seventeen-cve-agent-framework-rce-mega-cluster), [INC-91](07-incident-summaries.md#inc-91-cpython-chat-template-sandbox-escape), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -535,7 +535,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G12 — Multi-Tenant Agent Platform Isolation:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-16, INC-50, INC-52.
-- Further evidenced by 5 catalogue incident(s): [INC-04](07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-16](07-incident-summaries.md#inc-16-langflow), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](07-incident-summaries.md#inc-52-moltbook), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 5 catalogue incident(s): [INC-04](07-incident-summaries.md#inc-04-aws-agentcore-sandbox-escape), [INC-16](07-incident-summaries.md#inc-16-langflow), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](07-incident-summaries.md#inc-52-moltbook), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -570,7 +570,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G14 — Inbound Agent-Platform Control-Plane Hijack:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-25253 · CVE-2026-59726 · CVE-2026-65105 · CVE-2026-82533. Canonical incidents: INC-21, INC-23, INC-24, INC-31.
-- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20.
+- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20, INC-27.
 - **G23 — Tool-Call Provenance and Dispatch Verification:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-18830 · CVE-2026-18236 · CVE-2026-64650 · CVE-2026-64651. Canonical incidents: INC-34.
 - Further evidenced by 8 catalogue incident(s): [INC-10](07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-20](07-incident-summaries.md#inc-20-aws-kiro-cve-2026-10591), [INC-21](07-incident-summaries.md#inc-21-openclaw-cve-2026-25253), [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-27](07-incident-summaries.md#inc-27-uk-aisi-incident-report), [INC-34](07-incident-summaries.md#inc-34-corebreak).
 
@@ -623,7 +623,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G12 — Multi-Tenant Agent Platform Isolation:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-16, INC-50, INC-52.
-- Further evidenced by 2 catalogue incident(s): [INC-50](07-incident-summaries.md#inc-50-cve-2026-25536), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 2 catalogue incident(s): [INC-50](07-incident-summaries.md#inc-50-cve-2026-25536), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -641,7 +641,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G04 — Multi-Hop Identity Delegation Chain:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-02, INC-04, INC-05.
-- Further evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -659,7 +659,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G04 — Multi-Hop Identity Delegation Chain:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-02, INC-04, INC-05.
-- Further evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -677,7 +677,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G12 — Multi-Tenant Agent Platform Isolation:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-16, INC-50, INC-52.
-- Further evidenced by 4 catalogue incident(s): [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](07-incident-summaries.md#inc-52-moltbook), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-52](07-incident-summaries.md#inc-52-moltbook), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -695,7 +695,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G32 — Taint-Tracked Least-Privilege Subagent Scoping:** catalogued attack pattern that exercises this control. CVEs: None |.
-- Further evidenced by 3 catalogue incident(s): [INC-72](07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-92](07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 3 catalogue incident(s): [INC-72](07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-92](07-incident-summaries.md#inc-92-agent-swarm-cooperation-lure-secret-leakage), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -715,7 +715,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-02](07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-15](07-incident-summaries.md#inc-15-cve-2026-35603), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-02](07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-15](07-incident-summaries.md#inc-15-cve-2026-35603), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -749,7 +749,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 2 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 2 catalogue incident(s): [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -766,7 +766,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 2 catalogue incident(s): [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 2 catalogue incident(s): [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -799,7 +799,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G07 — Side-Channel Detection:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-11.
-- Further evidenced by 6 catalogue incident(s): [INC-02](07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-22](07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-51](07-incident-summaries.md#inc-51-ansi-escape-code-terminal-exfiltration), [INC-71](07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 6 catalogue incident(s): [INC-02](07-incident-summaries.md#inc-02-claude-cowork-vm-escape), [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-22](07-incident-summaries.md#inc-22-microsoft-azure-devops-mcp-flaw), [INC-51](07-incident-summaries.md#inc-51-ansi-escape-code-terminal-exfiltration), [INC-71](07-incident-summaries.md#inc-71-openai-self-replicating-prompt-injections), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -817,8 +817,8 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the exploit catalog:**
 
-- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20.
-- Further evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- **G16 — Agent-Originated Artifact Publication:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-20, INC-27.
+- Further evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -836,8 +836,8 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the exploit catalog:**
 
-- **G31 — Destination and Emergent-Channel Egress Inventory:** catalogued attack pattern that exercises this control. CVEs: None |. Canonical incidents: INC-72.
-- Further evidenced by 2 catalogue incident(s): [INC-72](07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- **G31 — Destination and Emergent-Channel Egress Inventory:** catalogued attack pattern that exercises this control. CVEs: None |. Canonical incidents: INC-72, INC-97, INC-98.
+- Further evidenced by 4 catalogue incident(s): [INC-72](07-incident-summaries.md#inc-72-salesforce-agentforce-salesbleed), [INC-97](07-incident-summaries.md#inc-97-meta-muse-sentinel-egress-gate-bypass-and-vm-kernel-escape), [INC-98](07-incident-summaries.md#inc-98-gemini-4-argon-evaluation-containment-failure-at-epoch-ai), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -961,7 +961,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G02 — Cross-Tool Dependency and Chain Analysis:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-02, INC-03, INC-04.
-- Further evidenced by 2 catalogue incident(s): [INC-12](07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 2 catalogue incident(s): [INC-12](07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -979,7 +979,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G03 — Infrastructure API vs Tool API Confusion:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-04, INC-07.
-- Further evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -999,7 +999,7 @@ catalogue -- no general-knowledge claims.
 - **G13 — Implicit Tool Exposure:** catalogued attack pattern that exercises this control. CVEs: (no CVE list).
 - **G23 — Tool-Call Provenance and Dispatch Verification:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-18830 · CVE-2026-18236 · CVE-2026-64650 · CVE-2026-64651. Canonical incidents: INC-34.
 - **G26 — Agent Extension/Skill Execution Integrity:** catalogued attack pattern that exercises this control. CVEs: None directly; ClawHub skills delivered AMOS via infrastructure at glot[.]io and attacker-controlled GitHub releases |. Canonical incidents: INC-48.
-- Further evidenced by 5 catalogue incident(s): [INC-11](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-34](07-incident-summaries.md#inc-34-corebreak), [INC-46](07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-48](07-incident-summaries.md#inc-48-clawhavoc), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 5 catalogue incident(s): [INC-11](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes), [INC-34](07-incident-summaries.md#inc-34-corebreak), [INC-46](07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-48](07-incident-summaries.md#inc-48-clawhavoc), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1021,7 +1021,7 @@ catalogue -- no general-knowledge claims.
 - **G14 — Inbound Agent-Platform Control-Plane Hijack:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-25253 · CVE-2026-59726 · CVE-2026-65105 · CVE-2026-82533. Canonical incidents: INC-21, INC-23, INC-24, INC-31.
 - **G18 — Agent Self-Exposure:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-23, INC-24, INC-69, INC-78.
 - **G33 — Tool-Connection and Launch-Path Execution:** catalogued attack pattern that exercises this control. CVEs: CVE-2025-6514 · CVE-2026-103572 · CVE-2026-123022 · CVE-2026-110186. Canonical incidents: INC-79, INC-80, INC-85, INC-86.
-- Further evidenced by 14 catalogue incident(s): [INC-24](07-incident-summaries.md#inc-24-metasploit-65-mcp-server-and-wiz-exposed-mcp-servers-research), [INC-30](07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-31](07-incident-summaries.md#inc-31-ruflorufroot), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-34](07-incident-summaries.md#inc-34-corebreak), [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure).
+- Further evidenced by 15 catalogue incident(s): [INC-24](07-incident-summaries.md#inc-24-metasploit-65-mcp-server-and-wiz-exposed-mcp-servers-research), [INC-30](07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-31](07-incident-summaries.md#inc-31-ruflorufroot), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-34](07-incident-summaries.md#inc-34-corebreak), [INC-39](07-incident-summaries.md#inc-39-agent-tool-server-and-mcp-registry-exposure).
 
 **What to look for in a typical deployment:**
 
@@ -1041,7 +1041,7 @@ catalogue -- no general-knowledge claims.
 
 - **G15 — Imperceptible-Content Injection:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-20, INC-22, INC-25, INC-27.
 - **G21 — Agentic-Browser Content Isolation:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-30, INC-29, INC-27.
-- Further evidenced by 4 catalogue incident(s): [INC-29](07-incident-summaries.md#inc-29-chatmate-rpe), [INC-30](07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-42](07-incident-summaries.md#inc-42-rovoblast), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 4 catalogue incident(s): [INC-29](07-incident-summaries.md#inc-29-chatmate-rpe), [INC-30](07-incident-summaries.md#inc-30-zenity-intent-collision), [INC-42](07-incident-summaries.md#inc-42-rovoblast), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1098,7 +1098,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G26 — Agent Extension/Skill Execution Integrity:** catalogued attack pattern that exercises this control. CVEs: None directly; ClawHub skills delivered AMOS via infrastructure at glot[.]io and attacker-controlled GitHub releases |. Canonical incidents: INC-48.
-- Further evidenced by 3 catalogue incident(s): [INC-48](07-incident-summaries.md#inc-48-clawhavoc), [INC-66](07-incident-summaries.md#inc-66-plugin4shell), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 3 catalogue incident(s): [INC-48](07-incident-summaries.md#inc-48-clawhavoc), [INC-66](07-incident-summaries.md#inc-66-plugin4shell), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1117,7 +1117,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G27 — In-Process Denylist/Blocklist Code-Execution Sandbox Bypass:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-47392  (PraisonAI · Critical) · CVE-2026-37008  (CrewAI · 8.1). Canonical incidents: INC-58, INC-68, INC-74, INC-76.
-- Further evidenced by 12 catalogue incident(s): [INC-58](07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass), [INC-65](07-incident-summaries.md#inc-65-openai-codex-heapjack-overpatch), [INC-68](07-incident-summaries.md#inc-68-praisonai-cve-2026-57138), [INC-74](07-incident-summaries.md#inc-74-gitlab-ai-gateway-cve-2026-90970), [INC-76](07-incident-summaries.md#inc-76-mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-77](07-incident-summaries.md#inc-77-vtcode-cve-2026-104247).
+- Further evidenced by 13 catalogue incident(s): [INC-58](07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass), [INC-65](07-incident-summaries.md#inc-65-openai-codex-heapjack-overpatch), [INC-68](07-incident-summaries.md#inc-68-praisonai-cve-2026-57138), [INC-74](07-incident-summaries.md#inc-74-gitlab-ai-gateway-cve-2026-90970), [INC-76](07-incident-summaries.md#inc-76-mcp-tooling-argument-injection-and-unauthenticated-gateway-cluster), [INC-77](07-incident-summaries.md#inc-77-vtcode-cve-2026-104247).
 
 **What to look for in a typical deployment:**
 
@@ -1178,7 +1178,7 @@ catalogue -- no general-knowledge claims.
 - **G07 — Side-Channel Detection:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-01, INC-11.
 - **G18 — Agent Self-Exposure:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-23, INC-24, INC-69, INC-78.
 - **G19 — Attacker-Side Autonomous AI:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-23, INC-35, INC-36, INC-40.
-- **G20 — Agent Memory-Store Poisoning:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-59726  (CVSS 10.0) · CVE-2026-65105 |. Canonical incidents: INC-31.
+- **G20 — Agent Memory-Store Poisoning:** catalogued attack pattern that exercises this control. CVEs: CVE-2026-59726  (CVSS 10.0) · CVE-2026-65105 |. Canonical incidents: INC-31, INC-45, INC-97.
 - **G22 — Operational Data-Stream Poisoning:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-33.
 - **G26 — Agent Extension/Skill Execution Integrity:** catalogued attack pattern that exercises this control. CVEs: None directly; ClawHub skills delivered AMOS via infrastructure at glot[.]io and attacker-controlled GitHub releases |. Canonical incidents: INC-48.
 - Further evidenced by 18 catalogue incident(s): [INC-06](07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-08](07-incident-summaries.md#inc-08-openai-math-ai-sandbox-bypass), [INC-10](07-incident-summaries.md#inc-10-alibaba-ai-agent), [INC-19](07-incident-summaries.md#inc-19-anthropic-cyber-evaluation-breach-cluster), [INC-23](07-incident-summaries.md#inc-23-unit-42), [INC-27](07-incident-summaries.md#inc-27-uk-aisi-incident-report).
@@ -1217,7 +1217,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-07](07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-16](07-incident-summaries.md#inc-16-langflow), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-07](07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-16](07-incident-summaries.md#inc-16-langflow), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1250,7 +1250,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 6 catalogue incident(s): [INC-07](07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-46](07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](07-incident-summaries.md#inc-53-gitspawn), [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 6 catalogue incident(s): [INC-07](07-incident-summaries.md#inc-07-servicenow-sandbox-escape-rce), [INC-40](07-incident-summaries.md#inc-40-openai-evaluation-escape-follow-up-disclosures), [INC-46](07-incident-summaries.md#inc-46-novee-trusted-enough-to-run), [INC-53](07-incident-summaries.md#inc-53-gitspawn), [INC-70](07-incident-summaries.md#inc-70-darktrace-conversation-history-poisoning), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1270,7 +1270,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 1 catalogue incident(s): [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1288,7 +1288,7 @@ catalogue -- no general-knowledge claims.
 **Real-world examples from the exploit catalog:**
 
 - **G19 — Attacker-Side Autonomous AI:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-23, INC-35, INC-36, INC-40.
-- Further evidenced by 6 catalogue incident(s): [INC-06](07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-49](07-incident-summaries.md#inc-49-mexico-government-breach), [INC-55](07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 6 catalogue incident(s): [INC-06](07-incident-summaries.md#inc-06-claude-mythos-ai-sandbox-escape), [INC-32](07-incident-summaries.md#inc-32-abc-news), [INC-35](07-incident-summaries.md#inc-35-taiwan-nuclear-safety-agency), [INC-49](07-incident-summaries.md#inc-49-mexico-government-breach), [INC-55](07-incident-summaries.md#inc-55-attacker-side-september-campaign-cluster), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1324,7 +1324,7 @@ catalogue -- no general-knowledge claims.
 
 - **G17 — Evaluation-Harness Integrity:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-19, INC-01, INC-26, INC-27.
 - **G19 — Attacker-Side Autonomous AI:** catalogued attack pattern that exercises this control. CVEs: (no CVE list). Canonical incidents: INC-23, INC-35, INC-36, INC-40.
-- Further evidenced by 6 catalogue incident(s): [INC-26](07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-62](07-incident-summaries.md#inc-62-google-gemini), [INC-63](07-incident-summaries.md#inc-63-openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-75](07-incident-summaries.md#inc-75-comment-and-control), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Further evidenced by 6 catalogue incident(s): [INC-26](07-incident-summaries.md#inc-26-third-party-evaluation-containment-failure), [INC-62](07-incident-summaries.md#inc-62-google-gemini), [INC-63](07-incident-summaries.md#inc-63-openai-agent-breaches-the-medicare-statistics-reporting-portal), [INC-75](07-incident-summaries.md#inc-75-comment-and-control), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 
@@ -1358,7 +1358,7 @@ catalogue -- no general-knowledge claims.
 
 **Real-world examples from the incident catalogue:**
 
-- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-73](07-incident-summaries.md#inc-73-anthropic-glm-53-assessment), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-96](07-incident-summaries.md#inc-96-langflow-auto-login-superuser-rce).
+- Not yet directly exercised by a catalogued exploit type, but evidenced by 3 catalogue incident(s): [INC-73](07-incident-summaries.md#inc-73-anthropic-glm-53-assessment), [INC-90](07-incident-summaries.md#inc-90-workos-artex-agent-escape), [INC-99](07-incident-summaries.md#inc-99-depi-codex-github-action-pipeline-backdoor).
 
 **What to look for in a typical deployment:**
 

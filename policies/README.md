@@ -5,7 +5,7 @@ deny-override assertions and per-control test vectors. Every control is
 implemented — none ship as stubs. The demo bundle in `demo/` is a reduced,
 self-contained subset for prospects; the full control set lives here.
 
-## Status (v1.23, November 16, 2026)
+## Status (v1.24, November 23, 2026)
 
 **All 69 controls implemented with deny-override assertions and per-control
 test vectors.** 330 OPA tests pass (`opa test policies

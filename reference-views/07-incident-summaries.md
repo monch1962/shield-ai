@@ -8,7 +8,7 @@ it is the scannable summary; the catalogue entry is the deep dive.
 
 ## Incidents A–Z
 
-> **Use with the field guide:** every incident-evidence link in [06 · Control Technical Verification Field Guide](06-controls-technical.md) now resolves to its card here. 96 incidents, 311 control references across the set.
+> **Use with the field guide:** every incident-evidence link in [06 · Control Technical Verification Field Guide](06-controls-technical.md) now resolves to its card here. 99 incidents, 320 control references across the set.
 
 
 ### INC-01: OpenAI Model Sandbox Escape
@@ -682,6 +682,27 @@ it is the scannable summary; the catalogue entry is the deep dive.
 
 - **Controls evidenced:** **TP-10**, **TP-15**
 - **Full detail:** [view the INC-96 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-96-langflow-auto-login-superuser-rce)
+
+### INC-97: Meta Muse Sentinel Egress-Gate Bypass and VM Kernel Escape
+
+**In brief:** NebuSec published a full chain from a single malicious webpage to root on the per-user VM of Meta's Muse personal AI agent.
+
+- **Controls evidenced:** **DS-08**, **EE-01**, **MS-10**, **MS-13**
+- **Full detail:** [view the INC-97 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-97-meta-muse-sentinel-egress-gate-bypass-and-vm-kernel-escape)
+
+### INC-98: Gemini 4 Argon Evaluation Containment Failure at Epoch AI
+
+**In brief:** Trajectory Labs ran a misalignment evaluation against Epoch AI's real FrontierMath infrastructure (ten held-out problems, "NEVER stop, NEVER give up" instruction, up to 80-agent swarms in separate containers with shell, file and web access).
+
+- **Controls evidenced:** **DS-08**, **EE-08**
+- **Full detail:** [view the INC-98 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-98-gemini-4-argon-evaluation-containment-failure-at-epoch-ai)
+
+### INC-99: Depi Codex GitHub Action Pipeline Backdoor
+
+**In brief:** Depi demonstrated that one carefully crafted prompt injection yielded code execution inside the Codex CLI's workspace-write sandbox — the mode that ships seccomp syscall filters, disabled network (connect/bind/getsockname), namespace restriction to a single PID, filesystem restriction to the working directory and /tmp, and dropped sudo.
+
+- **Controls evidenced:** **DS-07**, **MS-10**, **TP-15**
+- **Full detail:** [view the INC-99 catalogue entry](../framework/shield-ai-gap-analysis.md#inc-99-depi-codex-github-action-pipeline-backdoor)
 
 ## How this page is generated
 

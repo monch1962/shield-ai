@@ -8,7 +8,7 @@ abstract: "A detailed assessment of the components on the SHIELD-AI watchlist. T
 
 # SHIELD-AI Watchlist Report
 
-**Edition:** November 16, 2026 (mechanically refreshed by the weekly monitoring cycle — edition date, count, version, and incident references brought current to framework v1.23, 69 controls, 96 incidents, 34 gaps; the monthly deep review re-scores components and rebuilds the list).
+**Edition:** November 23, 2026 (mechanically refreshed by the weekly monitoring cycle — edition date, count, version, and incident references brought current to framework v1.24, 69 controls, 99 incidents, 34 gaps; the monthly deep review re-scores components and rebuilds the list).
 
 ## 1. Purpose and Method
 

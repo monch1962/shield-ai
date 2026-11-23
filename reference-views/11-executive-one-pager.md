@@ -6,13 +6,13 @@ A one-page view for a board member or senior executive, derived from the committ
 
 - **69 controls** across the seven pillars that protect the model, identity, data, tools, monitoring, and governance of agentic AI.
 - **69 controls (100%)** already have an executable verification policy enforcing **195** fail-closed conditions.
-- **926 control-incident references** in the catalogue (92 events) show where real-world risk actually surfaces.
+- **961 control-incident references** in the catalogue (92 events) show where real-world risk actually surfaces.
 
 ## Top controls to harden
 
 - **MS-08: MCP** - limits what tools an AI agent may call (Model Context Protocol servers). Shown up by 66 of the catalogue incidents. Evidence: [incident summary](07-incident-summaries.md#inc-12-mcp-protocol-layer-vulnerabilities).
-- **TP-15: In-process code-execution sandbox sufficiency** - forces untrusted code the agent runs into an OS- or VM-isolated sandbox. Shown up by 55 of the catalogue incidents. Evidence: [incident summary](07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass).
-- **EE-01: Execution environment boundary enforcement** - keeps every AI agent execution inside a defended sandbox. Shown up by 51 of the catalogue incidents. Evidence: [incident summary](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes).
+- **EE-01: Execution environment boundary enforcement** - keeps every AI agent execution inside a defended sandbox. Shown up by 56 of the catalogue incidents. Evidence: [incident summary](07-incident-summaries.md#inc-11-pillar-security-week-of-sandbox-escapes).
+- **TP-15: In-process code-execution sandbox sufficiency** - forces untrusted code the agent runs into an OS- or VM-isolated sandbox. Shown up by 56 of the catalogue incidents. Evidence: [incident summary](07-incident-summaries.md#inc-58-in-process-denylistblocklist-code-execution-sandbox-bypass).
 
 ## Recommended next steps
 
