@@ -96,6 +96,12 @@ def parse_changelog():
     for i, (ver, iso, start) in enumerate(vers):
         end = vers[i + 1][2] if i + 1 < len(vers) else len(txt)
         body = txt[start:end]
+        # Release narratives are the incident record; the bold '**Maintenance
+        # (Nov 2026...)**' paragraphs that trail some entries are repo-tooling
+        # commentary (they quote headings and prose ranges like 'INC-1..92'
+        # that are not incident-record events). Exclude them so first-seen
+        # attribution only comes from genuine release narrative.
+        body = re.split(r"\n\*\*Maintenance\b", body, maxsplit=1)[0]
         ids = set()
         for lo, hi in re.findall(r"INC-(\d+)\.\.INC-(\d+)", body):
             ids.update(range(int(lo), int(hi) + 1))
