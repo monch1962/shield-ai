@@ -17,6 +17,6 @@
     "defence-alignment"
   ],
   "builder": "client-specific/defence/build_deck.py",
-  "commit": "790d9b8",
-  "built_at": "2026-11-22T21:09:52+00:00"
+  "commit": "d198fe3",
+  "built_at": "2026-11-23T06:21:49+00:00"
 }
