@@ -2,7 +2,7 @@
 title: "SHIELD-AI(TM): A Sovereign Australian Framework for Secure Agentic AI Deployment"
 subtitle: "Framework Definition and Reference Implementation"
 author: "Security Architecture Practice"
-date: "November 16, 2026"
+date: "November 23, 2026"
 abstract: "A comprehensive framework for securing agentic AI systems in Australian enterprises and government, aligned with all relevant Australian regulatory and industry frameworks, and defined as a deployable component model with full implementation guidance."
 ---
 
