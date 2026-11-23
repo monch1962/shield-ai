@@ -405,12 +405,13 @@ def md_incident_map():
     cov = load_incident_coverage()
     titles = load_control_titles()
     links = load_incident_links()
+    n_inc = len(load_incident_briefs())
     ordered = sorted(control_ids(), key=lambda c: -cov[c])
     lines = [
         "# 02 · Controls → Industry Incidents",
         "",
         "Which SHIELD-AI controls are actually **evidenced by real incidents**? This view",
-        "links every control to the specific catalogue incidents (INC-01…INC-92) that",
+        f"links every control to the specific catalogue incidents (INC-01…INC-{n_inc:02d}) that",
         "reference it in their coverage verdicts. The most-evidenced controls are the",
         "highest-priority hardening targets — they are the controls the real world has",
         "repeatedly shown we need.",
@@ -758,7 +759,7 @@ def md_incident_summaries():
     lines = [
         "# 07 · Incident Summaries",
         "",
-        "A human-friendly index of the **92 catalogue incidents**. Each card gives",
+        "A human-friendly index of the **%d catalogue incidents**. Each card gives" % len(ids),
         "what happened in one sentence, the SHIELD-AI controls it evidences, and a",
         "link to the full technical detail in the gap-analysis document. Use this",
         "page when a control's 'incident evidence' link in doc 06 leads you here —",
@@ -1399,12 +1400,13 @@ def md_executive_one_pager():
     tot = len(control_ids())
     dn = sum(pol[c].get('deny', 0) for c in control_ids())
     trefs = sum(cov.values())
+    n_inc = len(load_incident_briefs())
     lines = ["# 11 · Executive One-Pager", "",
              "A one-page view for a board member or senior executive, derived from the committed framework and incident evidence.", "",
              "## The picture in numbers", "",
              f"- **{tot} controls** across the seven pillars that protect the model, identity, data, tools, monitoring, and governance of agentic AI.",
              f"- **{impl} controls ({int(100*impl/tot)}%)** already have an executable verification policy enforcing **{dn}** fail-closed conditions.",
-             f"- **{trefs} control-incident references** in the catalogue (92 events) show where real-world risk actually surfaces.", ""]
+             f"- **{trefs} control-incident references** in the catalogue ({n_inc} events) show where real-world risk actually surfaces.", ""]
     # Where the same facts are stated in plain business language drawn from the
     # control's own title (no invented claims): what the control does, how many
     # catalogue incidents evidence it, and a link to a one-line human summary.

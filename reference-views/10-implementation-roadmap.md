@@ -13,9 +13,9 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 
 | Priority | Control | Title | Score | Focus (fail-closed condition to address) |
 |---|---|---|---|---|
-| 1 | **MS-08** | MCP | 198 | MCP tool definitions from '...' are not cryptographically signed; MCP server '...' is not from a trusted registry |
-| 2 | **EE-01** | Execution environment boundary enforcement | 168 | tool '...' is high-risk and agent '...' is not sandboxed (fail closed) |
-| 3 | **TP-15** | In-process code-execution sandbox sufficiency | 168 | code execution by agent '...' runs LLM-generated/untrusted code outside an OS/VM-isolated boundary; code execution by agent '...' relies on an in-process denylist/blocklist gate as the sole containment; structurally bypassable |
+| 1 | **MS-08** | MCP | 204 | MCP tool definitions from '...' are not cryptographically signed; MCP server '...' is not from a trusted registry |
+| 2 | **EE-01** | Execution environment boundary enforcement | 174 | tool '...' is high-risk and agent '...' is not sandboxed (fail closed) |
+| 3 | **TP-15** | In-process code-execution sandbox sufficiency | 171 | code execution by agent '...' runs LLM-generated/untrusted code outside an OS/VM-isolated boundary; code execution by agent '...' relies on an in-process denylist/blocklist gate as the sole containment; structurally bypassable |
 
 ## Phase 2 · Consolidation (raise maturity to L3)
 
@@ -34,8 +34,8 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 
 | Priority | Control | Title | Score | Focus (fail-closed condition to address) |
 |---|---|---|---|---|
-| 1 | **EE-05** | Host-trusted configuration file injection prevention | 81 | agent can write host-trusted path '...' (indirect escape class); agent '...' file write with no reported write-path allowlist (fail closed) |
-| 2 | **TP-16** | Tool-connection and launch-path integrity | 78 | agent '...' connection hands server-supplied protocol metadata to a process-launch/shell primitive (code-execution boundary); agent '...' authorization endpoint is not origin-bound to the configured server |
+| 1 | **EE-05** | Host-trusted configuration file injection prevention | 87 | agent can write host-trusted path '...' (indirect escape class); agent '...' file write with no reported write-path allowlist (fail closed) |
+| 2 | **TP-16** | Tool-connection and launch-path integrity | 84 | agent '...' connection hands server-supplied protocol metadata to a process-launch/shell primitive (code-execution boundary); agent '...' authorization endpoint is not origin-bound to the configured server |
 | 3 | **TP-01** | Tool inventory and registry | 63 | tool '...' is not in the approved tool registry |
 | 4 | **TP-12** | Tool-call provenance and dispatch verification | 63 | dispatch without session provenance (fail closed); dispatch without turn provenance (fail closed) |
 | 5 | **MIR-01** | Agent activity logging | 57 | audit record not written to append-only storage (integrity requirement); agent '...' action '...' has no structured audit record |
@@ -57,7 +57,7 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 | 21 | **DS-06** | Output validation | 30 | output not verified clean by the leakage scanner (fail closed); output flagged for data leakage (PII, training data, system prompt, or credential) |
 | 22 | **EE-04** | Evaluation sandbox integrity | 30 | evaluation run with unverified evaluation-to-production isolation (fail closed); evaluation run has a network path to production |
 | 23 | **IAM-09** | Multi-tenant agent platform isolation | 30 | request not scoped to tenant ID at the data layer (presentation-layer checks only); user-controlled object ID bypasses tenant scoping (CWE-639 IDOR class) |
-| 24 | **MS-15** | Cross-tenant agent memory and state isolation | 27 | pooled memory_read by agent '...' returned a cross-tenant hit (owner != querying principal); hard ownership gate must drop it; pooled memory_read by agent '...' could not verify ownership of a hit; fail closed per default-deny (semantic similarity is not an admissibility proxy) |
+| 24 | **MS-15** | Cross-tenant agent memory and state isolation | 30 | pooled memory_read by agent '...' returned a cross-tenant hit (owner != querying principal); hard ownership gate must drop it; pooled memory_read by agent '...' could not verify ownership of a hit; fail closed per default-deny (semantic similarity is not an admissibility proxy) |
 | 25 | **TP-05** | Pipeline integrity | 27 | deployment from an unsigned CI/CD run; deployment without pipeline attestation |
 | 26 | **MIR-06** | Forensic readiness | 21 | high-impact action '...' by agent '...' is not reconstructible from immutable logs |
 | 27 | **TP-11** | Agent browser and content-rendering isolation | 21 | document upload rendered without sanitisation before assistant processing; token access from rendered content without approval (credential-layer isolation) |
@@ -96,9 +96,9 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 
 ## Ten highest-priority controls
 
-1. **MS-08** (198) - MCP tool definitions from '...' are not cryptographically signed
-2. **EE-01** (168) - tool '...' is high-risk and agent '...' is not sandboxed (fail closed)
-3. **TP-15** (168) - code execution by agent '...' runs LLM-generated/untrusted code outside an OS/VM-isolated boundary
+1. **MS-08** (204) - MCP tool definitions from '...' are not cryptographically signed
+2. **EE-01** (174) - tool '...' is high-risk and agent '...' is not sandboxed (fail closed)
+3. **TP-15** (171) - code execution by agent '...' runs LLM-generated/untrusted code outside an OS/VM-isolated boundary
 4. **MIR-02** (129) - action by agent '...' deviates from its behaviour baseline
 5. **EE-07** (126) - agent configuration loaded from a world-writable location (config-trust class)
 6. **MS-09** (120) - approval evidence comes from an agent-generated attestation (sockpuppet class); out-of-band verification required

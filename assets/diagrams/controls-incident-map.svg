@@ -11,77 +11,77 @@
     <text x="30" y="44" class="cap">control</text>
         <text x="260" y="44" class="cap"># incidents evidencing it</text><text x="30" y="60" class="sm" font-weight="bold" fill="#2563eb">MS-08</text>
             <rect x="70" y="56" width="240" height="6" rx="3" fill="#2563eb"/>
-            <text x="316" y="61" class="sm">66</text><text x="30" y="70" class="sm" font-weight="bold" fill="#1a3a6b">EE-01</text>
+            <text x="316" y="61" class="sm">68</text><text x="30" y="70" class="sm" font-weight="bold" fill="#1a3a6b">EE-01</text>
             <rect x="70" y="66" width="217" height="6" rx="3" fill="#1a3a6b"/>
-            <text x="293" y="71" class="sm">56</text><text x="30" y="80" class="sm" font-weight="bold" fill="#7c3aed">TP-15</text>
-            <rect x="70" y="76" width="217" height="6" rx="3" fill="#7c3aed"/>
-            <text x="293" y="81" class="sm">56</text><text x="30" y="90" class="sm" font-weight="bold" fill="#db2777">MIR-02</text>
-            <rect x="70" y="86" width="187" height="6" rx="3" fill="#db2777"/>
-            <text x="263" y="91" class="sm">43</text><text x="30" y="100" class="sm" font-weight="bold" fill="#1a3a6b">EE-07</text>
-            <rect x="70" y="96" width="185" height="6" rx="3" fill="#1a3a6b"/>
-            <text x="261" y="101" class="sm">42</text><text x="30" y="110" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
-            <rect x="70" y="106" width="180" height="6" rx="3" fill="#2563eb"/>
-            <text x="256" y="111" class="sm">40</text><text x="30" y="120" class="sm" font-weight="bold" fill="#7c3aed">TP-06</text>
-            <rect x="70" y="116" width="178" height="6" rx="3" fill="#7c3aed"/>
-            <text x="254" y="121" class="sm">39</text><text x="30" y="130" class="sm" font-weight="bold" fill="#7c3aed">TP-10</text>
-            <rect x="70" y="126" width="176" height="6" rx="3" fill="#7c3aed"/>
-            <text x="252" y="131" class="sm">38</text><text x="30" y="140" class="sm" font-weight="bold" fill="#2563eb">MS-04</text>
-            <rect x="70" y="136" width="169" height="6" rx="3" fill="#2563eb"/>
-            <text x="245" y="141" class="sm">35</text><text x="30" y="150" class="sm" font-weight="bold" fill="#1a3a6b">EE-08</text>
-            <rect x="70" y="146" width="165" height="6" rx="3" fill="#1a3a6b"/>
-            <text x="241" y="151" class="sm">33</text><text x="30" y="160" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
-            <rect x="70" y="156" width="162" height="6" rx="3" fill="#2563eb"/>
-            <text x="238" y="161" class="sm">32</text><text x="30" y="170" class="sm" font-weight="bold" fill="#1a3a6b">EE-05</text>
-            <rect x="70" y="166" width="151" height="6" rx="3" fill="#1a3a6b"/>
-            <text x="227" y="171" class="sm">27</text><text x="30" y="180" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
-            <rect x="70" y="176" width="149" height="6" rx="3" fill="#7c3aed"/>
-            <text x="225" y="181" class="sm">26</text><text x="30" y="190" class="sm" font-weight="bold" fill="#7c3aed">TP-01</text>
-            <rect x="70" y="186" width="137" height="6" rx="3" fill="#7c3aed"/>
-            <text x="213" y="191" class="sm">21</text><text x="30" y="200" class="sm" font-weight="bold" fill="#7c3aed">TP-12</text>
-            <rect x="70" y="196" width="137" height="6" rx="3" fill="#7c3aed"/>
-            <text x="213" y="201" class="sm">21</text><text x="30" y="210" class="sm" font-weight="bold" fill="#db2777">MIR-01</text>
-            <rect x="70" y="206" width="133" height="6" rx="3" fill="#db2777"/>
-            <text x="209" y="211" class="sm">19</text><text x="30" y="220" class="sm" font-weight="bold" fill="#2563eb">MS-12</text>
-            <rect x="70" y="216" width="130" height="6" rx="3" fill="#2563eb"/>
-            <text x="206" y="221" class="sm">18</text><text x="30" y="230" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
-            <rect x="70" y="226" width="128" height="6" rx="3" fill="#2563eb"/>
-            <text x="204" y="231" class="sm">17</text><text x="30" y="240" class="sm" font-weight="bold" fill="#7c3aed">TP-03</text>
-            <rect x="70" y="236" width="126" height="6" rx="3" fill="#7c3aed"/>
-            <text x="202" y="241" class="sm">16</text><text x="30" y="250" class="sm" font-weight="bold" fill="#7c3aed">TP-13</text>
-            <rect x="70" y="246" width="126" height="6" rx="3" fill="#7c3aed"/>
-            <text x="202" y="251" class="sm">16</text><text x="30" y="260" class="sm" font-weight="bold" fill="#475569">GRM-02</text>
-            <rect x="70" y="256" width="124" height="6" rx="3" fill="#475569"/>
-            <text x="200" y="261" class="sm">15</text><text x="30" y="270" class="sm" font-weight="bold" fill="#059669">IAM-03</text>
-            <rect x="70" y="266" width="124" height="6" rx="3" fill="#059669"/>
-            <text x="200" y="271" class="sm">15</text><text x="30" y="280" class="sm" font-weight="bold" fill="#7c3aed">TP-04</text>
-            <rect x="70" y="276" width="124" height="6" rx="3" fill="#7c3aed"/>
-            <text x="200" y="281" class="sm">15</text><text x="30" y="290" class="sm" font-weight="bold" fill="#2563eb">MS-11</text>
-            <rect x="70" y="286" width="121" height="6" rx="3" fill="#2563eb"/>
-            <text x="197" y="291" class="sm">14</text><text x="30" y="300" class="sm" font-weight="bold" fill="#7c3aed">TP-09</text>
-            <rect x="70" y="296" width="121" height="6" rx="3" fill="#7c3aed"/>
-            <text x="197" y="301" class="sm">14</text><text x="30" y="310" class="sm" font-weight="bold" fill="#475569">GRM-04</text>
-            <rect x="70" y="306" width="119" height="6" rx="3" fill="#475569"/>
-            <text x="195" y="311" class="sm">13</text><text x="30" y="320" class="sm" font-weight="bold" fill="#059669">IAM-02</text>
-            <rect x="70" y="316" width="119" height="6" rx="3" fill="#059669"/>
-            <text x="195" y="321" class="sm">13</text><text x="30" y="330" class="sm" font-weight="bold" fill="#d97706">DS-07</text>
-            <rect x="70" y="326" width="117" height="6" rx="3" fill="#d97706"/>
-            <text x="193" y="331" class="sm">12</text><text x="30" y="340" class="sm" font-weight="bold" fill="#d97706">DS-08</text>
-            <rect x="70" y="336" width="117" height="6" rx="3" fill="#d97706"/>
-            <text x="193" y="341" class="sm">12</text><text x="30" y="350" class="sm" font-weight="bold" fill="#7c3aed">TP-14</text>
-            <rect x="70" y="346" width="117" height="6" rx="3" fill="#7c3aed"/>
-            <text x="193" y="351" class="sm">12</text><text x="30" y="360" class="sm" font-weight="bold" fill="#059669">IAM-01</text>
-            <rect x="70" y="356" width="115" height="6" rx="3" fill="#059669"/>
-            <text x="191" y="361" class="sm">11</text><text x="30" y="370" class="sm" font-weight="bold" fill="#d97706">DS-06</text>
+            <text x="293" y="71" class="sm">58</text><text x="30" y="80" class="sm" font-weight="bold" fill="#7c3aed">TP-15</text>
+            <rect x="70" y="76" width="215" height="6" rx="3" fill="#7c3aed"/>
+            <text x="291" y="81" class="sm">57</text><text x="30" y="90" class="sm" font-weight="bold" fill="#db2777">MIR-02</text>
+            <rect x="70" y="86" width="184" height="6" rx="3" fill="#db2777"/>
+            <text x="260" y="91" class="sm">43</text><text x="30" y="100" class="sm" font-weight="bold" fill="#1a3a6b">EE-07</text>
+            <rect x="70" y="96" width="182" height="6" rx="3" fill="#1a3a6b"/>
+            <text x="258" y="101" class="sm">42</text><text x="30" y="110" class="sm" font-weight="bold" fill="#2563eb">MS-09</text>
+            <rect x="70" y="106" width="178" height="6" rx="3" fill="#2563eb"/>
+            <text x="254" y="111" class="sm">40</text><text x="30" y="120" class="sm" font-weight="bold" fill="#7c3aed">TP-06</text>
+            <rect x="70" y="116" width="176" height="6" rx="3" fill="#7c3aed"/>
+            <text x="252" y="121" class="sm">39</text><text x="30" y="130" class="sm" font-weight="bold" fill="#7c3aed">TP-10</text>
+            <rect x="70" y="126" width="173" height="6" rx="3" fill="#7c3aed"/>
+            <text x="249" y="131" class="sm">38</text><text x="30" y="140" class="sm" font-weight="bold" fill="#2563eb">MS-04</text>
+            <rect x="70" y="136" width="167" height="6" rx="3" fill="#2563eb"/>
+            <text x="243" y="141" class="sm">35</text><text x="30" y="150" class="sm" font-weight="bold" fill="#1a3a6b">EE-08</text>
+            <rect x="70" y="146" width="162" height="6" rx="3" fill="#1a3a6b"/>
+            <text x="238" y="151" class="sm">33</text><text x="30" y="160" class="sm" font-weight="bold" fill="#2563eb">MS-10</text>
+            <rect x="70" y="156" width="160" height="6" rx="3" fill="#2563eb"/>
+            <text x="236" y="161" class="sm">32</text><text x="30" y="170" class="sm" font-weight="bold" fill="#1a3a6b">EE-05</text>
+            <rect x="70" y="166" width="153" height="6" rx="3" fill="#1a3a6b"/>
+            <text x="229" y="171" class="sm">29</text><text x="30" y="180" class="sm" font-weight="bold" fill="#7c3aed">TP-16</text>
+            <rect x="70" y="176" width="151" height="6" rx="3" fill="#7c3aed"/>
+            <text x="227" y="181" class="sm">28</text><text x="30" y="190" class="sm" font-weight="bold" fill="#7c3aed">TP-01</text>
+            <rect x="70" y="186" width="136" height="6" rx="3" fill="#7c3aed"/>
+            <text x="212" y="191" class="sm">21</text><text x="30" y="200" class="sm" font-weight="bold" fill="#7c3aed">TP-12</text>
+            <rect x="70" y="196" width="136" height="6" rx="3" fill="#7c3aed"/>
+            <text x="212" y="201" class="sm">21</text><text x="30" y="210" class="sm" font-weight="bold" fill="#db2777">MIR-01</text>
+            <rect x="70" y="206" width="131" height="6" rx="3" fill="#db2777"/>
+            <text x="207" y="211" class="sm">19</text><text x="30" y="220" class="sm" font-weight="bold" fill="#2563eb">MS-12</text>
+            <rect x="70" y="216" width="129" height="6" rx="3" fill="#2563eb"/>
+            <text x="205" y="221" class="sm">18</text><text x="30" y="230" class="sm" font-weight="bold" fill="#2563eb">MS-13</text>
+            <rect x="70" y="226" width="127" height="6" rx="3" fill="#2563eb"/>
+            <text x="203" y="231" class="sm">17</text><text x="30" y="240" class="sm" font-weight="bold" fill="#7c3aed">TP-03</text>
+            <rect x="70" y="236" width="125" height="6" rx="3" fill="#7c3aed"/>
+            <text x="201" y="241" class="sm">16</text><text x="30" y="250" class="sm" font-weight="bold" fill="#7c3aed">TP-13</text>
+            <rect x="70" y="246" width="125" height="6" rx="3" fill="#7c3aed"/>
+            <text x="201" y="251" class="sm">16</text><text x="30" y="260" class="sm" font-weight="bold" fill="#475569">GRM-02</text>
+            <rect x="70" y="256" width="123" height="6" rx="3" fill="#475569"/>
+            <text x="199" y="261" class="sm">15</text><text x="30" y="270" class="sm" font-weight="bold" fill="#059669">IAM-03</text>
+            <rect x="70" y="266" width="123" height="6" rx="3" fill="#059669"/>
+            <text x="199" y="271" class="sm">15</text><text x="30" y="280" class="sm" font-weight="bold" fill="#7c3aed">TP-04</text>
+            <rect x="70" y="276" width="123" height="6" rx="3" fill="#7c3aed"/>
+            <text x="199" y="281" class="sm">15</text><text x="30" y="290" class="sm" font-weight="bold" fill="#2563eb">MS-11</text>
+            <rect x="70" y="286" width="120" height="6" rx="3" fill="#2563eb"/>
+            <text x="196" y="291" class="sm">14</text><text x="30" y="300" class="sm" font-weight="bold" fill="#7c3aed">TP-09</text>
+            <rect x="70" y="296" width="120" height="6" rx="3" fill="#7c3aed"/>
+            <text x="196" y="301" class="sm">14</text><text x="30" y="310" class="sm" font-weight="bold" fill="#475569">GRM-04</text>
+            <rect x="70" y="306" width="118" height="6" rx="3" fill="#475569"/>
+            <text x="194" y="311" class="sm">13</text><text x="30" y="320" class="sm" font-weight="bold" fill="#059669">IAM-02</text>
+            <rect x="70" y="316" width="118" height="6" rx="3" fill="#059669"/>
+            <text x="194" y="321" class="sm">13</text><text x="30" y="330" class="sm" font-weight="bold" fill="#d97706">DS-07</text>
+            <rect x="70" y="326" width="116" height="6" rx="3" fill="#d97706"/>
+            <text x="192" y="331" class="sm">12</text><text x="30" y="340" class="sm" font-weight="bold" fill="#d97706">DS-08</text>
+            <rect x="70" y="336" width="116" height="6" rx="3" fill="#d97706"/>
+            <text x="192" y="341" class="sm">12</text><text x="30" y="350" class="sm" font-weight="bold" fill="#7c3aed">TP-14</text>
+            <rect x="70" y="346" width="116" height="6" rx="3" fill="#7c3aed"/>
+            <text x="192" y="351" class="sm">12</text><text x="30" y="360" class="sm" font-weight="bold" fill="#059669">IAM-01</text>
+            <rect x="70" y="356" width="114" height="6" rx="3" fill="#059669"/>
+            <text x="190" y="361" class="sm">11</text><text x="30" y="370" class="sm" font-weight="bold" fill="#d97706">DS-06</text>
             <rect x="70" y="366" width="112" height="6" rx="3" fill="#d97706"/>
             <text x="188" y="371" class="sm">10</text><text x="30" y="380" class="sm" font-weight="bold" fill="#1a3a6b">EE-04</text>
             <rect x="70" y="376" width="112" height="6" rx="3" fill="#1a3a6b"/>
             <text x="188" y="381" class="sm">10</text><text x="30" y="390" class="sm" font-weight="bold" fill="#059669">IAM-09</text>
             <rect x="70" y="386" width="112" height="6" rx="3" fill="#059669"/>
             <text x="188" y="391" class="sm">10</text><text x="30" y="400" class="sm" font-weight="bold" fill="#2563eb">MS-15</text>
-            <rect x="70" y="396" width="110" height="6" rx="3" fill="#2563eb"/>
-            <text x="186" y="401" class="sm">9</text><text x="30" y="410" class="sm" font-weight="bold" fill="#7c3aed">TP-05</text>
-            <rect x="70" y="406" width="110" height="6" rx="3" fill="#7c3aed"/>
-            <text x="186" y="411" class="sm">9</text><text x="440" y="44" class="cap">control</text>
+            <rect x="70" y="396" width="112" height="6" rx="3" fill="#2563eb"/>
+            <text x="188" y="401" class="sm">10</text><text x="30" y="410" class="sm" font-weight="bold" fill="#7c3aed">TP-05</text>
+            <rect x="70" y="406" width="109" height="6" rx="3" fill="#7c3aed"/>
+            <text x="185" y="411" class="sm">9</text><text x="440" y="44" class="cap">control</text>
         <text x="670" y="44" class="cap"># incidents evidencing it</text><text x="440" y="60" class="sm" font-weight="bold" fill="#db2777">MIR-06</text>
             <rect x="480" y="56" width="105" height="6" rx="3" fill="#db2777"/>
             <text x="591" y="61" class="sm">7</text><text x="440" y="70" class="sm" font-weight="bold" fill="#7c3aed">TP-11</text>
@@ -103,22 +103,22 @@
             <text x="587" y="141" class="sm">5</text><text x="440" y="150" class="sm" font-weight="bold" fill="#2563eb">MS-14</text>
             <rect x="480" y="146" width="101" height="6" rx="3" fill="#2563eb"/>
             <text x="587" y="151" class="sm">5</text><text x="440" y="160" class="sm" font-weight="bold" fill="#d97706">DS-03</text>
-            <rect x="480" y="156" width="99" height="6" rx="3" fill="#d97706"/>
-            <text x="585" y="161" class="sm">4</text><text x="440" y="170" class="sm" font-weight="bold" fill="#1a3a6b">EE-06</text>
-            <rect x="480" y="166" width="99" height="6" rx="3" fill="#1a3a6b"/>
-            <text x="585" y="171" class="sm">4</text><text x="440" y="180" class="sm" font-weight="bold" fill="#475569">GRM-03</text>
-            <rect x="480" y="176" width="99" height="6" rx="3" fill="#475569"/>
-            <text x="585" y="181" class="sm">4</text><text x="440" y="190" class="sm" font-weight="bold" fill="#059669">IAM-04</text>
-            <rect x="480" y="186" width="99" height="6" rx="3" fill="#059669"/>
-            <text x="585" y="191" class="sm">4</text><text x="440" y="200" class="sm" font-weight="bold" fill="#059669">IAM-06</text>
-            <rect x="480" y="196" width="99" height="6" rx="3" fill="#059669"/>
-            <text x="585" y="201" class="sm">4</text><text x="440" y="210" class="sm" font-weight="bold" fill="#2563eb">MS-03</text>
-            <rect x="480" y="206" width="99" height="6" rx="3" fill="#2563eb"/>
-            <text x="585" y="211" class="sm">4</text><text x="440" y="220" class="sm" font-weight="bold" fill="#7c3aed">TP-07</text>
-            <rect x="480" y="216" width="99" height="6" rx="3" fill="#7c3aed"/>
-            <text x="585" y="221" class="sm">4</text><text x="440" y="230" class="sm" font-weight="bold" fill="#7c3aed">TP-08</text>
-            <rect x="480" y="226" width="99" height="6" rx="3" fill="#7c3aed"/>
-            <text x="585" y="231" class="sm">4</text><text x="440" y="240" class="sm" font-weight="bold" fill="#d97706">DS-01</text>
+            <rect x="480" y="156" width="98" height="6" rx="3" fill="#d97706"/>
+            <text x="584" y="161" class="sm">4</text><text x="440" y="170" class="sm" font-weight="bold" fill="#1a3a6b">EE-06</text>
+            <rect x="480" y="166" width="98" height="6" rx="3" fill="#1a3a6b"/>
+            <text x="584" y="171" class="sm">4</text><text x="440" y="180" class="sm" font-weight="bold" fill="#475569">GRM-03</text>
+            <rect x="480" y="176" width="98" height="6" rx="3" fill="#475569"/>
+            <text x="584" y="181" class="sm">4</text><text x="440" y="190" class="sm" font-weight="bold" fill="#059669">IAM-04</text>
+            <rect x="480" y="186" width="98" height="6" rx="3" fill="#059669"/>
+            <text x="584" y="191" class="sm">4</text><text x="440" y="200" class="sm" font-weight="bold" fill="#059669">IAM-06</text>
+            <rect x="480" y="196" width="98" height="6" rx="3" fill="#059669"/>
+            <text x="584" y="201" class="sm">4</text><text x="440" y="210" class="sm" font-weight="bold" fill="#2563eb">MS-03</text>
+            <rect x="480" y="206" width="98" height="6" rx="3" fill="#2563eb"/>
+            <text x="584" y="211" class="sm">4</text><text x="440" y="220" class="sm" font-weight="bold" fill="#7c3aed">TP-07</text>
+            <rect x="480" y="216" width="98" height="6" rx="3" fill="#7c3aed"/>
+            <text x="584" y="221" class="sm">4</text><text x="440" y="230" class="sm" font-weight="bold" fill="#7c3aed">TP-08</text>
+            <rect x="480" y="226" width="98" height="6" rx="3" fill="#7c3aed"/>
+            <text x="584" y="231" class="sm">4</text><text x="440" y="240" class="sm" font-weight="bold" fill="#d97706">DS-01</text>
             <rect x="480" y="236" width="96" height="6" rx="3" fill="#d97706"/>
             <text x="582" y="241" class="sm">3</text><text x="440" y="250" class="sm" font-weight="bold" fill="#059669">IAM-07</text>
             <rect x="480" y="246" width="96" height="6" rx="3" fill="#059669"/>

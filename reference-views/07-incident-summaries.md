@@ -1,6 +1,6 @@
 # 07 · Incident Summaries
 
-A human-friendly index of the **92 catalogue incidents**. Each card gives
+A human-friendly index of the **99 catalogue incidents**. Each card gives
 what happened in one sentence, the SHIELD-AI controls it evidences, and a
 link to the full technical detail in the gap-analysis document. Use this
 page when a control's 'incident evidence' link in doc 06 leads you here —

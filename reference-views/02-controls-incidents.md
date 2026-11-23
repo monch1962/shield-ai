@@ -1,7 +1,7 @@
 # 02 · Controls → Industry Incidents
 
 Which SHIELD-AI controls are actually **evidenced by real incidents**? This view
-links every control to the specific catalogue incidents (INC-01…INC-92) that
+links every control to the specific catalogue incidents (INC-01…INC-99) that
 reference it in their coverage verdicts. The most-evidenced controls are the
 highest-priority hardening targets — they are the controls the real world has
 repeatedly shown we need.
