@@ -8,7 +8,7 @@ self-contained subset for prospects; the full control set lives here.
 ## Status (v1.24, November 23, 2026)
 
 **All 69 controls implemented with deny-override assertions and per-control
-test vectors.** 344 OPA tests pass (`opa test policies
+test vectors.** 348 OPA tests pass (`opa test policies
 policies/tests demo/policies demo/tests`). Coverage by pillar:
 
 | Pillar | Controls |

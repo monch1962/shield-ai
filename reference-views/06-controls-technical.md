@@ -327,12 +327,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ms_ms-12.rego` (package `shield_ai.ms.mcp_discovery_metadata_shared_cache_integrity`, 12 deny rules)
 
 **What to verify:** MCP discovery-metadata and shared-cache integrity must hold. Prevent MCP discovery metadata and shared caches from injecting instructions into agent system prompts. The executable policy fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.discovery.instructions_length_limited (unobserved -> fail closed)
-  - missing attestation for input.action.discovery.instructions_isolated (unobserved -> fail closed)
-  - missing attestation for input.action.discovery.cache_provenance_signed (unobserved -> fail closed)
-  - missing attestation for input.action.discovery.cache_scope_verified (unobserved -> fail closed)
-  - missing attestation for input.action.discovery.cache_key_bound_to_identity (unobserved -> fail closed)
-  - *7 more fail-closed conditions in the policy.*
+  - ... deny: input carries a schema_version not supported by this policy
+  - MCP discovery response for agent <name> carries unbounded server-supplied instructions; must be length-limited
+  - MCP discovery response for agent <name> folds server-supplied instructions into the trusted system prompt; must be isolated as untrusted content
+  - MCP discovery response for agent <name> is served from a shared cache across authentication contexts without signed provenance
+  - MCP discovery response for agent <name> trusts a server cacheScope claim without verification
+  - *2 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Instructions isolated from the trusted system prompt with explicit boundaries and length limits; cache keys bind to authenticated identity; cacheScope claims verified; tool metadata pinned to a baseline with drift alerting.
 
@@ -345,12 +345,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ms_ms-13.rego` (package `shield_ai.ms.transcript_and_conversation_authenticity`, 8 deny rules)
 
 **What to verify:** Transcript and conversation authenticity must hold. Make the harness's record of model output tamper-evident and authentic at the model boundary. The executable policy fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.transcript.model_output_signed (unobserved -> fail closed)
-  - missing attestation for input.action.transcript.verified_on_read (unobserved -> fail closed)
-  - missing attestation for input.action.transcript.store_verified (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - agent <name> reads a transcript whose model outputs are not signed at the model boundary; stored response cannot be verified as genuine
-  - *3 more fail-closed conditions in the policy.*
+  - agent <name> proceeds from an unverified transcript; every stored response must be verified on read before reasoning
+  - agent <name> attempts a confidence-gated action from a transcript with a broken authenticity chain; chain-break blocks execution
+  - agent <name> reads from an unverified transcript store; transcript stores are untrusted until verified
 
 - **Maturity target (L3):** Model outputs signed at the API/proxy boundary (per-session HMAC/Ed25519, key outside harness) and verified on load; verification failures alert via MIR-01 and block the action.
 
@@ -363,12 +362,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ms_ms-14.rego` (package `shield_ai.ms.self_replication_barrier`, 8 deny rules)
 
 **What to verify:** Self-replication barrier must hold. Prevent an injected instruction from being re-emitted through the agent's own output channels to propagate to other agents. The executable policy fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.outbound.quarantined (unobserved -> fail closed)
-  - missing attestation for input.action.outbound.human_approved (unobserved -> fail closed)
-  - missing attestation for input.action.outbound.human_signoff (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - outbound publish by agent <name> matches an instruction-bearing n-gram fingerprint (replication vector) and is not quarantined
-  - *3 more fail-closed conditions in the policy.*
+  - outbound publish by agent <name> is a fingerprinted replication match that lacks human approval
+  - outbound broadcast by agent <name> lacks human signoff (one-channel-per-write / human-signoff-on-broadcast)
+  - outbound publish by agent <name> carries a propagation signal; channel-kill and incident response triggered (worm-emulation)
 
 - **Maturity target (L3):** Fingerprint matching quarantine with human approval; one-channel-per-write and human-signoff-on-broadcast; blast-radius cap per hop.
 
@@ -381,12 +379,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ms_ms-15.rego` (package `shield_ai.ms.cross_tenant_agent_memory_and_state`, 11 deny rules)
 
 **What to verify:** Cross-tenant agent memory and state isolation must hold. Isolate multi-tenant agent memory and state per tenant as a hard boundary; keep the isolation key out of model control and gate retrieval/write by verified ownership. The executable policy fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.connection_params_bound (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - pooled memory_read by agent <name> returned a cross-tenant hit (owner != querying principal); hard ownership gate must drop it
   - pooled memory_read by agent <name> could not verify ownership of a hit; fail closed per default-deny (semantic similarity is not an admissibility proxy)
   - cross-tenant memory_write by agent <name> (attempted write outside the writing principal's tenant); denied and alarmed
-  - *5 more fail-closed conditions in the policy.*
+  - memory_write by agent <name> is not authenticated to a verified writer identity
+  - *4 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Hard post-retrieval and post-write ownership gating with default-deny; connection parameters bound at construction; cross-tenant hits alarmed as control violations.
 
@@ -522,12 +520,11 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_iam_iam-10.rego` (package `shield_ai.iam.taint_tracked_least_privilege_subagent_scoping`, 8 deny rules)
 
 **What to verify:** Taint-tracked least-privilege subagent scoping must hold. Taint-track externally-submitted records and bind subagent permission scoping to that taint plus field-level least privilege. The policy evaluates `input.action.kind == "data_read"; input.action.record.tainted =` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.record.taint_marked (unobserved -> fail closed)
-  - missing attestation for input.action.record.field_level_scoped (unobserved -> fail closed)
-  - missing attestation for input.action.record.sanitisation_boundary_explicit (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - agent <name> processed an externally-submitted record that was not taint-marked at ingestion
-  - *3 more fail-closed conditions in the policy.*
+  - agent <name> reads a tainted record without field-level least-privilege scoping (must be narrower than nominal grants)
+  - agent <name> tainted read cascades into an untainted sensitive collection beyond the immediate task; blocked
+  - agent <name> processed a tainted record where the untrusted/trusted sanitisation boundary is not an explicit access-control decision
 
 - **Maturity target (L3):** Taint-marked at ingestion; record-handling subagents scoped to only required tables/fields/tools; tainted reads prevented from cascading into untainted sensitive collections.
 
@@ -641,12 +638,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_ds_ds-08.rego` (package `shield_ai.ds.destination_and_emergent_channel_egress_inventory`, 12 deny rules)
 
 **What to verify:** Destination and emergent-channel egress inventory must hold. Enumerate and control every outbound destination and channel that can carry agent data out of the boundary, using payload-blind allow-lists rather than classifiers. The executable policy fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.egress.destination_allowlisted (unobserved -> fail closed)
-  - missing attestation for input.action.egress.channel_inventoried (unobserved -> fail closed)
-  - missing attestation for input.action.egress.invoker_attributed (unobserved -> fail closed)
-  - missing attestation for input.action.egress.dns_resolver_allowlisted (unobserved -> fail closed)
-  - missing attestation for input.action.egress.render_source_allowlisted (unobserved -> fail closed)
-  - *7 more fail-closed conditions in the policy.*
+  - ... deny: input carries a schema_version not supported by this policy
+  - agent <name> egress to destination not on the payload-blind allow-list
+  - agent <name> egress through an un-inventoried sink (channel not enumerated/mapped to a control)
+  - agent <name> egress rely on a content classifier rather than a payload-blind hard allow-list
+  - agent <name> messaging egress lacks invoker attribution and user confirmation
+  - *2 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Full channel inventory (URLs, DNS, image/render sources, messaging/unfurl, browser) each mapped to an explicit control; allow-list verification is payload-blind.
 
@@ -675,7 +672,6 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_tp_tp-02.rego` (package `shield_ai.tp.tool_access_control`, 5 deny rules)
 
 **What to verify:** Tool access control must hold. Enforce per-agent tool allow-lists at invocation time with authenticated agent identity and version-controlled, auditable access policies. The policy evaluates `input.action.tool_auth = {"agent_authenticated": bool,` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.tool_allowed (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - tool <name> call not authenticated to the agent identity
   - tool <name> authenticated against the human session, not the agent identity
@@ -837,12 +833,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_tp_tp-13.rego` (package `shield_ai.tp.agent_dependency_install_provenance`, 11 deny rules)
 
 **What to verify:** Agent dependency-install provenance verification must hold. Verify registry-namespace and domain-ownership provenance before any agent-executed install derived from ingested content. The policy evaluates `input.action.kind == "dependency_install". Installation commands` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.dependency.registry_exists (unobserved -> fail closed)
-  - missing attestation for input.action.dependency.namespace_owned (unobserved -> fail closed)
-  - missing attestation for input.action.dependency.domain_registered (unobserved -> fail closed)
-  - missing attestation for input.action.dependency.allowlisted_or_approved (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
-  - *6 more fail-closed conditions in the policy.*
+  - install by agent <name> references a package not confirmed to exist in the intended registry
+  - install by agent <name> references a registry namespace not verified to belong to the documented vendor
+  - install by agent <name> references an unclaimed or expired domain; dangling reference must block the install
+  - install by agent <name> is derived from ingested content and is not gated by an allowlist or human approval
+  - *2 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Pre-install provenance verification: registry existence, namespace ownership, domain registration; installs from untrusted content gated by an allowlist or human approval; dangling references blocked and logged via MIR-01.
 
@@ -855,12 +851,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_tp_tp-14.rego` (package `shield_ai.tp.skill_plugin_payload_integrity`, 12 deny rules)
 
 **What to verify:** Skill/plugin payload integrity and instruction-channel isolation must hold. Gate every agent extension install on signed, immutable payloads with no runtime-fetchable instruction channels and privilege-scoped execution. The policy evaluates `input.action.kind == "skill_execute" (a skill/plugin about to run).` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.skill.payload_signed (unobserved -> fail closed)
-  - missing attestation for input.action.skill.payload_immutable (unobserved -> fail closed)
-  - missing attestation for input.action.skill.privilege_scoped (unobserved -> fail closed)
-  - missing attestation for input.action.skill.provenance_attested (unobserved -> fail closed)
-  - missing attestation for input.action.skill.baseline_established (unobserved -> fail closed)
-  - *7 more fail-closed conditions in the policy.*
+  - ... deny: input carries a schema_version not supported by this policy
+  - execute skill <name> for agent <name> with an unsigned payload; never execute unsigned
+  - execute skill <name> for agent <name> whose payload is not immutable at install time
+  - skill <name> for agent <name> has a runtime-fetchable instruction channel (post-install reference/update feed); must be blocked at network and runtime
+  - skill <name> for agent <name> executes with full agent privileges rather than a declared capability scope
+  - *2 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Immutable signed payloads; runtime-fetch channels blocked; privilege-scoped execution; post-install baseline with drift quarantine.
 
@@ -873,12 +869,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_tp_tp-15.rego` (package `shield_ai.tp.in_process_code_execution_sandbox_sufficiency`, 8 deny rules)
 
 **What to verify:** In-process code-execution sandbox sufficiency must hold. Route all LLM-generated or untrusted code execution to an OS/VM-isolated execution environment; never rely on an in-process denylist/blocklist interpreter gate as the boundary. The policy evaluates `input.action.kind == "code_execution". LLM-generated or untrusted` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.code.sandboxed_os_vm (unobserved -> fail closed)
-  - missing attestation for input.action.code.template_render_isolated (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - code execution by agent <name> runs LLM-generated/untrusted code outside an OS/VM-isolated boundary
   - code execution by agent <name> relies on an in-process denylist/blocklist gate as the sole containment; structurally bypassable
-  - *3 more fail-closed conditions in the policy.*
+  - code execution by agent <name> separates trust by an in-process context that shares a memory heap; not a security boundary (Codex Heapjack class)
+  - code execution by agent <name> uses an in-process sandbox not treated as the HIGH-RISK dependency class with blocking on critical findings
+  - *1 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** In-process sandboxes locked in the HIGH-RISK dependency class (TP-06) with automated blocking on critical findings; model-generated code executes only in the EE sandbox.
 
@@ -891,12 +887,12 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_tp_tp-16.rego` (package `shield_ai.tp.tool_connection_and_launch_path_integrity`, 10 deny rules)
 
 **What to verify:** Tool-connection and launch-path integrity must hold. Keep remote peer-supplied protocol metadata (OAuth/discovery/connection fields) out of process-launch and shell execution primitives; origin-bound and validate the authorization endpoint. The policy evaluates `input.action.kind == "tool_connect" / "tool_launch". Remote` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.connection.auth_endpoint_origin_bound (unobserved -> fail closed)
-  - missing attestation for input.action.connection.auth_endpoint_validated_canonical (unobserved -> fail closed)
-  - missing attestation for input.action.launch.command_allowlisted (unobserved -> fail closed)
   - ... deny: input carries a schema_version not supported by this policy
   - agent <name> connection hands server-supplied protocol metadata to a process-launch/shell primitive (code-execution boundary)
-  - *5 more fail-closed conditions in the policy.*
+  - agent <name> authorization endpoint is not origin-bound to the configured server
+  - agent <name> accepts the server-advertised authorization endpoint without validating the canonical processed value against the configured origin
+  - agent <name> launch command registered through a tool/server definition is not on the allowlist
+  - *2 more fail-closed conditions in the policy.*
 
 - **Maturity target (L3):** Authorization endpoint origin-bound and validated on canonical value; no transport field crosses into a launch/shell primitive; launch commands allowlisted; connection termination and alert on any violation.
 
@@ -1026,7 +1022,6 @@ verify' checklist beneath each control is derived directly from those deny rules
 - **Executable policy:** `shield_ai_grm_grm-03.rego` (package `shield_ai.grm.ethical_use_policy`, 4 deny rules)
 
 **What to verify:** Ethical use policy must hold. Document and enforce an ethical use policy that classifies agents by risk tier, defines autonomy boundaries per tier, and specifies transparency obligations. The policy evaluates `input.action.acceptable (bool) -- the action is inside the` and fails closed -- blocks the action -- when any of the following is true:
-  - missing attestation for input.action.acceptable (unobserved -> fail closed)
   - high-risk tier agent deployed without human-in-the-loop requirement per risk tier
   - ... deny: input carries a schema_version not supported by this policy
   - action <name> outside the documented acceptable-use boundary for agent <name>

@@ -22,7 +22,7 @@
 | NBN Co briefing deck (25 slides) | [OK] Versioned | v1.3, client-specific/nbn/ |
 | Board brief (4 slides) | [OK] Complete | presentations/board-brief/ |
 | JSON control schema | [OK] v1.24 | 69 controls, machine-readable |
-| Rego policy set (69) | [OK] Complete | All 69 controls implemented as deny-override assertions with per-control test vectors; 344 OPA tests pass |
+| Rego policy set (69) | [OK] Complete | All 69 controls implemented as deny-override assertions with per-control test vectors; 348 OPA tests pass |
 | GitHub repo | [OK] Complete | Private, all artifacts |
 
 ## Priority Ranking (technical)
@@ -43,7 +43,7 @@
 ### Milestone 1: Implement the Rego policy set as evaluable assertions
 - Convert every control from its TODO stub to deny-override assertions with test vectors
 - **COMPLETE (v1.24):** all 69 controls implemented with deny-override
-  assertions and per-control test vectors (344 OPA tests), following the
+  assertions and per-control test vectors (348 OPA tests), following the
   pattern and shared input model documented in `policies/README.md`.
 - Wire the policy set into the reference architecture's policy decision points
 

@@ -15,7 +15,7 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 |---|---|---|---|---|
 | 1 | **MS-08** | MCP | 204 | ... deny: input carries a schema_version not supported by this policy; MCP tool definitions from '...' are not cryptographically signed |
 | 2 | **EE-01** | Execution environment boundary enforcement | 174 | ... deny: input carries a schema_version not supported by this policy; tool '...' is high-risk and agent '...' is not sandboxed (fail closed) |
-| 3 | **TP-15** | In-process code-execution sandbox sufficiency | 171 | missing attestation for input.action.code.sandboxed_os_vm (unobserved -> fail closed); missing attestation for input.action.code.template_render_isolated (unobserved -> fail closed) |
+| 3 | **TP-15** | In-process code-execution sandbox sufficiency | 171 | ... deny: input carries a schema_version not supported by this policy; code execution by agent '...' runs LLM-generated/untrusted code outside an OS/VM-isolated boundary |
 
 ## Phase 2 · Consolidation (raise maturity to L3)
 
@@ -35,14 +35,14 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 | Priority | Control | Title | Score | Focus (fail-closed condition to address) |
 |---|---|---|---|---|
 | 1 | **EE-05** | Host-trusted configuration file injection prevention | 87 | ... deny: input carries a schema_version not supported by this policy; agent can write host-trusted path '...' (indirect escape class) |
-| 2 | **TP-16** | Tool-connection and launch-path integrity | 84 | missing attestation for input.action.connection.auth_endpoint_origin_bound (unobserved -> fail closed); missing attestation for input.action.connection.auth_endpoint_validated_canonical (unobserved -> fail closed) |
+| 2 | **TP-16** | Tool-connection and launch-path integrity | 84 | ... deny: input carries a schema_version not supported by this policy; agent '...' connection hands server-supplied protocol metadata to a process-launch/shell primitive (code-execution boundary) |
 | 3 | **TP-01** | Tool inventory and registry | 63 | ... deny: input carries a schema_version not supported by this policy; tool '...' is not in the approved tool registry |
 | 4 | **TP-12** | Tool-call provenance and dispatch verification | 63 | dispatch without session provenance (fail closed); dispatch without turn provenance (fail closed) |
 | 5 | **MIR-01** | Agent activity logging | 57 | audit record not written to append-only storage (integrity requirement); ... deny: input carries a schema_version not supported by this policy |
-| 6 | **MS-12** | MCP discovery-metadata and shared-cache integrity | 54 | missing attestation for input.action.discovery.instructions_length_limited (unobserved -> fail closed); missing attestation for input.action.discovery.instructions_isolated (unobserved -> fail closed) |
-| 7 | **MS-13** | Transcript and conversation authenticity | 51 | missing attestation for input.action.transcript.model_output_signed (unobserved -> fail closed); missing attestation for input.action.transcript.verified_on_read (unobserved -> fail closed) |
+| 6 | **MS-12** | MCP discovery-metadata and shared-cache integrity | 54 | ... deny: input carries a schema_version not supported by this policy; MCP discovery response for agent '...' carries unbounded server-supplied instructions; must be length-limited |
+| 7 | **MS-13** | Transcript and conversation authenticity | 51 | ... deny: input carries a schema_version not supported by this policy; agent '...' reads a transcript whose model outputs are not signed at the model boundary; stored response cannot be verified as genuine |
 | 8 | **TP-03** | API gateway security | 48 | ... deny: input carries a schema_version not supported by this policy; tool '...' call not rate-limited by the gateway |
-| 9 | **TP-13** | Agent dependency-install provenance verification | 48 | missing attestation for input.action.dependency.registry_exists (unobserved -> fail closed); missing attestation for input.action.dependency.namespace_owned (unobserved -> fail closed) |
+| 9 | **TP-13** | Agent dependency-install provenance verification | 48 | ... deny: input carries a schema_version not supported by this policy; install by agent '...' references a package not confirmed to exist in the intended registry |
 | 10 | **GRM-02** | AI risk register | 45 | kill-switch capability not exercised (AI-speed response requires one rehearsed red button); ... deny: input carries a schema_version not supported by this policy |
 | 11 | **IAM-03** | Human oversight controls | 45 | approval evidence from session history is not human approval (forged-approval class); financial action approved on the agent channel; human-console approval required |
 | 12 | **TP-04** | Tool output validation | 45 | ... deny: input carries a schema_version not supported by this policy; tool '...' output not validated against a known-good schema |
@@ -51,13 +51,13 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 | 15 | **GRM-04** | Third-party AI risk management | 39 | ... deny: input carries a schema_version not supported by this policy; action using third-party vendor '...' without security assessment |
 | 16 | **IAM-02** | Scope-bound delegation | 39 | ... deny: input carries a schema_version not supported by this policy; agent '...' has no scope-bound delegation claim (fail closed) |
 | 17 | **DS-07** | Agent-originated artifact publication control | 36 | execution-bearing configuration write requires human-console approval (Kiro class); ... deny: input carries a schema_version not supported by this policy |
-| 18 | **DS-08** | Destination and emergent-channel egress inventory | 36 | missing attestation for input.action.egress.destination_allowlisted (unobserved -> fail closed); missing attestation for input.action.egress.channel_inventoried (unobserved -> fail closed) |
-| 19 | **TP-14** | Skill/plugin payload integrity and instruction-channel isolation | 36 | missing attestation for input.action.skill.payload_signed (unobserved -> fail closed); missing attestation for input.action.skill.payload_immutable (unobserved -> fail closed) |
+| 18 | **DS-08** | Destination and emergent-channel egress inventory | 36 | ... deny: input carries a schema_version not supported by this policy; agent '...' egress to destination not on the payload-blind allow-list |
+| 19 | **TP-14** | Skill/plugin payload integrity and instruction-channel isolation | 36 | ... deny: input carries a schema_version not supported by this policy; execute skill '...' for agent '...' with an unsigned payload; never execute unsigned |
 | 20 | **IAM-01** | Agent identity management | 33 | ... deny: input carries a schema_version not supported by this policy; agent '...' has no unique identity (sharing human credentials) |
 | 21 | **DS-06** | Output validation | 30 | output not verified clean by the leakage scanner (fail closed); output flagged for data leakage (PII, training data, system prompt, or credential) |
 | 22 | **EE-04** | Evaluation sandbox integrity | 30 | evaluation run with unverified evaluation-to-production isolation (fail closed); evaluation run has a network path to production |
 | 23 | **IAM-09** | Multi-tenant agent platform isolation | 30 | request not scoped to tenant ID at the data layer (presentation-layer checks only); user-controlled object ID bypasses tenant scoping (CWE-639 IDOR class) |
-| 24 | **MS-15** | Cross-tenant agent memory and state isolation | 30 | missing attestation for input.action.connection_params_bound (unobserved -> fail closed); ... deny: input carries a schema_version not supported by this policy |
+| 24 | **MS-15** | Cross-tenant agent memory and state isolation | 30 | ... deny: input carries a schema_version not supported by this policy; pooled memory_read by agent '...' returned a cross-tenant hit (owner != querying principal); hard ownership gate must drop it |
 | 25 | **TP-05** | Pipeline integrity | 27 | deployment from an unsigned CI/CD run; deployment without pipeline attestation |
 | 26 | **MIR-06** | Forensic readiness | 21 | ... deny: input carries a schema_version not supported by this policy; high-impact action '...' by agent '...' is not reconstructible from immutable logs |
 | 27 | **TP-11** | Agent browser and content-rendering isolation | 21 | document upload rendered without sanitisation before assistant processing; token access from rendered content without approval (credential-layer isolation) |
@@ -65,13 +65,13 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 | 29 | **MS-05** | Model behaviour validation | 18 | ... deny: input carries a schema_version not supported by this policy; output by agent '...' not evaluated by proxy-layer guardrails (fail closed) |
 | 30 | **EE-03** | Resource usage limiting | 15 | ... deny: input carries a schema_version not supported by this policy; agent '...' CPU usage ...% exceeds limit ...% |
 | 31 | **GRM-06** | Board and executive reporting | 15 | no executive dashboard for AI security posture (maturity, findings, compliance, risk acceptances); risk acceptance decision not logged in the executive reporting trail |
-| 32 | **IAM-10** | Taint-tracked least-privilege subagent scoping | 15 | missing attestation for input.action.record.taint_marked (unobserved -> fail closed); missing attestation for input.action.record.field_level_scoped (unobserved -> fail closed) |
+| 32 | **IAM-10** | Taint-tracked least-privilege subagent scoping | 15 | ... deny: input carries a schema_version not supported by this policy; agent '...' processed an externally-submitted record that was not taint-marked at ingestion |
 | 33 | **MIR-04** | Incident response playbooks AI-specific IR procedures distinct from general IR: prompt injection containment, model rollback, tool access revocation, session invalidation; | 15 | ... deny: input carries a schema_version not supported by this policy; ... incident acknowledged without a named AI-specific IR playbook |
 | 34 | **MS-07** | Deployment context obfuscation | 15 | evaluation environment distinguishable from production (endpoints, data shapes, latency); evaluation behaviour diverges from production for the same inputs (subversion indicator) |
-| 35 | **MS-14** | Self-replication barrier | 15 | missing attestation for input.action.outbound.quarantined (unobserved -> fail closed); missing attestation for input.action.outbound.human_approved (unobserved -> fail closed) |
+| 35 | **MS-14** | Self-replication barrier | 15 | ... deny: input carries a schema_version not supported by this policy; outbound publish by agent '...' matches an instruction-bearing n-gram fingerprint (replication vector) and is not quarantined |
 | 36 | **DS-03** | Memory sanitisation | 12 | ... deny: input carries a schema_version not supported by this policy; agent '...' persists classified or sensitive data beyond session lifetime |
 | 37 | **EE-06** | Fail-closed sandbox operation | 12 | interpreter isolation flags are a convenience feature, not a security boundary; ... deny: input carries a schema_version not supported by this policy |
-| 38 | **GRM-03** | Ethical use policy | 12 | missing attestation for input.action.acceptable (unobserved -> fail closed); high-risk tier agent deployed without human-in-the-loop requirement per risk tier |
+| 38 | **GRM-03** | Ethical use policy | 12 | high-risk tier agent deployed without human-in-the-loop requirement per risk tier; ... deny: input carries a schema_version not supported by this policy |
 | 39 | **IAM-04** | Credential isolation | 12 | ... deny: input carries a schema_version not supported by this policy; agent '...' credentials not isolated from human credentials |
 | 40 | **IAM-06** | Cross-session boundary enforcement | 12 | ... deny: input carries a schema_version not supported by this policy; agent '...' session shares credentials across sessions |
 | 41 | **MS-03** | Supply chain security | 12 | ... deny: input carries a schema_version not supported by this policy; model '...' deployed without an ML component SBOM |
@@ -91,14 +91,14 @@ Priority score = incident evidence (x3) + implementation gap (x6 when the execut
 | 55 | **DS-05** | Training data governance | 0 | training run without dataset lineage tracking; training run on personal data without verified consent |
 | 56 | **IAM-05** | Just-in-time access | 0 | ... deny: input carries a schema_version not supported by this policy; agent '...' has standing (non-ephemeral) credentials |
 | 57 | **MIR-05** | Mandatory reporting integration | 0 | ... deny: input carries a schema_version not supported by this policy; incident reported by agent '...' has no regulatory reporting trigger (SOCI 12h / APRA 72h windows) |
-| 58 | **TP-02** | Tool access control | 0 | missing attestation for input.action.tool_allowed (unobserved -> fail closed); ... deny: input carries a schema_version not supported by this policy |
+| 58 | **TP-02** | Tool access control | 0 | ... deny: input carries a schema_version not supported by this policy; tool '...' call not authenticated to the agent identity |
 
 
 ## Ten highest-priority controls
 
 1. **MS-08** (204) - ... deny: input carries a schema_version not supported by this policy
 2. **EE-01** (174) - ... deny: input carries a schema_version not supported by this policy
-3. **TP-15** (171) - missing attestation for input.action.code.sandboxed_os_vm (unobserved -> fail closed)
+3. **TP-15** (171) - ... deny: input carries a schema_version not supported by this policy
 4. **MIR-02** (129) - ... deny: input carries a schema_version not supported by this policy
 5. **EE-07** (126) - agent configuration loaded from a world-writable location (config-trust class)
 6. **MS-09** (120) - approval evidence comes from an agent-generated attestation (sockpuppet class); out-of-band verification required
