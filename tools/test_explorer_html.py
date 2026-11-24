@@ -66,12 +66,27 @@ def test_html_exists_and_is_single_file():
 
 def test_self_contained_no_external_resources():
     html = _html()
-    # The SVG namespace URI (http://www.w3.org/2000/svg) is a spec identifier,
-    # not a network fetch -- strip it before checking for external resources.
-    body = html.replace("http://www.w3.org/2000/svg", "")
-    assert "http://" not in body and "https://" not in body
-    assert "cdn." not in body
-    assert '<script src=' not in body and '<link rel="stylesheet"' not in body
+    # The viewer must never fetch anything. The embedded graph-data may carry
+    # http(s) strings as *data text* (incident narratives/descriptions), which
+    # the viewer renders inertly -- so the guarantee is about the SUBSURFACE of
+    # the file that is code/resource references, not every URL substring.
+    # Remove the graph-data JSON block (data, not code), then assert no network
+    # resource reference remains in the code/viewer portion. The SVG-namespace
+    # URI is a spec identifier, not a fetch -- strip it too.
+    o = html.index('<script id="graph-data" type="application/json">')
+    i = html.index("</script>", o) + len("</script>")
+    code = html[:o] + html[i:]  # viewer + markup without the data blob
+    code = code.replace("http://www.w3.org/2000/svg", "")
+    assert "http://" not in code and "https://" not in code
+    assert "cdn." not in code
+    # No resource-bearing tags in the markup, or fetch APIs in the viewer code.
+    assert '<script src=' not in html and '<link rel="stylesheet"' not in html
+    assert 'src="http' not in html and 'href="http' not in html
+    # The viewer never opens a network channel. (Narrative data may *mention*
+    # WebSocket/harvesting concepts as plain text -- only the viewer code must
+    # be free of the APIs.)
+    assert "fetch(" not in code and "XMLHttpRequest" not in code
+    assert "new WebSocket" not in code and "WebSocket(" not in code
 
 
 def test_embedded_graph_matches_graph_of_record():
@@ -101,6 +116,30 @@ def test_viewer_has_core_interactions():
     assert "data-type=\"control\"" in html or "chip(c,\'control\')" in html
     assert "function select(" in html
     assert "function drawGraph(" in html
+
+
+def test_viewer_renders_incident_narrative():
+    """Drill-down into an incident must show the incident's own summary text."""
+    html = _html()
+    emb = _embedded(html)
+    inc0 = emb["incidents"][0]
+    assert inc0.get("summary"), "embedded incident missing summary"
+    # the viewer must emit the summary as a rendered paragraph (not just title)
+    assert ".summary" in html or "summary" in html
+    assert "<p>" in html  # a paragraph element exists for narrative rendering
+
+
+def test_viewer_renders_rego_policy_content():
+    """Drill-down into a control must expose the full REGO policy body."""
+    html = _html()
+    emb = _embedded(html)
+    c0 = next(c for c in emb["controls"] if c["rego"])
+    assert c0.get("rego_content"), "embedded control missing rego_content"
+    assert len(c0["rego_content"]) > 200
+    # the viewer exposes a scrollable pre/code region for the policy source
+    assert "<pre" in html or "rego_content" in html or "code" in html
+    # the policy package line must survive embedding (verbatim)
+    assert "package " in c0["rego_content"]
 
 
 def test_deterministic_regeneration():

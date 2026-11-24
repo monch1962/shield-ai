@@ -58,12 +58,17 @@ def load_controls():
     for cid, c in schema["controls"].items():
         pillar, _, _ = cid.partition("-")
         rego = f"shield_ai_{pillar.lower()}_{pillar.lower()}-{cid.split('-')[1]}.rego"
+        rego_content = None
+        if os.path.exists(os.path.join(POLICIES_DIR, rego)):
+            with open(os.path.join(POLICIES_DIR, rego), encoding="utf-8") as rf:
+                rego_content = rf.read()
         out.append({
             "id": cid,
             "title": c.get("title", "").strip(),
             "pillar": pillar,
             "pillar_name": c.get("pillar_name", "").strip(),
             "rego": rego if os.path.exists(os.path.join(POLICIES_DIR, rego)) else None,
+            "rego_content": rego_content,  # verbatim policy source for drill-down
             "description": (c.get("description") or "").strip(),
             "gap_ids": [],
             "incidents": [],
@@ -87,6 +92,11 @@ def load_incidents():
         iid, title = m.group(1).strip(), m.group(2).strip()
         nxt = pat.search(text, m.end())
         body = text[m.end(): nxt.start() if nxt else len(text)]
+        # verbatim narrative for drill-down: the "What happened:" paragraph.
+        summary = ""
+        wh = re.search(r"\*\*What happened:\*\*\s*(.+?)(?=\n\n|\n\|)", body, re.S)
+        if wh:
+            summary = re.sub(r"\s+", " ", wh.group(1)).strip()
         verdict_seg = ""
         v = re.search(r"\*\*Coverage verdict:\*\*(.*?)(?=\n### |\n## |\Z)", body, re.S)
         if v:
@@ -103,6 +113,7 @@ def load_incidents():
             "id": iid,
             "num": int(iid.split("-")[1]),
             "title": title,
+            "summary": summary,  # verbatim "What happened:" narrative for drill-down
             "controls": controls,
             "gap_ids": gaps,
             "severity": sev,

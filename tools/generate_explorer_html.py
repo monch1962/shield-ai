@@ -78,6 +78,11 @@ header h1{font-size:18px; font-weight:700;} header .meta{color:var(--mut); font-
 #detail .chip{display:inline-block; background:#1e2c40; border:1px solid var(--line);
   border-radius:20px; padding:2px 10px; margin:2px 3px; cursor:pointer;}
 #detail .chip:hover{border-color:var(--acc);}
+#detail .summary{color:var(--ink); margin-top:10px; line-height:1.6;}
+#detail pre.sreg{background:#0b1018; border:1px solid var(--line); border-radius:6px;
+  padding:10px; margin-top:10px; overflow:auto; max-height:360px;
+  font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:#bcd3ea; white-space:pre;}
 #detail p{color:var(--mut); margin-top:8px;}
 #graph{height:100%; overflow:hidden;}
 #graph svg{width:100%; height:100%;}
@@ -130,6 +135,7 @@ text.legend-k{fill:var(--mut); font-size:11px;}
 'use strict';
 const DATA = JSON.parse(document.getElementById('graph-data').textContent);
 const doc = (s)=>document.querySelector(s);
+const esc = (s)=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const byId = {};
 DATA.controls.forEach(c=>byId[c.id]=c);
 DATA.incidents.forEach(i=>byId[i.id]=i);
@@ -219,11 +225,13 @@ function select(id,kind){
     html+=`<div class="kv"><div><b>Severity</b><span class="${SEV_CLASS[item.severity]||''}">${item.severity}</span></div></div>`;
     html+='<div class="kv"><div><b>Controls</b></div></div><div>'+(item.controls||[]).map(c=>chip(c,'control')).join(' ')+'</div>';
     html+='<div class="kv" style="margin-top:10px"><div><b>Gaps</b></div></div><div>'+(item.gap_ids||[]).map(g=>chip(g,'gap')).join(' ')+'</div>';
+    if(item.summary) html+=`<p class="summary">${esc(item.summary)}</p>`;
   } else if(kind==='control'){
     const c=item;
     html+=`<div class="kv"><div><b>Pillar</b>${c.pillar}</div><div><b>Rego</b>${c.rego||'none'}</div></div>`;
     html+='<div class="kv"><div><b>Incidents</b></div></div><div>'+(((c.incidents||[]).map(i=>chip(i,'incident')).join(' '))||'(none)')+'</div>';
-    if(c.description) html+=`<p>${c.description}</p>`;
+    if(c.description) html+=`<p>${esc(c.description)}</p>`;
+    if(c.rego_content) html+=`<div class="kv" style="margin-top:10px"><div><b>REGO policy&nbsp;(${c.rego||''})</b></div></div><pre class="sreg">${esc(c.rego_content)}</pre>`;
   } else if(kind==='gap'){
     html+=`<div class="kv"><div><b>Severity</b>${item.severity}</div><div><b>Controls</b></div></div><div>${(((item.controls||[]).map(c=>chip(c,'control')).join(' '))||'(none)')}</div>`;
     html+='<div class="kv"><div><b>Incidents</b></div></div><div>'+(((item.incidents||[]).map(i=>chip(i,'incident')).join(' '))||'(none)')+'</div>';

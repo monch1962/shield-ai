@@ -101,6 +101,21 @@ def test_incidents_have_titles_and_control_links():
         assert isinstance(inc["gap_ids"], list)
 
 
+def test_incidents_carry_narrative_summary():
+    # Drill-down must surface the incident's own story, not just title/severity.
+    g = _load_graph()
+    incs = {i["id"]: i for i in g["incidents"]}
+    for inc in g["incidents"]:
+        assert "summary" in inc, f"{inc['id']} missing summary"
+        assert isinstance(inc["summary"], str)
+    # INC-01's summary must be repo-derived (verbatim "What happened:" text)
+    s1 = incs["INC-01"]["summary"]
+    assert len(s1) > 40, f"INC-01 summary too short: {s1!r}"
+    # verbatim words from the committed source
+    assert "container" in s1.lower(), s1
+    assert "Hugging Face" in incs["INC-01"]["summary"], "summary not verbatim source"
+
+
 def test_specific_incident_links_known_controls():
     # INC-33 (GhostJacking) coverage verdict names MS-11 as the new control
     g = _load_graph()
@@ -126,6 +141,29 @@ def test_rego_files_map_to_controls_by_filename():
     g = _load_graph()
     c = next(c for c in g["controls"] if c["id"] == "TP-15")
     assert c["rego"] == "shield_ai_tp_tp-15.rego", c["rego"]
+
+
+def test_controls_carry_rego_policy_content():
+    """Drill-down into a control must expose the actual policy, not just a name.
+
+    Each control whose REGO exists embeds the policy source verbatim so the
+    viewer can render it (pre-block) -- a real REGO drill-down.
+    """
+    g = _load_graph()
+    for c in g["controls"]:
+        if not c["rego"]:
+            assert c.get("rego_content") in (None, ""), c["id"]
+            continue
+        bc = c.get("rego_content")
+        assert bc, f"{c['id']} (rego={c['rego']}) missing rego_content"
+        # verbatim policy source: begins with the package declaration
+        assert bc.lstrip().startswith("package "), c["id"]
+        # sanity: the policy is not a placeholder
+        assert len(bc) > 200, f"{c['id']} policy unexpectedly short ({len(bc)}b)"
+    # spot-check EE-01 against the on-disk file
+    c1 = next(c for c in g["controls"] if c["id"] == "EE-01")
+    disk = open(os.path.join(ROOT, "policies", c1["rego"]), encoding="utf-8").read()
+    assert c1["rego_content"] == disk, "rego_content must be verbatim from disk"
 
 
 # --- explore.py query helpers (drill-down / faceted / graph) ----------------
