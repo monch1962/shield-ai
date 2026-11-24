@@ -2,8 +2,8 @@ package shield_ai.tp.skill_plugin_payload_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) TP-14: Skill/Plugin Payload Integrity and Instruction-Channel Isolation
 # Pillar: TP -- Tool and Pipeline Security
@@ -46,11 +46,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "skill"])
-    field_undefined(input, ["action", "skill", "payload_signed"])
-    msg := "TP-14 deny: missing attestation for input.action.skill.payload_signed (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-14", ["action", "skill"], ["action", "skill", "payload_signed"])
 }
-
 deny contains msg if {
     applicable
     input.action.skill.payload_immutable == false
@@ -58,11 +55,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "skill"])
-    field_undefined(input, ["action", "skill", "payload_immutable"])
-    msg := "TP-14 deny: missing attestation for input.action.skill.payload_immutable (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-14", ["action", "skill"], ["action", "skill", "payload_immutable"])
 }
-
 deny contains msg if {
     applicable
     input.action.skill.runtime_fetch_channel == true
@@ -76,11 +70,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "skill"])
-    field_undefined(input, ["action", "skill", "privilege_scoped"])
-    msg := "TP-14 deny: missing attestation for input.action.skill.privilege_scoped (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-14", ["action", "skill"], ["action", "skill", "privilege_scoped"])
 }
-
 deny contains msg if {
     applicable
     input.action.skill.provenance_attested == false
@@ -88,11 +79,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "skill"])
-    field_undefined(input, ["action", "skill", "provenance_attested"])
-    msg := "TP-14 deny: missing attestation for input.action.skill.provenance_attested (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-14", ["action", "skill"], ["action", "skill", "provenance_attested"])
 }
-
 deny contains msg if {
     applicable
     input.action.skill.full_capability_granted == true
@@ -102,11 +90,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.skill.full_capability_granted == true
-    not field_undefined(input, ["action", "skill"])
-    field_undefined(input, ["action", "skill", "baseline_established"])
-    msg := "TP-14 deny: missing attestation for input.action.skill.baseline_established (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-14", ["action", "skill"], ["action", "skill", "baseline_established"])
 }
-
 allow if {
     count(deny) == 0
 }

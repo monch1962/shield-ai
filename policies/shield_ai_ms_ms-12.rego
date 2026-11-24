@@ -2,8 +2,8 @@ package shield_ai.ms.mcp_discovery_metadata_shared_cache_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) MS-12: MCP Discovery-Metadata and Shared-Cache Integrity
 # Pillar: MS -- Model Security
@@ -48,11 +48,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "discovery"])
-    field_undefined(input, ["action", "discovery", "instructions_length_limited"])
-    msg := "MS-12 deny: missing attestation for input.action.discovery.instructions_length_limited (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-12", ["action", "discovery"], ["action", "discovery", "instructions_length_limited"])
 }
-
 deny contains msg if {
     applicable
     input.action.discovery.instructions_isolated == false
@@ -60,11 +57,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "discovery"])
-    field_undefined(input, ["action", "discovery", "instructions_isolated"])
-    msg := "MS-12 deny: missing attestation for input.action.discovery.instructions_isolated (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-12", ["action", "discovery"], ["action", "discovery", "instructions_isolated"])
 }
-
 deny contains msg if {
     applicable
     input.action.discovery.shared_cache_cross_auth == true
@@ -74,11 +68,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.discovery.shared_cache_cross_auth == true
-    not field_undefined(input, ["action", "discovery"])
-    field_undefined(input, ["action", "discovery", "cache_provenance_signed"])
-    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_provenance_signed (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-12", ["action", "discovery"], ["action", "discovery", "cache_provenance_signed"])
 }
-
 deny contains msg if {
     applicable
     input.action.discovery.cache_scope_verified == false
@@ -86,11 +77,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "discovery"])
-    field_undefined(input, ["action", "discovery", "cache_scope_verified"])
-    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_scope_verified (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-12", ["action", "discovery"], ["action", "discovery", "cache_scope_verified"])
 }
-
 deny contains msg if {
     applicable
     input.action.discovery.cache_key_bound_to_identity == false
@@ -98,11 +86,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "discovery"])
-    field_undefined(input, ["action", "discovery", "cache_key_bound_to_identity"])
-    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_key_bound_to_identity (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-12", ["action", "discovery"], ["action", "discovery", "cache_key_bound_to_identity"])
 }
-
 deny contains msg if {
     applicable
     input.action.discovery.tool_metadata_baseline_drifted == true

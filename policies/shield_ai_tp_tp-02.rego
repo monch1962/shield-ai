@@ -2,8 +2,8 @@ package shield_ai.tp.tool_access_control
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) TP-02: Tool Access Control
 # Pillar: TP -- Tool and Pipeline Security
@@ -37,11 +37,8 @@ deny contains msg if {
     msg := sprintf("TP-02 deny: tool %q not on the agent's invocation-time allow-list", [input.action.tool])
 }
 deny contains msg if {
-    not field_undefined(input, ["action"])
-    field_undefined(input, ["action", "tool_allowed"])
-    msg := "TP-02 deny: missing attestation for input.action.tool_allowed (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-02", ["action"], ["action", "tool_allowed"])
 }
-
 allow if {
     count(deny) == 0
 }

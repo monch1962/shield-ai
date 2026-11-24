@@ -68,3 +68,17 @@ bad_schema_version(inp) if {
 field_undefined(inp, path) if {
     object.get(inp, path, "__shield_ai_missing__") == "__shield_ai_missing__"
 }
+
+# Centralized companion-deny predicate for the require_attested convention.
+# Produces the fail-closed message ONLY when the field's PARENT context exists
+# but the field itself is undefined. Conflates the two-unit shape that 37
+# policies each inlined (`not field_undefined(input,parent)` + the missing-field
+# deny + a duplicated message template) into one call. Fires only on omission:
+# a field that is present (true or false) is left to the control's own rules.
+attestation_deny(inp, cid, parent, path) = sprintf(
+    "%s deny: missing attestation for input.%s (unobserved -> fail closed)",
+    [cid, concat(".", path)],
+) if {
+    not field_undefined(inp, parent)
+    field_undefined(inp, path)
+}

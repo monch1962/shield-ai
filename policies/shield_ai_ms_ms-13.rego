@@ -2,8 +2,8 @@ package shield_ai.ms.transcript_and_conversation_authenticity
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) MS-13: Transcript and Conversation Authenticity
 # Pillar: MS -- Model Security
@@ -47,11 +47,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "transcript"])
-    field_undefined(input, ["action", "transcript", "model_output_signed"])
-    msg := "MS-13 deny: missing attestation for input.action.transcript.model_output_signed (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-13", ["action", "transcript"], ["action", "transcript", "model_output_signed"])
 }
-
 deny contains msg if {
     applicable
     input.action.transcript.verified_on_read == false
@@ -59,11 +56,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "transcript"])
-    field_undefined(input, ["action", "transcript", "verified_on_read"])
-    msg := "MS-13 deny: missing attestation for input.action.transcript.verified_on_read (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-13", ["action", "transcript"], ["action", "transcript", "verified_on_read"])
 }
-
 deny contains msg if {
     applicable
     input.action.transcript.chain_break == true
@@ -78,11 +72,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "transcript"])
-    field_undefined(input, ["action", "transcript", "store_verified"])
-    msg := "MS-13 deny: missing attestation for input.action.transcript.store_verified (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-13", ["action", "transcript"], ["action", "transcript", "store_verified"])
 }
-
 allow if {
     count(deny) == 0
 }

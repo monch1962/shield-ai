@@ -2,8 +2,8 @@ package shield_ai.ms.self_replication_barrier
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) MS-14: Self-Replication Barrier
 # Pillar: MS -- Model Security
@@ -48,11 +48,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.outbound.replication_match == true
-    not field_undefined(input, ["action", "outbound"])
-    field_undefined(input, ["action", "outbound", "quarantined"])
-    msg := "MS-14 deny: missing attestation for input.action.outbound.quarantined (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-14", ["action", "outbound"], ["action", "outbound", "quarantined"])
 }
-
 deny contains msg if {
     applicable
     input.action.outbound.replication_match == true
@@ -62,11 +59,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.outbound.replication_match == true
-    not field_undefined(input, ["action", "outbound"])
-    field_undefined(input, ["action", "outbound", "human_approved"])
-    msg := "MS-14 deny: missing attestation for input.action.outbound.human_approved (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-14", ["action", "outbound"], ["action", "outbound", "human_approved"])
 }
-
 deny contains msg if {
     applicable
     input.action.outbound.broadcast == true
@@ -76,11 +70,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.outbound.broadcast == true
-    not field_undefined(input, ["action", "outbound"])
-    field_undefined(input, ["action", "outbound", "human_signoff"])
-    msg := "MS-14 deny: missing attestation for input.action.outbound.human_signoff (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-14", ["action", "outbound"], ["action", "outbound", "human_signoff"])
 }
-
 deny contains msg if {
     applicable
     input.action.outbound.propagation_signal == true

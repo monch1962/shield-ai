@@ -2,8 +2,8 @@ package shield_ai.tp.in_process_code_execution_sandbox_sufficiency
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) TP-15: In-Process Code-Execution Sandbox Sufficiency
 # Pillar: TP -- Tool and Pipeline Security
@@ -47,11 +47,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "code"])
-    field_undefined(input, ["action", "code", "sandboxed_os_vm"])
-    msg := "TP-15 deny: missing attestation for input.action.code.sandboxed_os_vm (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-15", ["action", "code"], ["action", "code", "sandboxed_os_vm"])
 }
-
 deny contains msg if {
     applicable
     input.action.code.in_process_gate_sole_containment == true
@@ -79,11 +76,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.code.template_engine == true
-    not field_undefined(input, ["action", "code"])
-    field_undefined(input, ["action", "code", "template_render_isolated"])
-    msg := "TP-15 deny: missing attestation for input.action.code.template_render_isolated (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-15", ["action", "code"], ["action", "code", "template_render_isolated"])
 }
-
 allow if {
     count(deny) == 0
 }

@@ -2,8 +2,8 @@ package shield_ai.tp.agent_dependency_install_provenance
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) TP-13: Agent Dependency-Install Provenance Verification
 # Pillar: TP -- Tool and Pipeline Security
@@ -47,11 +47,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "dependency"])
-    field_undefined(input, ["action", "dependency", "registry_exists"])
-    msg := "TP-13 deny: missing attestation for input.action.dependency.registry_exists (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-13", ["action", "dependency"], ["action", "dependency", "registry_exists"])
 }
-
 deny contains msg if {
     applicable
     input.action.dependency.namespace_owned == false
@@ -59,11 +56,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "dependency"])
-    field_undefined(input, ["action", "dependency", "namespace_owned"])
-    msg := "TP-13 deny: missing attestation for input.action.dependency.namespace_owned (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-13", ["action", "dependency"], ["action", "dependency", "namespace_owned"])
 }
-
 deny contains msg if {
     applicable
     input.action.dependency.domain_registered == false
@@ -71,11 +65,8 @@ deny contains msg if {
 }
 deny contains msg if {
     applicable
-    not field_undefined(input, ["action", "dependency"])
-    field_undefined(input, ["action", "dependency", "domain_registered"])
-    msg := "TP-13 deny: missing attestation for input.action.dependency.domain_registered (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-13", ["action", "dependency"], ["action", "dependency", "domain_registered"])
 }
-
 deny contains msg if {
     applicable
     input.action.dependency.from_ingested_content == true
@@ -85,11 +76,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.dependency.from_ingested_content == true
-    not field_undefined(input, ["action", "dependency"])
-    field_undefined(input, ["action", "dependency", "allowlisted_or_approved"])
-    msg := "TP-13 deny: missing attestation for input.action.dependency.allowlisted_or_approved (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-13", ["action", "dependency"], ["action", "dependency", "allowlisted_or_approved"])
 }
-
 deny contains msg if {
     applicable
     input.action.dependency.doc_as_authoritative == true

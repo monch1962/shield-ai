@@ -2,8 +2,8 @@ package shield_ai.ds.destination_and_emergent_channel_egress_inventory
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) DS-08: Destination and Emergent-Channel Egress Inventory
 # Pillar: DS -- Data Security
@@ -40,21 +40,15 @@ deny contains msg if {
     msg := sprintf("DS-08 deny: agent %q egress to destination not on the payload-blind allow-list", [input.agent.id])
 }
 deny contains msg if {
-    not field_undefined(input, ["action", "egress"])
-    field_undefined(input, ["action", "egress", "destination_allowlisted"])
-    msg := "DS-08 deny: missing attestation for input.action.egress.destination_allowlisted (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "DS-08", ["action", "egress"], ["action", "egress", "destination_allowlisted"])
 }
-
 deny contains msg if {
     input.action.egress.channel_inventoried == false
     msg := sprintf("DS-08 deny: agent %q egress through an un-inventoried sink (channel not enumerated/mapped to a control)", [input.agent.id])
 }
 deny contains msg if {
-    not field_undefined(input, ["action", "egress"])
-    field_undefined(input, ["action", "egress", "channel_inventoried"])
-    msg := "DS-08 deny: missing attestation for input.action.egress.channel_inventoried (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "DS-08", ["action", "egress"], ["action", "egress", "channel_inventoried"])
 }
-
 deny contains msg if {
     input.action.egress.classifier_based == true
     msg := sprintf("DS-08 deny: agent %q egress rely on a content classifier rather than a payload-blind hard allow-list", [input.agent.id])
@@ -67,11 +61,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.egress.channel == "messaging"
-    not field_undefined(input, ["action", "egress"])
-    field_undefined(input, ["action", "egress", "invoker_attributed"])
-    msg := "DS-08 deny: missing attestation for input.action.egress.invoker_attributed (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "DS-08", ["action", "egress"], ["action", "egress", "invoker_attributed"])
 }
-
 deny contains msg if {
     input.action.egress.channel == "dns"
     input.action.egress.dns_resolver_allowlisted == false
@@ -79,11 +70,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.egress.channel == "dns"
-    not field_undefined(input, ["action", "egress"])
-    field_undefined(input, ["action", "egress", "dns_resolver_allowlisted"])
-    msg := "DS-08 deny: missing attestation for input.action.egress.dns_resolver_allowlisted (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "DS-08", ["action", "egress"], ["action", "egress", "dns_resolver_allowlisted"])
 }
-
 deny contains msg if {
     input.action.egress.channel == "rendered_media"
     input.action.egress.render_source_allowlisted == false
@@ -91,11 +79,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.egress.channel == "rendered_media"
-    not field_undefined(input, ["action", "egress"])
-    field_undefined(input, ["action", "egress", "render_source_allowlisted"])
-    msg := "DS-08 deny: missing attestation for input.action.egress.render_source_allowlisted (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "DS-08", ["action", "egress"], ["action", "egress", "render_source_allowlisted"])
 }
-
 allow if {
     count(deny) == 0
 }

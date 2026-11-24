@@ -2,8 +2,8 @@ package shield_ai.iam.taint_tracked_least_privilege_subagent_scoping
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) IAM-10: Taint-Tracked Least-Privilege Subagent Scoping
 # Pillar: IAM -- Identity and Access
@@ -49,11 +49,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.record.tainted == true
-    not field_undefined(input, ["action", "record"])
-    field_undefined(input, ["action", "record", "taint_marked"])
-    msg := "IAM-10 deny: missing attestation for input.action.record.taint_marked (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "IAM-10", ["action", "record"], ["action", "record", "taint_marked"])
 }
-
 deny contains msg if {
     applicable
     input.action.record.tainted == true
@@ -63,11 +60,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.record.tainted == true
-    not field_undefined(input, ["action", "record"])
-    field_undefined(input, ["action", "record", "field_level_scoped"])
-    msg := "IAM-10 deny: missing attestation for input.action.record.field_level_scoped (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "IAM-10", ["action", "record"], ["action", "record", "field_level_scoped"])
 }
-
 deny contains msg if {
     applicable
     input.action.record.tainted == true
@@ -84,11 +78,8 @@ deny contains msg if {
 deny contains msg if {
     applicable
     input.action.record.tainted == true
-    not field_undefined(input, ["action", "record"])
-    field_undefined(input, ["action", "record", "sanitisation_boundary_explicit"])
-    msg := "IAM-10 deny: missing attestation for input.action.record.sanitisation_boundary_explicit (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "IAM-10", ["action", "record"], ["action", "record", "sanitisation_boundary_explicit"])
 }
-
 allow if {
     count(deny) == 0
 }

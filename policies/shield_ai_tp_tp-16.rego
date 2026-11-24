@@ -2,8 +2,8 @@ package shield_ai.tp.tool_connection_and_launch_path_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) TP-16: Tool-Connection and Launch-Path Integrity
 # Pillar: TP -- Tool and Pipeline Security
@@ -49,11 +49,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.kind == "tool_connect"
-    not field_undefined(input, ["action", "connection"])
-    field_undefined(input, ["action", "connection", "auth_endpoint_origin_bound"])
-    msg := "TP-16 deny: missing attestation for input.action.connection.auth_endpoint_origin_bound (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-16", ["action", "connection"], ["action", "connection", "auth_endpoint_origin_bound"])
 }
-
 deny contains msg if {
     input.action.kind == "tool_connect"
     input.action.connection.auth_endpoint_validated_canonical == false
@@ -61,11 +58,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.kind == "tool_connect"
-    not field_undefined(input, ["action", "connection"])
-    field_undefined(input, ["action", "connection", "auth_endpoint_validated_canonical"])
-    msg := "TP-16 deny: missing attestation for input.action.connection.auth_endpoint_validated_canonical (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-16", ["action", "connection"], ["action", "connection", "auth_endpoint_validated_canonical"])
 }
-
 deny contains msg if {
     input.action.kind == "tool_launch"
     input.action.launch.command_allowlisted == false
@@ -73,11 +67,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.kind == "tool_launch"
-    not field_undefined(input, ["action", "launch"])
-    field_undefined(input, ["action", "launch", "command_allowlisted"])
-    msg := "TP-16 deny: missing attestation for input.action.launch.command_allowlisted (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "TP-16", ["action", "launch"], ["action", "launch", "command_allowlisted"])
 }
-
 deny contains msg if {
     input.action.kind == "tool_launch"
     input.action.launch.model_derived_command == true

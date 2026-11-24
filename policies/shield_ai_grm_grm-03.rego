@@ -2,8 +2,8 @@ package shield_ai.grm.ethical_use_policy
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) GRM-03: Ethical Use Policy
 # Pillar: GRM -- Governance and Risk Management
@@ -27,11 +27,8 @@ deny contains msg if {
     msg := sprintf("GRM-03 deny: action %q outside the documented acceptable-use boundary for agent %q", [input.action.tool, input.agent.id])
 }
 deny contains msg if {
-    not field_undefined(input, ["action"])
-    field_undefined(input, ["action", "acceptable"])
-    msg := "GRM-03 deny: missing attestation for input.action.acceptable (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "GRM-03", ["action"], ["action", "acceptable"])
 }
-
 deny contains msg if {
     input.action.high_risk_class
     not input.governance.policy.hitl_by_risk

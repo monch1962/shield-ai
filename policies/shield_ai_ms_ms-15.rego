@@ -2,8 +2,8 @@ package shield_ai.ms.cross_tenant_agent_memory_and_state
 
 import rego.v1
 
+import data.shield_ai.lib.attestation_deny
 import data.shield_ai.lib.bad_schema_version
-import data.shield_ai.lib.field_undefined
 
 # SHIELD-AI(TM) MS-15: Cross-Tenant Agent Memory and State Isolation
 # Pillar: MS -- Model Security
@@ -93,11 +93,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.kind == "memory_read"
-    not field_undefined(input, ["action"])
-    field_undefined(input, ["action", "connection_params_bound"])
-    msg := "MS-15 deny: missing attestation for input.action.connection_params_bound (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-15", ["action"], ["action", "connection_params_bound"])
 }
-
 deny contains msg if {
     input.action.kind == "memory_write"
     input.action.connection_params_bound == false
@@ -105,11 +102,8 @@ deny contains msg if {
 }
 deny contains msg if {
     input.action.kind == "memory_write"
-    not field_undefined(input, ["action"])
-    field_undefined(input, ["action", "connection_params_bound"])
-    msg := "MS-15 deny: missing attestation for input.action.connection_params_bound (unobserved -> fail closed)"
+    msg := data.shield_ai.lib.attestation_deny(input, "MS-15", ["action"], ["action", "connection_params_bound"])
 }
-
 allow if {
     count(deny) == 0
 }
