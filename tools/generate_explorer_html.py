@@ -235,9 +235,11 @@ function select(id,kind){
   } else if(kind==='gap'){
     html+=`<div class="kv"><div><b>Severity</b>${item.severity}</div><div><b>Controls</b></div></div><div>${(((item.controls||[]).map(c=>chip(c,'control')).join(' '))||'(none)')}</div>`;
     html+='<div class="kv"><div><b>Incidents</b></div></div><div>'+(((item.incidents||[]).map(i=>chip(i,'incident')).join(' '))||'(none)')+'</div>';
+    if(item.description) html+=`<p class="summary">${esc(item.description)}</p>`;
   } else if(kind==='exploit'){
     html+=`<div class="kv"><div><b>Gap</b>${item.id}</div><div><b>File</b>${item.file||''}</div></div>`;
     html+='<div class="kv"><div><b>Controls</b></div></div><div>'+(((item.controls||[]).map(c=>chip(c,'control')).join(' '))||'(none)')+'</div>';
+    if(item.description) html+=`<p class="summary">${esc(item.description)}</p>`;
   } else if(kind==='pillar'){
     html+=`<div class="kv"><div><b>Controls (${item.controls.length})</b></div></div><div>`+item.controls.map(c=>chip(c,'control')).join(' ')+'</div>';
   }

@@ -136,6 +136,21 @@ def test_gaps_carry_severity_and_control_links():
         assert isinstance(gap["controls"], list)
 
 
+def test_exploits_and_gaps_carry_narrative():
+    """Drill-down into a gap or exploit must show its own story (not just chips)."""
+    g = _load_graph()
+    ex = g["exploits"][0]
+    assert "description" in ex, "exploit missing description"
+    assert len(ex["description"]) > 40
+    # G1's narrative must be repo-derived (verbatim from its exploit file)
+    ex1 = next(e for e in g["exploits"] if e["id"] == "G1")
+    assert "execution environment" in ex1["description"].lower(), ex1["description"][:80]
+    # gap nodes (keyed 1:1 with exploits by G#) carry the same narrative
+    gap1 = next(x for x in g["gaps"] if x["id"] == "G1")
+    assert "description" in gap1 and len(gap1["description"]) > 40
+    assert gap1["description"] == ex1["description"], "gap/exploit descriptions should match"
+
+
 def test_rego_files_map_to_controls_by_filename():
     # shield_ai_<pillar>_<pillar>-NN.rego -> control id <PILLAR>-NN
     g = _load_graph()

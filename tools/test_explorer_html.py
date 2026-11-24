@@ -129,6 +129,18 @@ def test_viewer_renders_incident_narrative():
     assert "<p>" in html  # a paragraph element exists for narrative rendering
 
 
+def test_viewer_renders_gap_and_exploit_narrative():
+    """Drill-down into gaps/exploits must show their own narrative, not just chips."""
+    html = _html()
+    emb = _embedded(html)
+    # a gap and an exploit both carry a description
+    g0 = emb["gaps"][0]
+    e0 = emb["exploits"][0]
+    assert g0.get("description") and e0.get("description")
+    # the viewer renders the description for both kinds (paragraph region)
+    assert ".description" in html or "item.description" in html or ".summary" in html
+
+
 def test_viewer_renders_rego_policy_content():
     """Drill-down into a control must expose the full REGO policy body."""
     html = _html()

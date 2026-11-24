@@ -136,6 +136,11 @@ def load_exploits():
         gid = m.group(1) if m else fn.split("-")[0].strip("g0").join(["G", ""])
         if not m:
             gid = "G" + re.match(r"^g(\d+)", fn).group(1)
+        # verbatim narrative for drill-down: the "Nature of the exploit" section
+        description = ""
+        dm = re.search(r"## Nature of the exploit\s*(.+?)(?=\n## |\Z)", text, re.S)
+        if dm:
+            description = re.sub(r"\s+", " ", dm.group(1)).strip()
         # covering controls row: "MS-11 (P1, new v1.7), MIR-02 (P5, extended)"
         cm = re.search(r"\*\*Covering controls\*\*[^\n]*\|?\s*([^\n]*)", text)
         controls = [x.strip() for x in CONTROL_ID.findall(cm.group(1))] if cm and cm.group(1) else []
@@ -150,6 +155,7 @@ def load_exploits():
         out.append({
             "id": gid,
             "file": fn,
+            "description": description,  # verbatim narrative for drill-down
             "controls": controls,
             "incidents": incs,
             "severity": sev if sev in GAP_SEVERITY else "Medium",
@@ -190,6 +196,7 @@ def build_graph():
         gaps.append({
             "id": gid,
             "severity": ex["severity"] if ex else "Medium",
+            "description": ex["description"] if ex else "",
             "controls": sorted(set(controls_g)),
             "incidents": sorted(set(incidents_g)),
             "exploit": ex["file"] if ex else None,
