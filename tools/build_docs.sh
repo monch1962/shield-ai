@@ -101,6 +101,8 @@ build_doc reference-views/07-incident-summaries.md \
   "SHIELD-AI(TM) Incident Summaries -- 92 Catalogue Events in One Line Each"
 build_doc reference-views/12-control-deep-dives.md \
   "SHIELD-AI(TM) Control Deep Dives -- Real-World Examples and What to Look For"
+build_doc reference-views/13-input-payload-spec.md \
+  "SHIELD-AI(TM) Input Payload Specification -- Generating Evaluable JSON for the Policies"
 build_doc presentations/glossary.md \
   "SHIELD-AI Glossary -- Plain-Language Definitions"
 

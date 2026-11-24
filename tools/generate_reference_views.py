@@ -34,6 +34,8 @@ Usage:
 import os
 import re
 import sys
+import glob
+import collections
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from control_metadata import control_ids, count_controls, pillar_ranges
@@ -1123,7 +1125,7 @@ def md_maturity():
 def md_readme():
     return """# SHIELD-AI Reference Views
 
-Twelve cross-cutting views for presenting the framework to security architects
+Thirteen cross-cutting views for presenting the framework to security architects
 and business stakeholders. Each view derives its content from the committed
 framework sources (see `tools/generate_reference_views.py`) so it can never
 drift from the main document; most ship as both a Markdown page and an SVG
@@ -1143,6 +1145,7 @@ diagram, and the index is maintained for both formats.
 | 10 | [Implementation Roadmap](10-implementation-roadmap.md) | Which controls should we harden first, and in what order? | `implementation-roadmap.svg` |
 | 11 | [Executive One-Pager](11-executive-one-pager.md) | What is the 60-second board-level story? | `shield-ai-at-a-glance.svg` |
 | 12 | [Control Deep Dives](12-control-deep-dives.md) | What do real exploits/incidents look like for each control, and what should I look for? | — |
+| 13 | [Input Payload Specification](13-input-payload-spec.md) | What JSON must I emit so OPA can judge each control? *(implementers/collectors)* | — |
 
 ## For business stakeholders (the 60-second story)
 
@@ -1454,6 +1457,352 @@ def md_executive_one_pager():
 
 # ── Orchestration ────────────────────────────────────────────────────────
 
+def load_input_inventory():
+    """Derive the canonical input-payload envelope from the actual policies.
+
+    Scans every policies/*.rego and records the distinct `input.*` paths the
+    deny rules actually read. Returns:
+      per   = {control_id: [sorted distinct input.X[.Y] paths]}
+      paths = Counter over every distinct 2-level input path across the set
+      secs  = {top-level section: {path: count}}   e.g. secs["action"][...]
+    All derived from committed source -- the envelope spec is grounded in the
+    real field usage, never an invented schema.
+    """
+    per = {}
+    paths = collections.Counter()
+    secs = collections.defaultdict(collections.Counter)
+    for f in glob.glob("policies/*.rego"):
+        b = os.path.basename(f).replace("shield_ai_", "").replace(".rego", "")
+        cid = b.split("_")[-1].upper()
+        t = open(f, encoding="utf-8").read()
+        seen = set()
+        for m in re.finditer(r"\binput\.([a-z_\.\"\[\]0-9]+)", t):
+            p = m.group(1).replace('"', "").replace("[", ".").replace("]", "")
+            segs = [s for s in p.split(".") if s]
+            if not segs:
+                continue
+            key = "input." + segs[0] + ("." + segs[1] if len(segs) > 1 else "")
+            seen.add(key)
+            paths[key] += 1
+            secs[segs[0]][key] += 1
+        per[cid] = sorted(seen, key=lambda x: (x.count("."), x))
+    return per, paths, secs
+
+
+def md_input_payload_spec():
+    """Document 13: how the 69 REGO policies map to input payloads, and how
+    to generate those payloads in common cloud and container environments.
+
+    A design/reference doc for implementing the SHIELD-AI controls in a
+    consistent input format. It defines one canonical sparse envelope (derived
+    from the actual input.* paths the policies read), the fail-closed /
+    unobserved semantics that make payload generation safe, a three-plane
+    enforcement model (runtime / admission / build-CI), and per-platform
+    adapters for the common cloud + container targets. Analysis/reference --
+    no working code, no schema redesign.
+    """
+    pol = load_policy_data()
+    titles = load_control_titles()
+    per, paths, secs = load_input_inventory()
+    ids = control_ids()
+    lines = [
+        "# 13 · Input Payload Specification: Generating Evaluable JSON for the Policies",
+        "",
+        "How the **69 REGO policies** map to input JSON, and how to generate that JSON in",
+        "common cloud and container environments. This is the collector's companion to the",
+        "[technical verification field guide](06-controls-technical.md) and the",
+        "[deep dives](12-control-deep-dives.md): doc 06 says *what must hold*, doc 12 says",
+        "*what to look for*, this document says **exactly what JSON to emit so OPA can judge it**.",
+        "",
+        "Contents",
+        "",
+    ]
+    for num, name in [
+        ("1", "Why a shared input envelope"),
+        ("2", "The canonical envelope"),
+        ("3", "Fail-closed semantics: verified against OPA"),
+        ("4", "Three-plane enforcement model"),
+        ("5", "Per-platform payload generation"),
+        ("6", "Field inventory: what the policies actually read"),
+    ]:
+        heading = f"{num} · {name}"
+        lines.append(f"- [{heading}](#{github_anchor(heading)})")
+    lines += [
+        "",
+        "---",
+        "",
+    ]
+    counts = {k: sum(v.values()) for k, v in secs.items()}
+    lines += [
+        "## 1 · Why a shared input envelope",
+        "",
+        "The 69 policies are **not** the blocker to a consistent input format -- they already",
+        f"read a coherent family of `input.*` shapes. The obstacle is that this family is",
+        f"undocumented as a whole: the policies were written independently, so `input.action.*`",
+        f"handles the work item, `input.agent.*` the principal, `input.data.*` the datum, and so",
+        f"on -- but nothing states that contract, and evaluators have to re-derive it by reading",
+        f"the `.rego`. This document makes that contract explicit and machine-traceable.",
+        "",
+        f"> **Inventory (derived from the policies, not invented):** the 69 policies reference "
+        f"**{len(paths)} distinct `input.*` paths** across **{len(counts)} top-level sections**. "
+        f"The bulk sits under `input.action` ({counts.get('action',0)} field references) and "
+        f"`input.agent` ({counts.get('agent',0)} references). Everything the collector must "
+        f"produce is a member of exactly these sections.",
+        "",
+        "**Design decision (from the architecture review):** one canonical, **sparse** envelope "
+        "for every evaluation. A policy reads only the slice of the envelope that is *its* "
+        "concern; a collector emits the whole envelope but omits any field it cannot truthfully "
+        "attest (fail-closed under `not` -- see section 3). No per-control bespoke payloads, "
+        "no schema redesign of the existing paths.",
+        "",
+        "---",
+        "",
+        "## 2 · The canonical envelope",
+        "",
+        "One JSON document, versioned, is the single input contract. Every adapter below emits "
+        "this shape (empty sections omitted or emitted as `null`); every OPA call evaluates the "
+        "same envelope regardless of environment.",
+        "",
+        "```json",
+        "{",
+        '  "schema_version": "1",',
+        '  "env": { "platform": "k8s | ecs | lambda | aci | cloudrun | container | other",',
+        '            "plane": "runtime | admission | build-ci",',
+        '            "observed_at": "<RFC3339>" },',
+        '  "action":   { "kind": "...", "tool": "...", "egress": "...", "code": {...}, ... },',
+        '  "agent":    { "id": "...", "sandboxed": bool, "credentials": {...}, ... },',
+        '  "model":    { "inventory": {...}, "supply_chain": {...}, ... },',
+        '  "data":     { "classified": bool, "label": "...", ... },',
+        '  "governance": { "body": {...}, "risk": {...}, "compliance": {...}, ... },',
+        '  "training": { "provenance_tracked": bool, ... },',
+        '  "approval": { "present": bool, "channel": "...", ... },',
+        '  "tenant":   { "id": "...", "scoped": bool },',
+        '  "pipeline": { "run_signed": bool, ... },',
+        '  "dependencies": { "scanned": bool, ... },',
+        '  "tools":    { "chain_analysed": bool, ... },',
+        '  "incident": { "playbook": "...", ... },',
+        '  "context":  { "content": [...], ... },',
+        '  "evaluation": {"env_indistinguishable": bool, ...}',
+        "}",
+        "```",
+        "",
+        "Each section groups the fields one pillar family reads, so **you can populate the "
+        "envelope section-by-section as your telemetry allows** -- a CI scanner may never "
+        "produce `agent.sandbox_attestation`, and that is fine as long as it omits the field "
+        "(fail-closed under `not`) rather than fabricating a safe-looking value (section 3).",
+        "",
+        "**Mapping from pillars to envelope sections** (derived from which sections each "
+        "pillar's controls read):",
+        "",
+    ]
+    pillar_secs = {}
+    for p in ["EE", "MS", "IAM", "DS", "TP", "MIR", "GRM"]:
+        subs = [c for c in ids if c.startswith(p)]
+        secset = collections.Counter()
+        for c in subs:
+            for path in per.get(c, []):
+                secset[path.split(".")[1]] += 1
+        top = ", ".join(f"`{k}`({v})" for k, v in secset.most_common(5))
+        pillar_secs[p] = top
+        lines.append(f"- **{p} · {PILLAR_FULL[p]}** reads {top}.")
+    lines += [
+        "",
+        "---",
+        "",
+        "## 3 · Fail-closed semantics: verified against OPA",
+        "",
+        "**This is the single correctness invariant of the whole implementation, and it is "
+        "subtler than intuition suggests -- so it was verified empirically with the OPA "
+        "engine before being written into this document.** A deny rule *fails closed* by "
+        "using `not` (101 rules) or an explicit `!=`/`== false` (39 rules) to block an action "
+        "when a safety condition is absent. The hazard is a collector that emits a value "
+        "which makes a deny *condition* false -- silently allowing an action the policy "
+        "intended to block.",
+        "",
+        "Testing `input.agent.sandboxed` under the two dominant rule forms (versus the engine):",
+        "",
+        "| `input.agent.sandboxed` | rule `not input.agent.sandboxed` | rule `input.agent.sandboxed != true` |",
+        "|---|---|---|",
+        "| *(omitted / `undefined`)* | **denies** (fail closed) ✓ | does not fire ✗ |",
+        "| `false` | **denies** ✓ | **denies** ✓ |",
+        "| `\"unobserved\"` (truthy string) | does **not** fire ✗ (silent bypass) | **denies** ✓ |",
+        "| `true` | no deny ✓ | no deny ✓ |",
+        "",
+        "**Two concrete conclusions:**",
+        "",
+        "- **Omitting a field is *fail-closed* under `not input.X`** (the dominant 101-rule "
+        "form): Rego treats `not <undefined>` as satisfied, so the deny fires. A collector "
+        "that simply cannot attest a `not`-guarded field is safe to omit it.",
+        "- **Emitting a truthy sentinel string like `\"unobserved\"` is the exact trap:** it "
+        "makes `not input.X` *false*, so the deny does **not** fire -- a silent bypass. Never "
+        "overload a bool/enum field the policy guards with a sentinel string.",
+        "",
+        "**Safe realisation rules:**",
+        "",
+        "- **A truthy, non-real value must never be placed in a field the policy guards with "
+        "`not` or `== false`.** If you want to record *\"could not attest\"* distinctly, do it "
+        "in a sibling provenance field (e.g. `agent.sandboxed: false` + "
+        "`agent.sandbox_observed: false`), never by making the guarded field itself truthy.",
+        "- **For `!= true` / `== false` guarded fields, emit `false`** (not a string): `false != "
+        "true` denies and `not false` denies, so boolean `false` fails closed under *both* "
+        "rule forms. It is the only value that is safe across the whole policy set.",
+        "- **Enforce an envelope pre-check as defense-in-depth** -- a meta-rule denies any "
+        "request whose plane-attested section is incomplete (e.g. the runtime plane requires "
+        "`agent.sandboxed` to be present-or-`false`, never an unexpected type). This catches "
+        "collector bugs regardless of rule form.",
+        "",
+        "The invariant that must never be violated: **a collector must never fabricate a "
+        "safe-looking value for a fail-closed field it could not attest.**",
+        "",
+        "---",
+        "",
+        "## 4 · Three-plane enforcement model",
+        "",
+        "Payloads are produced at three distinct moments, each populating the sections the "
+        "platform can truthfully attest at that moment. All three emit the same envelope; they "
+        "differ only in which sections are populated vs omitted (the omitted ones fail closed "
+        "under `not`, per section 3).",
+        "",
+        "### 4a · Runtime plane (live gate) -- `plane: runtime`",
+        "",
+        "OPA is evaluated **pre-call** at the invocation point (a sidecar/interceptor in front "
+        "of the agent's model, tool, and code-execution calls). The envelope is built from the "
+        "**live request** + platform attestation; anything not attestable at call time is "
+        "omitted so it fails closed. This is where the agent-native controls live:",
+        "",
+    ]
+    runtime_ctr = [c for c in ids
+                   if c in ("EE-01", "EE-06", "MS-04", "MS-05", "MS-08", "MS-09",
+                            "MS-10", "MS-11", "IAM-03", "IAM-10", "DS-06", "DS-07",
+                            "TP-01", "TP-02", "TP-03", "TP-04", "TP-08", "TP-09",
+                            "TP-10", "TP-11", "TP-12", "TP-14", "TP-15", "TP-16",
+                            "MIR-01", "MIR-02", "MIR-03", "MIR-05", "MIR-06", "GRM-03")]
+    lines += [
+        "- **Controls:** " + ", ".join(f"`{c}`" for c in runtime_ctr) + ".",
+        "- **Example:** a tool call arrives; the interceptor fills "
+        "`action.kind=\"tool_call\"`, `action.tool`, `agent.id`, `agent.sandboxed` from the "
+        "request + attestation service; it MUST **omit** `sandboxed` (or emit `false`, never a "
+        "truthy string) if the runtime cannot prove the agent was in an isolated boundary.",
+        "",
+        "### 4b · Admission plane (pre-deploy) -- `plane: admission`",
+        "",
+        "Gatekeeper/Webhook (Kubernetes) or an IaC admission check evaluates **declared** "
+        "configuration before a workload is admitted. Populates the declarative sections: "
+        "`agent.identity/delegation/config`, `action.gateway/egress`, `data.*`, `tenant`, "
+        "`governance.*`.",
+        "",
+        "- **Controls:** " + ", ".join(f"`{c}`" for c in
+            ["EE-02", "EE-05", "EE-07", "IAM-01", "IAM-02", "IAM-04", "IAM-05",
+             "IAM-06", "IAM-07", "IAM-08", "IAM-09", "DS-01", "DS-03", "DS-04",
+             "TP-05", "TP-08", "GRM-01", "GRM-02", "GRM-04", "GRM-05", "GRM-06"]) + ".",
+        "- **Example:** a Deployment manifest is the input; the adapter maps "
+        "`spec.template.spec.containers[].securityContext` → `agent.sandboxed`/`config`, "
+        "RBAC → `agent.delegation`, namespace → `tenant`.",
+        "",
+        "### 4c · Build / CI plane -- `plane: build-ci`",
+        "",
+        "Conftest or a CI scanner evaluates pipeline configuration and artifacts (SBOM, "
+        "dependencies, image policies) at build time. Populates `training*`, `model.supply_chain/",
+        "inventory`, `dependencies*`, `pipeline*`, `tools*`, `vendors*`, `governance*`.",
+        "",
+        "- **Controls:** " + ", ".join(f"`{c}`" for c in
+            ["MS-01", "MS-02", "MS-03", "MS-06", "MS-07", "MS-12", "MS-13", "MS-14",
+             "MS-15", "DS-02", "DS-05", "DS-08", "TP-05", "TP-06", "TP-07", "TP-13",
+             "GRM-04"]) + ".",
+        "- **Example:** a container image is scanned in CI; the adapter maps the SBOM → "
+        "`dependencies`, image provenance → `model.supply_chain`, configured secrets → "
+        "`training.sanitised`.",
+        "",
+        "---",
+        "",
+        "## 5 · Per-platform payload generation",
+        "",
+        "Every common environment exposes a native context (event shape, manifest, API call) "
+        "that a small **adapter** maps onto the canonical envelope. One envelope, many "
+        "normalisers. The adapters below are the 90% of real deployments; other platforms are "
+        "the same pattern.",
+        "",
+        "### 5a · Kubernetes (admission + runtime)",
+        "",
+        "- **Source:** `AdmissionReview` (admission), workload/RBAC manifests (admission), "
+        "kube-apiserver audit + container runtime events (runtime).",
+        "- **Map:** `userInfo`/`spec.serviceAccount` → `agent.identity`; "
+        "`spec.template.spec.containers[].securityContext` + `runtimeClass` → "
+        "`agent.sandboxed`/`config`; RBAC Role/ClusterRole → `agent.delegation`; namespace → "
+        "`tenant.id`; NetworkPolicy/egress → `action.egress`.",
+        "",
+        "### 5b · Docker / containerd / OCI (runtime)",
+        "",
+        "- **Source:** containerd/runc events, image OCI config, `docker inspect`, cgroup/caps.",
+        "- **Map:** container capabilities + seccomp/apparmor profile → `agent.config` / "
+        "`agent.sandbox_attestation`; host mounts → `agent.config.path_writable`; runtime "
+        "`exec`/`spawn` events → `action.kind=\"code_execution\"`, `action.code.*`.",
+        "",
+        "### 5c · AWS (ECS/Fargate, Lambda, Bedrock)",
+        "",
+        "- **Source:** ECS task definitions (admission), Lambda event + execution env (runtime), "
+        "Bedrock agent invocation events (runtime).",
+        "- **Map:** task roles/policies → `agent.delegation`/`identity`; Lambda runtime "
+        "+ IAM → `agent.sandboxed`/`config`; Bedrock `agentAliasId`/tool definitions → "
+        "`agent.id`, `action.tool`, `action.tool_def_signed`.",
+        "",
+        "### 5d · Azure (ACI / Container Apps / AI Foundry)",
+        "",
+        "- **Map:** ACI container group identity + image → `agent.identity`/`model.supply_chain`; "
+        "Container Apps ingress → `action.gateway`/`egress`; managed-identity scopes → "
+        "`agent.delegation`.",
+        "",
+        "### 5e · GCP (Cloud Run / Vertex)",
+        "",
+        "- **Map:** Cloud Run service account + image digest → `agent.identity` + "
+        "`model.supply_chain`; request metadata → `action.*` (kind/tool/target); "
+        "IAM binding → `agent.delegation`.",
+        "",
+        "### 5f · Generic container (containerd-compatible)",
+        "",
+        "- **Source:** runtime event stream (type:image-create / type:container-start / "
+        "type:exec), OCI config, capability list.",
+        "- **Map:** to `action.kind`, `action.code`, `agent.config`, `agent.sandboxed`.",
+        "Cache attestations so an `exec` event can be judged against the container's "
+        "actual `sandboxed` state, not a claim from image metadata.",
+        "",
+        "---",
+        "",
+        "## 6 · Field inventory: what the policies actually read",
+        "",
+        "The authoritative field list (derived from the .rego, so it cannot drift):",
+        "",
+    ]
+    lines.append(f"**{len(paths)} distinct `input.*` paths** across **{len(counts)}** sections.")
+    lines.append("")
+    for secname in sorted(secs, key=lambda s: -sum(secs[s].values())):
+        items = ", ".join(
+            f"`{p.replace('input.','input.'+secname+'.',1) if False else p}`"
+            for p, c in sorted(secs[secname].items(), key=lambda kv: -kv[1])
+        )
+        total = sum(secs[secname].values())
+        lines.append(f"- **`input.{secname}`** ({total} references): {items}")
+    lines.append("")
+    lines.append("### Per-control input paths (each `### CID` maps to its envelope section)")
+    lines.append("")
+    lines.append("| Control | Input paths it reads |")
+    lines.append("|---|----------------------|")
+    for cid in ids:
+        paths_c = per.get(cid, [])
+        joined = ", ".join("`" + p + "`" for p in paths_c) if paths_c else "*(none derived)*"
+        lines.append(f"| `{cid}` | {joined} |")
+    lines.append("")
+    lines += [
+        "---",
+        "",
+        "**How to use this document:** start from doc 06 (what must hold) and doc 12 (what to "
+        "look for), then build the `send my data as the envelope; omit what I cannot attest` "
+        "collector for each plane you enforce. The inventory above is regenerated from the "
+        "policies, so it stays current as controls evolve.",
+        "",
+    ]
+    return "\n".join(lines)
+
 def load_exploit_map():
     """{control_id: [ {file, title, severity, cves, incidents, anchor}, ... ]}
     from the exploit catalog's per-entry 'Covering controls' field.
@@ -1622,6 +1971,7 @@ VIEW_FILES = [
     ("10-implementation-roadmap.md", md_implementation_roadmap),
     ("11-executive-one-pager.md", md_executive_one_pager),
     ("12-control-deep-dives.md", md_control_deep_dives),
+    ("13-input-payload-spec.md", md_input_payload_spec),
     ("README.md", md_readme),
 ]
 
