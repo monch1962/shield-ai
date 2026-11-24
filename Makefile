@@ -10,7 +10,7 @@ PY    ?= python3
 OPA   ?= $(shell command -v opa 2>/dev/null || echo $(HOME)/.local/bin/opa)
 SKILL_SCRIPTS := $(HOME)/.hermes/profiles/sec-arch/skills/research/threat-informed-architecture-review/scripts
 
-.PHONY: help check rego-schema lint-spacing verify catalog gap-format dna latency framework-format reference-views test-gates test build
+.PHONY: help check rego-schema lint-spacing verify catalog gap-format dna latency framework-format reference-views explorer-graph explorer-html test-gates test build
 
 help:
 	@echo "SHIELD-AI local gates"
@@ -29,7 +29,7 @@ help:
 	@echo "  make test          OPA policy tests (policies/tests + demo/tests)"
 	@echo "  make build         full artifact pipeline (tools/update_all.sh)"
 
-check: reference-views rego-schema lint-spacing verify catalog gap-format dna feed-misfits latency framework-format test test-gates
+check: reference-views explorer-graph explorer-html rego-schema lint-spacing verify catalog gap-format dna feed-misfits latency framework-format test test-gates
 	@echo ""
 	@echo "All gates passed."
 
@@ -60,12 +60,21 @@ framework-format:
 reference-views:
 	$(PY) tools/generate_reference_views.py --check
 
+explorer-graph:
+	$(PY) tools/generate_explorer_graph.py --check
+	$(PY) tools/test_explorer_graph.py
+
+explorer-html:
+	$(PY) tools/generate_explorer_html.py --check
+	$(PY) tools/test_explorer_html.py
+
 feed-misfits:
 	$(PY) tools/check_feed_misfits.py
 	$(PY) tools/collect_feed.py >/dev/null
 
 test-gates:
 	$(PY) tools/test_evolution_gates.py
+	$(PY) tools/test_explorer_graph.py
 
 test:
 	$(OPA) test policies policies/tests demo/policies demo/tests

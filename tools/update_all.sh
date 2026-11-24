@@ -10,6 +10,9 @@
 #   1. Control schema JSON + Rego stubs   (tools/generate_control_schema.py)
 #   2. Architecture + threat diagrams     (tools/generate_diagrams.py)
 #   3. Implementation diagrams            (tools/generate_impl_diagrams.py)
+#   3b. Reference views                   (tools/generate_reference_views.py)
+#   3c. Explorer graph + interactive HTML (tools/generate_explorer_graph.py,
+#                                          tools/generate_explorer_html.py)
 #   4. Core docs -> PDF + EPUB            (tools/build_docs.sh)
 #   5. HTML deck PDFs via decktape        (board, business, bridge, technical)
 #   6. Client decks + walkthrough PPTX    (build_deck.py x5)
@@ -68,6 +71,12 @@ step "3/10  Implementation diagrams"
 
 # --- 3b. Reference views (pillar/incident/AU-framework/maturity maps) ---
 "$PY" tools/generate_reference_views.py || FAILED+=("reference-views")
+# --- 3c. Explorer graph + interactive HTML (regenerated EVERY cycle so
+#         shield_ai_explorer.html always tracks the current sources; the make check
+#         freshness gates then confirm the committed files match) ---
+"$PY" tools/generate_explorer_graph.py --write || FAILED+=("explorer-graph")
+"$PY" tools/generate_explorer_html.py --write || FAILED+=("explorer-html")
+
 
 # --- 4. Core docs -> PDF + EPUB (deep-review glob included) ---
 step "4/10  Core docs (PDF + EPUB)"
