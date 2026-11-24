@@ -2,6 +2,8 @@ package shield_ai.mir.incident_response_playbooks
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MIR-04: Incident Response Playbooks
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -14,6 +16,12 @@ import rego.v1
 # | tool_abuse | code_generation | other). Fail closed: an incident without a
 # playbook or containment step is not acknowledged as handled.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-04"])
+}
 
 deny contains msg if {
     input.incident.acknowledged == true

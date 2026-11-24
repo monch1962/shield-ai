@@ -2,6 +2,8 @@ package shield_ai.tp.agent_browser_and_content_rend
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-11: Agent Browser and Content-Rendering Isolation
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -22,6 +24,12 @@ import rego.v1
 # Input model: input.action.cross_origin (bool), input.action.privileged (bool),
 # input.action.kind == "document_render", input.action.document_sanitized (bool),
 # input.approval.present (bool). Fail closed on missing flags.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-11"])
+}
 
 deny contains msg if {
     input.action.cross_origin == true

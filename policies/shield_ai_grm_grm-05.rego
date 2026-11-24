@@ -2,6 +2,8 @@ package shield_ai.grm.regulatory_mapping_and_complia
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) GRM-05: Regulatory Mapping and Compliance Reporting
 # Pillar: GRM -- Governance and Risk Management
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "quarterly_reported": bool}. Compliance posture must be machine-mapped and
 # reported on the framework's cadence.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["GRM-05"])
+}
 
 deny contains msg if {
     input.action.kind == "deployment"

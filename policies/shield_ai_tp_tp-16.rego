@@ -2,6 +2,9 @@ package shield_ai.tp.tool_connection_and_launch_path_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) TP-16: Tool-Connection and Launch-Path Integrity
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -27,6 +30,12 @@ import rego.v1
 # primitive; the authorization endpoint is origin-bound and validated on its
 # canonical value.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-16"])
+}
+
 deny contains msg if {
     input.action.kind == "tool_connect"
     input.action.connection.transport_metadata_to_launch == true
@@ -38,17 +47,35 @@ deny contains msg if {
     input.action.connection.auth_endpoint_origin_bound == false
     msg := sprintf("TP-16 deny: agent %q authorization endpoint is not origin-bound to the configured server", [input.agent.id])
 }
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    not field_undefined(input, ["action", "connection"])
+    field_undefined(input, ["action", "connection", "auth_endpoint_origin_bound"])
+    msg := "TP-16 deny: missing attestation for input.action.connection.auth_endpoint_origin_bound (unobserved -> fail closed)"
+}
 
 deny contains msg if {
     input.action.kind == "tool_connect"
     input.action.connection.auth_endpoint_validated_canonical == false
     msg := sprintf("TP-16 deny: agent %q accepts the server-advertised authorization endpoint without validating the canonical processed value against the configured origin", [input.agent.id])
 }
+deny contains msg if {
+    input.action.kind == "tool_connect"
+    not field_undefined(input, ["action", "connection"])
+    field_undefined(input, ["action", "connection", "auth_endpoint_validated_canonical"])
+    msg := "TP-16 deny: missing attestation for input.action.connection.auth_endpoint_validated_canonical (unobserved -> fail closed)"
+}
 
 deny contains msg if {
     input.action.kind == "tool_launch"
     input.action.launch.command_allowlisted == false
     msg := sprintf("TP-16 deny: agent %q launch command registered through a tool/server definition is not on the allowlist", [input.agent.id])
+}
+deny contains msg if {
+    input.action.kind == "tool_launch"
+    not field_undefined(input, ["action", "launch"])
+    field_undefined(input, ["action", "launch", "command_allowlisted"])
+    msg := "TP-16 deny: missing attestation for input.action.launch.command_allowlisted (unobserved -> fail closed)"
 }
 
 deny contains msg if {

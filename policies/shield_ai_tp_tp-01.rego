@@ -2,6 +2,8 @@ package shield_ai.tp.tool_inventory_and_registry
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-01: Tool Inventory and Registry
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -38,6 +40,12 @@ registered_tools := {
 
 deny contains "TP-01 deny: action has no tool to check against the registry" if {
     not input.action.tool
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-01"])
 }
 
 deny contains msg if {

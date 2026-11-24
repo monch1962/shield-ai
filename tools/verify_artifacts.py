@@ -246,7 +246,10 @@ def main():
         check(f"doc 07 'full detail' links resolve in gap-analysis (broken: {_bad_deep})", not _bad_deep)
 
     # 5. Rego + schema counts
-    rego = len([f for f in os.listdir("policies") if f.endswith(".rego")])
+    # shield_ai_lib.rego is an auxiliary shared registry, not a control policy,
+    # so it is excluded from the control count (69 controls -> 70 .rego files).
+    rego = len([f for f in os.listdir("policies")
+                if f.endswith(".rego") and f != "shield_ai_lib.rego"])
     check(f"policies/*.rego count == {EXPECTED_COUNT} (found {rego})", rego == EXPECTED_COUNT)
     schema_doc = json.load(open("assets/shield-ai-control-schema.json", encoding="utf-8"))
     schema = schema_doc.get("controls", schema_doc)
@@ -283,6 +286,7 @@ def main():
     implemented = sorted(
         f for f in os.listdir("policies")
         if f.endswith(".rego")
+        and f != "shield_ai_lib.rego"
         and "# TODO: Implement control test logic"
         not in open(os.path.join("policies", f), encoding="utf-8").read()
     )

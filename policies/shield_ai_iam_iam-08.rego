@@ -2,6 +2,8 @@ package shield_ai.iam.credential_scope_narrowing
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-08: Credential Scope Narrowing
 # Pillar: IAM -- Identity and Access
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "broad_role": bool, "short_lived": bool}. Broad service roles are denied;
 # credentials without per-tool scope or short lifetimes fail closed.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-08"])
+}
 
 deny contains msg if {
     input.agent.credentials.broad_role == true

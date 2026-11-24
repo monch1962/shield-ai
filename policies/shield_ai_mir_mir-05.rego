@@ -2,6 +2,8 @@ package shield_ai.mir.mandatory_reporting_integratio
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MIR-05: Mandatory Reporting Integration
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -17,6 +19,12 @@ import rego.v1
 # Input model: input.action.incident (bool); input.action.reporting_triggered
 # (bool). Any confirmed incident must trigger the regulatory reporting path
 # (SOCI 12-hour / APRA 72-hour windows); fail closed on a missing trigger.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-05"])
+}
 
 deny contains msg if {
     input.action.incident == true

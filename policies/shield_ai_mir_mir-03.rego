@@ -2,6 +2,8 @@ package shield_ai.mir.prompt_audit_log
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MIR-03: Prompt Audit Log
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -18,6 +20,12 @@ import rego.v1
 # prompt content; input.action.prompt_captured (bool);
 # input.action.prompt_redacted (bool). Sensitive prompt/response pairs must
 # be captured and redacted before SIEM ingestion.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-03"])
+}
 
 deny contains msg if {
     input.action.sensitive == true

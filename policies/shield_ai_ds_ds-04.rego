@@ -2,6 +2,8 @@ package shield_ai.ds.data_minimisation
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-04: Data Minimisation
 # Pillar: DS -- Data Security
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "abac_enforced": bool}. Bulk data access is denied; retrieval without
 # field-level filtering or ABAC fails closed.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-04"])
+}
 
 deny contains msg if {
     input.data.access.bulk == true

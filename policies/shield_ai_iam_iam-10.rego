@@ -2,6 +2,9 @@ package shield_ai.iam.taint_tracked_least_privilege_subagent_scoping
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) IAM-10: Taint-Tracked Least-Privilege Subagent Scoping
 # Pillar: IAM -- Identity and Access
 #
@@ -26,32 +29,64 @@ import rego.v1
 # must be taint-scoped to field-level least privilege and must not cascade into
 # untainted sensitive collections.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-10"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "data_read"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.record.tainted == true
     input.action.record.taint_marked == false
     msg := sprintf("IAM-10 deny: agent %q processed an externally-submitted record that was not taint-marked at ingestion", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.record.tainted == true
+    not field_undefined(input, ["action", "record"])
+    field_undefined(input, ["action", "record", "taint_marked"])
+    msg := "IAM-10 deny: missing attestation for input.action.record.taint_marked (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "data_read"
+    applicable
     input.action.record.tainted == true
     input.action.record.field_level_scoped == false
     msg := sprintf("IAM-10 deny: agent %q reads a tainted record without field-level least-privilege scoping (must be narrower than nominal grants)", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.record.tainted == true
+    not field_undefined(input, ["action", "record"])
+    field_undefined(input, ["action", "record", "field_level_scoped"])
+    msg := "IAM-10 deny: missing attestation for input.action.record.field_level_scoped (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "data_read"
+    applicable
     input.action.record.tainted == true
     input.action.record.cascades_to_sensitive == true
     msg := sprintf("IAM-10 deny: agent %q tainted read cascades into an untainted sensitive collection beyond the immediate task; blocked", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "data_read"
+    applicable
     input.action.record.tainted == true
     input.action.record.sanitisation_boundary_explicit == false
     msg := sprintf("IAM-10 deny: agent %q processed a tainted record where the untrusted/trusted sanitisation boundary is not an explicit access-control decision", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    input.action.record.tainted == true
+    not field_undefined(input, ["action", "record"])
+    field_undefined(input, ["action", "record", "sanitisation_boundary_explicit"])
+    msg := "IAM-10 deny: missing attestation for input.action.record.sanitisation_boundary_explicit (unobserved -> fail closed)"
 }
 
 allow if {

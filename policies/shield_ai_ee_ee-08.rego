@@ -2,6 +2,8 @@ package shield_ai.ee.evaluation_harness_isolation_a
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) EE-08: Evaluation-Harness Isolation and Integrity
 # Pillar: EE -- Execution Environment
 #
@@ -23,20 +25,31 @@ import rego.v1
 # input.harness = {"egress_block_verified": bool, "target_collision_checked": bool,
 # "run_isolated": bool}. Fail closed: no verified egress block, no evaluation.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["EE-08"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "evaluation_run"
+}
+
+
+deny contains msg if {
+    applicable
     not input.harness.egress_block_verified
     msg := "EE-08 deny: evaluation run without a verified egress block (isolation asserted, not enforced)"
 }
 
 deny contains msg if {
-    input.action.kind == "evaluation_run"
+    applicable
     not input.harness.target_collision_checked
     msg := "EE-08 deny: evaluation run without target collision-checking against real domains and assets"
 }
 
 deny contains msg if {
-    input.action.kind == "evaluation_run"
+    applicable
     not input.harness.run_isolated
     msg := "EE-08 deny: evaluation run without cross-run separation (contamination risk)"
 }

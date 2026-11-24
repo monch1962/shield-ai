@@ -2,6 +2,9 @@ package shield_ai.ds.destination_and_emergent_channel_egress_inventory
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) DS-08: Destination and Emergent-Channel Egress Inventory
 # Pillar: DS -- Data Security
 #
@@ -26,14 +29,30 @@ import rego.v1
 # rendered rich media/messaging-unfurl/browser) must be mapped to an explicit
 # control, verified by a payload-blind hard allow-list, not a content classifier.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-08"])
+}
+
 deny contains msg if {
     input.action.egress.destination_allowlisted == false
     msg := sprintf("DS-08 deny: agent %q egress to destination not on the payload-blind allow-list", [input.agent.id])
+}
+deny contains msg if {
+    not field_undefined(input, ["action", "egress"])
+    field_undefined(input, ["action", "egress", "destination_allowlisted"])
+    msg := "DS-08 deny: missing attestation for input.action.egress.destination_allowlisted (unobserved -> fail closed)"
 }
 
 deny contains msg if {
     input.action.egress.channel_inventoried == false
     msg := sprintf("DS-08 deny: agent %q egress through an un-inventoried sink (channel not enumerated/mapped to a control)", [input.agent.id])
+}
+deny contains msg if {
+    not field_undefined(input, ["action", "egress"])
+    field_undefined(input, ["action", "egress", "channel_inventoried"])
+    msg := "DS-08 deny: missing attestation for input.action.egress.channel_inventoried (unobserved -> fail closed)"
 }
 
 deny contains msg if {
@@ -46,17 +65,35 @@ deny contains msg if {
     input.action.egress.invoker_attributed == false
     msg := sprintf("DS-08 deny: agent %q messaging egress lacks invoker attribution and user confirmation", [input.agent.id])
 }
+deny contains msg if {
+    input.action.egress.channel == "messaging"
+    not field_undefined(input, ["action", "egress"])
+    field_undefined(input, ["action", "egress", "invoker_attributed"])
+    msg := "DS-08 deny: missing attestation for input.action.egress.invoker_attributed (unobserved -> fail closed)"
+}
 
 deny contains msg if {
     input.action.egress.channel == "dns"
     input.action.egress.dns_resolver_allowlisted == false
     msg := sprintf("DS-08 deny: agent %q DNS egress is not restricted to allow-listed resolvers with inspected names", [input.agent.id])
 }
+deny contains msg if {
+    input.action.egress.channel == "dns"
+    not field_undefined(input, ["action", "egress"])
+    field_undefined(input, ["action", "egress", "dns_resolver_allowlisted"])
+    msg := "DS-08 deny: missing attestation for input.action.egress.dns_resolver_allowlisted (unobserved -> fail closed)"
+}
 
 deny contains msg if {
     input.action.egress.channel == "rendered_media"
     input.action.egress.render_source_allowlisted == false
     msg := sprintf("DS-08 deny: agent %q rendered rich-media source is not on the destination allow-list", [input.agent.id])
+}
+deny contains msg if {
+    input.action.egress.channel == "rendered_media"
+    not field_undefined(input, ["action", "egress"])
+    field_undefined(input, ["action", "egress", "render_source_allowlisted"])
+    msg := "DS-08 deny: missing attestation for input.action.egress.render_source_allowlisted (unobserved -> fail closed)"
 }
 
 allow if {

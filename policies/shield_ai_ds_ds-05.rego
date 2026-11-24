@@ -2,6 +2,8 @@ package shield_ai.ds.training_data_governance
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-05: Training Data Governance
 # Pillar: DS -- Data Security
 #
@@ -13,21 +15,32 @@ import rego.v1
 # input.training.consent_verified (bool).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-05"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "training_run"
+}
+
+
+deny contains msg if {
+    applicable
     not input.training.governance.lineage
     msg := "DS-05 deny: training run without dataset lineage tracking"
 }
 
 deny contains msg if {
-    input.action.kind == "training_run"
+    applicable
     input.training.personal_data == true
     not input.training.consent_verified
     msg := "DS-05 deny: training run on personal data without verified consent"
 }
 
 deny contains msg if {
-    input.action.kind == "training_run"
+    applicable
     not input.training.governance.retention_limited
     msg := "DS-05 deny: training run without retention limits on source datasets"
 }

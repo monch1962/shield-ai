@@ -2,6 +2,8 @@ package shield_ai.ms.agent_memory_store_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-10: Agent Memory-Store Integrity
 # Pillar: MS -- Model Security
 #
@@ -26,14 +28,25 @@ import rego.v1
 # Writes must be authenticated and tamper-evident; a store with tamper evidence
 # is treated as compromised.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-10"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "memory_write"
+}
+
+
+deny contains msg if {
+    applicable
     not input.agent.memory.write_auth
     msg := sprintf("MS-10 deny: memory-store write by agent %q is unauthenticated", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "memory_write"
+    applicable
     input.agent.memory.tamper_evidence == true
     msg := sprintf("MS-10 deny: memory-store write by agent %q carries tamper evidence; store must be treated as compromised", [input.agent.id])
 }

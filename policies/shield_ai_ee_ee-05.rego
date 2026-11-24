@@ -2,6 +2,8 @@ package shield_ai.ee.host_trusted_configuration_fil
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) EE-05: Host-Trusted Configuration File Injection Prevention
 # Pillar: EE -- Execution Environment
 #
@@ -36,6 +38,12 @@ host_trusted_paths := {
     "node_modules/.bin",
     "crontab",
     "/etc/systemd/",
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["EE-05"])
 }
 
 deny contains msg if {

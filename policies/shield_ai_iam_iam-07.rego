@@ -2,6 +2,8 @@ package shield_ai.iam.transitive_delegation_chain_en
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-07: Transitive Delegation Chain Enforcement
 # Pillar: IAM -- Identity and Access
 #
@@ -13,6 +15,12 @@ import rego.v1
 # is enforced at the infrastructure layer; chains must be reconstructable
 # from audit logs.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-07"])
+}
 
 deny contains msg if {
     input.agent.delegation.hops > input.agent.delegation.max_hops

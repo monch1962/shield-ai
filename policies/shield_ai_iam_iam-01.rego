@@ -2,6 +2,8 @@ package shield_ai.iam.agent_identity_management
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-01: Agent Identity Management
 # Pillar: IAM -- Identity and Access
 #
@@ -11,6 +13,12 @@ import rego.v1
 # Input model: input.agent.identity = {"unique": bool, "auditable": bool}.
 # Fail closed: shared or unauditable identity denies the action.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-01"])
+}
 
 deny contains msg if {
     not input.agent.identity.unique

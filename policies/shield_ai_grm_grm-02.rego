@@ -2,6 +2,8 @@ package shield_ai.grm.ai_risk_register
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) GRM-02: AI Risk Register
 # Pillar: GRM -- Governance and Risk Management
 #
@@ -13,6 +15,12 @@ import rego.v1
 # Input model: input.governance.risk = {"registered": bool,
 # "kill_switch_tested": bool}; input.action.high_risk_class (string).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["GRM-02"])
+}
 
 deny contains msg if {
     input.action.high_risk_class

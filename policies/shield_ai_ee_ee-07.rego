@@ -2,6 +2,8 @@ package shield_ai.ee.agent_control_plane_configurat
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) EE-07: Agent Control-Plane Configuration Integrity
 # Pillar: EE -- Execution Environment
 #
@@ -34,6 +36,12 @@ control_plane_paths := {
     "mcp.json",
     ".mcp.json",
     "settings.json",
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["EE-07"])
 }
 
 deny contains msg if {

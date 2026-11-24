@@ -2,6 +2,9 @@ package shield_ai.tp.in_process_code_execution_sandbox_sufficiency
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) TP-15: In-Process Code-Execution Sandbox Sufficiency
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -26,35 +29,59 @@ import rego.v1
 # code must execute in an OS/VM-isolated boundary; an in-process denylist gate as
 # sole containment, or a same-process context sharing memory, is a deny.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-15"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "code_execution"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.code.sandboxed_os_vm == false
     msg := sprintf("TP-15 deny: code execution by agent %q runs LLM-generated/untrusted code outside an OS/VM-isolated boundary", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "code"])
+    field_undefined(input, ["action", "code", "sandboxed_os_vm"])
+    msg := "TP-15 deny: missing attestation for input.action.code.sandboxed_os_vm (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "code_execution"
+    applicable
     input.action.code.in_process_gate_sole_containment == true
     msg := sprintf("TP-15 deny: code execution by agent %q relies on an in-process denylist/blocklist gate as the sole containment; structurally bypassable", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "code_execution"
+    applicable
     input.action.code.shared_memory_context == true
     msg := sprintf("TP-15 deny: code execution by agent %q separates trust by an in-process context that shares a memory heap; not a security boundary (Codex Heapjack class)", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "code_execution"
+    applicable
     input.action.code.in_process_gate_high_risk_unblocked == true
     msg := sprintf("TP-15 deny: code execution by agent %q uses an in-process sandbox not treated as the HIGH-RISK dependency class with blocking on critical findings", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "code_execution"
+    applicable
     input.action.code.template_engine == true
     input.action.code.template_render_isolated == false
     msg := sprintf("TP-15 deny: code execution by agent %q runs a chat-template/rendering-template engine as a code surface without EE-01-grade render isolation (CPython/Jinja template-escape class)", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    input.action.code.template_engine == true
+    not field_undefined(input, ["action", "code"])
+    field_undefined(input, ["action", "code", "template_render_isolated"])
+    msg := "TP-15 deny: missing attestation for input.action.code.template_render_isolated (unobserved -> fail closed)"
 }
 
 allow if {

@@ -2,6 +2,8 @@ package shield_ai.iam.human_oversight_controls
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-03: Human Oversight Controls
 # Pillar: IAM -- Identity and Access
 #
@@ -24,6 +26,12 @@ import rego.v1
 # "channel": "human_console" | "agent" | "session_history" | ...}.
 # Approval evidence from session/event history is never valid (forged-approval
 # class); agent-invoked approvals never cover financial actions.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-03"])
+}
 
 deny contains msg if {
     input.action.high_risk_class

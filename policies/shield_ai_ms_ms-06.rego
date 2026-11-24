@@ -2,6 +2,8 @@ package shield_ai.ms.model_inventory_and_lineage_tr
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-06: Model Inventory and Lineage Tracking
 # Pillar: MS -- Model Security
 #
@@ -12,20 +14,31 @@ import rego.v1
 # "versioned": bool}. Fail closed: an unregistered model is not deployable.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-06"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "model_deploy"
+}
+
+
+deny contains msg if {
+    applicable
     not input.model.inventory.registered
     msg := sprintf("MS-06 deny: model %q not registered in the model inventory", [input.model.id])
 }
 
 deny contains msg if {
-    input.action.kind == "model_deploy"
+    applicable
     not input.model.inventory.lineage_tracked
     msg := sprintf("MS-06 deny: model %q has no traceable lineage", [input.model.id])
 }
 
 deny contains msg if {
-    input.action.kind == "model_deploy"
+    applicable
     not input.model.inventory.versioned
     msg := sprintf("MS-06 deny: model %q has no version record", [input.model.id])
 }

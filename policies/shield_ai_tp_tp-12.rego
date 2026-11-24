@@ -2,6 +2,8 @@ package shield_ai.tp.tool_call_provenance_and_dispa
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-12: Tool-Call Provenance and Dispatch Verification
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -27,26 +29,37 @@ import rego.v1
 # Fail closed: no provenance, no dispatch. Approval records must bind to the
 # exact tool being dispatched (forged-approval class).
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-12"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "dispatch"
+}
+
+
+deny contains msg if {
+    applicable
     not input.action.provenance.session
     msg := "TP-12 deny: dispatch without session provenance (fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "dispatch"
+    applicable
     not input.action.provenance.turn
     msg := "TP-12 deny: dispatch without turn provenance (fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "dispatch"
+    applicable
     not input.action.provenance.model_sig
     msg := "TP-12 deny: dispatch without model signature (fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "dispatch"
+    applicable
     input.approval.present == true
     input.approval.bound_tool != input.action.tool
     msg := sprintf("TP-12 deny: approval bound to %q does not match dispatched tool %q (forged-approval class)", [input.approval.bound_tool, input.action.tool])

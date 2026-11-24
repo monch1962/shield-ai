@@ -2,6 +2,8 @@ package shield_ai.iam.multi_tenant_agent_platform_is
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-09: Multi-Tenant Agent Platform Isolation
 # Pillar: IAM -- Identity and Access
 #
@@ -14,6 +16,12 @@ import rego.v1
 # object ID supplied by the caller. User-controlled object IDs must never
 # bypass tenant scoping (CWE-639).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-09"])
+}
 
 deny contains msg if {
     not input.tenant.scoped

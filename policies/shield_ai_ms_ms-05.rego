@@ -2,6 +2,8 @@ package shield_ai.ms.model_behaviour_validation
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-05: Model Behaviour Validation
 # Pillar: MS -- Model Security
 #
@@ -13,14 +15,25 @@ import rego.v1
 # within the agent's configured behaviour scope.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-05"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "output_delivery"
+}
+
+
+deny contains msg if {
+    applicable
     not input.action.guardrail_evaluated
     msg := sprintf("MS-05 deny: output by agent %q not evaluated by proxy-layer guardrails (fail closed)", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "output_delivery"
+    applicable
     not input.action.scope_compliant
     msg := sprintf("MS-05 deny: output by agent %q outside its configured behaviour scope", [input.agent.id])
 }

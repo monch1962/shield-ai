@@ -2,6 +2,8 @@ package shield_ai.tp.explicit_tool_registration
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-09: Explicit Tool Registration
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -22,6 +24,12 @@ import rego.v1
 # Input model: input.action.kind in {"tool_call","dispatch"};
 # input.action.registration ("explicit" | "auto"); input.action.tool.
 # Fail closed: a tool invocation without explicit registration is denied.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-09"])
+}
 
 deny contains msg if {
     input.action.kind in {"tool_call", "dispatch"}

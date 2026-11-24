@@ -2,6 +2,8 @@ package shield_ai.mir.agent_activity_logging
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MIR-01: Agent Activity Logging
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -18,6 +20,12 @@ import rego.v1
 # structured audit record; input.action.log_storage ("append_only" | other).
 # Every agent action must be logged; at the framework's L3 posture the log
 # store is immutable.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-01"])
+}
 
 deny contains msg if {
     not input.action.audit_record

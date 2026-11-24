@@ -2,6 +2,8 @@ package shield_ai.tp.tool_output_validation
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-04: Tool Output Validation
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "within_size_limit": bool}; input.action.tool_output.code_generation (bool);
 # input.action.tool_output.code_sandboxed (bool).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-04"])
+}
 
 deny contains msg if {
     not input.action.tool_output.validated

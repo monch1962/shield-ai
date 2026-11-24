@@ -77,3 +77,20 @@ test_non_deployment_action_not_gated if {
 }
     allow with input as req
 }
+
+test_wrong_schema_version_denied if {
+    req := {
+  "schema_version": "0",
+  "action": {
+    "kind": "deployment"
+  },
+  "governance": {
+    "body": {
+      "chartered": true,
+      "cross_functional": true,
+      "decision_authority": true
+    }
+  }
+}
+    not allow with input as req
+}

@@ -2,6 +2,8 @@ package shield_ai.ds.output_validation
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-06: Output Validation
 # Pillar: DS -- Data Security
 #
@@ -16,6 +18,12 @@ import rego.v1
 # IMPLEMENTED (v1.7, Aug 2026) -- reference implementation.
 # Input model: input.action.output_scan = "clean" | "leak" | "pending".
 # Fail closed: no scan result means no delivery.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-06"])
+}
 
 deny contains msg if {
     input.action.kind == "output_delivery"

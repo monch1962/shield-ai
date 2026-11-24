@@ -2,6 +2,8 @@ package shield_ai.ds.inference_data_protection
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-02: Inference Data Protection
 # Pillar: DS -- Data Security
 #
@@ -11,6 +13,12 @@ import rego.v1
 # Input model: input.data.inference = {"encrypted_e2e": bool, "tls13_min": bool,
 # "endpoint_in_trust_boundary": bool}. Fail closed on missing encryption claims.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-02"])
+}
 
 deny contains msg if {
     not input.data.inference.encrypted_e2e

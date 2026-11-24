@@ -2,6 +2,8 @@ package shield_ai.grm.board_and_executive_reporting
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) GRM-06: Board and Executive Reporting
 # Pillar: GRM -- Governance and Risk Management
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "risk_acceptance_logged": bool}; input.governance.risk_acceptance (bool) --
 # a risk acceptance decision was recorded this cycle.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["GRM-06"])
+}
 
 deny contains msg if {
     not input.governance.reporting.dashboard

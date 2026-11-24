@@ -2,6 +2,8 @@ package shield_ai.tp.api_gateway_security
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-03: API Gateway Security
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "schema_validated": bool, "audited": bool}. Tool calls that bypass the
 # gateway's controls fail closed.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-03"])
+}
 
 deny contains msg if {
     not input.action.gateway.rate_limited

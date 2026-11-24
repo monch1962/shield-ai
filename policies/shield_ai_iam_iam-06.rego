@@ -2,6 +2,8 @@ package shield_ai.iam.cross_session_boundary_enforce
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-06: Cross-Session Boundary Enforcement
 # Pillar: IAM -- Identity and Access
 #
@@ -11,6 +13,12 @@ import rego.v1
 # Input model: input.agent.session = {"independent_context": bool,
 # "shared_credentials": bool}. Any cross-session credential sharing is denied.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-06"])
+}
 
 deny contains msg if {
     input.agent.session.shared_credentials == true

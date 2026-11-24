@@ -2,6 +2,9 @@ package shield_ai.ms.cross_tenant_agent_memory_and_state
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) MS-15: Cross-Tenant Agent Memory and State Isolation
 # Pillar: MS -- Model Security
 #
@@ -38,6 +41,12 @@ import rego.v1
 # Semantics (deny-override): a single deny blocks the action. Cross-tenant
 # retrieval/write, model-controllable isolation keys, unbound connection
 # parameters, and unverifiable ownership all fail closed.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-15"])
+}
 
 deny contains msg if {
     input.action.kind == "memory_read"
@@ -82,11 +91,23 @@ deny contains msg if {
     input.action.connection_params_bound == false
     msg := sprintf("MS-15 deny: memory_read by agent %q passes connection parameters (cluster/collection) per call; must be bound at construction", [input.agent.id])
 }
+deny contains msg if {
+    input.action.kind == "memory_read"
+    not field_undefined(input, ["action"])
+    field_undefined(input, ["action", "connection_params_bound"])
+    msg := "MS-15 deny: missing attestation for input.action.connection_params_bound (unobserved -> fail closed)"
+}
 
 deny contains msg if {
     input.action.kind == "memory_write"
     input.action.connection_params_bound == false
     msg := sprintf("MS-15 deny: memory_write by agent %q passes connection parameters (cluster/collection) per call; must be bound at construction", [input.agent.id])
+}
+deny contains msg if {
+    input.action.kind == "memory_write"
+    not field_undefined(input, ["action"])
+    field_undefined(input, ["action", "connection_params_bound"])
+    msg := "MS-15 deny: missing attestation for input.action.connection_params_bound (unobserved -> fail closed)"
 }
 
 allow if {

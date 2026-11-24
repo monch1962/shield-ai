@@ -2,6 +2,8 @@ package shield_ai.tp.cross_tool_dependency_analysis
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-07: Cross-Tool Dependency Analysis
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -13,6 +15,12 @@ import rego.v1
 # "risk_accepted": bool}. Tool combinations that enable a multi-step escape
 # chain are denied unless explicitly risk-accepted via GRM-02.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-07"])
+}
 
 deny contains msg if {
     input.action.kind == "deployment"

@@ -2,6 +2,9 @@ package shield_ai.ms.mcp_discovery_metadata_shared_cache_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) MS-12: MCP Discovery-Metadata and Shared-Cache Integrity
 # Pillar: MS -- Model Security
 #
@@ -27,39 +30,81 @@ import rego.v1
 # provenance across auth contexts, and validate tool metadata against its
 # baseline as an aggregate set.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-12"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "mcp_discovery"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.discovery.instructions_length_limited == false
     msg := sprintf("MS-12 deny: MCP discovery response for agent %q carries unbounded server-supplied instructions; must be length-limited", [input.agent.id])
 }
-
 deny contains msg if {
-    input.action.kind == "mcp_discovery"
-    input.action.discovery.instructions_isolated == false
-    msg := sprintf("MS-12 deny: MCP discovery response for agent %q folds server-supplied instructions into the trusted system prompt; must be isolated as untrusted content", [input.agent.id])
+    applicable
+    not field_undefined(input, ["action", "discovery"])
+    field_undefined(input, ["action", "discovery", "instructions_length_limited"])
+    msg := "MS-12 deny: missing attestation for input.action.discovery.instructions_length_limited (unobserved -> fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "mcp_discovery"
+    applicable
+    input.action.discovery.instructions_isolated == false
+    msg := sprintf("MS-12 deny: MCP discovery response for agent %q folds server-supplied instructions into the trusted system prompt; must be isolated as untrusted content", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "discovery"])
+    field_undefined(input, ["action", "discovery", "instructions_isolated"])
+    msg := "MS-12 deny: missing attestation for input.action.discovery.instructions_isolated (unobserved -> fail closed)"
+}
+
+deny contains msg if {
+    applicable
     input.action.discovery.shared_cache_cross_auth == true
     input.action.discovery.cache_provenance_signed == false
     msg := sprintf("MS-12 deny: MCP discovery response for agent %q is served from a shared cache across authentication contexts without signed provenance", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.discovery.shared_cache_cross_auth == true
+    not field_undefined(input, ["action", "discovery"])
+    field_undefined(input, ["action", "discovery", "cache_provenance_signed"])
+    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_provenance_signed (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "mcp_discovery"
+    applicable
     input.action.discovery.cache_scope_verified == false
     msg := sprintf("MS-12 deny: MCP discovery response for agent %q trusts a server cacheScope claim without verification", [input.agent.id])
 }
-
 deny contains msg if {
-    input.action.kind == "mcp_discovery"
-    input.action.discovery.cache_key_bound_to_identity == false
-    msg := sprintf("MS-12 deny: MCP discovery response for agent %q uses a cache key not bound to the authenticated identity", [input.agent.id])
+    applicable
+    not field_undefined(input, ["action", "discovery"])
+    field_undefined(input, ["action", "discovery", "cache_scope_verified"])
+    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_scope_verified (unobserved -> fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "mcp_discovery"
+    applicable
+    input.action.discovery.cache_key_bound_to_identity == false
+    msg := sprintf("MS-12 deny: MCP discovery response for agent %q uses a cache key not bound to the authenticated identity", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "discovery"])
+    field_undefined(input, ["action", "discovery", "cache_key_bound_to_identity"])
+    msg := "MS-12 deny: missing attestation for input.action.discovery.cache_key_bound_to_identity (unobserved -> fail closed)"
+}
+
+deny contains msg if {
+    applicable
     input.action.discovery.tool_metadata_baseline_drifted == true
     msg := sprintf("MS-12 deny: MCP discovery response for agent %q tool metadata drifted from the operator-approved baseline; alert via MIR-01", [input.agent.id])
 }

@@ -2,6 +2,8 @@ package shield_ai.tp.agent_platform_inbound_control
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-10: Agent Platform Inbound Control-Plane Protection
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -27,14 +29,25 @@ import rego.v1
 # Default deny: any binding without an explicit allow is denied; web-origin
 # bindings additionally require origin validation (CSWSH class).
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-10"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "binding"
+}
+
+
+deny contains msg if {
+    applicable
     not input.action.allowed_binding
     msg := sprintf("TP-10 deny: listener binding %q is not on the approved binding list (default deny)", [input.action.target])
 }
 
 deny contains msg if {
-    input.action.kind == "binding"
+    applicable
     input.action.origin == "web"
     not input.action.origin_validated
     msg := sprintf("TP-10 deny: web-origin binding %q without origin validation (CSWSH class)", [input.action.target])

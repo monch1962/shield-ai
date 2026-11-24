@@ -2,6 +2,8 @@ package shield_ai.iam.just_in_time_jit_access
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) IAM-05: Just-in-Time (JIT) Access
 # Pillar: IAM -- Identity and Access
 #
@@ -12,6 +14,12 @@ import rego.v1
 # "revoked_after_session": bool}; input.agent.session_expired (bool).
 # No standing access: fail closed on missing ephemeral claim.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["IAM-05"])
+}
 
 deny contains msg if {
     not input.agent.credentials.ephemeral

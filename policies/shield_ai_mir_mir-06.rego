@@ -2,6 +2,8 @@ package shield_ai.mir.forensic_readiness
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MIR-06: Forensic Readiness
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -18,6 +20,12 @@ import rego.v1
 # (bool) -- the session/tool-call chain can be fully reconstructed from
 # immutable logs. High-impact actions that cannot be reconstructed fail
 # closed: no reconstruction, no execution.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-06"])
+}
 
 deny contains msg if {
     input.action.high_impact == true

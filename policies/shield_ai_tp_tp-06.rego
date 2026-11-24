@@ -2,6 +2,8 @@ package shield_ai.tp.dependency_scanning
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) TP-06: Dependency Scanning
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -14,6 +16,12 @@ import rego.v1
 # Interpreter isolation flags are never security boundaries; code-validation
 # endpoints are code-execution surfaces (see EE-06 and TP-04 respectively).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-06"])
+}
 
 deny contains msg if {
     input.action.kind == "deployment"

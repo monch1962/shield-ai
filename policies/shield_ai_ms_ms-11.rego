@@ -2,6 +2,8 @@ package shield_ai.ms.operational_data_stream_integr
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-11: Operational Data-Stream Integrity
 # Pillar: MS -- Model Security
 #
@@ -28,6 +30,12 @@ import rego.v1
 # Three gates: producer authenticated, no instruction-bearing payload acted on
 # without independent non-log verification, high-impact log-triggered actions
 # require human approval.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-11"])
+}
 
 deny contains msg if {
     input.action.trigger == "log_alert"

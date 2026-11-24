@@ -2,6 +2,8 @@ package shield_ai.ee.resource_usage_limiting
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) EE-03: Resource Usage Limiting
 # Pillar: EE -- Execution Environment
 #
@@ -23,6 +25,12 @@ resource_limits := {
     "cpu_pct_max": 80,
     "network_mbps_max": 10,
     "api_rate_max": 100,
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["EE-03"])
 }
 
 deny contains msg if {

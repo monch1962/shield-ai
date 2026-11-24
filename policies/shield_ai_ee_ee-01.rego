@@ -2,6 +2,10 @@ package shield_ai.ee.execution_environment_boundary
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
+import data.shield_ai.lib.high_risk_tools
+
 # SHIELD-AI(TM) EE-01: Execution Environment Boundary Enforcement
 # Pillar: EE -- Execution Environment
 #
@@ -22,13 +26,12 @@ import rego.v1
 # Input model: input.action.tool, input.agent.sandboxed (bool).
 # Fail closed: a missing sandboxed flag is treated as not sandboxed.
 
-# High-risk tools that must only ever run from inside the execution boundary.
-high_risk_tools := {
-    "shell_exec",
-    "write_file",
-    "install_package",
-    "transfer_funds",
-    "delete_objects",
+# High-risk tools (from the shared registry at policies/shield_ai_lib.rego)
+# must only ever run from inside the execution boundary.
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["EE-01"])
 }
 
 deny contains msg if {

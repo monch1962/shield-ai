@@ -2,6 +2,10 @@ package shield_ai.tp.api_gateway_infrastructure_iso
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
+import data.shield_ai.lib.infrastructure_apis
+
 # SHIELD-AI(TM) TP-08: API Gateway Infrastructure-Isolation Mode
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -17,19 +21,13 @@ import rego.v1
 
 # Cloud infrastructure control-plane APIs (mirrors the EE-02 deny set at the
 # gateway boundary).
-infrastructure_apis := {
-    "ec2",
-    "iam",
-    "lambda",
-    "s3",
-    "kms",
-    "cloudformation",
-    "azure_vm",
-    "azure_rbac",
-    "azure_resource_manager",
-    "gcp_compute",
-    "gcp_iam",
-    "gcp_cloud_resource_manager",
+# Infrastructure control-plane APIs (from the shared
+# registry policies/shield_ai_lib.rego).
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-08"])
 }
 
 deny contains msg if {

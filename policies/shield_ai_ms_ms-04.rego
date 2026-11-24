@@ -2,6 +2,8 @@ package shield_ai.ms.adversarial_robustness
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-04: Adversarial Robustness
 # Pillar: MS -- Model Security
 #
@@ -36,6 +38,12 @@ injection_markers := {
     "color:#fff;font-size:1px",
     "font-size:0px",
     "opacity:0",
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-04"])
 }
 
 deny contains msg if {

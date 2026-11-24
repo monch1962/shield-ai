@@ -2,6 +2,9 @@ package shield_ai.ms.self_replication_barrier
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) MS-14: Self-Replication Barrier
 # Pillar: MS -- Model Security
 #
@@ -25,29 +28,61 @@ import rego.v1
 # be screened for near-verbatim re-emission of instruction-bearing input;
 # a replication match quarantines the write and requires human approval.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-14"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "outbound_publish"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.outbound.replication_match == true
     input.action.outbound.quarantined == false
     msg := sprintf("MS-14 deny: outbound publish by agent %q matches an instruction-bearing n-gram fingerprint (replication vector) and is not quarantined", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.outbound.replication_match == true
+    not field_undefined(input, ["action", "outbound"])
+    field_undefined(input, ["action", "outbound", "quarantined"])
+    msg := "MS-14 deny: missing attestation for input.action.outbound.quarantined (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "outbound_publish"
+    applicable
     input.action.outbound.replication_match == true
     input.action.outbound.human_approved == false
     msg := sprintf("MS-14 deny: outbound publish by agent %q is a fingerprinted replication match that lacks human approval", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.outbound.replication_match == true
+    not field_undefined(input, ["action", "outbound"])
+    field_undefined(input, ["action", "outbound", "human_approved"])
+    msg := "MS-14 deny: missing attestation for input.action.outbound.human_approved (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "outbound_publish"
+    applicable
     input.action.outbound.broadcast == true
     input.action.outbound.human_signoff == false
     msg := sprintf("MS-14 deny: outbound broadcast by agent %q lacks human signoff (one-channel-per-write / human-signoff-on-broadcast)", [input.agent.id])
 }
+deny contains msg if {
+    applicable
+    input.action.outbound.broadcast == true
+    not field_undefined(input, ["action", "outbound"])
+    field_undefined(input, ["action", "outbound", "human_signoff"])
+    msg := "MS-14 deny: missing attestation for input.action.outbound.human_signoff (unobserved -> fail closed)"
+}
 
 deny contains msg if {
-    input.action.kind == "outbound_publish"
+    applicable
     input.action.outbound.propagation_signal == true
     msg := sprintf("MS-14 deny: outbound publish by agent %q carries a propagation signal; channel-kill and incident response triggered (worm-emulation)", [input.agent.id])
 }

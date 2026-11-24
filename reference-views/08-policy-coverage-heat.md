@@ -8,13 +8,13 @@ How deep is each control's executable verification? A glanceable grid of impleme
 
 | Pillar | Controls | Implemented | Deny rules | Incident refs |
 |---|---|---|---|---|
-| **EE** | 8 | 8 | 18 | 187 |
-| **MS** | 15 | 15 | 48 | 257 |
-| **IAM** | 10 | 10 | 24 | 68 |
-| **DS** | 8 | 8 | 24 | 44 |
-| **TP** | 16 | 16 | 57 | 301 |
-| **MIR** | 6 | 6 | 10 | 75 |
-| **GRM** | 6 | 6 | 14 | 39 |
+| **EE** | 8 | 8 | 26 | 187 |
+| **MS** | 15 | 15 | 77 | 257 |
+| **IAM** | 10 | 10 | 37 | 68 |
+| **DS** | 8 | 8 | 37 | 44 |
+| **TP** | 16 | 16 | 88 | 301 |
+| **MIR** | 6 | 6 | 16 | 75 |
+| **GRM** | 6 | 6 | 21 | 39 |
 
 ## Reading the heat
 

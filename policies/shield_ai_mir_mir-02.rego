@@ -2,6 +2,10 @@ package shield_ai.mir.behavioural_anomaly_detection
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
+import data.shield_ai.lib.sensitive_tools
+
 # SHIELD-AI(TM) MIR-02: Behavioural Anomaly Detection
 # Pillar: MIR -- Monitoring, Logging, and Incident Response
 #
@@ -21,12 +25,12 @@ import rego.v1
 # Fail closed: a flagged deviation blocks the action; ephemeral-sandbox
 # high-value actions must be campaign-correlated (swarm-campaign class).
 
-sensitive_tools := {
-    "transfer_funds",
-    "write_file",
-    "shell_exec",
-    "send_email_draft",
-    "delete_objects",
+# Sensitive tools (from the shared registry at policies/shield_ai_lib.rego):
+# from an ephemeral sandbox they require campaign correlation.
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MIR-02"])
 }
 
 deny contains msg if {

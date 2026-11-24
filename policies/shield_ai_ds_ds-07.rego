@@ -2,6 +2,8 @@ package shield_ai.ds.agent_originated_artifact_publ
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-07: Agent-Originated Artifact Publication Control
 # Pillar: DS -- Data Security
 #
@@ -26,21 +28,32 @@ import rego.v1
 # Out-of-band approval is one the agent cannot invoke: channel must be a human
 # console, never "agent".
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-07"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "publication"
+}
+
+
+deny contains msg if {
+    applicable
     not input.approval.present
     msg := sprintf("DS-07 deny: agent publication to %q lacks the required out-of-band approval", [input.action.target])
 }
 
 deny contains msg if {
-    input.action.kind == "publication"
+    applicable
     input.approval.present == true
     input.approval.channel == "agent"
     msg := sprintf("DS-07 deny: publication to %q was approved on the agent channel; out-of-band human approval required", [input.action.target])
 }
 
 deny contains msg if {
-    input.action.kind == "publication"
+    applicable
     input.action.target == "execution_bearing_config"
     input.approval.present == true
     input.approval.channel != "human_console"

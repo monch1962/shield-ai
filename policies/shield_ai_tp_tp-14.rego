@@ -2,6 +2,9 @@ package shield_ai.tp.skill_plugin_payload_integrity
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) TP-14: Skill/Plugin Payload Integrity and Instruction-Channel Isolation
 # Pillar: TP -- Tool and Pipeline Security
 #
@@ -25,41 +28,83 @@ import rego.v1
 # Skills must be signed, immutable, free of runtime-fetchable instruction
 # channels, and execute with privilege scope and baseline drift quarantine.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["TP-14"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "skill_execute"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.skill.payload_signed == false
     msg := sprintf("TP-14 deny: execute skill %q for agent %q with an unsigned payload; never execute unsigned", [input.action.skill.name, input.agent.id])
 }
-
 deny contains msg if {
-    input.action.kind == "skill_execute"
-    input.action.skill.payload_immutable == false
-    msg := sprintf("TP-14 deny: execute skill %q for agent %q whose payload is not immutable at install time", [input.action.skill.name, input.agent.id])
+    applicable
+    not field_undefined(input, ["action", "skill"])
+    field_undefined(input, ["action", "skill", "payload_signed"])
+    msg := "TP-14 deny: missing attestation for input.action.skill.payload_signed (unobserved -> fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "skill_execute"
+    applicable
+    input.action.skill.payload_immutable == false
+    msg := sprintf("TP-14 deny: execute skill %q for agent %q whose payload is not immutable at install time", [input.action.skill.name, input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "skill"])
+    field_undefined(input, ["action", "skill", "payload_immutable"])
+    msg := "TP-14 deny: missing attestation for input.action.skill.payload_immutable (unobserved -> fail closed)"
+}
+
+deny contains msg if {
+    applicable
     input.action.skill.runtime_fetch_channel == true
     msg := sprintf("TP-14 deny: skill %q for agent %q has a runtime-fetchable instruction channel (post-install reference/update feed); must be blocked at network and runtime", [input.action.skill.name, input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "skill_execute"
+    applicable
     input.action.skill.privilege_scoped == false
     msg := sprintf("TP-14 deny: skill %q for agent %q executes with full agent privileges rather than a declared capability scope", [input.action.skill.name, input.agent.id])
 }
-
 deny contains msg if {
-    input.action.kind == "skill_execute"
-    input.action.skill.provenance_attested == false
-    msg := sprintf("TP-14 deny: skill %q for agent %q lacks end-to-end provenance attestation (publisher -> registry -> artifact)", [input.action.skill.name, input.agent.id])
+    applicable
+    not field_undefined(input, ["action", "skill"])
+    field_undefined(input, ["action", "skill", "privilege_scoped"])
+    msg := "TP-14 deny: missing attestation for input.action.skill.privilege_scoped (unobserved -> fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "skill_execute"
+    applicable
+    input.action.skill.provenance_attested == false
+    msg := sprintf("TP-14 deny: skill %q for agent %q lacks end-to-end provenance attestation (publisher -> registry -> artifact)", [input.action.skill.name, input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "skill"])
+    field_undefined(input, ["action", "skill", "provenance_attested"])
+    msg := "TP-14 deny: missing attestation for input.action.skill.provenance_attested (unobserved -> fail closed)"
+}
+
+deny contains msg if {
+    applicable
     input.action.skill.full_capability_granted == true
     input.action.skill.baseline_established == false
     msg := sprintf("TP-14 deny: skill %q for agent %q is granted full capability before a post-install behavioural baseline; baseline drift quarantine required", [input.action.skill.name, input.agent.id])
+}
+deny contains msg if {
+    applicable
+    input.action.skill.full_capability_granted == true
+    not field_undefined(input, ["action", "skill"])
+    field_undefined(input, ["action", "skill", "baseline_established"])
+    msg := "TP-14 deny: missing attestation for input.action.skill.baseline_established (unobserved -> fail closed)"
 }
 
 allow if {

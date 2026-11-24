@@ -2,6 +2,8 @@ package shield_ai.ds.memory_sanitisation
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) DS-03: Memory Sanitisation
 # Pillar: DS -- Data Security
 #
@@ -13,6 +15,12 @@ import rego.v1
 # MS-10 (memory-store integrity) covers tamper-evidence; this control covers
 # the privacy surface: sensitive data must not persist across sessions.
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["DS-03"])
+}
 
 deny contains msg if {
     input.agent.memory.persists_classified == true

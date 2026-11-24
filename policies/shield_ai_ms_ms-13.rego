@@ -2,6 +2,9 @@ package shield_ai.ms.transcript_and_conversation_authenticity
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+import data.shield_ai.lib.field_undefined
+
 # SHIELD-AI(TM) MS-13: Transcript and Conversation Authenticity
 # Pillar: MS -- Model Security
 #
@@ -26,29 +29,58 @@ import rego.v1
 # verified as authentic model output before any reasoning or confidence-gated
 # action proceeds from it.
 
+# Envelope guard: reject fabricated/drifted schema-version input outright.
 deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-13"])
+}
+# Discriminator hoisted to one guard shared by all rules below.
+applicable if {
     input.action.kind == "transcript_read"
+}
+
+
+deny contains msg if {
+    applicable
     input.action.transcript.model_output_signed == false
     msg := sprintf("MS-13 deny: agent %q reads a transcript whose model outputs are not signed at the model boundary; stored response cannot be verified as genuine", [input.agent.id])
 }
-
 deny contains msg if {
-    input.action.kind == "transcript_read"
-    input.action.transcript.verified_on_read == false
-    msg := sprintf("MS-13 deny: agent %q proceeds from an unverified transcript; every stored response must be verified on read before reasoning", [input.agent.id])
+    applicable
+    not field_undefined(input, ["action", "transcript"])
+    field_undefined(input, ["action", "transcript", "model_output_signed"])
+    msg := "MS-13 deny: missing attestation for input.action.transcript.model_output_signed (unobserved -> fail closed)"
 }
 
 deny contains msg if {
-    input.action.kind == "transcript_read"
+    applicable
+    input.action.transcript.verified_on_read == false
+    msg := sprintf("MS-13 deny: agent %q proceeds from an unverified transcript; every stored response must be verified on read before reasoning", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "transcript"])
+    field_undefined(input, ["action", "transcript", "verified_on_read"])
+    msg := "MS-13 deny: missing attestation for input.action.transcript.verified_on_read (unobserved -> fail closed)"
+}
+
+deny contains msg if {
+    applicable
     input.action.transcript.chain_break == true
     input.action.transcript.confidence_gated_action == true
     msg := sprintf("MS-13 deny: agent %q attempts a confidence-gated action from a transcript with a broken authenticity chain; chain-break blocks execution", [input.agent.id])
 }
 
 deny contains msg if {
-    input.action.kind == "transcript_read"
+    applicable
     input.action.transcript.store_verified == false
     msg := sprintf("MS-13 deny: agent %q reads from an unverified transcript store; transcript stores are untrusted until verified", [input.agent.id])
+}
+deny contains msg if {
+    applicable
+    not field_undefined(input, ["action", "transcript"])
+    field_undefined(input, ["action", "transcript", "store_verified"])
+    msg := "MS-13 deny: missing attestation for input.action.transcript.store_verified (unobserved -> fail closed)"
 }
 
 allow if {

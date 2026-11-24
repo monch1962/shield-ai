@@ -2,6 +2,8 @@ package shield_ai.ms.perception_fidelity_enforcemen
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) MS-09: Perception-Fidelity Enforcement for Human-in-the-Loop Approvals
 # Pillar: MS -- Model Security
 #
@@ -35,6 +37,12 @@ imperceptible_markers := {
     "display:none",
     "visibility:hidden",
     "white-space:pre-wrap;color:transparent",
+}
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["MS-09"])
 }
 
 deny contains msg if {

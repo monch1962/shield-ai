@@ -81,3 +81,15 @@ test_non_code_action_not_gated if {
     req := {"agent": {"id": "agent-1"}, "action": {"kind": "tool_call", "tool": "search_documents"}}
     allow with input as req
 }
+
+test_wrong_schema_version_denied if {
+    req := {
+        "schema_version": "0",
+        "agent": {"id": "agent-1"},
+        "action": {
+            "kind": "code_execution",
+            "code": {"sandboxed_os_vm": true},
+        },
+    }
+    not allow with input as req
+}

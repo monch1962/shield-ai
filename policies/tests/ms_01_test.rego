@@ -36,3 +36,15 @@ test_no_key_management_denied if {
 }
     not allow with input as req
 }
+
+test_omitted_encryption_field_fails_closed if {
+    # The ==false/!=true guard alone silently ALLOWS omission; the
+    # require_attested convention restores fail-closed (doc 13 section 3).
+    req := {
+  "model": {
+    "id": "m1",
+    "key_management": "hsm"
+  }
+}
+    not allow with input as req
+}

@@ -5,7 +5,7 @@ A one-page view for a board member or senior executive, derived from the committ
 ## The picture in numbers
 
 - **69 controls** across the seven pillars that protect the model, identity, data, tools, monitoring, and governance of agentic AI.
-- **69 controls (100%)** already have an executable verification policy enforcing **195** fail-closed conditions.
+- **69 controls (100%)** already have an executable verification policy enforcing **302** fail-closed conditions.
 - **971 control-incident references** in the catalogue (99 events) show where real-world risk actually surfaces.
 
 ## Top controls to harden

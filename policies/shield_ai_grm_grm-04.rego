@@ -2,6 +2,8 @@ package shield_ai.grm.third_party_ai_risk_management
 
 import rego.v1
 
+import data.shield_ai.lib.bad_schema_version
+
 # SHIELD-AI(TM) GRM-04: Third-Party AI Risk Management
 # Pillar: GRM -- Governance and Risk Management
 #
@@ -13,6 +15,12 @@ import rego.v1
 # "right_to_audit": bool}; input.action.vendor_used (bool);
 # input.action.vendor_type ("evaluation" | "model" | "tool" | other).
 # Maturity indicators and regulatory mappings: assets/shield-ai-control-schema.json.
+
+# Envelope guard: reject fabricated/drifted schema-version input outright.
+deny contains msg if {
+    bad_schema_version(input)
+    msg := sprintf("%s deny: input carries a schema_version not supported by this policy", ["GRM-04"])
+}
 
 deny contains msg if {
     input.action.vendor_used == true
